@@ -1,0 +1,2453 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Разбор Слова</title>
+<style id="appcss">
+/* Preparation view: an open printed Bible (paper, black serif, red marks only).
+   Show view: the approved slide style (black, white, gold #D9A441, Cambria + Arial, no italics).
+   No network resources: the file must work from disk without internet. */
+:root{
+  --bg:#f6f1e4; --panel:#f6f1e4; --card:#fcf9f0; --ink:#1b1814; --ink-2:#6b6253;
+  --line:#b9ad94; --accent:#1b1814; --mark:#8c1d18; --hl:#f1e2a0;
+  --f-text:"PT Serif",Cambria,Georgia,"Times New Roman",serif;
+  --f-ui:"PT Serif",Cambria,Georgia,"Times New Roman",serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font:14px/1.45 var(--f-ui);display:flex;flex-direction:column}
+button,input,textarea{font:inherit;color:inherit}
+button{background:transparent;border:1px solid var(--line);border-radius:2px;padding:4px 10px;cursor:pointer;white-space:nowrap}
+button:hover{border-color:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+button:focus-visible,input:focus-visible,textarea:focus-visible,.filebtn:focus-within{outline:2px solid var(--mark);outline-offset:1px}
+button.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+button.ghost{border-style:dashed}
+
+header{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:8px 16px;border-bottom:3px double var(--ink)}
+#title{flex:1 1 180px;min-width:140px;font:700 19px var(--f-text);background:transparent;border:1px solid transparent;border-radius:2px;padding:3px 6px}
+#title:hover{border-color:var(--line)}
+.filebtn{border:1px solid var(--line);border-radius:2px;padding:4px 10px;cursor:pointer;white-space:nowrap}
+.filebtn:hover{border-color:var(--ink)}
+.filebtn input{position:absolute;opacity:0;width:1px;height:1px}
+#status{color:var(--ink-2);font-size:12px;font-style:italic;min-width:90px;text-align:right}
+
+main{flex:1;min-height:0;display:grid;grid-template-columns:minmax(150px,.8fr) minmax(0,2fr) minmax(140px,.7fr)}
+section{min-height:0;min-width:0;display:flex;flex-direction:column}
+section + section{border-left:1px solid var(--ink)}
+.phead{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:7px 12px;border-bottom:1px solid var(--line)}
+.phead h2{font:700 12px var(--f-ui);letter-spacing:.14em;text-transform:uppercase;color:var(--ink);margin:0 auto 0 0}
+.pbody{flex:1;min-height:0;overflow:auto}
+.hint{color:var(--ink-2);font-size:12px;font-style:italic;padding:7px 12px;border-top:1px solid var(--line)}
+.seg{display:inline-flex}
+.seg button{border-radius:0}
+.seg button + button{margin-left:-1px}
+
+/* source */
+#src{padding:14px 16px 30px;font:17px/1.6 var(--f-text);text-align:justify;hyphens:auto}
+.w{cursor:pointer}
+.w:hover{box-shadow:3px 0 0 var(--mark)}
+.tool-note .w:hover{box-shadow:none;background:var(--hl)}
+.vn{font-weight:700;font-size:.82em}
+.cut{display:inline-block;width:2px;height:1.05em;background:var(--mark);margin:0 2px;vertical-align:-3px}
+.ph.hl{background:var(--hl)}
+.has{border-bottom:2px dotted var(--mark)}
+.sel{background:var(--mark);color:var(--bg);box-shadow:0 0 0 2px var(--mark)}
+.tw{cursor:pointer}
+#srcEdit{display:none;flex:1;min-height:0;flex-direction:column;gap:8px;padding:12px}
+#srcEdit textarea{flex:1;min-height:160px;resize:none;border:1px solid var(--line);border-radius:2px;background:var(--card);padding:10px;font:16px/1.6 var(--f-text)}
+#srcEdit .rowb{display:flex;gap:6px;flex-wrap:wrap}
+.editing #src,.editing #srcTools,.editing #srcHint{display:none}
+.editing #srcEdit{display:flex}
+
+/* structure */
+#structure{padding:16px 16px 40px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-start;margin-left:calc(var(--ind)*34px);padding:4px 6px;border-left:1px solid transparent}
+.row[data-sub]{border-left-color:var(--line)}
+.row.hl{background:var(--hl)}
+.rowctl{display:flex;gap:2px;flex:none}
+.rowctl button{padding:0 6px;font-size:12px;line-height:1.6;color:var(--ink-2)}
+.relw{flex:none;width:128px;display:flex;flex-direction:column}
+.rq{color:var(--ink-2);font:italic 11.5px/1.25 var(--f-ui);padding:1px 2px 0}
+.rq:empty{display:none}
+#relPop{position:fixed;z-index:60;display:none;width:340px;max-width:calc(100vw - 16px);overflow:auto;background:var(--card);border:1px solid var(--ink);box-shadow:0 6px 18px rgba(0,0,0,.28);font:13px/1.3 var(--f-ui)}
+#relPop.open{display:block}
+#relPop .rp-h{padding:6px 10px;border-bottom:1px solid var(--line);color:var(--ink-2);font-style:italic;font-size:12px}
+#relPop button{display:flex;gap:8px;width:100%;text-align:left;border:0;border-radius:0;background:transparent;padding:5px 10px;font:inherit;color:var(--ink)}
+#relPop button b{flex:0 0 132px;color:var(--mark);font-weight:400;font-style:italic}
+#relPop button span{flex:1;min-width:0}
+#relPop button:hover,#relPop button.on{background:var(--hl)}
+.rel{width:100%;border:0;border-bottom:1px dotted var(--line);background:transparent;color:var(--mark);font:italic 14px/1.7 var(--f-ui);padding:0 2px}
+.rel::placeholder{color:var(--ink-2);opacity:.6}
+.ptext{font:17px/1.6 var(--f-text);min-width:0;overflow-wrap:anywhere;flex:1 1 170px}
+.empty{padding:24px;color:var(--ink-2);font-style:italic}
+.sguide{margin:0 0 12px;padding:8px 10px;border:1px solid var(--line);background:var(--card);color:var(--ink-2);font:13px/1.45 var(--f-ui)}
+.sgex{margin:4px 0 10px;padding:8px 10px;border-left:2px solid var(--line);font:16px/1.6 var(--f-text)}
+.sgex i{color:var(--mark);font-size:.82em;margin-right:6px}
+.rtip{display:block;color:var(--ink-2);font:italic 12px/1.3 var(--f-ui)}
+.row + .row{margin-top:6px}
+#srcWrap{position:relative}
+#srcMarks,.mk-svg{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
+.editing #srcMarks,.editing #markList{display:none}
+.tool-mark #src{line-height:2.15}
+.tool-mark .w:hover{box-shadow:none;background:var(--hl)}
+#markList{display:none;padding:0 16px 30px}
+.tool-mark #markList{display:block}
+#markList h3{margin:6px 0 8px;font:700 12px var(--f-ui);letter-spacing:.14em;text-transform:uppercase;border-bottom:1px solid var(--line);padding-bottom:4px}
+.mrow{display:flex;gap:6px;align-items:center;margin:0 0 6px}
+.mrow .mt{flex:1 1 50%;min-width:0;overflow-wrap:anywhere;font:15px/1.4 var(--f-text)}
+.mrow .mt i{color:var(--ink-2);font-size:13px}
+.mrow input{flex:1 1 34%;min-width:0;border:0;border-bottom:1px dotted var(--line);background:transparent;color:var(--mark);font:italic 14px/1.7 var(--f-ui);padding:0 2px}
+.mk-p{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.mk-t{font-family:Arial,Helvetica,sans-serif;font-weight:700;letter-spacing:.02em}
+.mk-wrap{position:relative}
+.mk-tx{line-height:2;color:#f2f2f2}
+.kindseg{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin:0 0 10px}
+
+/* two modes: study and sermon */
+body:not(.g-sermon) .sermononly{display:none !important}
+body.g-sermon .studyonly{display:none !important}
+#modeSeg button{font-weight:700;padding:4px 14px}
+#sm{display:none;flex:1;min-height:0;grid-template-columns:minmax(230px,.95fr) minmax(0,1.7fr) minmax(210px,.8fr)}
+.g-sermon #main{display:none}
+.g-sermon #sm{display:grid}
+#smMat{padding:10px 12px 40px}
+#smMat h3{margin:18px 0 6px;font:700 11px var(--f-ui);letter-spacing:.14em;text-transform:uppercase;border-bottom:1px solid var(--line);padding-bottom:3px}
+#smMat h3:first-child{margin-top:0}
+.mat{display:flex;gap:6px;align-items:flex-start;padding:4px 0;border-bottom:1px dotted var(--line)}
+.mat .mt{flex:1;min-width:0;overflow-wrap:anywhere;font:15px/1.45 var(--f-text);margin-left:calc(var(--ind,0)*12px)}
+.mat .mt i{color:var(--mark);font-size:13px}
+.mat .mt small{display:block;color:var(--ink-2);font-size:12px;font-style:italic}
+.mat .mt b+small{display:inline;margin-left:6px}
+.mat .mt .scr{color:var(--mark)}
+.mat .mt .nt{white-space:pre-wrap;color:var(--ink-2);font-size:13.5px;line-height:1.4;max-height:8.4em;overflow:auto}
+.mat button{flex:none;padding:1px 7px}
+.mat.used button{background:var(--card);border-color:var(--ink)}
+#smBody{padding:12px 16px 60px}
+#smBlocks{margin-top:14px}
+.blk{border:1px solid var(--line);border-left:3px solid var(--line);background:var(--card);margin:0 0 10px;padding:6px 8px 8px}
+.blk.cur{border-color:var(--ink);border-left-color:var(--mark)}
+.bhd{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:5px;color:var(--ink-2);font-size:13px}
+.bhd .bn{font:700 12px Arial,sans-serif;min-width:1.6em}
+.bhd .gap{flex:1}
+.bhd button{padding:0 7px;font-size:12px;line-height:1.7}
+.bhd select{font:13px var(--f-ui);color:var(--ink);border:1px solid var(--line);border-radius:2px;background:var(--bg);padding:2px 4px;max-width:100%}
+.bsl{display:grid;gap:5px;border-left:3px solid #D9A441;background:#000;color:#fff;padding:7px 9px;margin-bottom:6px}
+.bsl textarea,.bsl input[type=text],.bsl select{display:block;width:100%;background:#000;color:#fff;border:1px solid #555;border-radius:2px;font:15px/1.35 Cambria,"PT Serif",Georgia,serif;padding:4px 7px;resize:none;overflow:hidden}
+.bsl textarea:focus-visible,.bsl input:focus-visible,.bsl select:focus-visible{outline:2px solid #D9A441}
+.bsl label{font-size:12.5px;color:#BFBFBF;display:inline-flex;gap:5px;align-items:center;margin-right:14px;cursor:pointer}
+.bsl .bref{font:12px/1.35 Arial,sans-serif;color:#D9A441}
+.bsl .warn{color:#f0b9b4;font-size:12px}
+.bsl .warn:empty{display:none}
+.btx{display:block;width:100%;border:0;background:transparent;resize:none;overflow:hidden;font:17px/1.6 var(--f-text);padding:2px;min-height:3.4em}
+.btx:focus-visible{outline:0}
+#smSlides{padding:10px 10px 40px;display:flex;flex-direction:column;gap:8px}
+.sld{position:relative;flex:none;background:#000;color:#fff;border:2px solid #000;min-height:74px;padding:22px 30px 9px 10px;cursor:pointer;overflow:hidden;font:13px/1.25 Cambria,"PT Serif",Georgia,serif;display:flex;flex-direction:column;justify-content:center}
+.sld.cur{border-color:var(--mark);box-shadow:0 0 0 2px var(--mark)}
+.sld .k{position:absolute;left:7px;top:5px;font:700 10px Arial,sans-serif;color:#D9A441;letter-spacing:.06em;text-transform:uppercase}
+.sld .t{overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow-wrap:anywhere}
+.sld .t b{color:#D9A441;font-weight:700}
+.sld .dim{color:#8c8c8c}
+.sld button{position:absolute;right:4px;bottom:4px;background:#000;color:#fff;border-color:#555;padding:0 6px;font-size:11px}
+.sld button:hover{border-color:#D9A441}
+#sermon{display:none}
+.hint:empty{display:none}
+#shMeas{position:fixed;left:0;top:0;width:100vw;height:100vh;visibility:hidden;pointer-events:none;z-index:-1;overflow:hidden;padding:6vh 6vw;font-family:Cambria,"PT Serif",Georgia,"Times New Roman",serif}
+.rd-ref{font:700 .42em/1.2 Arial,Helvetica,sans-serif;color:#D9A441;letter-spacing:.03em;margin-bottom:.9em}
+.rd-tx{line-height:1.32}
+.rdl{display:flex;gap:7px;align-items:center;cursor:pointer;color:var(--ink-2)}
+.mk-t{font-style:italic}
+#smText{border-bottom:3px double var(--ink)}
+#smText .smh{margin:10px 12px 0;font:700 11px var(--f-ui);letter-spacing:.14em;text-transform:uppercase;border-bottom:1px solid var(--line);padding-bottom:3px}
+#smText .smn{margin:5px 12px 0;color:var(--ink-2);font-size:12px;font-style:italic}
+#smText #src{padding:8px 12px 16px;font-size:16px;text-align:left}
+#smText #selBar{border-bottom:1px solid var(--ink)}
+#smText #markList{padding:8px 12px 14px}
+#smText #markList h3{display:none}
+#smText .cut{display:none}
+#smText .has{border-bottom:0}
+.rd-v{margin-bottom:.2em}
+.bmks{display:grid;gap:3px}
+.bmks label{margin:0;font:14px/1.35 Cambria,"PT Serif",Georgia,serif;color:#fff;align-items:flex-start}
+.fsz{display:inline-flex;gap:4px;align-items:center;color:var(--ink-2);font-size:13px}
+.fsz b{min-width:3.2em;text-align:center;color:var(--ink)}
+.fsz button{padding:2px 9px}
+.sh-w.past{color:#8c8c8c}
+.m-std .spchk{display:none}
+#impAll{display:none}
+
+/* sermon preparation */
+#sermon{padding:14px 16px 50px}
+#sermon h3{margin:22px 0 8px;font:700 12px var(--f-ui);letter-spacing:.14em;text-transform:uppercase;border-bottom:1px solid var(--line);padding-bottom:4px}
+#sermon h3:first-child{margin-top:0}
+#sermon h3 small{font-weight:400;letter-spacing:0;text-transform:none;color:var(--ink-2);font-style:italic;font-size:12px;margin-left:6px}
+.sf{display:grid;grid-template-columns:120px 1fr;gap:6px 10px;align-items:start}
+.sf label{padding-top:5px;color:var(--ink-2)}
+.sf input,.sf textarea,.fr input,.fr textarea{border:1px solid var(--line);border-radius:2px;background:var(--card);padding:5px 8px;width:100%;font:16px/1.45 var(--f-text);resize:vertical}
+.srow{display:flex;gap:6px;align-items:flex-start;margin:0 0 5px calc(var(--ind)*26px)}
+.pick{text-align:left;white-space:normal;border-style:dashed;font:16px/1.5 var(--f-text);overflow-wrap:anywhere;padding:3px 9px}
+.pick.in{border-style:solid;border-color:var(--ink);background:var(--card)}
+.slab{flex:none;color:var(--mark);font-size:14px;max-width:150px}
+.sph{flex:1 1 0;min-width:0}
+.sph u{text-decoration:underline dotted var(--mark);text-underline-offset:3px}
+.bd{display:inline-block;min-width:1.5em;text-align:center;background:var(--mark);color:var(--bg);font:700 12px/1.5 Arial,sans-serif;border-radius:9px;padding:0 5px;margin-right:6px;vertical-align:1px}
+.chips{display:flex;flex-direction:column;gap:5px;align-items:flex-start}
+.snote{color:var(--ink-2);font-style:italic;font-size:13px}
+.fr{border:1px solid var(--line);padding:8px;margin-bottom:8px;display:grid;gap:6px}
+.fr .rowb{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.fr .warn{color:var(--mark);font-size:12px}
+#sList{display:flex;flex-direction:column;gap:3px}
+.li{display:flex;gap:6px;align-items:baseline;padding:2px 4px;border-bottom:1px dotted var(--line)}
+.li .n{flex:none;width:2.2em;text-align:right;font:700 12px Arial,sans-serif;color:var(--mark)}
+.li .tx{flex:1;min-width:0;overflow-wrap:anywhere}
+.li .tx i{color:var(--ink-2)}
+.li.fix{color:var(--ink-2)}
+.li button{padding:0 6px;font-size:12px;line-height:1.6}
+
+/* notes */
+#noteBody{display:flex;flex-direction:column}
+#noteHead{padding:12px 14px 9px;border-bottom:1px solid var(--line)}
+.nword{font:700 21px/1.2 var(--f-text);overflow-wrap:anywhere}
+.nref{color:var(--ink-2);font-style:italic;font-size:13px;margin-top:2px}
+#noteHead button{margin-top:8px}
+#scrWrap{display:none;padding:9px 14px;border-bottom:1px solid var(--line)}
+#scrWrap.use{display:block}
+#scrWrap label{display:block;font:700 11px var(--f-ui);letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
+#scrWrap small{display:block;color:var(--ink-2);font-style:italic;font-size:12px;margin-top:3px}
+#scr{width:100%;border:1px solid var(--line);border-radius:2px;background:var(--card);padding:5px 8px;font:16px/1.4 var(--f-text);resize:vertical}
+#notes{flex:1;min-height:150px;border:0;resize:none;background:transparent;padding:12px 14px;font:16px/1.6 var(--f-text)}
+#noteList{border-top:1px solid var(--line);padding:9px 10px 14px;display:flex;flex-direction:column;gap:5px;max-height:42%;overflow:auto}
+#noteList:empty{display:none}
+#noteList h3{margin:0 0 2px;font:700 11px var(--f-ui);letter-spacing:.14em;text-transform:uppercase}
+.nitem{text-align:left;white-space:normal;border:0;border-left:2px solid var(--mark);padding:2px 8px;overflow-wrap:anywhere}
+.nitem:hover,.nitem.cur{background:var(--hl)}
+.nitem i{color:var(--ink-2);font-size:12px}
+.nitem span{display:block;color:var(--ink-2);font-size:13px}
+.nitem span.scr{color:var(--mark)}
+
+/* modal */
+#modal{position:fixed;inset:0;background:rgb(27 24 20 / .5);display:none;align-items:center;justify-content:center;padding:16px;z-index:50}
+#modal.open{display:flex}
+#modal .box{background:var(--bg);border:1px solid var(--ink);max-width:760px;width:100%;max-height:90%;display:flex;flex-direction:column;gap:10px;padding:16px}
+#modal h3{margin:0;font:700 17px var(--f-ui)}
+#modal p{margin:0;color:var(--ink-2)}
+#modal textarea{height:260px;border:1px solid var(--line);background:var(--card);font:12px/1.4 ui-monospace,Consolas,monospace;padding:8px;resize:vertical}
+#modal .imgw{overflow:auto;border:1px solid var(--line);background:#fff}
+#modal img{max-width:100%;display:block}
+#modal .rowb{display:flex;gap:8px;justify-content:flex-end}
+
+/* ---------- show (television) ---------- */
+#show{position:fixed;inset:0;z-index:100;display:none;flex-direction:row;background:#000;color:#fff;cursor:none;user-select:none;-webkit-user-select:none;
+  font-family:Cambria,"PT Serif",Georgia,"Times New Roman",serif;font-style:normal;overflow:hidden}
+#show.open{display:flex}
+#shBody{flex:1;min-width:0;min-height:0;overflow:hidden;display:flex;flex-direction:column;justify-content:center;padding:6vh 6vw}
+#shBody.long{justify-content:flex-start}
+#shBody.center{justify-content:center;padding:7vh 8vw}
+#shIn{overflow-wrap:break-word}
+.sh-row{margin:0 0 .38em calc(var(--ind)*1.5em);line-height:1.28;color:#8c8c8c}
+.sh-row.cur{color:#fff}
+.sh-row.hid .sh-tx{visibility:hidden}
+.sh-lab{font:700 .52em/1 Arial,Helvetica,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#D9A441;opacity:.6;margin-right:.9em;vertical-align:.18em;white-space:nowrap}
+.sh-lab.cur{opacity:1}
+.sh-lab.hid{visibility:hidden}
+.sh-vn{font:700 .58em/1 Arial,Helvetica,sans-serif;color:#D9A441;vertical-align:.5em;margin-right:.1em}
+.sh-row:not(.cur) .sh-vn{opacity:.65}
+.sh-w.on{color:#D9A441}
+/* side column: screen texts of the word steps pile up, the current one is bright */
+#shThesis{display:none;flex:0 0 40vw;min-width:0;flex-direction:column;justify-content:center;gap:2.6vh;padding:6vh 3vw 6vh 0;overflow:hidden;font-size:4.8vh}
+#shThesis.use{display:flex}
+.th-i{flex:none;border-left:.35vh solid #333;padding:.1em 0 .1em .6em;color:#8c8c8c;font-size:.78em}
+.th-i.cur{border-left-color:#D9A441;color:#fff;font-size:1em}
+.th-w{font:700 .58em/1.2 Arial,Helvetica,sans-serif;color:#D9A441;letter-spacing:.05em;margin-bottom:.35em}
+.th-i:not(.cur) .th-w{opacity:.65}
+.th-t{line-height:1.2;white-space:pre-wrap;overflow-wrap:break-word}
+@media (orientation:portrait){
+  #show{flex-direction:column}
+  #shThesis{flex:none;max-height:42vh;padding:2vh 6vw 5vh}
+}
+#shCount{position:absolute;right:1.6vw;bottom:1.2vh;font:1.9vh Arial,Helvetica,sans-serif;color:#2E2E2E}
+.t-theme{font-weight:700;line-height:1.15}
+.t-ref{font:700 .46em/1.2 Arial,Helvetica,sans-serif;color:#D9A441;margin-top:.9em;letter-spacing:.03em}
+.f-ref{font:700 .58em/1.2 Arial,Helvetica,sans-serif;color:#D9A441;margin-bottom:.8em;letter-spacing:.03em}
+.f-text{white-space:pre-wrap;line-height:1.3}
+.e-lab{font:700 .36em/1.2 Arial,Helvetica,sans-serif;color:#D9A441;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.6em}
+.e-main{font-weight:700;line-height:1.18;white-space:pre-wrap}
+.e-div{height:.04em;min-height:2px;width:22%;background:#D9A441;margin:.7em 0 .6em}
+.e-sum{font-size:.7em;line-height:1.25;white-space:pre-wrap}
+.e-main.dim{color:#8c8c8c}
+
+
+/* ---------- app shell, library, phone ---------- */
+#app,#work{flex:1;min-height:0;display:flex;flex-direction:column}
+#lib{display:none;flex:1;min-height:0;flex-direction:column}
+.v-lib #lib{display:flex}
+.v-lib #work{display:none}
+.cloudonly{display:none}
+.m-cloud .cloudonly{display:inline-block}
+.m-cloud .localonly{display:none}
+.narrowonly{display:none}
+#cloudSt,#libSt{color:var(--ink-2);font-size:12px;font-style:italic}
+#cloudSt.bad,#libSt.bad{color:var(--mark);font-weight:700;font-style:normal}
+#ptabs{display:none}
+#selBar{display:none;gap:6px;align-items:center;flex-wrap:wrap;padding:7px 10px;border-top:1px solid var(--ink);background:var(--card)}
+#selBar.use{display:flex}
+#selBar b{margin-right:auto;overflow-wrap:anywhere}
+
+.lhead{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:8px 16px;border-bottom:3px double var(--ink)}
+.brand{font:700 19px var(--f-text);margin-right:auto}
+#libBody{flex:1;min-height:0;display:grid;grid-template-columns:minmax(230px,300px) 1fr}
+#bookList{overflow:auto;border-right:1px solid var(--ink);padding:10px 10px 30px}
+#bookPage{overflow:auto;padding:14px 18px 0;display:flex;flex-direction:column}
+#lib h3{margin:18px 0 7px;font:700 12px var(--f-ui);letter-spacing:.14em;text-transform:uppercase;border-bottom:1px solid var(--line);padding-bottom:4px}
+#lib h3:first-child{margin-top:4px}
+#lib h3 small{font-weight:400;letter-spacing:0;text-transform:none;color:var(--ink-2);font-style:italic;font-size:12px;margin-left:6px}
+.blist{display:flex;flex-direction:column}
+.bitem{display:flex;justify-content:space-between;gap:8px;text-align:left;white-space:normal;border:0;border-radius:0;padding:5px 8px;font:16px/1.3 var(--f-text);color:var(--ink-2)}
+.bitem.has{color:var(--ink);font-weight:700}
+.bitem:hover,.bitem.cur{background:var(--hl)}
+.bitem i{font:700 12px/1.6 Arial,sans-serif;color:var(--mark);font-style:normal}
+.pitem{display:block;width:100%;text-align:left;white-space:normal;border:0;border-left:2px solid var(--mark);border-radius:0;padding:5px 9px;margin-bottom:4px;font:16px/1.35 var(--f-text);overflow-wrap:anywhere}
+.pitem:hover{background:var(--hl)}
+.pitem span{display:block;color:var(--ink-2);font-size:13px}
+.prow{display:flex;gap:6px;align-items:flex-start}
+.prow .pitem{flex:1}
+.chip{display:inline-block;font-style:normal;font:700 10px/1.7 Arial,sans-serif;letter-spacing:.05em;text-transform:uppercase;padding:0 6px;border:1px solid var(--line);border-radius:9px;vertical-align:2px;color:var(--ink-2)}
+.chip.st-work{border-color:var(--mark);color:var(--mark)}
+.chip.st-done{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.bhead{display:flex;gap:10px;align-items:center}
+.bhead h1{margin:0;font:700 24px/1.2 var(--f-text)}
+.bnote{margin:8px 0 0;padding:7px 10px;border-left:2px solid var(--mark);background:var(--card);font-size:13px;color:var(--ink-2)}
+.btabs{margin:12px 0 4px;flex-wrap:wrap}
+.cmap{display:flex;flex-wrap:wrap;gap:4px}
+.cmap button{width:38px;padding:5px 0;text-align:center;font:700 13px Arial,sans-serif;border-color:var(--line);color:var(--ink-2)}
+.cmap .c1{background:linear-gradient(to top,var(--mark) 4px,var(--card) 4px);color:var(--ink);border-color:var(--ink)}
+.cmap .c2{background:var(--hl);color:var(--ink);border-color:var(--ink)}
+.cmap .c3{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.rowb{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+#reader{display:flex;flex-direction:column;flex:1}
+.rnav{display:flex;gap:6px;align-items:center;margin:8px 0}
+.rnav select{font:inherit;padding:5px 8px;border:1px solid var(--line);background:var(--card);color:inherit;border-radius:2px}
+.rnav button{font-size:18px;line-height:1;padding:5px 14px}
+.rhere{font-size:13px;color:var(--ink-2);margin-bottom:6px}
+.lnk{border:0;padding:0 2px;text-decoration:underline;color:var(--mark);white-space:normal;text-align:left}
+.rtext{font:18px/1.6 var(--f-text);max-width:760px;padding-bottom:20px}
+.vs{margin:0;padding:3px 8px;border-left:3px solid transparent;cursor:pointer}
+.vs b{font-size:.78em;margin-right:3px}
+.vs:hover{background:var(--card)}
+.vs.cov1{border-left-color:var(--mark)}
+.vs.cov2{border-left-color:var(--ink)}
+.vs.in{background:var(--hl)}
+.rbar{position:sticky;bottom:0;margin:auto -18px 0;padding:9px 18px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:var(--card);border-top:1px solid var(--ink)}
+.rbar span{margin-right:auto}
+.sheet{display:grid;gap:10px;max-width:760px;padding:8px 0 30px}
+.sheet label{display:grid;gap:3px;font:700 11px var(--f-ui);letter-spacing:.12em;text-transform:uppercase}
+.sheet textarea{border:1px solid var(--line);border-radius:2px;background:var(--card);padding:6px 9px;font:16px/1.5 var(--f-text);letter-spacing:0;text-transform:none;resize:vertical;width:100%}
+.sheetwrap{overflow:auto}
+.help{overflow:auto;font:15px/1.55 var(--f-text)}
+.help h4{margin:14px 0 4px;font:700 12px var(--f-ui);letter-spacing:.14em;text-transform:uppercase}
+.help h4:first-child{margin-top:0}
+.help p{margin:0 0 8px;color:var(--ink)}
+#modal .box{overflow:hidden}
+#modal #mBody{min-height:0;overflow:auto;display:flex;flex-direction:column}
+
+@media (max-width:760px){
+  body{font-size:15px}
+  .wideonly{display:none !important}
+  .narrowonly{display:inline-block}
+  header,.lhead{padding:5px 8px;gap:5px}
+  header button,.lhead button{padding:4px 8px;font-size:13px}
+  #title{flex:1 1 55%;min-width:0;font-size:16px;padding:2px 4px}
+  #cloudSt{flex-basis:100%}
+  .phead{padding:5px 10px}
+  #status{min-width:0}
+  #ptabs{display:flex;border-bottom:1px solid var(--ink)}
+  #ptabs button{flex:1;border:0;border-radius:0;padding:10px 4px;font-weight:700}
+  #ptabs button.on{background:var(--ink);color:var(--bg)}
+  main{display:block}
+  main>section{display:none;height:100%}
+  main>section.act{display:flex}
+  section + section{border-left:0}
+  .hint{display:none}
+  #src{font-size:19px;line-height:1.75;text-align:left;padding-bottom:40px}
+  .row{margin-left:calc(var(--ind)*16px)}
+  .relw{width:100px}
+  #relPop button b{flex-basis:118px}
+  .rowctl button{padding:3px 10px;font-size:14px}
+  #libBody{display:block;overflow:hidden}
+  #bookList,#bookPage{height:100%;border-right:0}
+  #bookPage{display:none;padding:10px 12px 0}
+  .show-book #bookList{display:none}
+  .show-book #bookPage{display:flex}
+  .bhead h1{font-size:20px}
+  .bitem{padding:9px 8px}
+  .rbar{margin:auto -12px 0;padding:9px 12px}
+  .cmap button{width:40px;padding:8px 0}
+  #modal{padding:8px}
+}
+
+/* spiral */
+#spiral{display:none;padding:14px 16px 60px;font:15px/1.5 var(--f-text)}
+.mode-spiral #structure{display:none}
+.mode-spiral #spiral{display:block}
+.sptop{border:1px solid var(--ink);background:var(--card);padding:10px 12px;margin-bottom:12px}
+.spcur{font:17px/1.45 var(--f-text);margin-bottom:8px}
+.spcur small,.spl small{display:block;color:var(--ink-2);font:italic 12px var(--f-ui)}
+.sprow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0}
+.sprow b{margin-right:auto}
+.spnote{color:var(--ink-2);font:italic 12px var(--f-ui)}
+.sptrack{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:14px}
+.sptrack button.dn{border-color:var(--ink)}
+.spst h3{margin:0 0 8px;font:700 19px var(--f-text)}
+.spwhy{border-left:3px solid var(--mark);padding:2px 0 2px 12px;margin:0 0 14px}
+.spwhy summary{cursor:pointer;font:700 12px var(--f-ui);letter-spacing:.14em;text-transform:uppercase}
+.spwhy p{margin:6px 0}
+.spl{display:block;margin:10px 0;font-weight:700}
+.spl small{font-weight:400}
+.spl textarea{display:block;width:100%;margin-top:4px;border:1px solid var(--line);border-radius:2px;background:var(--card);padding:6px 8px;font:16px/1.45 var(--f-text);font-weight:400;resize:vertical}
+.spv button{white-space:normal}
+.spcard{border:1px solid var(--line);padding:8px 12px;margin:10px 0;background:var(--card)}
+.spcard textarea{background:var(--bg)}
+.spidea{border-top:3px double var(--ink);margin-top:18px;padding-top:8px}
+.spidea h4{margin:0;font:700 12px var(--f-ui);letter-spacing:.14em;text-transform:uppercase}
+.spchk{border-top:1px solid var(--line);margin-top:12px;padding-top:6px}
+.spout{white-space:pre-wrap;font:16px/1.5 var(--f-text)}
+.spout:not(:empty){border-left:3px solid var(--ink);padding:4px 0 4px 12px;margin-top:6px}
+.splock{border:1px dashed var(--ink);padding:10px 12px}
+.spjn{color:var(--ink-2);font-style:italic}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script id="appjs">var __MARKUP__="<div id=\"lib\">\n  <header class=\"lhead\"><span class=\"brand\">Разбор Слова <small style=\"font:italic 11px var(--f-ui);letter-spacing:0;color:var(--ink-2)\">версия 12.11 · 9</small></span><span id=\"libSt\" role=\"status\"></span><button id=\"btnBackup\" class=\"cloudonly wideonly\">Скачать всю библиотеку</button><label class=\"filebtn cloudonly wideonly\" title=\"Файл, скачанный кнопкой «Скачать всю библиотеку»\">Загрузить библиотеку из файла<input id=\"impAll\" type=\"file\" accept=\".json,application/json\"></label><button id=\"btnHelp2\">Справка</button></header>\n  <div id=\"libBody\"><aside id=\"bookList\" aria-label=\"Книги\"></aside><div id=\"bookPage\"></div></div>\n</div>\n<div id=\"work\">\n<header>\n  <button id=\"btnLib\" class=\"cloudonly\">← Библиотека</button>\n  <input id=\"title\" aria-label=\"Название отрывка\" placeholder=\"Отрывок, например: Римлянам 5:1–5\">\n  <span class=\"seg wideonly\" id=\"modeSeg\" role=\"group\" aria-label=\"Режим работы\"><button id=\"gStudy\">Изучение</button><button id=\"gSermon\">Проповедь</button></span>\n  <button id=\"btnStatus\" class=\"cloudonly\"></button>\n  <button id=\"btnSheet\" class=\"cloudonly studyonly\">Лист книги</button>\n  <button id=\"btnUndo\" title=\"Отменить последнее действие (Ctrl+Z)\">Отменить</button>\n  <button id=\"btnSave\" class=\"wideonly studyonly\">Сохранить в файл</button>\n  <label class=\"filebtn localonly studyonly\">Открыть файл<input id=\"fileIn\" type=\"file\" accept=\".json,application/json\"></label>\n  <button id=\"btnPng\" class=\"wideonly studyonly\">Схема картинкой (PNG)</button>\n  <span class=\"fsz wideonly sermononly\" title=\"Размер шрифта на экране зала\">Шрифт <button id=\"fsDn\" aria-label=\"Шрифт на экране мельче\">−</button><b id=\"fsVal\">100%</b><button id=\"fsUp\" aria-label=\"Шрифт на экране крупнее\">+</button></span>\n  <button id=\"btnShow\" class=\"wideonly sermononly on\">▶ Показ</button>\n  <button id=\"btnDocx\" class=\"wideonly sermononly\">Текст в Word</button>\n  <button id=\"btnExport\" class=\"cloudonly wideonly sermononly\" title=\"Отдельный файл для показа в зале, работает без интернета\">Файл для зала</button>\n  <button id=\"btnHelp\" class=\"wideonly\">Справка</button>\n  <span id=\"cloudSt\" class=\"cloudonly\"></span>\n  <span id=\"status\" role=\"status\"></span>\n</header>\n<nav id=\"ptabs\"><button data-p=\"text\">Текст</button><button data-p=\"field\">Разбор</button><button data-p=\"notes\">Заметки</button></nav>\n\n<main id=\"main\">\n  <section id=\"left\" aria-label=\"Исходный текст\">\n    <div class=\"phead\">\n      <h2>Текст</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Что делает клик по слову\"><button id=\"tCut\">Резать</button><button id=\"tNote\">Заметки к словам</button></span>\n      <button id=\"btnEdit\" class=\"ghost\">Изменить текст</button>\n    </div>\n    <div class=\"phead\" id=\"srcTools\">\n      <button id=\"cutVerses\">Резать по стихам</button>\n      <button id=\"cutPunct\">По знакам препинания</button>\n      <button id=\"cutReset\" class=\"ghost\">Убрать все разрезы</button>\n    </div>\n    <div class=\"pbody\"><div id=\"srcWrap\"><div id=\"src\"></div><svg id=\"srcMarks\" aria-hidden=\"true\"></svg></div><div id=\"markList\"></div></div>\n    <div id=\"selBar\"></div>\n    <div id=\"srcEdit\">\n      <textarea id=\"srcText\" aria-label=\"Исходный текст\" placeholder=\"Вставьте сюда текст (Синодальный перевод). Номера стихов можно оставить: они станут маленькими цифрами.\"></textarea>\n      <div class=\"rowb\">\n        <button id=\"srcApply\" class=\"on\">Готово</button>\n        <button id=\"srcCancel\">Отмена</button>\n      </div>\n      <div style=\"color:var(--ink-2);font-size:12px\">Разрезы, заметки и текст проповеди сохранятся. Пропадёт только то, что привязано к удалённым словам. Если что-то пошло не так, есть кнопка «Отменить».</div>\n    </div>\n    <div class=\"hint\" id=\"srcHint\"></div>\n  </section>\n\n  <section id=\"mid\" aria-label=\"Рабочее поле\">\n    <div class=\"phead\">\n      <h2>Рабочее поле</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Режим\">\n        <button id=\"mStruct\">Структура</button>\n      </span>\n    </div>\n    <div class=\"pbody\" id=\"midBody\">\n      <div id=\"structure\"></div>\n    </div>\n    <div class=\"hint\" id=\"midHint\"></div>\n  </section>\n\n  <section id=\"right\" aria-label=\"Заметки\">\n    <div class=\"phead\"><h2>Заметки</h2></div>\n    <div class=\"pbody\" id=\"noteBody\">\n      <div id=\"noteHead\"></div>\n      <div id=\"scrWrap\">\n        <label for=\"scr\">На экран</label>\n        <textarea id=\"scr\" rows=\"2\" placeholder=\"Короткий тезис к этому слову\"></textarea>\n        <small>Это увидит зал. Заметка ниже остаётся только у вас.</small>\n      </div>\n      <textarea id=\"notes\" aria-label=\"Заметка\"></textarea>\n      <div id=\"noteList\"></div>\n    </div>\n  </section>\n</main>\n<div id=\"sm\">\n  <section id=\"smL\" aria-label=\"Материалы изучения\">\n    <div class=\"phead\"><h2>Из изучения</h2></div>\n    <div class=\"pbody\"><div id=\"smText\" class=\"tool-mark\"><div class=\"smh\">Текст и пометки</div><div class=\"smn\">Клик по слову выделяет его, Shift-клик растягивает до другого слова. Затем «Подчеркнуть», «Обвести» или «Стрелка от него». Кнопка → у пометки ставит её слайдом.</div></div><div id=\"smMat\"></div></div>\n    <div class=\"hint\">Кнопка → вставляет материал блоком под выбранным блоком. Здесь материал не меняется: править его нужно в режиме «Изучение».</div>\n  </section>\n  <section id=\"smM\" aria-label=\"Текст проповеди\">\n    <div class=\"phead\"><h2>Текст проповеди</h2><span id=\"smCount\" class=\"snote\"></span><button id=\"smBuild\">Собрать из разбора</button></div>\n    <div class=\"pbody\" id=\"smBody\">\n      <div class=\"sf\"><label for=\"sTheme\">Название</label><input id=\"sTheme\" placeholder=\"Название проповеди. Первый слайд\"><span></span><label class=\"rdl\"><input type=\"checkbox\" id=\"sRead\"> После названия показать полный текст отрывка для чтения</label></div>\n      <div id=\"smBlocks\"></div>\n      <button id=\"smAdd\" class=\"ghost\">+ Блок</button>\n      <div class=\"sf\" style=\"margin-top:22px\">\n        <label for=\"sMain\">Главная мысль</label><textarea id=\"sMain\" rows=\"2\" placeholder=\"Одно предложение, которое зал должен унести. Предпоследний слайд\"></textarea>\n        <label for=\"sSum\">Итог</label><textarea id=\"sSum\" rows=\"2\" placeholder=\"К чему зовёт текст. Последний слайд\"></textarea>\n      </div>\n    </div>\n    <div class=\"hint\">Блок — это пункт или абзац. Слайд блока выходит на экран, когда вы начинаете его говорить. Тёмная полоса в блоке — то, что увидит зал.</div>\n  </section>\n  <section id=\"smR\" aria-label=\"Слайды\">\n    <div class=\"phead\"><h2>Слайды</h2></div>\n    <div class=\"pbody\" id=\"smSlides\"></div>\n    <div class=\"hint\">Лента собирается сама, порядок задаёт текст. Клик по слайду ведёт к его блоку, ▶ начинает показ с него.</div>\n  </section>\n</div>\n</div>\n\n<datalist id=\"rels\">\n  <option value=\"основание\"><option value=\"причина\"><option value=\"следствие\"><option value=\"цель\"><option value=\"результат\">\n  <option value=\"условие\"><option value=\"уступка\"><option value=\"средство\"><option value=\"образ действия\"><option value=\"время\">\n  <option value=\"пояснение\"><option value=\"противопоставление\"><option value=\"ряд\"><option value=\"вывод\"><option value=\"сравнение\">\n</datalist>\n\n<div id=\"modal\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"mTitle\"><div class=\"box\">\n  <h3 id=\"mTitle\"></h3><p id=\"mText\"></p><div id=\"mBody\"></div>\n  <div class=\"rowb\"><button id=\"mCopy\">Скопировать</button><button id=\"mClose\">Закрыть</button></div>\n</div></div>\n\n<div id=\"show\" aria-label=\"Показ на экране\">\n  <div id=\"shBody\"><div id=\"shIn\"></div></div>\n  <div id=\"shThesis\"></div>\n  <div id=\"shCount\"></div>\n</div>\n";
+(function(){
+"use strict";
+document.getElementById("app").innerHTML=__MARKUP__;
+var KEY="osborne-workbench-v1", LKEY=KEY, MODE="local", EMBED=window.__EMBED__||null, armExt=false, pane="text";
+var DEFAULT_TITLE="Римлянам 5:1–5";
+var DEFAULT_TEXT="1 Итак, оправдавшись верою, мы имеем мир с Богом через Господа нашего Иисуса Христа, 2 через Которого верою и получили мы доступ к той благодати, в которой стоим и хвалимся надеждою славы Божией. 3 И не сим только, но хвалимся и скорбями, зная, что от скорби происходит терпение, 4 от терпения опытность, от опытности надежда, 5 а надежда не постыжает, потому что любовь Божия излилась в сердца наши Духом Святым, данным нам.";
+
+var $=function(s){return document.querySelector(s)};
+var S, T=[], editing=false, arrowMode=false, arrowFrom=null, selArrow=null, drag=null, seq=0, justMade=0, tool="cut", sel=null, cover={}, skipClick=0;
+var undo=[], lastSnap="";
+var show={open:false,n:0,steps:[],fs:false};
+
+function uid(){ seq++; return "p"+Date.now().toString(36)+seq.toString(36); }
+function tok(s){ s=(s||"").trim(); return s? s.split(/\s+/):[]; }
+function isNum(t){ return /^\d+(:\d+)?$/.test(t); }
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]}); }
+function byId(id){ for(var i=0;i<S.phrases.length;i++) if(S.phrases[i].id===id) return S.phrases[i]; return null; }
+function arrowById(id){ for(var i=0;i<S.arrows.length;i++) if(S.arrows[i].id===id) return S.arrows[i]; return null; }
+function frameById(id){ for(var i=0;i<S.frames.length;i++) if(S.frames[i].id===id) return S.frames[i]; return null; }
+
+function fresh(text,title){
+  var n=tok(text).length;
+  return {v:1,title:title||"",source:text||"",phrases:n?[{id:uid(),s:0,e:n,indent:0,label:"",x:40,y:30}]:[],arrows:[],notes:"",wnotes:{},mode:"structure",manual:false,
+    theme:"",main:"",sum:"",screen:{},frames:[],script:[],marks:[],kind:"struct",alt:[],blocks:[],read:true,fs:100,sp:spDef()};
+}
+function normalize(d){
+  function obj(o){ return (o&&typeof o==="object"&&!Array.isArray(o))?o:{}; }
+  d.title=d.title||""; d.notes=d.notes||""; d.wnotes=obj(d.wnotes); d.screen=obj(d.screen);
+  d.theme=d.theme||""; d.main=d.main||""; d.sum=d.sum||"";
+  d.frames=(Array.isArray(d.frames)?d.frames:[]).filter(function(f){return f&&f.id}).map(function(f){return {id:String(f.id),ref:f.ref||"",text:f.text||""}});
+  d.script=(Array.isArray(d.script)?d.script:[]).filter(function(s){return s&&typeof s.t==="string"&&s.ref!=null}).map(function(s){return {t:s.t,ref:String(s.ref)}});
+  d.arrows=Array.isArray(d.arrows)?d.arrows:[];
+  d.alt=(Array.isArray(d.alt)?d.alt:[]).filter(function(s){return s&&typeof s.t==="string"&&s.ref!=null}).map(function(s){return {t:s.t,ref:String(s.ref)}});
+  d.kind=d.kind==="marks"?"marks":"struct";
+  d.marks=(Array.isArray(d.marks)?d.marks:[]).filter(function(m){return m&&m.id&&(m.t==="u"||m.t==="o"||m.t==="a")&&m.a>=0&&m.b>=m.a&&(m.t!=="a"||(m.c>=0&&m.d>=m.c))})
+    .map(function(m){ var o={id:String(m.id),t:m.t,a:m.a|0,b:m.b|0,tx:m.tx||""}; if(m.t==="a"){ o.c=m.c|0; o.d=m.d|0; } return o; });
+  d.mode=(d.mode==="sermon"||d.mode==="spiral")?d.mode:"structure"; d.manual=!!d.manual;
+  d.read=d.read!==false; d.fs=Math.max(60,Math.min(160,Math.round((+d.fs||100)/10)*10));
+  d.blocks=(Array.isArray(d.blocks)?d.blocks:migrateBlocks(d)).filter(function(b){return b&&b.id}).map(normBlock);
+  return spNorm(d);
+}
+/* save(): remember without an undo point (typing). commit(): a structural change, one undo point. */
+function store(){ if(MODE==="cloud"){ schedule(); return; } try{ localStorage.setItem(LKEY,lastSnap); }catch(e){} }
+function save(){ lastSnap=JSON.stringify(S); store(); }
+function commit(){ if(lastSnap){ undo.push(lastSnap); if(undo.length>60) undo.shift(); } save(); $("#btnUndo").disabled=!undo.length; }
+function doUndo(){
+  if(!undo.length){ say("Отменять нечего"); return; }
+  var keepMode=S.mode; S=normalize(JSON.parse(undo.pop())); S.mode=keepMode; lastSnap=JSON.stringify(S); store();
+  editing=false; arrowFrom=null; selArrow=null; arrowMode=false; sel=null; armArrow=null;
+  $("#btnUndo").disabled=!undo.length; renderAll(); say("Отменено");
+}
+function say(msg){ var el=$("#status"); el.textContent=msg; clearTimeout(say.t); say.t=setTimeout(function(){el.textContent=""},4500); }
+
+/* ---------- cutting ---------- */
+function toggleCut(i){
+  if(i<=0||i>=T.length) return;
+  for(var k=0;k<S.phrases.length;k++){
+    var p=S.phrases[k];
+    if(p.s===i){ // merge into previous
+      var prev=S.phrases[k-1]; prev.e=p.e; S.phrases.splice(k,1);
+      S.blocks.forEach(function(b){ if(b.sl.t==="phrase"&&b.sl.ref===p.id) b.sl.ref=prev.id; });
+      S.arrows=S.arrows.filter(function(a){return a.from!==p.id&&a.to!==p.id});
+      if(arrowFrom===p.id) arrowFrom=null;
+      return;
+    }
+    if(p.s<i&&i<p.e){
+      var q={id:uid(),s:i,e:p.e,indent:p.indent,label:"",x:p.x+24,y:p.y+70};
+      p.e=i; S.phrases.splice(k+1,0,q); return;
+    }
+  }
+}
+function isStart(i){ return S.phrases.some(function(p){return p.s===i}); }
+function cutVerses(){ for(var i=1;i<T.length;i++) if(isNum(T[i])&&!isStart(i)) toggleCut(i); }
+function cutPunct(){
+  for(var i=0;i<T.length-1;i++){
+    if(/[,;:.!?]["»)]*$/.test(T[i]) && !isNum(T[i])){
+      var j=i+1; if(/^[—–-]$/.test(T[j])) continue;
+      if(!isStart(j)) toggleCut(j);
+    }
+  }
+}
+function resetCuts(){
+  if(!T.length){ S.phrases=[]; return; }
+  var first=S.phrases[0]||{id:uid(),indent:0,label:"",x:40,y:30};
+  first.s=0; first.e=T.length; S.phrases=[first]; S.arrows=[]; arrowFrom=null; selArrow=null;
+}
+
+/* ---------- editing the source without losing the markup ---------- */
+function lcsMap(A,B){ // old token index -> new token index, or -1
+  var n=A.length,m=B.length,map=[],i,j,k,pre=0,suf=0;
+  for(i=0;i<n;i++) map.push(-1);
+  while(pre<n&&pre<m&&A[pre]===B[pre]){ map[pre]=pre; pre++; }
+  while(suf<n-pre&&suf<m-pre&&A[n-1-suf]===B[m-1-suf]){ map[n-1-suf]=m-1-suf; suf++; }
+  var la=n-pre-suf, lb=m-pre-suf;
+  if(la>0&&lb>0&&la*lb<=4e6){
+    var W=lb+1, D=new Uint16Array((la+1)*W);
+    for(i=la-1;i>=0;i--) for(j=lb-1;j>=0;j--)
+      D[i*W+j]=A[pre+i]===B[pre+j]?D[(i+1)*W+j+1]+1:Math.max(D[(i+1)*W+j],D[i*W+j+1]);
+    i=0; j=0;
+    while(i<la&&j<lb){
+      if(A[pre+i]===B[pre+j]){ map[pre+i]=pre+j; i++; j++; }
+      else if(D[(i+1)*W+j]>=D[i*W+j+1]) i++; else j++;
+    }
+  }
+  i=0; // a run of changed words replaced by the same number of words: keep them in place (typo fixes)
+  while(i<n){
+    if(map[i]>=0){ i++; continue; }
+    var i1=i; while(i<n&&map[i]<0) i++;
+    var L=i1>0?map[i1-1]:-1, R=i<n?map[i]:m;
+    if(R-L-1===i-i1) for(k=i1;k<i;k++) map[k]=L+1+(k-i1);
+  }
+  return map;
+}
+function retext(v){ // returns number of word notes lost
+  var oldT=T, newT=tok(v);
+  if(!S.phrases.length||!newT.length){
+    var old=S; S=fresh(v,old.title); S.notes=old.notes; S.mode=old.mode; S.theme=old.theme; S.main=old.main; S.sum=old.sum; S.frames=old.frames;
+    S.script=old.script.filter(function(s){return s.t==="frame"}); T=newT;
+    S.blocks=old.blocks; S.blocks.forEach(function(b){ var s=b.sl; if(s.t==="word") s.t=s.text.trim()?"thesis":"none"; else if(s.t==="phrase"||s.t==="mark") s.t="none"; });
+    return Object.keys(old.wnotes).length+Object.keys(old.screen).length;
+  }
+  var map=lcsMap(oldT,newT), lost={}, km={};
+  function fwd(i){ for(var k=i;k<oldT.length;k++) if(map[k]>=0) return map[k]; return -1; }
+  var keep=[], last=-1;
+  S.phrases.forEach(function(p,idx){ var ns=idx?fwd(p.s):0; if(ns>last){ p.s=ns; keep.push(p); last=ns; } });
+  keep.forEach(function(p,i){ p.e=keep[i+1]?keep[i+1].s:newT.length; });
+  S.phrases=keep;
+  var ids={}; keep.forEach(function(p){ids[p.id]=1});
+  S.arrows=S.arrows.filter(function(a){return ids[a.from]&&ids[a.to]});
+  function remap(o){
+    var out={};
+    Object.keys(o).forEach(function(k){
+      var r=parseKey(k); if(!r||!o[k]) return;
+      var a=-1,b=-1; for(var i=r.a;i<=r.b;i++) if(map[i]>=0){ if(a<0) a=map[i]; b=map[i]; }
+      if(a<0){ lost[k]=1; return; }
+      var nk=key(a,b); km[k]=nk; out[nk]=out[nk]?out[nk]+"\n"+o[k]:o[k];
+    });
+    return out;
+  }
+  S.wnotes=remap(S.wnotes); S.screen=remap(S.screen);
+  function wk(s){ if(s.t!=="word") return true; if(!km[s.ref]) return false; s.ref=km[s.ref]; return true; }
+  S.script=S.script.filter(wk); S.alt=S.alt.filter(wk);
+  function mr(a,b){ var x=-1,y=-1; for(var i=a;i<=b;i++) if(map[i]>=0){ if(x<0) x=map[i]; y=map[i]; } return x<0?null:[x,y]; }
+  S.marks=S.marks.filter(function(m){
+    var r=mr(m.a,m.b); if(!r) return false; m.a=r[0]; m.b=r[1];
+    if(m.t==="a"){ r=mr(m.c,m.d); if(!r) return false; m.c=r[0]; m.d=r[1]; }
+    return true;
+  });
+  S.blocks.forEach(function(b){ var s=b.sl, o, r; if(s.t!=="word") return; o=parseKey(s.ref); r=o&&mr(o.a,o.b); if(r) s.ref=key(r[0],r[1]); else s.t=s.text.trim()?"thesis":"none"; });
+  S.source=v; T=newT; cleanScript();
+  return Object.keys(lost).length;
+}
+
+/* ---------- rendering ---------- */
+function phraseHTML(p){
+  var out=[];
+  for(var i=p.s;i<p.e;i++) out.push(isNum(T[i])?'<span class="vn">'+esc(T[i])+'</span>':'<span class="tw'+wcls(i)+'" data-i="'+i+'">'+esc(T[i])+'</span>');
+  return out.join(" ");
+}
+function wcls(i){ return (cover[i]?" has":"")+(sel&&i>=sel.a&&i<=sel.b?" sel":""); }
+function key(a,b){ return a===b?""+a:a+"-"+b; }
+function parseKey(k){ var m=/^(\d+)(?:-(\d+))?$/.exec(k); if(!m) return null; var a=+m[1], b=m[2]==null?a:+m[2]; return (a<=b&&b<T.length)?{a:a,b:b,k:k}:null; }
+function byPos(x,y){ return x.a-y.a||x.b-y.b; }
+function noteKeys(){
+  var u={}; Object.keys(S.wnotes).forEach(function(k){ if(S.wnotes[k]) u[k]=1; }); Object.keys(S.screen).forEach(function(k){ if(S.screen[k]) u[k]=1; });
+  return Object.keys(u).map(parseKey).filter(Boolean).sort(byPos);
+}
+function screenKeys(){ return Object.keys(S.screen).filter(function(k){return S.screen[k]&&S.screen[k].trim()}).map(parseKey).filter(Boolean).sort(byPos); }
+function computeCover(){ cover={}; noteKeys().forEach(function(o){ for(var i=o.a;i<=o.b;i++) cover[i]=1; }); }
+function bareRange(a,b){
+  var out=[]; for(var i=a;i<=b;i++) if(!isNum(T[i])) out.push(T[i]);
+  if(!out.length) return "";
+  out[0]=out[0].replace(/^[«"“„(\[]+/,""); out[out.length-1]=out[out.length-1].replace(/[.,;:!?…»"”)\]]+$/,"");
+  return out.join(" ");
+}
+function verseOf(i){ for(var k=i;k>=0;k--) if(isNum(T[k])) return T[k]; return ""; }
+function refOf(a,b,short){ var v1=verseOf(a), v2=verseOf(b); if(!v1) return ""; return v1===v2?(short?"ст. ":"стих ")+v1:(short?"ст. ":"стихи ")+v1+"–"+v2; }
+function setSel(a,b){
+  while(a<=b&&isNum(T[a])) a++;
+  while(b>=a&&isNum(T[b])) b--;
+  if(a>b||a<0||b>=T.length) return;
+  sel={a:a,b:b}; armExt=false; renderAll(); if(!narrow()) $("#notes").focus();
+}
+function clickWord(i,shift){
+  if(isNaN(i)||i<0||i>=T.length||isNum(T[i])) return;
+  if((shift||armExt)&&sel){ setSel(Math.min(sel.a,i),Math.max(sel.b,i)); return; }
+  if(sel&&sel.a===i&&sel.b===i){ sel=null; renderAll(); return; }
+  if(sel&&i>=sel.a&&i<=sel.b){ setSel(i,i); return; }
+  if(S.wnotes[key(i,i)]||S.screen[key(i,i)]){ setSel(i,i); return; }
+  var best=null;
+  noteKeys().forEach(function(o){ if(i>=o.a&&i<=o.b&&(!best||o.b-o.a<best.b-best.a)) best=o; });
+  if(best) setSel(best.a,best.b); else setSel(i,i);
+}
+function renderNotes(){
+  var h=$("#noteHead"), ta=$("#notes"), sw=$("#scrWrap");
+  if(sel&&sel.b<T.length){
+    var r=refOf(sel.a,sel.b), one=sel.a===sel.b;
+    h.innerHTML='<div class="nword">'+esc(bareRange(sel.a,sel.b))+'</div><div class="nref">заметка к '+(one?'слову':'словосочетанию')+(r?', '+esc(r):'')+'</div><button id="noteBack">К общим заметкам</button>';
+    ta.value=S.wnotes[key(sel.a,sel.b)]||""; ta.placeholder="Что это значит здесь? Как связано с соседними словами? Вопросы…";
+    sw.classList.add("use"); if(document.activeElement!==$("#scr")) $("#scr").value=S.screen[key(sel.a,sel.b)]||"";
+  }else{
+    sel=null; sw.classList.remove("use");
+    h.innerHTML='<div class="nword">Общие заметки</div><div class="nref">ко всему отрывку</div>';
+    ta.value=S.notes; ta.placeholder="Наблюдения, вопросы к тексту, главная мысль…";
+  }
+  renderNoteList();
+}
+function clip(t,n){ t=String(t).replace(/\s+/g," ").trim(); return t.length>n?t.slice(0,n)+"…":t; }
+function renderNoteList(){
+  var ks=noteKeys(), cur=sel?key(sel.a,sel.b):"";
+  $("#noteList").innerHTML=ks.length?'<h3>Заметки к словам</h3>'+ks.map(function(o){
+    var r=refOf(o.a,o.b,true), t=S.wnotes[o.k]?clip(S.wnotes[o.k],70):"", sc=S.screen[o.k]?clip(S.screen[o.k],70):"";
+    return '<button class="nitem'+(o.k===cur?' cur':'')+'" data-k="'+o.k+'"><b>'+esc(bareRange(o.a,o.b))+'</b>'+(r?' <i>'+esc(r)+'</i>':'')+(sc?'<span class="scr">на экран: '+esc(sc)+'</span>':'')+(t?'<span>'+esc(t)+'</span>':'')+'</button>';
+  }).join(""):"";
+}
+function renderSource(){
+  $("#left").classList.toggle("editing",editing);
+  $("#left").classList.toggle("tool-note",tool==="note");
+  $("#left").classList.toggle("tool-mark",tool==="mark");
+  $("#tCut").classList.toggle("on",tool==="cut"); $("#tNote").classList.toggle("on",tool==="note");
+  $("#srcHint").textContent=tool==="mark"?"Клик по слову выделяет его. Несколько слов: кликните первое, затем с зажатым Shift последнее (или протяните мышью). Потом внизу нажмите «Подчеркнуть», «Обвести» или «Стрелка от него». Подпись к пометке пишется в списке под текстом.":tool==="note"?"Клик по слову открывает заметку к нему. Словосочетание: выделите его мышью, или кликните первое слово и с Shift последнее, или нажмите «до слова…» внизу.":"Клик по слову ставит разрез после него. Клик по последнему слову фразы убирает разрез.";
+  if(editing){ renderSelBar(); return; }
+  var h=[];
+  S.phrases.forEach(function(p,k){
+    var w=[];
+    for(var i=p.s;i<p.e;i++) w.push('<span class="w'+(isNum(T[i])?' vn':wcls(i))+'" data-i="'+i+'">'+esc(T[i])+'</span>');
+    h.push((k?'<span class="cut"></span>':'')+'<span class="ph" data-id="'+p.id+'">'+w.join(" ")+'</span>');
+  });
+  $("#src").innerHTML=h.join(" ")||'<span style="color:var(--ink-2)">Текста пока нет. Нажмите «Изменить текст».</span>';
+  renderSelBar(); renderMarkList(); drawSrcMarks();
+}
+
+/* ---------- marks on the text (underline, oval, arrow), drawn as if by hand ---------- */
+var armArrow=null, MK_N={u:"подчёркнуто",o:"обведено",a:"стрелка"};
+function markById(id){ for(var i=0;i<S.marks.length;i++) if(S.marks[i].id===id) return S.marks[i]; return null; }
+function marksSorted(){ return S.marks.slice().sort(function(x,y){ return x.a-y.a||x.b-y.b; }); }
+function markText(m){
+  return m.t==="a"?'«'+esc(clip(bareRange(m.a,m.b),26))+'» → «'+esc(clip(bareRange(m.c,m.d),26))+'»':'«'+esc(clip(bareRange(m.a,m.b),60))+'»';
+}
+function trimR(a,b){ while(a<=b&&isNum(T[a])) a++; while(b>=a&&isNum(T[b])) b--; return (a>b||a<0||b>=T.length)?null:{a:a,b:b}; }
+/* an arrow end snaps to the smallest underline or oval that contains the chosen words */
+function snapR(a,b){
+  var best=null;
+  S.marks.forEach(function(m){ if(m.t!=="a"&&m.a<=a&&m.b>=b&&(!best||m.b-m.a<best.b-best.a)) best=m; });
+  return best?{a:best.a,b:best.b}:{a:a,b:b};
+}
+function markSel(a,b){
+  var r=trimR(a,b); if(!r) return;
+  if(armArrow){
+    var s=armArrow, d=snapR(r.a,r.b); armArrow=null;
+    if(d.a===s.a&&d.b===s.b){ say("Стрелка должна вести к другому слову"); renderSource(); return; }
+    S.marks.push({id:uid(),t:"a",a:s.a,b:s.b,c:d.a,d:d.b,tx:""}); sel=null; changed(); return;
+  }
+  sel=r; armExt=false; renderAll();
+}
+function markClick(i,shift){
+  if(isNaN(i)||i<0||i>=T.length||isNum(T[i])) return;
+  if(!armArrow&&(shift||armExt)&&sel){ markSel(Math.min(sel.a,i),Math.max(sel.b,i)); return; }
+  if(!armArrow&&sel&&sel.a===i&&sel.b===i){ sel=null; renderAll(); return; }
+  markSel(i,i);
+}
+function hasMark(t){ return !!sel&&S.marks.some(function(m){ return m.t===t&&m.a===sel.a&&m.b===sel.b; }); }
+function toggleMark(t){
+  if(!sel) return;
+  var k=-1; S.marks.forEach(function(m,j){ if(m.t===t&&m.a===sel.a&&m.b===sel.b) k=j; });
+  if(k>=0) S.marks.splice(k,1); else S.marks.push({id:uid(),t:t,a:sel.a,b:sel.b,tx:""});
+  sel=null; changed();
+}
+function renderMarkList(){
+  var el=$("#markList"); if(!el) return;
+  el.innerHTML='<h3>Пометки</h3>'+(S.marks.length?marksSorted().map(function(m){
+    return '<div class="mrow" data-id="'+m.id+'"><span class="mt"><i>'+MK_N[m.t]+':</i> '+markText(m)+'</span>'+
+      '<input placeholder="подпись" aria-label="Подпись к пометке" maxlength="40" value="'+esc(m.tx)+'">'+
+      '<button data-act="mins" title="Поставить пометку слайдом в проповедь" aria-label="Поставить пометку слайдом в проповедь">'+(usedRef("mark",m.id)?'✓ ':'')+'→</button><button class="ghost" data-act="mdel" title="Убрать пометку" aria-label="Убрать пометку">✕</button></div>';
+  }).join(""):'<div class="snote">Пометок пока нет. Нажмите на слово в тексте: внизу появятся кнопки.</div>');
+}
+$("#markList").addEventListener("input",function(e){
+  var r=e.target.closest(".mrow"), m=r&&markById(r.dataset.id); if(!m) return;
+  m.tx=e.target.value; save(); drawSrcMarks(); if(em()==="sermon") renderSlides();
+});
+$("#markList").addEventListener("click",function(e){
+  var ins=e.target.closest('[data-act="mins"]'); if(ins){ insertBlock(newBlock("",{t:"mark",ref:ins.closest(".mrow").dataset.id})); return; }
+  var b=e.target.closest('[data-act="mdel"]'); if(!b) return;
+  var id=b.closest(".mrow").dataset.id; S.marks=S.marks.filter(function(m){ return m.id!==id; }); changed();
+});
+function mkRand(str){
+  var h=2166136261, i; for(i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619); }
+  return function(){ h=(h+0x6D2B79F5)|0; var t=h; t=Math.imul(t^(t>>>15),t|1); t^=t+Math.imul(t^(t>>>7),t|61); return ((t^(t>>>14))>>>0)/4294967296; };
+}
+function mkF(x){ return Math.round(x*10)/10; }
+function mkEls(root){ var m={}; Array.prototype.forEach.call(root.querySelectorAll("[data-i]"),function(n){ m[+n.dataset.i]=n; }); return m; }
+/* one rectangle per text line covered by words a..b, relative to root */
+function mkLines(root,els,a,b){
+  var R=root.getBoundingClientRect(), out=[], cur=null;
+  for(var i=a;i<=b;i++){
+    var el=els[i]; if(!el||isNum(T[i])) continue;
+    Array.prototype.forEach.call(el.getClientRects(),function(r){
+      if(r.width<1) return;
+      var o={x0:r.left-R.left,x1:r.right-R.left,y0:r.top-R.top,y1:r.bottom-R.top};
+      if(cur&&Math.abs(o.y0-cur.y0)<(o.y1-o.y0)*.5){ cur.x0=Math.min(cur.x0,o.x0); cur.x1=Math.max(cur.x1,o.x1); }
+      else{ cur=o; out.push(o); }
+    });
+  }
+  return out;
+}
+function mkUnder(l,rnd){
+  var H=l.y1-l.y0, y=l.y1-H*.03, j=H*.06, x0=l.x0-H*.04, x1=l.x1+H*.06;
+  return "M"+mkF(x0)+" "+mkF(y+(rnd()-.5)*j)+" Q"+mkF((x0+x1)/2+(rnd()-.5)*(x1-x0)*.3)+" "+mkF(y+(rnd()-.5)*j*2.6)+" "+mkF(x1)+" "+mkF(y+(rnd()-.5)*j);
+}
+function mkOval(l,rnd){
+  var H=l.y1-l.y0, cx=(l.x0+l.x1)/2, cy=(l.y0+l.y1)/2+H*.02, rx=(l.x1-l.x0)/2+H*.3, ry=H*.6, N=30, a0=-2.5+(rnd()-.5)*.5, sw=Math.PI*2+.55, p=[], k, t, g;
+  for(k=0;k<=N;k++){ t=a0+sw*k/N; g=1+(rnd()-.5)*.04+(k/N)*.07; p.push([cx+Math.cos(t)*rx*g,cy+Math.sin(t)*ry*g]); }
+  var d="M"+mkF(p[0][0])+" "+mkF(p[0][1]);
+  for(k=1;k<N;k++) d+=" Q"+mkF(p[k][0])+" "+mkF(p[k][1])+" "+mkF((p[k][0]+p[k+1][0])/2)+" "+mkF((p[k][1]+p[k+1][1])/2);
+  return d;
+}
+function mkArrow(A,B,rnd){
+  var s=A[A.length-1], d=B[0], H=s.y1-s.y0, mid=function(l){ return (l.x0+l.x1)/2; }, x0,y0,x1,y1,cx,cy;
+  var same=Math.abs(s.y0-d.y0)<H*.5;
+  if(same){
+    x0=mid(s); y0=s.y0+H*.1; x1=mid(d); y1=d.y0-H*.1;
+    cx=(x0+x1)/2+(rnd()-.5)*H*.4; cy=y0-Math.min(H*1.05,Math.abs(x1-x0)*.28+H*.35);
+  }else{
+    if(A[0].y0>B[B.length-1].y0){ s=A[0]; d=B[B.length-1]; x0=mid(s); y0=s.y0+H*.1; x1=mid(d); y1=d.y1+H*.04; }
+    else{ x0=mid(s); y0=s.y1-H*.04; x1=mid(d); y1=d.y0-H*.1; }
+    var k=.14+rnd()*.07, off=Math.max(-H*1.2,Math.min(H*1.2,(x1-x0)*k));
+    cx=(x0+x1)/2-(y1-y0)*k; cy=(y0+y1)/2+off;
+  }
+  var ang=Math.atan2(y1-cy,x1-cx), hl=H*.36;
+  return {p:["M"+mkF(x0)+" "+mkF(y0)+" Q"+mkF(cx)+" "+mkF(cy)+" "+mkF(x1)+" "+mkF(y1),
+    "M"+mkF(x1-hl*Math.cos(ang-.5))+" "+mkF(y1-hl*Math.sin(ang-.5))+" L"+mkF(x1)+" "+mkF(y1)+" L"+mkF(x1-hl*Math.cos(ang+.5))+" "+mkF(y1-hl*Math.sin(ang+.5))],
+    lx:.25*x0+.5*cx+.25*x1, ly:.25*y0+.5*cy+.25*y1-H*.14};
+}
+/* opt: color, sw (stroke as a share of line height), lab (label size as a share of line height), anim (id of the mark to draw in) */
+function drawMarks(root,svg,list,opt){
+  var els=mkEls(root), h="";
+  svg.setAttribute("width",root.scrollWidth); svg.setAttribute("height",root.scrollHeight);
+  list.forEach(function(m){
+    var rnd=mkRand(m.id), L=mkLines(root,els,m.a,m.b); if(!L.length) return;
+    var H=L[0].y1-L[0].y0, sw=Math.max(1.4,H*opt.sw), paths, lx=L[0].x0, ly, anchor="start";
+    if(m.t==="a"){
+      var D=mkLines(root,els,m.c,m.d); if(!D.length) return;
+      var g=mkArrow(L,D,rnd); paths=g.p; lx=g.lx; ly=g.ly; anchor="middle";
+    }
+    else{
+      /* a mark that starts where a shorter one starts: its caption goes over the words the shorter one does not cover */
+      var A=L[0], after=-1, R;
+      S.marks.forEach(function(n){ if(n.id!==m.id&&n.t!=="a"&&n.a===m.a&&n.b<m.b) after=Math.max(after,n.b); });
+      if(after>=0){ R=mkLines(root,els,after+1,m.b); if(R.length) A=R[0]; }
+      lx=A.x0;
+      if(m.t==="o"&&L.length===1){ paths=[mkOval(L[0],rnd)]; ly=A.y0-H*.16; }
+      else{ paths=L.map(function(l){ return mkUnder(l,rnd); }); ly=A.y0+H*.05; }
+    }
+    h+='<g data-m="'+m.id+'">'+paths.map(function(d){ return '<path class="mk-p" d="'+d+'" style="stroke:'+opt.color+';stroke-width:'+mkF(sw)+'px"/>'; }).join("")+
+      (m.tx&&m.tx.trim()?'<text class="mk-t" x="'+mkF(lx)+'" y="'+mkF(ly)+'" text-anchor="'+anchor+'" style="fill:'+opt.color+';font-size:'+mkF(H*opt.lab)+'px">'+esc(m.tx.trim())+'</text>':'')+'</g>';
+  });
+  svg.innerHTML=h;
+  /* captions never overlap: one that would land on an earlier caption moves to the right of it */
+  var placed=[];
+  Array.prototype.forEach.call(svg.querySelectorAll("text.mk-t"),function(t){
+    var b, i, p, dx, moved=true, guard=0, gap;
+    try{ b=t.getBBox(); }catch(e){ return; }
+    b={x:b.x,y:b.y,width:b.width,height:b.height}; gap=b.height*.5;
+    while(moved&&guard++<20){
+      moved=false;
+      for(i=0;i<placed.length;i++){
+        p=placed[i];
+        if(Math.abs(p.y-b.y)<b.height*.8&&b.x<p.x+p.width+gap&&b.x+b.width+gap>p.x){
+          dx=p.x+p.width+gap-b.x; t.setAttribute("x",mkF(parseFloat(t.getAttribute("x"))+dx)); b.x+=dx; moved=true;
+        }
+      }
+    }
+    placed.push(b);
+  });
+  [].concat(opt.anim||[]).forEach(function(aid){
+    var g2=svg.querySelector('[data-m="'+aid+'"]'); if(!g2) return;
+    Array.prototype.forEach.call(g2.querySelectorAll("path"),function(p,k){
+      var len=p.getTotalLength(); p.style.strokeDasharray=len; p.style.strokeDashoffset=len; p.getBoundingClientRect();
+      p.style.transition="stroke-dashoffset .6s ease "+(k*.45)+"s"; p.style.strokeDashoffset=0;
+    });
+    var tx=g2.querySelector("text");
+    if(tx){ tx.style.opacity=0; tx.getBoundingClientRect(); tx.style.transition="opacity .4s ease .55s"; tx.style.opacity=1; }
+  });
+}
+function drawSrcMarks(){
+  var root=$("#srcWrap"), svg=$("#srcMarks"); if(!root||!svg||!S) return;
+  if(editing||em()!=="sermon"||!root.offsetWidth||!S.marks.length){ svg.innerHTML=""; return; }
+  drawMarks(root,svg,S.marks,{color:"var(--mark)",sw:.07,lab:.5});
+}
+try{ new ResizeObserver(function(){ if(S&&Array.isArray(S.marks)) drawSrcMarks(); }).observe($("#srcWrap")); }catch(e){}
+/* relations: the question each one answers, asked from the main phrase */
+var RELQ=[["основание","Почему я так говорю?"],["причина","Отчего так случилось?"],["следствие","Что из этого следует?"],["результат","Что из этого вышло?"],
+  ["цель","Зачем? Ради чего?"],["вывод","Что отсюда заключаем?"],["условие","При каком условии?"],["уступка","Вопреки чему?"],
+  ["средство","Через что? Чем?"],["образ действия","Как? Каким образом?"],["время","Когда?"],["пояснение","То есть что именно?"],
+  ["противопоставление","А что наоборот?"],["сравнение","Подобно чему?"],["ряд","Что ещё стоит рядом?"]];
+function relQ(v){ v=(v||"").trim().toLowerCase(); for(var i=0;i<RELQ.length;i++) if(RELQ[i][0]===v) return RELQ[i][1]; return ""; }
+var relPop=null, relFor=null, relTimer=null;
+function relPopClose(){ clearTimeout(relTimer); relFor=null; if(relPop) relPop.classList.remove("open"); }
+function relPopPlace(){
+  if(!relFor||!relPop) return;
+  if(!relFor.isConnected){ relPopClose(); return; }
+  var r=relFor.getBoundingClientRect(), W=window.innerWidth, H=window.innerHeight;
+  relPop.style.maxHeight="none";
+  var h=relPop.offsetHeight, up=r.top-14, down=H-r.bottom-14, above=h<=up||up>=down;
+  relPop.style.maxHeight=Math.max(120,above?up:down)+"px";
+  h=relPop.offsetHeight;
+  relPop.style.left=Math.max(8,Math.min(r.left,W-relPop.offsetWidth-8))+"px";
+  relPop.style.top=(above?Math.max(8,r.top-h-6):r.bottom+6)+"px";
+}
+function relPopOpen(inp){
+  if(!relPop){
+    relPop=document.createElement("div"); relPop.id="relPop"; document.body.appendChild(relPop);
+    relPop.addEventListener("mousedown",function(e){ e.preventDefault(); });
+    relPop.addEventListener("click",function(e){
+      var b=e.target.closest("button[data-v]"), inp=relFor; if(!b||!inp) return;
+      inp.value=b.dataset.v; relPopClose(); inp.dispatchEvent(new Event("input",{bubbles:true}));
+    });
+  }
+  clearTimeout(relTimer); relFor=inp;
+  var v=inp.value.trim().toLowerCase(), row=inp.closest(".row"), sub=row&&row.hasAttribute("data-sub");
+  var list=RELQ.filter(function(x){ return x[0].indexOf(v)===0; });
+  if(!v||!list.length||(list.length===1&&list[0][0]===v)) list=RELQ;
+  relPop.innerHTML='<div class="rp-h">'+(sub?'Задайте вопрос от главной фразы к этой. Какой вопрос подходит, та и связь.':'Фраза у края — главная, подпись обычно не нужна. Она уместна, если фраза связана с тем, что было до отрывка, или с соседней главной.')+'</div>'+
+    list.map(function(x){ return '<button type="button" data-v="'+x[0]+'"'+(x[0]===v?' class="on"':'')+'><b>'+x[0]+'</b><span>'+x[1]+'</span></button>'; }).join("");
+  relPop.classList.add("open"); relPop.scrollTop=0; relPopPlace();
+}
+document.addEventListener("scroll",function(){ if(relFor) relPopPlace(); },true);
+window.addEventListener("resize",function(){ if(relFor) relPopPlace(); });
+function renderStructure(){
+  var el=$("#structure"); relPopClose();
+  if(!S.phrases.length){ el.innerHTML='<div class="empty">Вставьте текст слева, затем разрежьте его на фразы.</div>'; return; }
+  el.innerHTML=S.phrases.map(function(p){
+    return '<div class="row" data-id="'+p.id+'" style="--ind:'+p.indent+'"'+(p.indent?' data-sub="1"':'')+'>'+
+      '<span class="rowctl"><button data-act="out" title="Меньше отступ" aria-label="Меньше отступ">◂</button><button data-act="in" title="Больше отступ" aria-label="Больше отступ">▸</button></span>'+
+      '<span class="relw"><input class="rel" id="rel-'+p.id+'" autocomplete="off" placeholder="'+(p.indent?'связь…':'главная')+'" aria-label="Чем эта фраза служит главной" value="'+esc(p.label)+'"><small class="rq">'+esc(relQ(p.label))+'</small></span>'+
+      '<div class="ptext">'+phraseHTML(p)+'</div></div>';
+  }).join("");
+  el.insertAdjacentHTML("afterbegin",'<div class="sguide">Главная фраза стоит у левого края. Подчинённую сдвиньте кнопкой ▸ и подпишите, чем она служит главной. <button class="lnk" data-guide="1">Как размечать</button></div>');
+}
+var SG_HOW='<div class="help">'+
+'<h4>Правило</h4><p>О каждой фразе решите: это главное утверждение или она чему-то служит? Главное остаётся у левого края. Служебную сдвиньте вправо кнопкой ▸ и подпишите.</p>'+
+'<h4>К чему относится подпись</h4><p>Подпись стоит перед своей фразой (на телефоне над ней) и отвечает на вопрос: чем эта фраза служит ближайшей фразе левее? Та может стоять и выше, и ниже по тексту.</p>'+
+'<h4>Порядок работы</h4>'+
+'<p>1. Найдите сказуемое, на котором держится предложение. Эта фраза главная, её не сдвигаете.</p>'+
+'<p>2. К каждой из остальных задайте вопрос от главной. «Почему я так говорю?» — основание. «Зачем?» — цель. «Что из этого вышло?» — результат. «Через что, как?» — средство. «При каком условии?» — условие. «Вопреки чему?» — уступка.</p>'+
+'<p>3. Если фраза поясняет не главную, а другую подчинённую, сдвиньте её ещё на шаг правее.</p>'+
+'<p>4. Равноправные фразы стоят на одном уровне. Подпись: ряд или противопоставление.</p>'+
+'<h4>Пример: Иоанна 3:16</h4>'+
+'<div class="sgex"><div>Ибо так возлюбил Бог мир,</div>'+
+'<div style="margin-left:18px"><i>результат</i> что отдал Сына Своего Единородного,</div>'+
+'<div style="margin-left:36px"><i>цель</i> дабы всякий, верующий в Него, не погиб,</div>'+
+'<div style="margin-left:36px"><i>противопоставление</i> но имел жизнь вечную.</div></div>'+
+'<p>Главное: Бог возлюбил мир. «Отдал Сына» показывает, во что вылилась любовь. «Не погиб, но имел жизнь» показывает, ради чего отдал, поэтому стоит ещё на шаг правее.</p>'+
+'<h4>Подпись у фразы на краю</h4><p>Обычно её нет. Она нужна, когда фраза связана с тем, что было до отрывка («Итак» — вывод из сказанного раньше), или с соседней главной (ряд, противопоставление).</p>'+
+'<h4>Проверка</h4><p>Прочитайте подряд только фразы у левого края. Получилась связная главная мысль — разметка держится. Получился обрывок — главное утверждение спрятано среди подчинённых.</p>'+
+'<p>Определения всех связей лежат в режиме «Спираль», кнопка «Ящик инструментов».</p>'+
+'</div>';
+function renderTools(){
+  var m=em();
+  document.body.classList.toggle("g-sermon",m==="sermon");
+  $("#main").classList.toggle("mode-spiral",m==="spiral");
+  $("#mSpiral").classList.toggle("on",m==="spiral");
+  $("#mStruct").classList.toggle("on",m==="structure");
+  $("#gStudy").classList.toggle("on",m!=="sermon");
+  $("#gSermon").classList.toggle("on",m==="sermon");
+  $("#fsVal").textContent=(S.fs||100)+"%";
+  $("#midHint").textContent=m==="spiral"?"Этапы идут слева направо. В конце каждого запишите версию главной мысли и нажмите «Проверить этап».":
+    "";
+}
+
+/* ---------- sermon: the text is written in blocks, the slides follow the blocks ---------- */
+var curB=null, lastStudy="structure";
+var SL_N={none:"нет",thesis:"тезис по центру экрана",word:"тезис к слову отрывка",phrase:"отрывок: открыть фразу",mark:"разметка: пометка на тексте",frame:"параллельное место, цитата"};
+function words(s){ return tok(s).length; }
+function normBlock(b){
+  var s=(b.sl&&typeof b.sl==="object")?b.sl:{}, t=SL_N[s.t]?s.t:"none";
+  return {id:String(b.id),text:typeof b.text==="string"?b.text:"",
+    sl:{t:t,ref:s.ref==null?"":String(s.ref),text:typeof s.text==="string"?s.text:"",cap:typeof s.cap==="string"?s.cap:"",lab:!!s.lab,grp:!!s.grp}};
+}
+function newBlock(text,sl){ return normBlock({id:uid(),text:text||"",sl:sl||{}}); }
+function blockById(id){ for(var i=0;i<S.blocks.length;i++) if(S.blocks[i].id===id) return S.blocks[i]; return null; }
+/* a passage made before the two modes: its list of steps becomes blocks with slides, once */
+function migrateBlocks(d){
+  var out=[], fr={}, mk={}, ph={};
+  d.frames.forEach(function(f){ fr[f.id]=f; }); d.marks.forEach(function(m){ mk[m.id]=1; });
+  (Array.isArray(d.phrases)?d.phrases:[]).forEach(function(p){ if(p&&p.id) ph[p.id]=1; });
+  d.script.forEach(function(s){
+    if(s.t==="phrase"&&ph[s.ref]) out.push(newBlock("",{t:"phrase",ref:s.ref}));
+    else if(s.t==="rel"&&ph[s.ref]){
+      var b=out.filter(function(x){ return x.sl.t==="phrase"&&x.sl.ref===s.ref; })[0];
+      if(b) b.sl.lab=true; else out.push(newBlock("",{t:"phrase",ref:s.ref,lab:true}));
+    }
+    else if(s.t==="word"&&d.screen[s.ref]) out.push(newBlock("",{t:"word",ref:s.ref,text:d.screen[s.ref]}));
+    else if(s.t==="mark"&&mk[s.ref]) out.push(newBlock("",{t:"mark",ref:s.ref}));
+    else if(s.t==="frame"&&fr[s.ref]) out.push(newBlock("",{t:"frame",cap:fr[s.ref].ref,text:fr[s.ref].text}));
+  });
+  return out;
+}
+/* a slide that points at a phrase, mark or word that no longer exists is dropped; the text of the block stays */
+function cleanBlocks(){
+  S.blocks.forEach(function(b){
+    var s=b.sl;
+    if(s.t==="phrase"&&!byId(s.ref)) s.t="none";
+    else if(s.t==="mark"){ var ids=mkIds(s); if(ids.length) s.ref=ids.join(","); else s.t="none"; }
+    else if(s.t==="word"&&!parseKey(s.ref)) s.t=s.text.trim()?"thesis":"none";
+  });
+}
+function cleanScript(){ cleanBlocks(); }
+/* one slide may draw several marks at once: their ids are kept in one string, comma separated */
+function mkIds(s){ return String(s.ref).split(",").filter(function(id){ return !!markById(id); }); }
+function mkPlain(m){ return MK_N[m.t]+" «"+clip(bareRange(m.a,m.b),40)+"»"+(m.t==="a"?" → «"+clip(bareRange(m.c,m.d),30)+"»":"")+(m.tx.trim()?" — "+clip(m.tx,50):""); }
+function fsK(){ return (S.fs||100)/100; }
+function setFs(d){
+  S.fs=Math.max(60,Math.min(160,(S.fs||100)+d*10)); save();
+  $("#fsVal").textContent=S.fs+"%";
+  if(show.open) rebuildShow(); else if(em()==="sermon") renderSlides();
+}
+/* a main phrase (at the left edge) with the subordinate phrases that follow it; leading subordinate phrases join the first group */
+function groups(){
+  var g=[], cur=null;
+  S.phrases.forEach(function(p){
+    if(!cur||(p.indent===0&&cur.main)){ cur={main:null,ids:[],s:p.s,e:p.e}; g.push(cur); }
+    if(p.indent===0&&!cur.main) cur.main=p;
+    cur.ids.push(p.id); cur.e=p.e;
+  });
+  g.forEach(function(x){ if(!x.main) x.main=byId(x.ids[0]); });
+  return g;
+}
+function groupIds(ref){
+  var g=groups();
+  for(var i=0;i<g.length;i++) if(g[i].ids.indexOf(ref)>=0) return g[i].ids;
+  return [ref];
+}
+/* reading slides: the whole passage right after the title, split by verses so that the type stays large enough for the hall */
+var RD_MIN=5.6, readCache={k:"",pages:[]};
+function readHTML(a,b){
+  var out=[], w=[];
+  for(var i=a;i<b;i++){
+    if(isNum(T[i])&&w.length){ out.push(w.join(" ")); w=[]; }
+    w.push(isNum(T[i])?'<span class="sh-vn">'+esc(T[i])+'</span>':esc(T[i]));
+  }
+  if(w.length) out.push(w.join(" "));
+  return (S.title?'<div class="rd-ref">'+esc(S.title)+'</div>':'')+'<div class="rd-tx">'+out.map(function(v){ return '<div class="rd-v">'+v+'</div>'; }).join("")+'</div>';
+}
+function readPages(){
+  if(!S.read||!T.length) return [];
+  var W=window.innerWidth, H=window.innerHeight, rmin=Math.min(12,Math.round(RD_MIN*fsK()*10)/10), k=W+"x"+H+"|"+rmin+"|"+S.title+"|"+S.source;
+  if(readCache.k===k) return readCache.pages;
+  var units=[], i, s=0, box=$("#shMeas"), inn, avail=H*.88, pages=[], a, end, bal, tot=0, cum=0, n, ok;
+  for(i=1;i<T.length;i++) if(isNum(T[i])){ units.push([s,i]); s=i; }
+  units.push([s,T.length]);
+  if(!box){ box=document.createElement("div"); box.id="shMeas"; box.appendChild(document.createElement("div")); document.body.appendChild(box); }
+  inn=box.firstChild; inn.style.fontSize=rmin+"vh";
+  function fits(x,y){ inn.innerHTML=readHTML(x,y); return inn.scrollHeight<=avail+1&&inn.scrollWidth<=inn.clientWidth+1; }
+  a=units[0][0]; end=units[0][1];
+  for(i=1;i<units.length;i++){
+    if(fits(a,units[i][1])) end=units[i][1];
+    else{ pages.push([a,end]); a=units[i][0]; end=units[i][1]; }
+  }
+  pages.push([a,end]);
+  /* the same number of slides, but of even length; kept only if every slide still fits */
+  n=pages.length;
+  if(n>1&&units.length>n){
+    units.forEach(function(u){ u[2]=T.slice(u[0],u[1]).join(" ").length; tot+=u[2]; });
+    bal=[]; a=units[0][0];
+    for(i=0;i<units.length;i++){
+      cum+=units[i][2];
+      var left=units.length-1-i, need=n-1-bal.length;
+      if(need>0&&left>=need&&(left===need||cum+(units[i+1]?units[i+1][2]/2:0)>=tot*(bal.length+1)/n)){ bal.push([a,units[i][1]]); a=units[i+1][0]; }
+    }
+    bal.push([a,T.length]);
+    ok=bal.length===n&&bal.every(function(p){ return fits(p[0],p[1]); });
+    if(ok) pages=bal;
+  }
+  inn.innerHTML="";
+  readCache={k:k,pages:pages};
+  return pages;
+}
+function thWarn(t){ var n=words(t); return n>10?n+" слов: на экране будет мелко, лучше 6–8":""; }
+function frWarn(t){ var n=words(t); return n>65?n+" слов: для одного слайда много, лучше разбить на два":""; }
+function usedRef(t,ref){ return S.blocks.some(function(b){ return b.sl.t===t&&(t==="mark"?b.sl.ref.split(",").indexOf(ref)>=0:b.sl.ref===ref); }); }
+
+/* the passage with its marks lives in the sermon mode: the same nodes are moved between the two modes */
+function placeText(){
+  var sm=em()==="sermon", home=$("#left .pbody"), dst=$("#smText"), w=$("#srcWrap");
+  if(sm){ if(tool!=="mark"){ tool="mark"; sel=null; armExt=false; } }
+  else if(tool==="mark"){ tool="cut"; sel=null; armArrow=null; armExt=false; }
+  if(sm&&w.parentNode!==dst){ dst.appendChild(w); dst.appendChild($("#selBar")); dst.appendChild($("#markList")); }
+  else if(!sm&&w.parentNode!==home){ home.appendChild(w); home.appendChild($("#markList")); $("#left").insertBefore($("#selBar"),$("#srcEdit")); }
+}
+/* left column: what the study produced, read only */
+function matRow(html,act,ref,used,ind){
+  return '<div class="mat'+(used?' used':'')+'" style="--ind:'+(ind||0)+'"><div class="mt">'+html+'</div>'+
+    '<button data-m="'+act+'" data-ref="'+esc(ref)+'" title="Вставить в проповедь блоком" aria-label="Вставить в проповедь блоком">'+(used?'✓ ':'')+'→</button></div>';
+}
+function renderMat(){
+  var h=[], last=spLast(), sp=S.sp, nk=noteKeys(), any=false;
+  h.push('<h3>Главная мысль отрывка</h3>');
+  h.push(last?'<div class="mat"><div class="mt">'+esc(last.text)+'<small>последняя версия из «Спирали»</small></div><button data-m="main" title="Поставить главной мыслью проповеди" aria-label="Поставить главной мыслью проповеди">→</button></div>':
+    '<div class="snote">В «Спирали» ещё не записана.</div>');
+  h.push('<h3>Структура</h3>');
+  h.push(S.phrases.length?S.phrases.map(function(p){
+    return matRow((p.label&&p.label.trim()?'<i>'+esc(p.label)+'</i> ':'')+esc(bareRange(p.s,p.e-1)),"ph",p.id,usedRef("phrase",p.id),Math.min(p.indent,6));
+  }).join(""):'<div class="snote">Текста пока нет.</div>');
+  h.push('<h3>Заметки к словам</h3>');
+  h.push(nk.length?nk.map(function(o){
+    return matRow('<b>'+esc(bareRange(o.a,o.b))+'</b><small>'+esc(refOf(o.a,o.b,true))+'</small>'+
+      (S.screen[o.k]&&S.screen[o.k].trim()?'<div class="scr">На экран: '+esc(S.screen[o.k])+'</div>':'')+
+      (S.wnotes[o.k]?'<div class="nt">'+esc(S.wnotes[o.k])+'</div>':''),"w",o.k,usedRef("word",o.k));
+  }).join(""):'<div class="snote">Заметок нет.</div>');
+  h.push('<h3>Выводы «Спирали»</h3>');
+  SP_ST.forEach(function(st){
+    st.f.forEach(function(f){
+      var k=st.id+"."+f[0], v=sp.f[k];
+      if(typeof v==="string"&&v.trim()){ any=true; h.push(matRow('<small>'+esc(st.n)+': '+esc(f[1])+'</small><div class="nt">'+esc(v)+'</div>',"sf",k,false)); }
+    });
+  });
+  sp.words.forEach(function(w,i){
+    if((w.here||"").trim()){ any=true; h.push(matRow('<b>'+esc(w.ru||"слово")+'</b>'+(w.orig?' <small>'+esc(w.orig)+'</small>':'')+'<div class="nt">'+esc(w.here)+'</div>',"sw",i,false)); }
+  });
+  sp.comm.forEach(function(c,i){
+    var v=(c.note||"").trim()||(c.says||"").trim();
+    if(v){ any=true; h.push(matRow('<small>Сверка: '+esc(c.src||"комментарий")+'</small><div class="nt">'+esc(v)+'</div>',"sc",i,false)); }
+  });
+  if(!any) h.push('<div class="snote">Пока пусто.</div>');
+  if(S.notes.trim()){ h.push('<h3>Общие заметки</h3>'); h.push(matRow('<div class="nt">'+esc(S.notes)+'</div>',"gn","",false)); }
+  $("#smMat").innerHTML=h.join("");
+}
+
+/* middle column: blocks */
+function slFields(b){
+  var s=b.sl, o, h="";
+  if(s.t==="none") return "";
+  if(s.t==="word"){
+    o=parseKey(s.ref);
+    h+='<div class="bref">К слову «'+esc(o?clip(bareRange(o.a,o.b),50):"?")+'»'+(o&&refOf(o.a,o.b,true)?', '+esc(refOf(o.a,o.b,true)):'')+'. Слово загорится в отрывке, тезис встанет справа от текста.</div>';
+  }
+  if(s.t==="thesis"||s.t==="word")
+    h+='<textarea class="bst" rows="1" aria-label="Тезис на экран" placeholder="'+(s.t==="word"?"Тезис на экран. Можно оставить пустым: тогда слово только загорится":"Тезис на экран. Лучше 6–8 слов")+'">'+esc(s.text)+'</textarea><span class="warn">'+thWarn(s.text)+'</span>';
+  if(s.t==="phrase")
+    h+='<select class="bph" aria-label="Какая фраза открывается">'+S.phrases.map(function(p){
+        return '<option value="'+p.id+'"'+(p.id===s.ref?' selected':'')+'>'+new Array(Math.min(p.indent,6)+1).join("  ")+esc(clip(bareRange(p.s,p.e-1),70))+'</option>';
+      }).join("")+'</select>'+
+      '<div><label><input type="checkbox" class="bgrp"'+(s.grp?' checked':'')+'> вместе с подчинёнными фразами</label>'+
+      '<label><input type="checkbox" class="blab"'+(s.lab?' checked':'')+'> показать подпись связи</label></div>';
+  if(s.t==="mark"){
+    var on=mkIds(s);
+    h+='<div class="bref">Весь текст отрывка стоит на экране. Отмеченные пометки появятся на этом слайде все сразу.</div><div class="bmks">'+marksSorted().map(function(m){
+        return '<label><input type="checkbox" class="bmkc" value="'+m.id+'"'+(on.indexOf(m.id)>=0?' checked':'')+'> '+MK_N[m.t]+': '+markText(m)+(m.tx.trim()?' — '+esc(clip(m.tx,40)):'')+'</label>';
+      }).join("")+'</div>';
+  }
+  if(s.t==="frame")
+    h+='<input type="text" class="bcap" aria-label="Ссылка" placeholder="Ссылка, например: Иакова 1:2–4" value="'+esc(s.cap)+'">'+
+      '<textarea class="bst" rows="2" aria-label="Текст на экран" placeholder="Текст места. Писание — дословно по Синодальному переводу.">'+esc(s.text)+'</textarea><span class="warn">'+frWarn(s.text)+'</span>';
+  return '<div class="bsl">'+h+'</div>';
+}
+function blockHTML(b,i){
+  var s=b.sl, opt=["none","thesis","phrase","mark","frame"];
+  if(s.t==="word") opt.splice(2,0,"word");
+  return '<div class="blk'+(b.id===curB?' cur':'')+'" data-id="'+b.id+'">'+
+    '<div class="bhd"><span class="bn">'+(i+1)+'</span><label>Слайд: <select class="bt">'+opt.map(function(t){ return '<option value="'+t+'"'+(t===s.t?' selected':'')+'>'+SL_N[t]+'</option>'; }).join("")+'</select></label>'+
+    '<span class="gap"></span><button data-act="up" title="Выше" aria-label="Блок выше">↑</button><button data-act="down" title="Ниже" aria-label="Блок ниже">↓</button>'+
+    '<button data-act="add" title="Новый блок под этим" aria-label="Новый блок под этим">+</button><button data-act="del" title="Удалить блок" aria-label="Удалить блок">✕</button></div>'+
+    slFields(b)+
+    '<textarea class="btx" rows="2" aria-label="Текст проповеди, блок '+(i+1)+'" placeholder="Что вы говорите в этом месте">'+esc(b.text)+'</textarea></div>';
+}
+function grow(ta){ ta.style.height="auto"; ta.style.height=(ta.scrollHeight+2)+"px"; }
+function growAll(){ Array.prototype.forEach.call(document.querySelectorAll("#smBlocks textarea"),grow); }
+function setCur(id){
+  if(curB===id) return; curB=id;
+  Array.prototype.forEach.call(document.querySelectorAll("#smBlocks .blk"),function(n){ n.classList.toggle("cur",n.dataset.id===id); });
+  Array.prototype.forEach.call(document.querySelectorAll("#smSlides .sld"),function(n){ n.classList.toggle("cur",!!id&&n.dataset.b===id); });
+}
+function slidePlain(s){
+  var p,o,m;
+  if(s.t==="title") return "название";
+  if(s.t==="main") return "главная мысль";
+  if(s.t==="sum") return "итог";
+  if(s.t==="read") return "чтение отрывка";
+  if(s.t==="frame") return (s.big?"тезис: ":"место: ")+clip((s.cap?s.cap+". ":"")+s.text,90);
+  if(s.t==="phrase"){ p=byId(s.ref); return "отрывок: «"+clip(bareRange(p.s,p.e-1),60)+"»"+(s.grp?" и подчинённые":""); }
+  if(s.t==="mark") return "разметка: "+s.refs.map(function(id){ return mkPlain(markById(id)); }).join("; ");
+  o=parseKey(s.ref); return "слово «"+clip(bareRange(o.a,o.b),40)+"»"+(s.text.trim()?": "+clip(s.text,90):"");
+}
+function renderSlides(){
+  var st=buildSteps(), h="", n=0;
+  st.forEach(function(s,i){
+    var k,t,p,o,m;
+    if(s.t==="title"){ k="Название"; t='<b>'+esc(S.theme.trim()||S.title||"(тема не заполнена)")+'</b>'+(S.theme.trim()&&S.title?'<div class="dim">'+esc(S.title)+'</div>':''); }
+    else if(s.t==="read"){ k="Чтение"+(s.pn>1?" "+(s.pi+1)+" из "+s.pn:""); t=esc(clip(T.slice(s.ra,s.rb).join(" "),120)); }
+    else if(s.t==="main"){ k="Главная мысль"; t=esc(S.main); }
+    else if(s.t==="sum"){ k="Итог"; t=esc(S.sum); }
+    else if(s.t==="frame"){ k=s.big?"Тезис":"Место"; t=(s.cap.trim()?'<b>'+esc(s.cap)+'</b> ':'')+esc(s.text); }
+    else if(s.t==="phrase"){ p=byId(s.ref); k="Отрывок"+(s.grp?" · с подчинёнными":""); t=(s.lab&&p.label?'<b>'+esc(p.label)+'</b> ':'')+esc(bareRange(p.s,p.e-1)); }
+    else if(s.t==="mark"){ k="Разметка"+(s.refs.length>1?" · "+s.refs.length+" пометки":""); t=s.refs.map(function(id){ m=markById(id); return '<span class="dim">'+MK_N[m.t]+':</span> '+markText(m)+(m.tx.trim()?' — '+esc(m.tx):''); }).join("; "); }
+    else{ o=parseKey(s.ref); k="К слову"; t='<b>'+esc(bareRange(o.a,o.b))+'</b>'+(s.text.trim()?' — '+esc(s.text):' <span class="dim">(слово загорится)</span>'); }
+    h+='<div class="sld'+(s.b&&s.b===curB?' cur':'')+'" data-i="'+i+'" data-k="'+s.t+'"'+(s.b?' data-b="'+s.b+'"':'')+'><span class="k">'+i+' · '+k+'</span><div class="t">'+t+'</div>'+
+      '<button data-play="'+i+'" title="Показ с этого слайда" aria-label="Показ с этого слайда">▶</button></div>';
+  });
+  $("#smSlides").innerHTML=h;
+  S.blocks.forEach(function(b){ n+=words(b.text); });
+  $("#smCount").textContent=n?n+" сл. · примерно "+Math.max(1,Math.round(n/110))+" мин":"";
+}
+function renderSermon(){
+  cleanBlocks();
+  ["sTheme","sMain","sSum"].forEach(function(id,i){ var el=$("#"+id); if(document.activeElement!==el) el.value=[S.theme,S.main,S.sum][i]; });
+  $("#sRead").checked=!!S.read;
+  if(curB&&!blockById(curB)) curB=null;
+  renderMat();
+  var body=$("#smBody"), keep=body.scrollTop;
+  $("#smBlocks").innerHTML=S.blocks.length?S.blocks.map(blockHTML).join(""):
+    '<div class="snote" style="margin:12px 0">Блоков пока нет. «Собрать из разбора» расставит черновик из того, что помечено в изучении. «+ Блок» добавит пустой. Кнопка → в левом столбике вставит материал.</div>';
+  growAll(); body.scrollTop=keep;
+  renderSlides();
+}
+function focusBlock(id,q){
+  var k=$('.blk[data-id="'+id+'"]'), el=k&&k.querySelector(q||".btx"); if(!el) return;
+  el.focus(); try{ el.closest(".blk").scrollIntoView({block:"nearest"}); }catch(e){}
+}
+function insertBlock(b,atEnd){
+  var i=-1;
+  if(!atEnd&&curB) S.blocks.forEach(function(x,k){ if(x.id===curB) i=k; });
+  if(i<0) S.blocks.push(b); else S.blocks.splice(i+1,0,b);
+  curB=b.id; commit(); renderSermon(); focusBlock(b.id);
+}
+function buildDraft(){
+  var out=[], sk=screenKeys(), last=spLast();
+  groups().forEach(function(g){
+    out.push(newBlock("",{t:"phrase",ref:g.main.id,grp:g.ids.length>1}));
+    sk.forEach(function(o){ if(o.a>=g.s&&o.a<g.e) out.push(newBlock(S.wnotes[o.k]||"",{t:"word",ref:o.k,text:S.screen[o.k]})); });
+  });
+  if(!out.length){ say("Собирать не из чего: в отрывке нет текста"); return; }
+  S.blocks=out; curB=null;
+  if(!S.main.trim()&&last) S.main=last.text;
+  commit(); renderSermon();
+  say("Черновик собран, блоков: "+out.length+". Если не то, нажмите «Отменить».");
+}
+$("#smBuild").addEventListener("click",function(){
+  var b=this;
+  if(S.blocks.length&&!b.dataset.arm){
+    b.dataset.arm="1"; b.textContent="Заменить нынешние блоки? Ещё раз";
+    setTimeout(function(){ if(b.dataset.arm){ delete b.dataset.arm; b.textContent="Собрать из разбора"; } },3500); return;
+  }
+  delete b.dataset.arm; b.textContent="Собрать из разбора"; buildDraft();
+});
+$("#smAdd").addEventListener("click",function(){ insertBlock(newBlock(),true); });
+$("#smMat").addEventListener("click",function(e){
+  var b=e.target.closest("button[data-m]"); if(!b) return;
+  var m=b.dataset.m, r=b.dataset.ref, x;
+  if(m==="main"){
+    x=spLast(); if(!x) return;
+    if(S.main.trim()&&S.main.trim()!==x.text.trim()&&!b.dataset.arm){
+      b.dataset.arm="1"; b.textContent="заменить?"; setTimeout(function(){ if(b.isConnected){ delete b.dataset.arm; b.textContent="→"; } },3500); return;
+    }
+    S.main=x.text; commit(); renderSermon(); say("Главная мысль проповеди взята из «Спирали»"); return;
+  }
+  if(m==="ph") insertBlock(newBlock("",{t:"phrase",ref:r}));
+  else if(m==="w") insertBlock(newBlock(S.wnotes[r]||"",{t:"word",ref:r,text:S.screen[r]||""}));
+  else if(m==="mk") insertBlock(newBlock("",{t:"mark",ref:r}));
+  else if(m==="sf") insertBlock(newBlock(S.sp.f[r]||""));
+  else if(m==="sw"){ x=S.sp.words[+r]; if(x) insertBlock(newBlock((x.ru?x.ru+": ":"")+(x.here||""))); }
+  else if(m==="sc"){ x=S.sp.comm[+r]; if(x) insertBlock(newBlock((x.note||"").trim()||x.says||"")); }
+  else if(m==="gn") insertBlock(newBlock(S.notes));
+});
+$("#smBlocks").addEventListener("focusin",function(e){ var k=e.target.closest(".blk"); if(k) setCur(k.dataset.id); });
+$("#smBlocks").addEventListener("input",function(e){
+  var el=e.target, k=el.closest(".blk"), b=k&&blockById(k.dataset.id), w; if(!b) return;
+  if(el.classList.contains("btx")){ b.text=el.value; grow(el); }
+  else if(el.classList.contains("bst")){ b.sl.text=el.value; grow(el); w=k.querySelector(".warn"); if(w) w.textContent=b.sl.t==="frame"?frWarn(el.value):thWarn(el.value); }
+  else if(el.classList.contains("bcap")) b.sl.cap=el.value;
+  else return;
+  save(); renderSlides();
+});
+$("#smBlocks").addEventListener("change",function(e){
+  var el=e.target, k=el.closest(".blk"), b=k&&blockById(k.dataset.id), s, t; if(!b) return; s=b.sl;
+  if(el.classList.contains("bt")){
+    t=el.value;
+    if(t==="phrase"&&!S.phrases.length){ say("В отрывке нет текста"); el.value=s.t; return; }
+    if(t==="mark"&&!S.marks.length){ say("Пометок нет. Поставьте их в режиме «Изучение», инструмент «Пометки»."); el.value=s.t; return; }
+    if(t==="phrase"&&!byId(s.ref)) s.ref=(S.phrases.filter(function(p){ return !usedRef("phrase",p.id); })[0]||S.phrases[0]).id;
+    if(t==="mark"&&!mkIds(s).length) s.ref=(marksSorted().filter(function(m){ return !usedRef("mark",m.id); })[0]||S.marks[0]).id;
+    s.t=t; commit(); renderSermon(); focusBlock(b.id,t==="none"?".btx":".bsl textarea, .bsl select"); return;
+  }
+  if(el.classList.contains("bmkc")){
+    t=Array.prototype.filter.call(k.querySelectorAll(".bmkc"),function(c){ return c.checked; }).map(function(c){ return c.value; });
+    if(!t.length){ el.checked=true; say("У слайда должна остаться хотя бы одна пометка"); return; }
+    s.ref=t.join(",");
+  }
+  else if(el.classList.contains("bph")) s.ref=el.value;
+  else if(el.classList.contains("bgrp")) s.grp=el.checked;
+  else if(el.classList.contains("blab")) s.lab=el.checked;
+  else return;
+  commit(); renderSlides();
+});
+$("#smBlocks").addEventListener("click",function(e){
+  var bt=e.target.closest("button[data-act]"); if(!bt) return;
+  var id=bt.closest(".blk").dataset.id, a=bt.dataset.act, i=-1, j, t;
+  S.blocks.forEach(function(x,k){ if(x.id===id) i=k; }); if(i<0) return;
+  if(a==="add"){ curB=id; insertBlock(newBlock()); return; }
+  if(a==="del"){ S.blocks.splice(i,1); if(curB===id) curB=null; commit(); renderSermon(); say("Блок удалён. Вернуть: «Отменить»."); return; }
+  j=a==="up"?i-1:i+1; if(j<0||j>=S.blocks.length) return;
+  t=S.blocks[i]; S.blocks[i]=S.blocks[j]; S.blocks[j]=t; curB=id; commit(); renderSermon(); focusBlock(id,'button[data-act="'+a+'"]');
+});
+$("#smSlides").addEventListener("click",function(e){
+  var p=e.target.closest("[data-play]"); if(p){ openShow(+p.dataset.play); return; }
+  var c=e.target.closest(".sld"); if(!c) return;
+  if(c.dataset.b){ setCur(c.dataset.b); focusBlock(c.dataset.b); }
+  else{ var f=$({title:"#sTheme",main:"#sMain",sum:"#sSum"}[c.dataset.k]); if(f){ f.focus(); try{ f.scrollIntoView({block:"nearest"}); }catch(x){} } }
+});
+$("#sm").addEventListener("input",function(e){
+  var el=e.target;
+  if(el.id==="sTheme") S.theme=el.value; else if(el.id==="sMain") S.main=el.value; else if(el.id==="sSum") S.sum=el.value; else return;
+  save(); renderSlides();
+});
+$("#sRead").addEventListener("change",function(){ S.read=this.checked; commit(); renderSlides(); });
+$("#fsDn").addEventListener("click",function(){ setFs(-1); });
+$("#fsUp").addEventListener("click",function(){ setFs(1); });
+$("#btnShow").addEventListener("click",function(){ openShow(0); });
+
+/* ---------- sermon text as a Word file ---------- */
+function sermonParts(){
+  var st=buildSteps(), at={}, out=[], theme=S.theme.trim();
+  st.forEach(function(s,i){ if(s.b) at[s.b]="слайд "+i+" · "+slidePlain(s); });
+  out.push({k:"title",text:theme||S.title||"Проповедь"});
+  if(theme&&S.title) out.push({k:"ref",text:S.title});
+  S.blocks.forEach(function(b){
+    if(at[b.id]) out.push({k:"slide",text:at[b.id]});
+    b.text.split(/\n/).forEach(function(l){ if(l.trim()) out.push({k:"p",text:l.trim()}); });
+  });
+  if(S.main.trim()){ out.push({k:"h",text:"Главная мысль"}); out.push({k:"p",text:S.main.trim()}); }
+  if(S.sum.trim()){ out.push({k:"h",text:"Итог"}); S.sum.split(/\n/).forEach(function(l){ if(l.trim()) out.push({k:"p",text:l.trim()}); }); }
+  return out;
+}
+function crc32(u){
+  var t=crc32.t, c, n, k, i;
+  if(!t){ t=crc32.t=[]; for(n=0;n<256;n++){ c=n; for(k=0;k<8;k++) c=c&1?0xEDB88320^(c>>>1):c>>>1; t[n]=c>>>0; } }
+  c=0xFFFFFFFF; for(i=0;i<u.length;i++) c=t[(c^u[i])&255]^(c>>>8);
+  return (c^0xFFFFFFFF)>>>0;
+}
+/* a zip archive without compression: enough for Word, needs no library */
+function zipStore(files){
+  var enc=new TextEncoder(), parts=[], cd=[], off=0, cl=0;
+  function u16(n){ return [n&255,(n>>>8)&255]; }
+  function u32(n){ return [n&255,(n>>>8)&255,(n>>>16)&255,(n>>>24)&255]; }
+  files.forEach(function(f){
+    var nm=enc.encode(f.name), d=enc.encode(f.text), crc=crc32(d);
+    var lh=[0x50,0x4b,3,4].concat(u16(20),u16(0x0800),u16(0),u16(0),u16(0x21),u32(crc),u32(d.length),u32(d.length),u16(nm.length),u16(0));
+    parts.push(new Uint8Array(lh),nm,d);
+    cd.push({h:[0x50,0x4b,1,2].concat(u16(20),u16(20),u16(0x0800),u16(0),u16(0),u16(0x21),u32(crc),u32(d.length),u32(d.length),u16(nm.length),u16(0),u16(0),u16(0),u16(0),u32(0),u32(off)),nm:nm});
+    off+=lh.length+nm.length+d.length;
+  });
+  cd.forEach(function(c){ parts.push(new Uint8Array(c.h),c.nm); cl+=c.h.length+c.nm.length; });
+  parts.push(new Uint8Array([0x50,0x4b,5,6].concat(u16(0),u16(0),u16(files.length),u16(files.length),u32(cl),u32(off),u16(0))));
+  return new Blob(parts,{type:"application/vnd.openxmlformats-officedocument.wordprocessingml.document"});
+}
+function docxBlob(parts){
+  function x(s){ return String(s).replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g,"").replace(/[&<>]/g,function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c]; }); }
+  function wp(text,o){
+    return '<w:p><w:pPr>'+(o.keep?'<w:keepNext/>':'')+'<w:spacing w:before="'+(o.before||0)+'" w:after="'+(o.after==null?160:o.after)+'"/>'+(o.jc?'<w:jc w:val="'+o.jc+'"/>':'')+'</w:pPr>'+
+      '<w:r><w:rPr>'+(o.b?'<w:b/>':'')+(o.color?'<w:color w:val="'+o.color+'"/>':'')+'<w:sz w:val="'+(o.sz||28)+'"/><w:szCs w:val="'+(o.sz||28)+'"/></w:rPr><w:t xml:space="preserve">'+x(text)+'</w:t></w:r></w:p>';
+  }
+  var W='xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"';
+  var body=parts.map(function(p){
+    if(p.k==="title") return wp(p.text,{b:1,sz:40,jc:"center",after:120});
+    if(p.k==="ref") return wp(p.text,{sz:28,jc:"center",color:"7F6000",after:360});
+    if(p.k==="slide") return wp("▸ "+p.text,{sz:20,color:"7F6000",before:200,after:60,keep:1});
+    if(p.k==="h") return wp(p.text,{b:1,sz:28,before:360,after:120,keep:1});
+    return wp(p.text,{});
+  }).join("");
+  return zipStore([
+    {name:"[Content_Types].xml",text:'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/></Types>'},
+    {name:"_rels/.rels",text:'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>'},
+    {name:"word/_rels/document.xml.rels",text:'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>'},
+    {name:"word/styles.xml",text:'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:styles '+W+'><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="Cambria" w:hAnsi="Cambria" w:cs="Cambria"/><w:sz w:val="28"/><w:szCs w:val="28"/><w:lang w:val="ru-RU"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:after="160" w:line="300" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults><w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/></w:style></w:styles>'},
+    {name:"word/document.xml",text:'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document '+W+'><w:body>'+body+'<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1134" w:right="1134" w:bottom="1134" w:left="1134" w:header="708" w:footer="708" w:gutter="0"/></w:sectPr></w:body></w:document>'}
+  ]);
+}
+$("#btnDocx").addEventListener("click",function(){
+  var parts=sermonParts();
+  if(!S.blocks.some(function(b){ return b.text.trim(); })){ say("Текста проповеди пока нет"); return; }
+  var plain=parts.map(function(p){ return p.k==="slide"?"[ "+p.text+" ]":p.k==="h"?"\n"+p.text.toUpperCase():p.text; }).join("\n\n");
+  deliver(fname("docx"),docxBlob(parts),function(msg){
+    var ta=document.createElement("textarea"); ta.readOnly=true; ta.value=plain; ta.setAttribute("aria-label","Текст проповеди");
+    openModal("Текст проповеди",msg+" Запасной путь: скопируйте текст отсюда и вставьте в Word.",ta,plain);
+  });
+});
+
+function renderAll(){
+  if(!Array.isArray(S.marks)||!Array.isArray(S.alt)) normalize(S);
+  T=tok(S.source); placeText();
+  $("#title").value=S.title; computeCover(); renderNotes();
+  renderSource(); renderStructure(); renderTools(); renderHead();
+  if(em()==="sermon") renderSermon();
+  if(em()==="spiral") renderSpiral();
+}
+function changed(){ commit(); renderAll(); }
+
+/* ---------- events: source ---------- */
+$("#src").addEventListener("click",function(e){
+  var w=e.target.closest(".w"); if(!w) return;
+  if(tool==="mark"){ if(Date.now()-skipClick>300) markClick(+w.dataset.i,e.shiftKey); return; }
+  if(tool==="note"){ if(Date.now()-skipClick>300) clickWord(+w.dataset.i,e.shiftKey); return; }
+  toggleCut(+w.dataset.i+1); changed();
+});
+$("#cutVerses").addEventListener("click",function(){ cutVerses(); changed(); });
+$("#cutPunct").addEventListener("click",function(){ cutPunct(); changed(); });
+function twoStep(btn,fn){
+  btn.addEventListener("click",function(){
+    if(btn.dataset.arm){ delete btn.dataset.arm; btn.textContent=btn.dataset.t; fn(); return; }
+    btn.dataset.t=btn.textContent; btn.dataset.arm="1"; btn.textContent="Точно? Нажмите ещё раз";
+    setTimeout(function(){ if(btn.dataset.arm){ delete btn.dataset.arm; btn.textContent=btn.dataset.t; } },3000);
+  });
+}
+$("#tCut").addEventListener("click",function(){ tool="cut"; armArrow=null; renderSource(); });
+$("#tNote").addEventListener("click",function(){ tool="note"; armArrow=null; renderSource(); });
+twoStep($("#cutReset"),function(){ resetCuts(); changed(); });
+$("#btnEdit").addEventListener("click",function(){ editing=true; $("#srcText").value=S.source; renderSource(); $("#srcText").focus(); });
+$("#srcCancel").addEventListener("click",function(){ editing=false; renderSource(); });
+$("#srcApply").addEventListener("click",function(){
+  var v=$("#srcText").value.trim(); editing=false;
+  if(tok(v).join(" ")===T.join(" ")){ renderSource(); return; }
+  arrowFrom=null; selArrow=null; sel=null;
+  var lost=retext(v); changed();
+  say(lost?"Текст обновлён. Заметок к удалённым словам потеряно: "+lost+". Можно «Отменить».":"Текст обновлён, разметка сохранена");
+});
+$("#btnUndo").addEventListener("click",doUndo);
+
+/* hover link between panels */
+function hl(id,on){
+  Array.prototype.forEach.call(document.querySelectorAll('[data-id="'+id+'"]'),function(n){ if(!n.closest("svg")&&!n.closest("#sermon")) n.classList.toggle("hl",on); });
+}
+["mouseover","mouseout"].forEach(function(ev){
+  $("#main").addEventListener(ev,function(e){
+    var n=e.target.closest(".ph,.row,.card"); if(n) hl(n.dataset.id,ev==="mouseover");
+  });
+});
+
+/* ---------- events: structure ---------- */
+$("#structure").addEventListener("click",function(e){
+  var tw=e.target.closest(".tw"); if(tw){ clickWord(+tw.dataset.i,e.shiftKey); return; }
+  if(e.target.closest("[data-guide]")){ var gw=document.createElement("div"); gw.innerHTML=SG_HOW; openModal("Как размечать структуру","",gw,""); return; }
+  var b=e.target.closest("button[data-act]"); if(!b) return;
+  var p=byId(b.closest(".row").dataset.id); if(!p) return;
+  p.indent=Math.max(0,Math.min(12,p.indent+(b.dataset.act==="in"?1:-1)));
+  var id=p.id, act=b.dataset.act; changed();
+  var nb=$('.row[data-id="'+id+'"] button[data-act="'+act+'"]'); if(nb) nb.focus();
+});
+$("#structure").addEventListener("input",function(e){
+  if(!e.target.classList.contains("rel")) return;
+  var p=byId(e.target.closest(".row").dataset.id); if(p){ p.label=e.target.value; save(); }
+  var q=e.target.nextElementSibling; if(q&&q.classList.contains("rq")) q.textContent=relQ(e.target.value);
+  if(document.activeElement===e.target&&relFor===e.target) relPopOpen(e.target);
+});
+$("#structure").addEventListener("focusin",function(e){ if(e.target.classList.contains("rel")) relPopOpen(e.target); });
+$("#structure").addEventListener("click",function(e){ if(e.target.classList.contains("rel")&&relFor!==e.target) relPopOpen(e.target); });
+$("#structure").addEventListener("focusout",function(e){ if(e.target.classList.contains("rel")){ clearTimeout(relTimer); relTimer=setTimeout(relPopClose,200); } });
+$("#structure").addEventListener("keydown",function(e){ if(e.key==="Escape"&&relFor){ e.stopPropagation(); relPopClose(); } });
+
+/* ---------- modes ---------- */
+function setMode(m){ if(m!=="sermon") lastStudy=m; S.mode=m; save(); renderAll(); }
+$("#mStruct").addEventListener("click",function(){ setMode("structure"); });
+$("#gStudy").addEventListener("click",function(){ if(em()==="sermon") setMode(lastStudy); });
+$("#gSermon").addEventListener("click",function(){ if(em()!=="sermon"){ sel=null; setMode("sermon"); } });
+document.addEventListener("keydown",function(e){
+  if(show.open){ showKey(e); return; }
+  var inField=/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName);
+  if(e.key==="Escape"&&$("#modal").classList.contains("open")){ closeModal(); return; }
+  if((e.ctrlKey||e.metaKey)&&!e.shiftKey&&(e.key==="z"||e.key==="Z"||e.key==="я"||e.key==="Я")&&!inField){ e.preventDefault(); doUndo(); }
+});
+
+/* ---------- notes, title ---------- */
+$("#src").addEventListener("mousedown",function(e){ if(e.shiftKey&&(tool==="note"||tool==="mark")) e.preventDefault(); });
+$("#src").addEventListener("mouseup",function(e){
+  if(tool!=="note"&&tool!=="mark") return;
+  var s=window.getSelection();
+  if(e.shiftKey){ try{ if(s) s.removeAllRanges(); }catch(x){} return; } if(!s||s.isCollapsed||!s.rangeCount) return;
+  var r=s.getRangeAt(0), a=-1, b=-1;
+  Array.prototype.forEach.call(this.querySelectorAll(".w"),function(w){ if(r.intersectsNode(w)){ var i=+w.dataset.i; if(a<0) a=i; b=i; } });
+  s.removeAllRanges();
+  if(a<0) return;
+  skipClick=Date.now(); if(tool==="mark") markSel(a,b); else setSel(a,b);
+});
+function markCover(){
+  computeCover();
+  Array.prototype.forEach.call(document.querySelectorAll(".w[data-i],.tw[data-i]"),function(n){ n.classList.toggle("has",!!cover[+n.dataset.i]); });
+  renderNoteList();
+}
+$("#notes").addEventListener("input",function(){
+  if(!sel) S.notes=this.value;
+  else{
+    var k=key(sel.a,sel.b);
+    if(this.value.trim()) S.wnotes[k]=this.value; else delete S.wnotes[k];
+    markCover();
+  }
+  save();
+});
+$("#scr").addEventListener("input",function(){
+  if(!sel) return;
+  var k=key(sel.a,sel.b);
+  if(this.value.trim()) S.screen[k]=this.value; else delete S.screen[k];
+  markCover(); save();
+  if(em()==="sermon") renderSermon();
+  if(em()==="spiral") renderSpiral();
+});
+$("#noteBody").addEventListener("click",function(e){
+  if(e.target.id==="noteBack"){ sel=null; renderAll(); return; }
+  var b=e.target.closest(".nitem"), o=b&&parseKey(b.dataset.k); if(o) setSel(o.a,o.b);
+});
+$("#title").addEventListener("input",function(){ S.title=this.value; save(); if(em()==="sermon") renderSlides(); });
+
+/* ---------- files ---------- */
+function fname(ext){ return ((S.title||"razbor").trim().replace(/[^0-9A-Za-zА-Яа-яЁё]+/g,"_").replace(/^_|_$/g,"")||"razbor")+"."+ext; }
+var modalCopy="";
+function openModal(title,text,bodyNode,copyText){
+  $("#mTitle").textContent=title; $("#mText").textContent=text;
+  var b=$("#mBody"); b.innerHTML=""; if(bodyNode) b.appendChild(bodyNode);
+  modalCopy=copyText||""; $("#mCopy").style.display=copyText?"":"none";
+  $("#modal").classList.add("open"); $("#mClose").focus();
+}
+function closeModal(){ $("#modal").classList.remove("open"); $("#mBody").innerHTML=""; }
+$("#mClose").addEventListener("click",closeModal);
+$("#modal").addEventListener("click",function(e){ if(e.target===this) closeModal(); });
+$("#mCopy").addEventListener("click",function(){
+  var done=function(){ say("Скопировано"); };
+  try{ navigator.clipboard.writeText(modalCopy).then(done,function(){ var t=$("#mBody textarea"); if(t){t.focus();t.select();} }); }
+  catch(e){ var t=$("#mBody textarea"); if(t){t.focus();t.select();} }
+});
+async function deliver(filename,blob,fallback){
+  var dl=null;
+  try{ if(window.claude&&window.claude.use) dl=await window.claude.use("downloads"); }catch(e){}
+  if(dl){
+    try{ await dl.save({filename:filename,data:blob}); say("Файл передан на сохранение"); return; }
+    catch(e){ fallback("Сохранить файлом не получилось или сохранение отменено."); return; }
+  }
+  try{
+    var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    if(STD){ say("Файл скачан: "+filename); return; }
+  }catch(e){}
+  fallback("Если файл не скачался сам, возьмите его отсюда.");
+}
+$("#btnSave").addEventListener("click",function(){
+  var json=JSON.stringify(S,null,1);
+  deliver(fname("json"),new Blob([json],{type:"application/json"}),function(msg){
+    var ta=document.createElement("textarea"); ta.readOnly=true; ta.value=json; ta.setAttribute("aria-label","Содержимое файла");
+    openModal("Сохранение разбора",msg+" Скопируйте текст и сохраните в Блокноте как файл .json. Кнопка «Открыть файл» его прочитает.",ta,json);
+  });
+});
+$("#fileIn").addEventListener("change",function(){
+  var f=this.files&&this.files[0]; this.value=""; if(!f) return;
+  var rd=new FileReader();
+  rd.onload=function(){
+    try{
+      var d=JSON.parse(rd.result);
+      if(typeof d.source!=="string"||!Array.isArray(d.phrases)) throw new Error("format");
+      var n=tok(d.source).length, pos=0;
+      d.phrases.forEach(function(p){ if(p.s!==pos||p.e<=p.s) throw new Error("phrases"); pos=p.e; p.indent=p.indent|0; p.label=p.label||""; p.x=+p.x||40; p.y=+p.y||30; });
+      if(pos!==n) throw new Error("phrases");
+      normalize(d);
+      var ids={}; d.phrases.forEach(function(p){ids[p.id]=1});
+      d.arrows=d.arrows.filter(function(a){return ids[a.from]&&ids[a.to]});
+      sel=null; S=d; T=tok(S.source); cleanScript(); editing=false; arrowFrom=null; selArrow=null; arrowMode=false; changed(); say("Файл открыт");
+    }catch(e){
+      openModal("Файл не открылся","Это не файл разбора из этой страницы или он повреждён. Выберите файл .json, который сохранили кнопкой «Сохранить в файл».",null,"");
+    }
+  };
+  rd.readAsText(f);
+});
+
+/* ---------- PNG ---------- */
+var PAL={bg:"#ffffff",card:"#ffffff",ink:"#1b1814",ink2:"#1b1814",line:"#8f8672",accent:"#1b1814",mark:"#8c1d18"};
+var PF='"PT Serif", Cambria, Georgia, serif';
+function fonts(size){ return {txt:size+'px '+PF,num:'bold '+Math.round(size*.82)+'px '+PF,ui:'italic 14px '+PF,h:'bold 21px '+PF}; }
+function wrap(ctx,F,p,maxW){
+  ctx.font=F.txt; var sp=ctx.measureText(" ").width, lines=[[]], w=0;
+  for(var i=p.s;i<p.e;i++){
+    var t=T[i], num=isNum(t); ctx.font=num?F.num:F.txt;
+    var tw=ctx.measureText(t).width, cur=lines[lines.length-1], x=cur.length?w+sp:0;
+    if(cur.length&&x+tw>maxW){ cur=[]; lines.push(cur); x=0; }
+    cur.push({t:t,num:num,x:x}); w=x+tw;
+  }
+  return lines;
+}
+function drawLines(ctx,F,lines,x,y,lh,rise){
+  lines.forEach(function(ln,i){ ln.forEach(function(o){
+    ctx.font=o.num?F.num:F.txt; ctx.fillStyle=o.num?PAL.accent:PAL.ink; ctx.fillText(o.t,x+o.x,y+i*lh-(o.num?rise:0));
+  }); });
+}
+function mkCanvas(w,h){
+  var c=document.createElement("canvas"), k=2; c.width=Math.ceil(w*k); c.height=Math.ceil(h*k);
+  var ctx=c.getContext("2d"); ctx.scale(k,k); ctx.fillStyle=PAL.bg; ctx.fillRect(0,0,w,h); ctx.textBaseline="alphabetic";
+  return {c:c,ctx:ctx};
+}
+function pngStructure(){
+  var F=fonts(17), W=1200, pad=48, labW=140, lh=27, gap=11;
+  var m=document.createElement("canvas").getContext("2d");
+  var rows=S.phrases.map(function(p){ var x0=pad+p.indent*34; return {p:p,x0:x0,lines:wrap(m,F,p,W-pad-x0-labW)}; });
+  var H=pad+(S.title?44:0); rows.forEach(function(r){ H+=r.lines.length*lh+gap; }); H+=pad-gap;
+  var o=mkCanvas(W,H), ctx=o.ctx, y=pad;
+  if(S.title){ ctx.font=F.h; ctx.fillStyle=PAL.ink; ctx.fillText(S.title,pad,y+16); y+=44; }
+  rows.forEach(function(r){
+    var h=r.lines.length*lh;
+    if(r.p.indent){ ctx.strokeStyle=PAL.line; ctx.lineWidth=1.5; ctx.beginPath(); ctx.moveTo(r.x0-10,y); ctx.lineTo(r.x0-10,y+h-4); ctx.stroke(); }
+    if(r.p.label){ ctx.font=F.ui; ctx.fillStyle=PAL.mark; ctx.fillText(r.p.label,r.x0,y+18,labW-12); }
+    drawLines(ctx,F,r.lines,r.x0+labW,y+19,lh,0); y+=h+gap;
+  });
+  return o.c;
+}
+$("#btnPng").addEventListener("click",async function(){
+  if(!S.phrases.length){ say("Сначала вставьте текст"); return; }
+  try{ if(document.fonts&&document.fonts.ready) await document.fonts.ready; }catch(e){}
+  var c=pngStructure();
+  c.toBlob(function(blob){
+    if(!blob){ say("Картинка не получилась"); return; }
+    deliver(fname("png"),blob,function(msg){
+      var w=document.createElement("div"); w.className="imgw"; var img=new Image(); img.alt="Схема"; img.src=c.toDataURL("image/png"); w.appendChild(img);
+      openModal("Схема картинкой",msg+" Правый клик по картинке, затем «Сохранить изображение как» или «Копировать изображение».",w,"");
+    });
+  },"image/png");
+});
+
+/* ---------- show ---------- */
+function buildSteps(){
+  cleanBlocks();
+  var st=[{t:"title"}], rp=readPages(), anyPh=S.blocks.some(function(b){ return b.sl.t==="phrase"; }), anyMk=S.blocks.some(function(b){ return b.sl.t==="mark"; });
+  var scene=(anyPh||!anyMk)?"struct":"marks";
+  rp.forEach(function(p,i){ st.push({t:"read",ra:p[0],rb:p[1],pi:i,pn:rp.length}); });
+  S.blocks.forEach(function(b){
+    var s=b.sl, o;
+    if(s.t==="none") return;
+    if(s.t==="thesis"){ if(!s.text.trim()) return; o={t:"frame",cap:"",text:s.text,big:1}; }
+    else if(s.t==="frame"){ if(!s.text.trim()&&!s.cap.trim()) return; o={t:"frame",cap:s.cap,text:s.text}; }
+    else if(s.t==="phrase"){ scene="struct"; o={t:"phrase",ref:s.ref,lab:s.lab,grp:s.grp}; }
+    else if(s.t==="mark"){ scene="marks"; o={t:"mark",refs:mkIds(s)}; }
+    else o={t:"word",ref:s.ref,text:s.text};
+    o.scene=scene; o.b=b.id; st.push(o);
+  });
+  if(S.main.trim()) st.push({t:"main"});
+  if(S.sum.trim()) st.push({t:"sum"});
+  return st;
+}
+function openShow(n){
+  if(document.activeElement&&document.activeElement.blur) document.activeElement.blur();
+  show.steps=buildSteps(); show.n=Math.max(0,Math.min(n||0,show.steps.length-1)); show.open=true; show.fs=false; show.last=-2;
+  var el=$("#show"); el.classList.add("open");
+  try{ var r=el.requestFullscreen?el.requestFullscreen():(el.webkitRequestFullscreen?el.webkitRequestFullscreen():null); if(r&&r.catch) r.catch(function(){}); }catch(e){}
+  drawShow();
+}
+function closeShow(){
+  show.open=false; $("#show").classList.remove("open");
+  try{ if(document.fullscreenElement) document.exitFullscreen(); }catch(e){}
+}
+document.addEventListener("fullscreenchange",function(){
+  if(!show.open) return;
+  if(document.fullscreenElement){ show.fs=true; rebuildShow(); }
+  else if(show.fs){ closeShow(); }
+});
+window.addEventListener("resize",function(){ if(show.open) drawShow(); });
+function go(d){ var n=Math.max(0,Math.min(show.steps.length-1,show.n+d)); if(n!==show.n){ show.n=n; drawShow(); } }
+function showKey(e){
+  var k=e.key;
+  if(k==="Escape"){ e.preventDefault(); closeShow(); return; }
+  if(k==="ArrowRight"||k==="ArrowDown"||k==="PageDown"||k===" "||k==="Enter"){ e.preventDefault(); go(1); }
+  else if(k==="ArrowLeft"||k==="ArrowUp"||k==="PageUp"||k==="Backspace"){ e.preventDefault(); go(-1); }
+  else if(k==="+"||k==="="){ e.preventDefault(); setFs(1); }
+  else if(k==="-"||k==="_"){ e.preventDefault(); setFs(-1); }
+  else if(k==="Home"){ e.preventDefault(); go(-1e6); }
+  else if(k==="End"){ e.preventDefault(); go(1e6); }
+}
+$("#show").addEventListener("click",function(e){ go(e.clientX<window.innerWidth*.25?-1:1); });
+$("#show").addEventListener("contextmenu",function(e){ e.preventDefault(); go(-1); });
+/* Largest size (in vh) between max and min at which the content fits the body. Returns false if it does not fit even at min. */
+function fit(max,min){
+  max=Math.round(max*fsK()*10)/10; if(min>max) min=max;
+  var body=$("#shBody"), inn=$("#shIn"), cs=getComputedStyle(body);
+  var avail=body.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom), v=max;
+  /* a size fits only if no word has to be broken in the middle; at the smallest size breaking is allowed */
+  inn.style.overflowWrap="normal";
+  for(;;){
+    inn.style.fontSize=v+"vh";
+    if(inn.scrollHeight<=avail+1&&inn.scrollWidth<=inn.clientWidth+1) return true;
+    if(v<=min){ inn.style.overflowWrap=""; return inn.scrollHeight<=avail+1; }
+    v=Math.max(min,Math.round((v-.2)*10)/10);
+  }
+}
+/* side column of the passage scenes: every screen text shown so far, oldest dropped if they do not fit */
+function drawThesis(st,n,cur){
+  var th=$("#shThesis"), items=[], i, v=4.8;
+  show.fitTh=null;
+  if(!st.some(function(s){ return s.t==="word"&&s.text.trim(); })){ th.className=""; th.innerHTML=""; return; }
+  for(i=1;i<=n;i++) if(st[i].t==="word"&&st[i].text.trim()) items.push(i);
+  function paint(){
+    th.innerHTML=items.map(function(k){ var o=parseKey(st[k].ref);
+      return '<div class="th-i'+(k===n?' cur':'')+'"><div class="th-w">'+esc(bareRange(o.a,o.b))+'</div><div class="th-t">'+esc(st[k].text)+'</div></div>'; }).join("");
+  }
+  th.className="use"; paint();
+  /* called after the passage is sized: the current text starts at the size of the passage and shrinks only if it has to */
+  show.fitTh=function(){
+    var v0=Math.max(3.2,parseFloat($("#shIn").style.fontSize)||4.8); v=v0;
+    th.style.overflowWrap="normal";
+    for(;;){
+      th.style.fontSize=v+"vh";
+      if(th.scrollHeight<=th.clientHeight+1&&th.scrollWidth<=th.clientWidth+1) break;
+      if(v>3.2){ v=Math.max(3.2,Math.round((v-.2)*10)/10); continue; }
+      if(items.length>1){ items.shift(); v=v0; paint(); continue; }
+      th.style.overflowWrap=""; break;
+    }
+  };
+}
+/* words of the earlier word steps turn grey; of the current step only the new words are gold */
+function wordCls(st,n,cur){
+  var past={}, curW=cur.t==="word"?parseKey(cur.ref):null, i, k, o, fresh=false;
+  for(i=1;i<n;i++) if(st[i].t==="word"){ o=parseKey(st[i].ref); for(k=o.a;k<=o.b;k++) past[k]=1; }
+  if(curW) for(k=curW.a;k<=curW.b;k++) if(!past[k]&&!isNum(T[k])) fresh=true;
+  return function(k){ return curW&&k>=curW.a&&k<=curW.b&&(!past[k]||!fresh)?" on":past[k]?" past":""; };
+}
+function drawShow(){
+  var st=show.steps, n=show.n, cur=st[n], body=$("#shBody"), inn=$("#shIn"), th=$("#shThesis"), h="", i;
+  $("#shCount").textContent=n+" / "+(st.length-1);
+  show.fwd=show.last===n-1; show.last=n;
+  body.scrollTop=0;
+  if(cur.t==="read"){ th.className=""; th.innerHTML=""; body.className=""; inn.innerHTML=readHTML(cur.ra,cur.rb); fit(13,3.6); return; }
+  if(cur.t==="title"||cur.t==="frame"||cur.t==="main"||cur.t==="sum"){
+    th.className=""; th.innerHTML=""; body.className="center";
+    if(cur.t==="title"){
+      var theme=S.theme.trim();
+      inn.innerHTML='<div class="t-theme">'+esc(theme||S.title||"")+'</div>'+(theme&&S.title?'<div class="t-ref">'+esc(S.title)+'</div>':'');
+      fit(15,4.4);
+    }else if(cur.t==="frame"){
+      inn.innerHTML=(cur.cap.trim()?'<div class="f-ref">'+esc(cur.cap)+'</div>':'')+'<div class="'+(cur.big?'e-main':'f-text')+'">'+esc(cur.text)+'</div>';
+      fit(cur.big?14:10,3.4);
+    }else{
+      var main=S.main.trim(), withSum=cur.t==="sum";
+      if(main) h+='<div class="e-lab">Главная мысль</div><div class="e-main">'+esc(main)+'</div>';
+      if(withSum) h+=(main?'<div class="e-div"></div>':'')+'<div class="e-lab">Итог</div><div class="e-sum"'+(main?'':' style="font-size:1em"')+'>'+esc(S.sum.trim())+'</div>';
+      inn.innerHTML=h; fit(11,3.8);
+    }
+    return;
+  }
+  if(cur.scene==="marks"){ drawMarkShow(st,n,cur); return; }
+  /* passage scene: phrases open one by one */
+  var vis={}, labs={}, labAny={}, curPh={}, curW=null, wc=wordCls(st,n,cur);
+  function ids(s){ return s.grp?groupIds(s.ref):[s.ref]; }
+  function reveal(o){ S.phrases.forEach(function(p){ if(p.s<=o.b&&p.e>o.a) vis[p.id]=1; }); }
+  st.forEach(function(s){ if(s.t==="phrase"&&s.lab) ids(s).forEach(function(id){ labAny[id]=1; }); });
+  for(i=1;i<=n;i++){
+    var s=st[i];
+    if(s.t==="phrase") ids(s).forEach(function(id){ vis[id]=1; if(s.lab) labs[id]=1; });
+    else if(s.t==="word") reveal(parseKey(s.ref));
+  }
+  if(cur.t==="phrase") ids(cur).forEach(function(id){ curPh[id]=1; }); else curW=parseKey(cur.ref);
+  S.phrases.forEach(function(p){
+    var w=[], lab=labAny[p.id]&&p.label&&p.label.trim();
+    for(var k=p.s;k<p.e;k++) w.push(isNum(T[k])?'<span class="sh-vn">'+esc(T[k])+'</span>':'<span class="sh-w'+wc(k)+'">'+esc(T[k])+'</span>');
+    h+='<div class="sh-row'+(vis[p.id]?'':' hid')+(curPh[p.id]?' cur':'')+'" data-id="'+p.id+'" style="--ind:'+Math.min(p.indent,8)+'">'+
+       (lab?'<span class="sh-lab'+(labs[p.id]?'':' hid')+(curPh[p.id]?' cur':'')+'">'+esc(p.label)+'</span>':'')+
+       '<span class="sh-tx">'+w.join(" ")+'</span></div>';
+  });
+  body.className=""; inn.innerHTML=h;
+  drawThesis(st,n,cur);
+  var fits=fit(12.5,4.4); if(show.fitTh) show.fitTh();
+  if(!fits){
+    body.className="long";
+    var el=inn.querySelector(".sh-row.cur")||(inn.querySelector(".sh-w.on")||inn).closest(".sh-row");
+    if(el) body.scrollTop=Math.max(0,el.offsetTop-body.offsetTop-(body.clientHeight-el.offsetHeight)/2);
+  }
+}
+
+/* passage scene with marks: the whole text stays, marks are drawn step by step */
+function drawMarkShow(st,n,cur){
+  var body=$("#shBody"), inn=$("#shIn"), on={}, list=[], curW=null, w=[], i, m, wc=wordCls(st,n,cur);
+  for(i=1;i<=n;i++) if(st[i].t==="mark") st[i].refs.forEach(function(id){ if(!on[id]){ on[id]=1; m=markById(id); if(m) list.push(m); } });
+  if(cur.t==="word") curW=parseKey(cur.ref);
+  for(i=0;i<T.length;i++) w.push(isNum(T[i])?(i?'<br>':'')+'<span class="sh-vn">'+esc(T[i])+'</span>':'<span class="sh-w'+wc(i)+'" data-i="'+i+'">'+esc(T[i])+'</span>');
+  body.className=""; inn.innerHTML='<div class="mk-wrap"><div class="mk-tx">'+w.join(" ")+'</div><svg class="mk-svg" aria-hidden="true"></svg></div>';
+  drawThesis(st,n,cur);
+  var ok=fit(11.5,3.4), wrap=inn.querySelector(".mk-wrap"); if(show.fitTh) show.fitTh();
+  if(!ok) body.className="long";
+  drawMarks(wrap,wrap.querySelector("svg"),list,{color:"#D9A441",sw:.05,lab:.5,anim:(cur.t==="mark"&&show.fwd)?cur.refs:null});
+  if(!ok){
+    var at=cur.t==="mark"?markById(cur.refs[0]):curW, el=at&&wrap.querySelector('[data-i="'+at.a+'"]');
+    if(el) body.scrollTop=Math.max(0,el.getBoundingClientRect().top-wrap.getBoundingClientRect().top-body.clientHeight*.4);
+  }
+}
+
+/* the screen or the type size changed: the number of reading slides may change, the place in the show is kept */
+function rebuildShow(){
+  function rd(s){ return s.t==="read"; }
+  var r0=show.steps.filter(rd).length; show.steps=buildSteps();
+  var r1=show.steps.filter(rd).length; if(show.n>r0) show.n+=r1-r0;
+  show.n=Math.max(0,Math.min(show.n,show.steps.length-1)); show.last=-2; drawShow();
+}
+
+/* ---------- panes (phone) ---------- */
+function narrow(){ return window.matchMedia("(max-width:760px)").matches; }
+function em(){ var m=(S.mode==="sermon"||S.mode==="spiral")?S.mode:"structure"; return narrow()&&m==="sermon"?"structure":m; }
+function setPane(p){
+  pane=p;
+  [["text","#left"],["field","#mid"],["notes","#right"]].forEach(function(x){ $(x[1]).classList.toggle("act",x[0]===p); });
+  Array.prototype.forEach.call(document.querySelectorAll("#ptabs button"),function(b){ b.classList.toggle("on",b.dataset.p===p); });
+}
+$("#ptabs").addEventListener("click",function(e){ var b=e.target.closest("button"); if(b) setPane(b.dataset.p); });
+function renderSelBar(){
+  var el=$("#selBar");
+  if(tool==="mark"&&!editing&&(sel||armArrow)){
+    el.className="use";
+    if(armArrow){ el.innerHTML='<b>Стрелка от «'+esc(clip(bareRange(armArrow.a,armArrow.b),30))+'». Нажмите слово, к которому она ведёт.</b><button data-a="mx" class="ghost">отмена</button>'; return; }
+    el.innerHTML='<b>'+esc(clip(bareRange(sel.a,sel.b),40))+'</b><button data-a="ext"'+(armExt?' class="on"':'')+'>'+(armExt?'теперь выберите последнее слово':'до слова…')+'</button>'+
+      '<button data-a="mu"'+(hasMark("u")?' class="on"':'')+'>Подчеркнуть</button><button data-a="mo"'+(hasMark("o")?' class="on"':'')+'>Обвести</button>'+
+      '<button data-a="ma">Стрелка от него…</button><button data-a="x" class="ghost">снять</button>';
+    return;
+  }
+  if(tool!=="note"||!sel||editing){ el.className=""; el.innerHTML=""; return; }
+  el.className="use";
+  el.innerHTML='<b>'+esc(clip(bareRange(sel.a,sel.b),40))+'</b><button data-a="ext"'+(armExt?' class="on"':'')+'>'+(armExt?'теперь выберите последнее слово':'до слова…')+'</button>'+
+    '<button data-a="note" class="on narrowonly">Заметка →</button><button data-a="x" class="ghost">снять</button>';
+}
+$("#selBar").addEventListener("click",function(e){
+  var b=e.target.closest("button"); if(!b) return;
+  if(b.dataset.a==="mu"||b.dataset.a==="mo"){ toggleMark(b.dataset.a==="mu"?"u":"o"); }
+  else if(b.dataset.a==="ma"){ if(sel){ armArrow=snapR(sel.a,sel.b); sel=null; armExt=false; renderAll(); } }
+  else if(b.dataset.a==="mx"){ armArrow=null; renderSelBar(); }
+  else if(b.dataset.a==="ext"){ armExt=!armExt; renderSelBar(); }
+  else if(b.dataset.a==="note"){ setPane("notes"); }
+  else{ sel=null; armExt=false; renderAll(); }
+});
+try{ window.matchMedia("(max-width:760px)").addEventListener("change",function(){ if(S&&view==="work") renderAll(); }); }catch(e){}
+
+/* ---------- views ---------- */
+var view="work";
+function setView(v){ view=v; document.body.classList.toggle("v-lib",v==="lib"); document.body.classList.toggle("v-work",v==="work"); window.scrollTo(0,0); }
+function clone(o){ return JSON.parse(JSON.stringify(o)); }
+function hhmm(t){ var d=new Date(t); return ("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2); }
+function ddmm(t){ var d=new Date(t); return ("0"+d.getDate()).slice(-2)+"."+("0"+(d.getMonth()+1)).slice(-2)+"."+d.getFullYear(); }
+
+/* ---------- cloud ---------- */
+var C={db:null,P:{},BK:{},cur:null,timer:null,busy:false,dirty:false,again:false};
+var BOOKS=[], TEXT={}, L={book:null,tab:"list",ch:1,a:null,b:null}, sheetT={}, sheetDirty={};
+function bookById(id){ for(var i=0;i<BOOKS.length;i++) if(BOOKS[i].id===id) return BOOKS[i]; return null; }
+function cloudSt(msg,bad){ var el=$("#cloudSt"); el.textContent=msg; el.classList.toggle("bad",!!bad); }
+function libSt(msg,bad){ var el=$("#libSt"); el.textContent=msg; el.classList.toggle("bad",!!bad); }
+function draftSave(sent){ if(!C.cur) return; try{ localStorage.setItem("osb-d-"+C.cur.id,JSON.stringify({S:lastSnap,at:Date.now(),sent:!!sent})); }catch(e){} }
+function schedule(){
+  if(!C.cur) return;
+  C.dirty=true; draftSave(false); cloudSt("Есть несохранённые изменения");
+  clearTimeout(C.timer); C.timer=setTimeout(push,1200);
+}
+function curMeta(at){
+  var m=C.cur.meta; m.title=S.title; m.theme=S.theme; m.n=S.phrases.length; m.k=noteKeys().length; m.at=at;
+  return clone(m);
+}
+async function push(){
+  if(!C.cur||!C.dirty) return;
+  if(C.busy){ C.again=true; return; }
+  C.busy=true; C.dirty=false; clearTimeout(C.timer);
+  var cur=C.cur, at=Date.now();
+  if(cur.meta.status==="new"){ cur.meta.status="work"; renderHead(); }
+  try{
+    cloudSt("Сохраняю…");
+    await C.db.doc("bodies/"+cur.id).set({S:JSON.parse(lastSnap),at:at});
+    await C.db.doc("passages/"+cur.id).set(curMeta(at));
+    cur.at=at; if(C.cur===cur&&!C.dirty){ draftSave(true); cloudSt("Сохранено в "+hhmm(at)); }
+  }catch(e){
+    C.dirty=true;
+    if(e&&e.code==="quota_exceeded") cloudSt("Не сохранено: хранилище заполнено","bad");
+    else{ cloudSt("Не сохранено: нет связи. Черновик на этом устройстве, повторю.","bad"); clearTimeout(C.timer); C.timer=setTimeout(push,8000); }
+  }
+  C.busy=false;
+  if(C.again){ C.again=false; push(); }
+}
+async function flush(){ clearTimeout(C.timer); if(C.dirty) await push(); }
+function enterWork(id,meta,state,at){
+  S=state; T=tok(S.source); cleanScript();
+  C.cur={id:id,meta:clone(meta),at:at||0}; C.dirty=false;
+  undo=[]; lastSnap=JSON.stringify(S); $("#btnUndo").disabled=true;
+  sel=null; editing=false; arrowFrom=null; selArrow=null; arrowMode=false; armExt=false; armArrow=null; tool="cut";
+  setView("work"); setPane("text"); cloudSt(at?"Сохранено":""); renderAll();
+}
+async function openPassage(id){
+  var meta=C.P[id]; if(!meta) return;
+  libSt("Открываю…");
+  var snap;
+  try{ snap=await C.db.doc("bodies/"+id).get(); }catch(e){ libSt("Не открылось: нет связи с хранилищем","bad"); return; }
+  libSt("");
+  var body=snap.exists?snap.data():null, d=null;
+  try{ d=JSON.parse(localStorage.getItem("osb-d-"+id)||"null"); }catch(e){}
+  var useDraft=!!(d&&!d.sent&&typeof d.S==="string"&&d.at>((body&&body.at)||0));
+  var st;
+  try{ st=normalize(useDraft?JSON.parse(d.S):(body&&body.S?clone(body.S):fresh("",meta.title))); }catch(e){ st=normalize(body&&body.S?clone(body.S):fresh("",meta.title)); useDraft=false; }
+  enterWork(id,meta,st,body&&body.at);
+  if(useDraft){ C.dirty=true; say("Восстановлен несохранённый черновик с этого устройства"); push(); }
+}
+async function leaveWork(){
+  if(MODE!=="cloud") return;
+  cloudSt("Сохраняю…"); await flush();
+  if(C.dirty){ say("Нет связи: изменения остались черновиком на этом устройстве"); }
+  C.cur=null; setView("lib"); renderLib();
+}
+document.addEventListener("visibilitychange",async function(){
+  if(MODE!=="cloud"||!C.cur) return;
+  if(document.hidden){ flush(); return; }
+  if(C.dirty||C.busy) return;
+  var cur=C.cur;
+  try{
+    var s=await C.db.doc("bodies/"+cur.id).get(), b=s.exists?s.data():null;
+    if(b&&b.at>cur.at&&C.cur===cur&&!C.dirty&&!/^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName)){
+      S=normalize(clone(b.S)); T=tok(S.source); cleanScript(); cur.at=b.at; lastSnap=JSON.stringify(S); undo=[]; sel=null;
+      if(C.P[cur.id]) cur.meta=clone(C.P[cur.id]);
+      renderAll(); say("Обновлено: отрывок меняли на другом устройстве");
+    }
+  }catch(e){}
+});
+function renderHead(){
+  if(MODE!=="cloud"||!C.cur) return;
+  var done=C.cur.meta.status==="done", b=$("#btnStatus");
+  b.textContent=done?"✓ Проработан":"Отметить проработанным"; b.classList.toggle("on",done);
+}
+$("#btnStatus").addEventListener("click",function(){ if(!C.cur) return; C.cur.meta.status=C.cur.meta.status==="done"?"work":"done"; renderHead(); schedule(); });
+$("#btnLib").addEventListener("click",leaveWork);
+
+/* ---------- book sheet ---------- */
+var SHEET=[["a","Автор",1],["r","Адресаты",2],["t","Время и место написания",1],["p","Повод и цель",3],["o","План книги",7],["th","Сквозные темы и ключевые слова",3],["n","Заметки по книге",5]];
+function sheetHTML(bid){
+  var d=C.BK[bid]||{};
+  return '<div class="sheet" data-b="'+bid+'">'+SHEET.map(function(f){
+    return '<label>'+f[1]+'<textarea class="shf" data-k="'+f[0]+'" rows="'+f[2]+'">'+esc(d[f[0]]||"")+'</textarea></label>';
+  }).join("")+'<div class="snote shst"></div></div>';
+}
+document.addEventListener("input",function(e){
+  var el=e.target; if(!el.classList||!el.classList.contains("shf")) return;
+  var box=el.closest(".sheet"), bid=box.dataset.b;
+  if(!C.BK[bid]) C.BK[bid]={};
+  C.BK[bid][el.dataset.k]=el.value; sheetDirty[bid]=1;
+  box.querySelector(".shst").textContent="Есть несохранённые изменения";
+  clearTimeout(sheetT[bid]);
+  sheetT[bid]=setTimeout(function(){ saveSheet(bid,box); },1200);
+});
+async function saveSheet(bid,box){
+  var d=clone(C.BK[bid]); d.at=Date.now();
+  try{ await C.db.doc("books/"+bid).set(d); delete sheetDirty[bid]; if(box&&box.isConnected) box.querySelector(".shst").textContent="Сохранено в "+hhmm(d.at); }
+  catch(e){ if(box&&box.isConnected) box.querySelector(".shst").textContent="Не сохранено: нет связи. Повторю."; clearTimeout(sheetT[bid]); sheetT[bid]=setTimeout(function(){ saveSheet(bid,box); },8000); }
+}
+$("#btnSheet").addEventListener("click",function(){
+  if(!C.cur) return;
+  var bk=bookById(C.cur.meta.book), w=document.createElement("div");
+  w.className="sheetwrap"; w.innerHTML=sheetHTML(C.cur.meta.book);
+  openModal("Лист книги: "+(bk?bk.f:""),"Общее для всех отрывков этой книги: от целого к части и обратно.",w,"");
+});
+
+/* ---------- library ---------- */
+var STN={"new":"не начат",work:"в работе",done:"проработан"};
+function byBook(bid){
+  return Object.keys(C.P).map(function(id){ var m=C.P[id]; return {id:id,m:m}; }).filter(function(x){ return x.m.book===bid; })
+    .sort(function(x,y){ return (x.m.c1||999)-(y.m.c1||999)||(x.m.v1||0)-(y.m.v1||0)||x.m.at-y.m.at; });
+}
+function chip(st){ st=STN[st]?st:"work"; return '<i class="chip st-'+st+'">'+STN[st]+'</i>'; }
+function renderBookList(){
+  var cnt={}, ids=Object.keys(C.P);
+  ids.forEach(function(id){ var m=C.P[id], c=cnt[m.book]||(cnt[m.book]={n:0,d:0}); c.n++; if(m.status==="done") c.d++; });
+  var h="";
+  var rec=ids.map(function(id){return {id:id,m:C.P[id]}}).sort(function(x,y){return y.m.at-x.m.at}).slice(0,5);
+  if(rec.length) h+='<h3>Продолжить</h3>'+rec.map(function(x){ return '<button class="pitem" data-open="'+x.id+'"><b>'+esc(x.m.title||"Без названия")+'</b> '+chip(x.m.status)+(x.m.theme?'<span>'+esc(clip(x.m.theme,60))+'</span>':'')+'</button>'; }).join("");
+  [["nt","Новый Завет"],["ot","Ветхий Завет"],["nc","Неканонические книги"]].forEach(function(g){
+    h+='<h3>'+g[1]+'</h3>'+(g[0]==="nc"?'<div class="snote" style="padding:0 4px 6px">Для чтения и общего знакомства. В канон Писания не входят.</div>':'')+'<div class="blist">';
+    BOOKS.forEach(function(b){
+      if(b.g!==g[0]) return; var c=cnt[b.id];
+      h+='<button class="bitem'+(c?' has':'')+(L.book===b.id?' cur':'')+'" data-book="'+b.id+'">'+esc(b.s)+(c?'<i>'+c.d+'/'+c.n+'</i>':'')+'</button>';
+    });
+    h+='</div>';
+  });
+  $("#bookList").innerHTML=h;
+}
+function coverage(bid){
+  var bk=bookById(bid), cov=bk.v.map(function(n){ return new Array(n+1).fill(0); });
+  byBook(bid).forEach(function(x){
+    var m=x.m; if(!m.c1) return;
+    for(var c=m.c1;c<=m.c2&&c<=bk.v.length;c++){
+      var from=c===m.c1?m.v1:1, to=c===m.c2?m.v2:bk.v[c-1];
+      for(var v=from;v<=to&&v<=bk.v[c-1];v++) cov[c-1][v]=m.status==="done"?2:Math.max(cov[c-1][v],1);
+    }
+  });
+  return cov;
+}
+function refStr(a,b){ return a.c+":"+a.v+((a.c===b.c&&a.v===b.v)?"":"–"+(a.c===b.c?b.v:b.c+":"+b.v)); }
+function cmpV(x,y){ return x.c-y.c||x.v-y.v; }
+function renderBookPage(){
+  var el=$("#bookPage"), bk=L.book&&bookById(L.book);
+  $("#lib").classList.toggle("show-book",!!bk);
+  if(!bk){ el.innerHTML='<div class="empty">Выберите книгу слева. Цифры у книги: сколько отрывков проработано и сколько всего начато.</div>'; return; }
+  var h='<div class="bhead"><button data-act="back" class="narrowonly">← Книги</button><h1>'+esc(bk.f)+'</h1></div>'+
+    (bk.n?'<div class="bnote">'+esc(bk.n)+'</div>':'')+
+    '<div class="seg btabs">'+[["list","Отрывки"],["read","Читать и выбрать"],["sheet","Лист книги"]].map(function(t){ return '<button data-tab="'+t[0]+'"'+(L.tab===t[0]?' class="on"':'')+'>'+t[1]+'</button>'; }).join("")+'</div>';
+  if(L.tab==="sheet"){ el.innerHTML=h+sheetHTML(bk.id); return; }
+  if(L.tab==="read"){ el.innerHTML=h+'<div id="reader"></div>'; renderReader(); return; }
+  var cov=coverage(bk.id), list=byBook(bk.id);
+  h+='<h3>Карта глав <small>светлая — не тронута, с полосой — есть отрывки, тёмная — всё проработано</small></h3><div class="cmap">'+bk.v.map(function(n,i){
+    var some=0,done=0; for(var v=1;v<=n;v++){ if(cov[i][v]) some++; if(cov[i][v]===2) done++; }
+    var cls=done===n?"c3":some===n?"c2":some?"c1":"c0";
+    return '<button class="'+cls+'" data-ch="'+(i+1)+'" title="Глава '+(i+1)+': в отрывках '+some+' из '+n+' стихов">'+(i+1)+'</button>';
+  }).join("")+'</div>';
+  h+='<h3>Отрывки</h3>';
+  h+=list.length?list.map(function(x){
+    return '<div class="prow"><button class="pitem" data-open="'+x.id+'"><b>'+esc(x.m.title||"Без названия")+'</b> '+chip(x.m.status)+
+      '<span>'+(x.m.theme?esc(clip(x.m.theme,80))+' · ':'')+'изменён '+ddmm(x.m.at)+'</span></button><button class="ghost" data-del="'+x.id+'" title="Удалить отрывок">✕</button></div>';
+  }).join(""):'<div class="snote">В этой книге отрывков пока нет.</div>';
+  h+='<div class="rowb" style="margin-top:14px"><button class="on" data-tab="read">+ Новый отрывок</button><label class="filebtn">Перенести из файла .json<input id="impIn" type="file" accept=".json,application/json"></label></div>';
+  el.innerHTML=h;
+}
+async function loadBook(bid){
+  if(TEXT[bid]) return TEXT[bid];
+  var r=await fetch("bible/"+bid+".json"); if(!r.ok) throw new Error("load");
+  TEXT[bid]=await r.json(); return TEXT[bid];
+}
+function renderReader(){
+  var el=$("#reader"); if(!el) return;
+  var bk=bookById(L.book), tx=TEXT[bk.id];
+  if(!tx){
+    el.innerHTML='<div class="empty">Загружаю текст…</div>';
+    loadBook(bk.id).then(function(){ if(L.book===bk.id&&L.tab==="read") renderReader(); },function(){ if($("#reader")) $("#reader").innerHTML='<div class="empty">Текст не загрузился. Проверьте интернет и откройте книгу ещё раз.</div>'; });
+    return;
+  }
+  var n=bk.v.length; L.ch=Math.max(1,Math.min(n,L.ch));
+  var cov=coverage(bk.id)[L.ch-1], here=byBook(bk.id).filter(function(x){ return x.m.c1&&x.m.c1<=L.ch&&x.m.c2>=L.ch; });
+  var opts=""; for(var i=1;i<=n;i++) opts+='<option value="'+i+'"'+(i===L.ch?' selected':'')+'>Глава '+i+'</option>';
+  var h='<div class="rnav"><button data-act="chp"'+(L.ch<=1?' disabled':'')+' aria-label="Предыдущая глава">‹</button><select id="chSel" aria-label="Глава">'+opts+'</select><button data-act="chn"'+(L.ch>=n?' disabled':'')+' aria-label="Следующая глава">›</button></div>';
+  if(here.length) h+='<div class="rhere">Отрывки в этой главе: '+here.map(function(x){ return '<button class="lnk" data-open="'+x.id+'">'+esc(x.m.title)+'</button>'; }).join(" ")+'</div>';
+  h+='<div class="rtext">'+tx.c[L.ch-1].map(function(t,k){
+    var p={c:L.ch,v:k+1}, ins=L.a&&cmpV(p,L.a)>=0&&cmpV(p,L.b)<=0;
+    return '<p class="vs'+(ins?' in':'')+(cov[k+1]?' cov'+cov[k+1]:'')+'" data-v="'+(k+1)+'"><b>'+(k+1)+'</b> '+esc(t)+'</p>';
+  }).join("")+'</div>';
+  h+='<div class="rbar">'+(L.a?'<span>Отрывок: <b>'+esc(bk.s)+' '+refStr(L.a,L.b)+'</b><small class="rtip">Нажмите на последний стих отрывка: войдёт всё до него. Число стихов не ограничено.</small></span><button class="on" data-act="create">Создать отрывок</button><button data-act="reset">Сбросить</button>'
+     :'<span class="snote">Нажмите на первый стих отрывка, затем на последний: войдут все стихи между ними, сколько угодно. Последний может быть в другой главе.</span>')+'</div>';
+  el.innerHTML=h;
+}
+function shield(t){ return t.split(/\s+/).map(function(w){ return isNum(w)?w+"⁠":w; }).join(" "); }
+function buildSource(tx,a,b){
+  var out=[];
+  for(var c=a.c;c<=b.c;c++){
+    var vs=tx.c[c-1], from=c===a.c?a.v:1, to=c===b.c?b.v:vs.length;
+    for(var v=from;v<=to;v++){ out.push(c!==a.c&&v===from?c+":"+v:""+v); out.push(shield(vs[v-1])); }
+  }
+  return out.join(" ");
+}
+async function createPassage(){
+  var bk=bookById(L.book), a=L.a, b=L.b, tx=TEXT[bk.id]; if(!a||!tx) return;
+  var id=uid(), title=bk.s+" "+refStr(a,b), at=Date.now();
+  var st=fresh(buildSource(tx,a,b),title); S=st; T=tok(S.source); cutVerses();
+  var meta={book:bk.id,c1:a.c,v1:a.v,c2:b.c,v2:b.v,title:title,theme:"",status:"new",n:S.phrases.length,k:0,at:at};
+  libSt("Создаю отрывок…");
+  try{ await C.db.doc("bodies/"+id).set({S:clone(S),at:at}); await C.db.doc("passages/"+id).set(meta); }
+  catch(e){ libSt("Отрывок не создан: нет связи с хранилищем","bad"); return; }
+  libSt(""); C.P[id]=meta; L.a=L.b=null; L.tab="list";
+  enterWork(id,meta,st,at);
+}
+function validState(d){
+  if(!d||typeof d.source!=="string"||!Array.isArray(d.phrases)) throw new Error("format");
+  var n=tok(d.source).length, pos=0;
+  d.phrases.forEach(function(p){ if(p.s!==pos||p.e<=p.s) throw new Error("phrases"); pos=p.e; p.indent=p.indent|0; p.label=p.label||""; p.x=+p.x||40; p.y=+p.y||30; });
+  if(pos!==n) throw new Error("phrases");
+  normalize(d);
+  var ids={}; d.phrases.forEach(function(p){ ids[p.id]=1; });
+  d.arrows=d.arrows.filter(function(a){ return ids[a.from]&&ids[a.to]; });
+  return d;
+}
+/* ---------- own storage outside Claude: the same calls as the Claude storage, kept in this browser (IndexedDB) ---------- */
+var STD=/^https?:$/.test(location.protocol)&&!/(^|\.)(claude\.ai|claudeusercontent\.com)$/.test(location.hostname);
+function LocalDB(){
+  var mem={}, subs={}, idb=null, ready;
+  function col(n){ return mem[n]||(mem[n]={}); }
+  function snap(n){ var c=col(n); return {metadata:{fromCache:false},docs:Object.keys(c).map(function(id){ return {id:id,exists:true,data:function(){ return clone(c[id]); }}; })}; }
+  function fire(n){ (subs[n]||[]).slice().forEach(function(s){ try{ s(snap(n)); }catch(e){} }); }
+  function put(path,val){
+    if(!idb) return Promise.reject(new Error("no storage"));
+    return new Promise(function(ok,bad){
+      var t=idb.transaction("docs","readwrite"), st=t.objectStore("docs");
+      if(val===undefined) st.delete(path); else st.put(val,path);
+      t.oncomplete=function(){ ok(); }; t.onerror=t.onabort=function(){ bad(t.error); };
+    });
+  }
+  ready=new Promise(function(ok){
+    var rq; try{ rq=indexedDB.open("razbor-slova",1); }catch(e){ ok(); return; }
+    rq.onupgradeneeded=function(){ rq.result.createObjectStore("docs"); };
+    rq.onerror=function(){ ok(); };
+    rq.onsuccess=function(){
+      idb=rq.result;
+      var cur=idb.transaction("docs","readonly").objectStore("docs").openCursor();
+      cur.onsuccess=function(){ var c=cur.result; if(c){ var p=String(c.key).split("/"); col(p[0])[p[1]]=c.value; c.continue(); } else ok(); };
+      cur.onerror=function(){ ok(); };
+    };
+  });
+  return {
+    ready:ready, ok:function(){ return !!idb; },
+    collection:function(n){
+      var q={limit:function(){ return q; },
+        get:function(){ return ready.then(function(){ return snap(n); }); },
+        onSnapshot:function(cb){ (subs[n]=subs[n]||[]).push(cb); ready.then(function(){ cb(snap(n)); }); return function(){ subs[n]=subs[n].filter(function(x){ return x!==cb; }); }; }};
+      return q;
+    },
+    doc:function(path){
+      var p=String(path).split("/");
+      return {
+        get:function(){ return ready.then(function(){ var v=col(p[0])[p[1]]; return {id:p[1],exists:v!==undefined,data:function(){ return v===undefined?undefined:clone(v); }}; }); },
+        set:function(v){ return ready.then(function(){ var c=clone(v); return put(path,c).then(function(){ col(p[0])[p[1]]=c; fire(p[0]); }); }); },
+        delete:function(){ return ready.then(function(){ return put(path,undefined).then(function(){ delete col(p[0])[p[1]]; fire(p[0]); }); }); }
+      };
+    }
+  };
+}
+if(STD){
+  try{ if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(function(){}); }catch(e){}
+  try{ var mf=document.createElement("link"); mf.rel="manifest"; mf.href="manifest.webmanifest"; document.head.appendChild(mf); }catch(e){}
+  try{ var ic=document.createElement("link"); ic.rel="icon"; ic.href="icon.svg"; ic.type="image/svg+xml"; document.head.appendChild(ic); }catch(e){}
+}
+/* a whole-library copy (from «Скачать всю библиотеку»): adds what is missing, a newer copy of a passage replaces an older one */
+async function restoreBackup(raw){
+  var P=raw.passages||{}, B=raw.bodies||{}, K=raw.books||{}, add=0, upd=0, same=0, id, cur;
+  libSt("Переношу библиотеку…");
+  try{
+    for(id in P){
+      if(!B[id]||!B[id].S) continue;
+      cur=C.P[id];
+      if(cur&&(cur.at||0)>=(P[id].at||0)){ same++; continue; }
+      await C.db.doc("bodies/"+id).set(B[id]); await C.db.doc("passages/"+id).set(P[id]);
+      C.P[id]=P[id]; if(cur) upd++; else add++;
+    }
+    for(id in K){ if(!C.BK[id]||(C.BK[id].at||0)<(K[id].at||0)){ await C.db.doc("books/"+id).set(K[id]); C.BK[id]=K[id]; } }
+  }catch(e){ libSt("Перенос прервался: хранилище не приняло запись","bad"); return; }
+  libSt("Библиотека перенесена: новых отрывков "+add+", обновлено "+upd+(same?", уже были "+same:""));
+  renderLib();
+}
+
+async function importFile(f){
+  var bk=bookById(L.book), txt, raw, d;
+  try{ txt=await f.text(); raw=JSON.parse(txt); }catch(e){ libSt("Это не файл разбора из этого инструмента","bad"); return; }
+  if(raw&&raw.kind==="razbor-slova-backup"){ restoreBackup(raw); return; }
+  if(!bk){ libSt("Это файл одного отрывка: откройте книгу и перенесите его там","bad"); return; }
+  try{ d=validState(raw); }catch(e){ libSt("Это не файл разбора из этого инструмента","bad"); return; }
+  var m=/(\d+):(\d+)(?:\s*[–—-]\s*(?:(\d+):)?(\d+))?/.exec(d.title||""), id=uid(), at=Date.now();
+  var meta={book:bk.id,c1:m?+m[1]:0,v1:m?+m[2]:0,c2:m?(m[3]?+m[3]:+m[1]):0,v2:m?(m[4]?+m[4]:+m[2]):0,title:d.title||bk.s,theme:d.theme||"",status:"work",n:d.phrases.length,k:0,at:at};
+  try{ await C.db.doc("bodies/"+id).set({S:d,at:at}); await C.db.doc("passages/"+id).set(meta); }
+  catch(e){ libSt("Не перенесено: нет связи с хранилищем","bad"); return; }
+  C.P[id]=meta; libSt("Отрывок перенесён: "+meta.title); renderLib();
+}
+async function deletePassage(id){
+  try{ await C.db.doc("passages/"+id).delete(); await C.db.doc("bodies/"+id).delete(); }catch(e){ libSt("Не удалено: нет связи","bad"); return; }
+  try{ localStorage.removeItem("osb-d-"+id); }catch(e){}
+  delete C.P[id]; renderLib();
+}
+function renderLib(){ renderBookList(); renderBookPage(); }
+$("#lib").addEventListener("click",function(e){
+  var t=e.target, b;
+  if((b=t.closest("[data-open]"))){ openPassage(b.dataset.open); return; }
+  if((b=t.closest("[data-book]"))){ L.book=b.dataset.book; L.tab="list"; L.ch=1; L.a=L.b=null; renderLib(); $("#bookPage").scrollTop=0; return; }
+  if((b=t.closest("[data-tab]"))){ L.tab=b.dataset.tab; renderBookPage(); return; }
+  if((b=t.closest("[data-ch]"))){ L.ch=+b.dataset.ch; L.tab="read"; renderBookPage(); return; }
+  if((b=t.closest("[data-del]"))){
+    if(b.dataset.arm){ deletePassage(b.dataset.del); return; }
+    b.dataset.arm="1"; b.textContent="Удалить навсегда?"; setTimeout(function(){ if(b.isConnected){ delete b.dataset.arm; b.textContent="✕"; } },3500); return;
+  }
+  if((b=t.closest("[data-act]"))){
+    var a=b.dataset.act;
+    if(a==="back"){ L.book=null; renderLib(); }
+    else if(a==="chp"||a==="chn"){ L.ch+=a==="chn"?1:-1; renderReader(); $("#bookPage").scrollTop=0; }
+    else if(a==="reset"){ L.a=L.b=null; renderReader(); }
+    else if(a==="create"){ createPassage(); }
+    return;
+  }
+  if((b=t.closest(".vs"))){
+    var p={c:L.ch,v:+b.dataset.v}, keep=$("#bookPage").scrollTop;
+    if(!L.a) L.a=L.b=p;
+    else if(cmpV(L.a,L.b)===0&&cmpV(p,L.a)===0) L.a=L.b=null;
+    else if(cmpV(p,L.a)<0) L.a=p;
+    else L.b=p;
+    renderReader(); $("#bookPage").scrollTop=keep;
+  }
+});
+$("#lib").addEventListener("change",function(e){
+  if(e.target.id==="chSel"){ L.ch=+e.target.value; renderReader(); $("#bookPage").scrollTop=0; }
+  if(e.target.id==="impAll"){ var fa=e.target.files&&e.target.files[0]; e.target.value=""; if(fa) importFile(fa); }
+  if(e.target.id==="impIn"){ var f=e.target.files&&e.target.files[0]; e.target.value=""; if(f) importFile(f); }
+});
+$("#btnBackup").addEventListener("click",async function(){
+  libSt("Собираю копию…");
+  try{
+    var q=await C.db.collection("bodies").limit(1000).get(), bodies={};
+    q.docs.forEach(function(d){ bodies[d.id]=d.data(); });
+    var json=JSON.stringify({kind:"razbor-slova-backup",v:1,at:Date.now(),passages:C.P,books:C.BK,bodies:bodies});
+    libSt("");
+    deliver("Разбор_Слова_копия_"+ddmm(Date.now()).replace(/\./g,"-")+".json",new Blob([json],{type:"application/json"}),function(msg){
+      var ta=document.createElement("textarea"); ta.readOnly=true; ta.value=json;
+      openModal("Копия библиотеки",msg+" Скопируйте текст и сохраните в Блокноте как файл .json.",ta,json);
+    });
+  }catch(e){ libSt("Копия не собрана: нет связи с хранилищем","bad"); }
+});
+
+/* ---------- export for the sermon: one passage, one offline file ---------- */
+$("#btnExport").addEventListener("click",async function(){
+  if(!C.cur) return;
+  await flush();
+  var css=document.getElementById("appcss").textContent, js=document.getElementById("appjs").textContent;
+  var st=clone(S); st.mode="sermon";
+  var emb=JSON.stringify({id:C.cur.id,at:Date.now(),S:st}).replace(/</g,"\\u003c");
+  var html='<!DOCTYPE html>\n<html lang="ru">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>'+esc(S.title||"Проповедь")+'</title>\n<style id="appcss">'+css+'</style>\n</head>\n<body>\n<div id="app"></div>\n<script>window.__EMBED__='+emb+';<\/script>\n<script id="appjs">'+js+'<\/script>\n</body>\n</html>\n';
+  deliver(fname("html"),new Blob([html],{type:"text/html"}),function(msg){
+    var ta=document.createElement("textarea"); ta.readOnly=true; ta.value=html;
+    openModal("Файл для проповеди",msg+" Скопируйте текст и сохраните в Блокноте как файл .html.",ta,html);
+  });
+});
+
+
+/* ---------- spiral (Osborne): stages, versions of the main idea, check ---------- */
+var SP_ST=[
+ {id:"ctx",n:"Целое",t:"От целого к части",
+  why:"Смысл отрывка задаёт книга, а не наоборот. Пока не видно, какую работу отрывок делает в общем ходе мысли автора, любое толкование фраз висит в воздухе.",
+  how:"Откройте «Лист книги» и перечитайте план. Прочитайте главу до и главу после. Ответьте на вопросы ниже своими словами и запишите первую, черновую главную мысль. Она почти наверняка изменится: так и должно быть.",
+  err:"Начинать с любимого стиха и подбирать к нему контекст. Вторая ошибка: бояться записать черновую мысль, пока «не всё изучено». Спираль начинается с догадки, которую потом проверяют.",
+  f:[["place","Место отрывка в плане книги","Какой это раздел плана и какую задачу отрывок решает в общем ходе мысли",3],
+     ["before","Что стоит прямо перед отрывком","О чём автор говорил и к чему подвёл",2],
+     ["after","Что идёт сразу после","Куда мысль движется дальше",2],
+     ["bounds","Почему отрывок начинается и кончается здесь","Признаки границы: союз («итак», «посему»), смена темы, лица, адресата, жанра",2],
+     ["q","Вопросы к тексту","Всё, что непонятно или удивляет. К этому списку вы вернётесь на следующих этапах",4]]},
+ {id:"str",n:"Структура",t:"Ход мысли внутри отрывка",
+  why:"Автор не кладёт фразы рядом, он их подчиняет: одна утверждает, другая объясняет, третья называет цель. Главная мысль отрывка стоит в главных фразах, а не в самых ярких словах.",
+  how:"Во вкладке «Структура» разрежьте текст на фразы (в каждой одно сказуемое или оборот). Главные утверждения оставьте у левого края, подчинённые сдвиньте вправо и подпишите связь. Потом вернитесь сюда и ответьте на вопросы. Определения связей и приёмов лежат в «Ящике инструментов».",
+  err:"Подписывать связь по союзу, не думая: «ибо» не всегда причина, «и» не всегда ряд. Вторая ошибка: строить проповедь на подчинённой фразе, как будто она главная.",
+  f:[["main","Главные утверждения","Фразы без отступа: что автор утверждает, а не чем обосновывает",3],
+     ["flow","Ход мысли своими словами","Два-три предложения: от чего автор идёт, через что, к чему",3],
+     ["rep","Повторы и ключевые слова","Что повторяется в отрывке и рядом с ним; какие слова держат на себе мысль",2],
+     ["devw","Где именно стоят отмеченные приёмы","Стихи и слова",2]]},
+ {id:"wrd",n:"Слова",t:"Значение слова в этом месте",
+  why:"У слова не одно значение, а диапазон. В каждом месте работает одно значение из диапазона, и выбирает его контекст, а не словарь и не корень слова.",
+  how:"Выберите три-пять слов: повторяющиеся, богословски нагруженные, непонятные, или те, на которых держится главное утверждение. На каждое заведите карточку. Греческое слово и номер Стронга выпишите из подстрочника. Посмотрите, как автор употребляет слово в этой же книге, и только потом решайте, что оно значит здесь.",
+  err:"Вложить в одно место все значения слова сразу. Вывести смысл из корня («экклесия — вызванные»). Изучать русское слово Синодального перевода вместо слова оригинала. Полный список ошибок лежит в «Ящике инструментов».",
+  f:[["pick","Почему выбраны именно эти слова","Что в ходе мысли зависит от каждого из них",2]]},
+ {id:"cmp",n:"Сверка",t:"Свои выводы против комментариев",
+  why:"Комментарий нужен не чтобы узнать ответ, а чтобы проверить свой. Кто открыл комментарий первым, тот уже не увидит текст своими глазами и не узнает, где ошибается сам.",
+  how:"Возьмите два-три комментария разных традиций. По каждому запишите: что он говорит о главной мысли и спорных местах, и чем это кончилось для вашего вывода. Если комментаторы расходятся, запишите оба чтения и на чём стоит каждое. Затем запишите новую версию главной мысли.",
+  err:"Принять мнение комментатора, потому что он авторитетнее. Вторая ошибка: искать комментарий, который с вами согласен. Вес имеет довод из текста, а не имя.",
+  f:[["blind","Что комментарии показали такого, чего я не увидел","И почему не увидел: какой шаг пропустил",3],
+     ["sheet","Нужно ли поправить лист книги","Вывод по части может менять понимание целого: план, темы, цель книги",2]]}
+];
+var SP_LATER=["Грамматика и синтаксис","Фон","Жанр","Богословие","Сегодня","Проповедь"];
+var SP_DEV=["повтор","обрамление","хиазм","нарастание к вершине","противопоставление","перечень","вопрос и ответ","связка-переход"];
+var SP_VERD=["подтвердил мой вывод","уточнил","исправил меня","не согласен с ним"];
+var SP_BOX='<div class="help">'+
+'<h4>Связи между фразами</h4>'+
+'<p><b>Основание</b> — на чём стоит утверждение («ибо», «потому что»). <b>Причина</b> — что вызвало событие. Различие: основание отвечает на «почему я так говорю», причина на «почему так случилось».</p>'+
+'<p><b>Следствие, результат</b> — что из этого вышло («так что», «посему»). <b>Цель</b> — ради чего («чтобы», «дабы»). Различие: цель задумана, результат получился.</p>'+
+'<p><b>Вывод</b> — шаг рассуждения из сказанного раньше («итак», «посему», «следовательно»).</p>'+
+'<p><b>Условие</b> — «если». <b>Уступка</b> — вопреки чему («хотя», «несмотря на»).</p>'+
+'<p><b>Средство</b> — через что или чем («через», «посредством», часто деепричастие: «оправдавшись верою»). <b>Образ действия</b> — как именно.</p>'+
+'<p><b>Время</b> — «когда», «доколе», «прежде нежели». <b>Пояснение</b> — та же мысль другими словами или подробнее («то есть»).</p>'+
+'<p><b>Противопоставление</b> — «но», «а», «однако», «не… но». <b>Сравнение</b> — «как… так и». <b>Ряд</b> — равноправные звенья («и… и», перечень).</p>'+
+'<p>Союз подсказывает связь, но не решает. Проверка: подставьте вместо союза развёрнутую формулу («и вот на чём это стоит: …») и прочитайте, сохранился ли смысл.</p>'+
+'<h4>Приёмы построения</h4>'+
+'<p><b>Повтор</b> — слово или оборот возвращается; автор сам показывает, что важно. <b>Обрамление</b> (инклюзия) — отрывок начинается и кончается одним и тем же; всё внутри читается в этой рамке. <b>Хиазм</b> — зеркало А-Б-Б′-А′; ударение обычно в середине. <b>Нарастание к вершине</b> — цепочка, где каждое звено сильнее предыдущего; смотрите на последнее. <b>Противопоставление</b> — мысль дана через пару «не то, а это». <b>Перечень</b> — ряд однородных; спросите, есть ли в нём порядок. <b>Вопрос и ответ</b> — автор спорит с воображаемым собеседником. <b>Связка-переход</b> — фраза, которая закрывает одну часть и открывает другую.</p>'+
+'<h4>Какие слова изучать</h4>'+
+'<p>Повторяющиеся. Богословски нагруженные (оправдание, благодать, вера). Непонятные или неожиданные в этом месте. Образные. Те, от которых зависит главное утверждение. Три-пять слов на отрывок хватит: изучать все подряд значит не изучить ни одного.</p>'+
+'<h4>Ошибки при изучении слов</h4>'+
+'<p><b>Корень вместо значения.</b> Смысл выводят из частей слова или его происхождения. Слово значит то, что им говорили во время автора.</p>'+
+'<p><b>Позднее значение в раннем тексте.</b> «Сила» у Павла не «динамит». И обратно: устаревшее значение, которого во время автора уже не было.</p>'+
+'<p><b>Все значения сразу.</b> В одно место вкладывают весь диапазон слова из словаря. Работает одно значение.</p>'+
+'<p><b>Одно значение везде.</b> Считают, что слово у всех авторов и во всех местах значит одно и то же.</p>'+
+'<p><b>Слово вместо понятия.</b> Понятие шире слова: о прощении говорят и без слова «прощение». Изучив слово, вы ещё не изучили тему.</p>'+
+'<p><b>Натянутые параллели.</b> Место с тем же словом из другой книги не объясняет ваше, пока не показано, что контекст тот же.</p>'+
+'<p><b>Ложное «или — или».</b> Заставляют выбирать между значениями, которые автор мог соединить.</p>'+
+'<p><b>Мимо контекста.</b> Значение берут из словаря и не проверяют, работает ли оно в этом предложении.</p>'+
+'<p><b>Выборочные данные.</b> Приводят только те места, которые подтверждают готовый вывод.</p>'+
+'<h4>Порядок изучения слова</h4><p>1. Какое слово стоит в оригинале (подстрочник, номер Стронга). 2. Диапазон значений по словарю. 3. Как это слово употребляет тот же автор, сначала в этой книге. 4. Какое значение требует это предложение и ход мысли. 5. Проверка: подставьте значение в текст и прочитайте вслух.</p>'+
+'</div>';
+
+function spDef(){ return {cur:"ctx",strict:true,f:{},done:{},ideas:[],words:[],comm:[],dev:[],chk:{}}; }
+function spNorm(d){
+  var o=(d.sp&&typeof d.sp==="object"&&!Array.isArray(d.sp))?d.sp:{}, b=spDef();
+  function ob(x){ return (x&&typeof x==="object"&&!Array.isArray(x))?x:{}; }
+  function ar(x){ return Array.isArray(x)?x.filter(function(y){return y&&typeof y==="object"}):[]; }
+  b.cur=typeof o.cur==="string"?o.cur:"ctx"; b.strict=o.strict!==false;
+  b.f=ob(o.f); b.done=ob(o.done); b.chk=ob(o.chk);
+  b.ideas=ar(o.ideas); b.words=ar(o.words); b.comm=ar(o.comm);
+  b.dev=Array.isArray(o.dev)?o.dev.filter(function(x){return typeof x==="string"}):[];
+  d.sp=b; return d;
+}
+function spStage(id){ for(var i=0;i<SP_ST.length;i++) if(SP_ST[i].id===id) return SP_ST[i]; return null; }
+function spLast(){ for(var i=S.sp.ideas.length-1;i>=0;i--) if(!S.sp.ideas[i].note) return S.sp.ideas[i]; return null; }
+function spHasIdea(st){ return S.sp.ideas.some(function(x){ return x.st===st&&!x.note; }); }
+function spLocked(){ return S.sp.strict&&!(S.sp.done.ctx&&S.sp.done.str&&S.sp.done.wrd); }
+function spWhen(t){ return ddmm(t).slice(0,5)+" "+hhmm(t); }
+function spTa(k,label,ph,rows){
+  return '<label class="spl">'+esc(label)+(ph?'<small>'+esc(ph)+'</small>':'')+'<textarea data-f="'+k+'" rows="'+rows+'">'+esc(S.sp.f[k]||"")+'</textarea></label>';
+}
+function spIdeaBlock(st){
+  var last=spLast(), has=spHasIdea(st.id);
+  return '<div class="spidea"><h4>Главная мысль после этого этапа</h4>'+
+    '<label class="spl">Одно предложение: что автор утверждает этим отрывком<textarea id="spIdea" rows="2">'+esc(S.sp.f["_i_"+st.id]!=null?S.sp.f["_i_"+st.id]:(last?last.text:""))+'</textarea></label>'+
+    '<label class="spl">'+(last?"Что изменилось по сравнению с прошлой версией и почему":"На чём основана эта первая догадка")+'<small>Если не изменилось ничего, напишите, что именно её подтвердило</small><textarea id="spWhy" rows="2">'+esc(S.sp.f["_w_"+st.id]||"")+'</textarea></label>'+
+    '<div class="sprow"><button data-sp="idea" class="on">Записать версию</button>'+
+    '<button data-sp="done"'+(S.sp.done[st.id]?' class="on"':'')+'>'+(S.sp.done[st.id]?"✓ Этап пройден":"Этап пройден")+'</button>'+
+    (has?'':'<span class="spnote">Этап закрывается после записи версии главной мысли</span>')+'</div></div>';
+}
+function spCheckBlock(st){
+  var c=S.sp.chk[st.id];
+  return '<div class="spchk"><div class="sprow"><button data-sp="check">Проверить этап</button><span class="spnote" id="spChkSt">'+(c?"Последняя проверка: "+spWhen(c.at):"Проверка укажет слабые места и задаст вопросы. Готовых ответов не даёт.")+'</span></div>'+
+    '<div id="spChkOut" class="spout">'+(c?esc(c.text):"")+'</div></div>';
+}
+function spWords(){
+  var F=[["ru","Слово в Синодальном тексте","",1],["orig","Слово оригинала и номер Стронга","Из подстрочника. Если не смотрели, оставьте пустым",1],
+    ["range","Диапазон значений","Что это слово может значить вообще, по словарю",2],
+    ["uses","Как автор употребляет его в этой книге","Места и значение в каждом",2],
+    ["here","Значение здесь и что в контексте на него указывает","",2],
+    ["risk","Самопроверка","Какая ошибка из списка здесь ближе всего и почему вы её не делаете",2]];
+  return S.sp.words.map(function(w,i){
+    return '<div class="spcard" data-w="'+i+'"><div class="sprow"><b>'+esc(w.ru||"Новое слово")+'</b><button data-sp="wdel" class="ghost" aria-label="Удалить карточку">✕</button></div>'+
+      F.map(function(f){ return '<label class="spl">'+f[1]+(f[2]?'<small>'+f[2]+'</small>':'')+'<textarea data-wf="'+f[0]+'" rows="'+f[3]+'">'+esc(w[f[0]]||"")+'</textarea></label>'; }).join("")+'</div>';
+  }).join("")+'<div class="sprow"><button data-sp="wadd">+ Карточка слова</button>'+(sel?'<span class="spnote">Возьмёт выделенное: «'+esc(clip(bareRange(sel.a,sel.b),30))+'»</span>':'<span class="spnote">Если выделить слово в тексте (режим «Заметки к словам»), карточка возьмёт его</span>')+'</div>';
+}
+function spComm(){
+  return S.sp.comm.map(function(c,i){
+    return '<div class="spcard" data-c="'+i+'"><div class="sprow"><b>'+esc(c.src||"Комментарий")+'</b><button data-sp="cdel" class="ghost" aria-label="Удалить запись">✕</button></div>'+
+      '<label class="spl">Источник<textarea data-cf="src" rows="1">'+esc(c.src||"")+'</textarea></label>'+
+      '<label class="spl">Что он говорит<small>О главной мысли и о спорных местах, с доводами</small><textarea data-cf="says" rows="3">'+esc(c.says||"")+'</textarea></label>'+
+      '<div class="sprow spv">'+SP_VERD.map(function(v){ return '<button data-sp="verd" data-v="'+v+'"'+(c.verd===v?' class="on"':'')+'>'+v+'</button>'; }).join("")+'</div>'+
+      '<label class="spl">Что я меняю у себя и на каком основании из текста<textarea data-cf="note" rows="2">'+esc(c.note||"")+'</textarea></label></div>';
+  }).join("")+'<div class="sprow"><button data-sp="cadd">+ Комментарий</button></div>';
+}
+function renderSpiral(){
+  var el=$("#spiral"); if(!el) return;
+  var sp=S.sp, last=spLast(), st=spStage(sp.cur)||SP_ST[0], h=[];
+  h.push('<div class="sptop"><div class="spcur"><small>Главная мысль отрывка сейчас'+(last?' · версия '+sp.ideas.filter(function(x){return !x.note}).length+', после этапа «'+esc((spStage(last.st)||{n:"?"}).n)+'»':'')+'</small>'+
+    (last?esc(last.text):'<i>Ещё не записана. Первая версия появится на этапе «Целое».</i>')+'</div>'+
+    '<div class="sprow"><button data-sp="box">Ящик инструментов</button><button data-sp="jr">Журнал витка ('+sp.ideas.length+')</button><button data-sp="how">Как идти по спирали</button></div></div>');
+  h.push('<div class="sptrack">'+SP_ST.map(function(x,i){
+    return '<button data-sp="go" data-s="'+x.id+'" class="'+(x.id===st.id?"on":"")+(sp.done[x.id]?" dn":"")+'">'+(i+1)+'. '+x.n+(sp.done[x.id]?" ✓":"")+(x.id==="cmp"&&spLocked()?" 🔒":"")+'</button>';
+  }).join("")+SP_LATER.map(function(n,i){ return '<button disabled title="Вторая очередь">'+(SP_ST.length+i+1)+'. '+n+'</button>'; }).join("")+'</div>');
+  h.push('<div class="spst" data-st="'+st.id+'"><h3>'+esc(st.t)+'</h3>'+
+    '<details class="spwhy"'+(sp.done[st.id]?'':' open')+'><summary>Зачем, как, типичная ошибка</summary><p><b>Зачем.</b> '+st.why+'</p><p><b>Как.</b> '+st.how+'</p><p><b>Типичная ошибка.</b> '+st.err+'</p></details>');
+  if(st.id==="cmp"&&spLocked()){
+    h.push('<div class="splock"><p><b>Закрыто.</b> Сначала свои выводы: пройдите этапы «Целое», «Структура» и «Слова». Тогда комментарий будет проверять вашу мысль, а не заменять её.</p>'+
+      '<button data-sp="unlock" class="ghost">Открыть сейчас</button> <span class="spnote">Отметка об этом останется в журнале витка</span></div></div>');
+  }else{
+    if(st.id==="ctx"&&MODE==="cloud") h.push('<div class="sprow"><button data-sp="sheet">Открыть лист книги</button></div>');
+    if(st.id==="str") h.push('<div class="spl">Приёмы построения, которые вы видите в отрывке<div class="sprow spv">'+SP_DEV.map(function(v){ return '<button data-sp="dev" data-v="'+v+'"'+(sp.dev.indexOf(v)>=0?' class="on"':'')+'>'+v+'</button>'; }).join("")+'</div></div>');
+    if(st.id==="wrd") h.push(spWords());
+    if(st.id==="cmp") h.push(spComm());
+    h.push(st.f.map(function(f){ return spTa(st.id+"."+f[0],f[1],f[2],f[3]); }).join(""));
+    if(st.id==="cmp"&&MODE==="cloud") h.push('<div class="sprow"><button data-sp="sheet">Открыть лист книги</button></div>');
+    h.push(spIdeaBlock(st)); h.push(spCheckBlock(st)); h.push('</div>');
+  }
+  var keep=$("#midBody").scrollTop; el.innerHTML=h.join(""); $("#midBody").scrollTop=keep;
+}
+function spJournal(){
+  var w=document.createElement("div"); w.className="help";
+  w.innerHTML=S.sp.ideas.length?S.sp.ideas.map(function(x,i){
+    var n=S.sp.ideas.slice(0,i+1).filter(function(y){return !y.note}).length;
+    return x.note?'<p class="spjn">'+spWhen(x.at)+' · '+esc(x.text)+'</p>':
+      '<h4>Версия '+n+' · после этапа «'+esc((spStage(x.st)||{n:"?"}).n)+'» · '+spWhen(x.at)+'</h4><p>'+esc(x.text)+'</p>'+(x.why?'<p class="spjn">'+esc(x.why)+'</p>':'');
+  }).join(""):'<p>Журнал пуст. Версии главной мысли записываются в конце каждого этапа.</p>';
+  openModal("Журнал витка","Как менялась главная мысль отрывка и почему. Это и есть спираль: догадка, проверка, пересмотр.",w,S.sp.ideas.map(function(x){ return spWhen(x.at)+" — "+x.text+(x.why?"\n   "+x.why:""); }).join("\n\n"));
+}
+var SP_HOW='<div class="help">'+
+'<p>Спираль у Осборна — это не круг, по которому ходят без конца, а сужающиеся витки: каждый проход приближает к тому, что хотел сказать автор.</p>'+
+'<h4>Три движения</h4>'+
+'<p><b>Целое ↔ часть.</b> Книга объясняет отрывок, отрывок уточняет понимание книги. Поэтому начинаете с листа книги и к нему же возвращаетесь в конце.</p>'+
+'<p><b>Догадка → проверка → пересмотр.</b> Вы приходите к тексту с готовым пониманием. Метод не требует от него избавиться, он требует записать его и дать тексту его исправить. Для этого после каждого этапа вы заново пишете главную мысль и объясняете, что изменилось.</p>'+
+'<p><b>Своё → чужое.</b> Сначала собственное исследование, потом комментарии. Этап «Сверка» закрыт, пока не пройдены первые три.</p>'+
+'<h4>Как работать</h4>'+
+'<p>1. Идите по этапам слева направо. На каждом прочитайте «Зачем, как, типичная ошибка».</p>'+
+'<p>2. Заполняйте поля своими словами. Пустое поле честнее, чем заполненное для галочки.</p>'+
+'<p>3. В конце этапа запишите версию главной мысли. Без неё этап не закрывается.</p>'+
+'<p>4. Нажмите «Проверить этап». Проверка задаёт вопросы и показывает слабые места; исправляете вы сами. Сведения о греческом и еврейском в такой проверке сверяйте по словарю.</p>'+
+'<p>5. Вернуться на пройденный этап можно всегда: это и есть следующий виток.</p>'+
+'<p>Глубокую проверку с источниками делайте в чате курса: напишите там название отрывка, и разбор будет прочитан прямо из библиотеки.</p>'+
+'<p>Этапы 5–10 появятся во второй очереди.</p></div>';
+
+function spStructText(){
+  return S.phrases.map(function(p){ return new Array(p.indent+1).join("    ")+(p.label?"["+p.label+"] ":"")+T.slice(p.s,p.e).join(" "); }).join("\n");
+}
+function spCheckInput(st){
+  var sp=S.sp, L=[], bk=(MODE==="cloud"&&C.cur)?(C.BK[C.cur.meta.book]||{}):{};
+  L.push("Ты преподаватель герменевтики по книге Гранта Осборна «Герменевтическая спираль». Ученик — пресвитер церкви ЕХБ, греческого и еврейского не знает, работает по Синодальному переводу, учится методу. Он прошёл один этап разбора и просит проверить его.");
+  L.push("Правила проверки:\n- Не давай готовых ответов и не пиши свою главную мысль отрывка. Указывай слабое место и задавай вопрос, который заставит вернуться к тексту.\n- Не хвали без причины. Если что-то сделано верно, скажи это одной строкой и только о конкретном.\n- Назови от двух до четырёх самых важных слабых мест, не больше. По каждому: что именно не так, на какое слово или связь в тексте посмотреть.\n- Проверяй, вытекает ли вывод из текста, или привнесён. Проверяй, не подменена ли главная фраза подчинённой.\n- Любое утверждение о греческом или еврейском слове помечай «сверить по словарю». Не выдумывай ссылок, номеров Стронга и цитат.\n- Пустые поля называй прямо: что не сделано и почему это мешает следующему шагу.\n- Сравни последнюю версию главной мысли с предыдущими: изменение обосновано текстом или нет.\n- Пиши по-русски, простым языком, без заголовков и разметки, до 250 слов. В конце одна строка: «Этап можно закрывать» или «К этапу стоит вернуться: …».");
+  L.push("ЭТАП: "+st.n+" — "+st.t);
+  L.push("ОТРЫВОК: "+(S.title||"")+"\n"+S.source);
+  var sh=SHEET.map(function(f){ return bk[f[0]]?f[1]+": "+bk[f[0]]:""; }).filter(Boolean).join("\n");
+  L.push("ЛИСТ КНИГИ (заполнен учеником):\n"+(sh||"пусто"));
+  L.push("СТРУКТУРА (отступ = подчинение, в скобках подпись связи):\n"+spStructText());
+  SP_ST.forEach(function(x){
+    var rows=x.f.map(function(f){ var v=sp.f[x.id+"."+f[0]]; return f[1]+": "+(v&&v.trim()?v.trim():"(пусто)"); });
+    if(x.id==="str") rows.push("Отмеченные приёмы: "+(sp.dev.join(", ")||"(нет)"));
+    if(x.id==="wrd") sp.words.forEach(function(w,i){ rows.push("Карточка слова "+(i+1)+": слово «"+(w.ru||"")+"»; оригинал: "+(w.orig||"(пусто)")+"; диапазон: "+(w.range||"(пусто)")+"; у автора: "+(w.uses||"(пусто)")+"; здесь: "+(w.here||"(пусто)")+"; самопроверка: "+(w.risk||"(пусто)")); });
+    if(x.id==="cmp") sp.comm.forEach(function(c,i){ rows.push("Комментарий "+(i+1)+": "+(c.src||"")+"; говорит: "+(c.says||"(пусто)")+"; итог: "+(c.verd||"(не отмечен)")+"; что меняю: "+(c.note||"(пусто)")); });
+    if(x.id===st.id||sp.done[x.id]) L.push((x.id===st.id?"ПРОВЕРЯЕМЫЙ ЭТАП":"РАНЕЕ ПРОЙДЕННЫЙ ЭТАП")+" «"+x.n+"»:\n"+rows.join("\n"));
+  });
+  L.push("ВЕРСИИ ГЛАВНОЙ МЫСЛИ (по порядку):\n"+(sp.ideas.map(function(x){ return x.note?"(отметка: "+x.text+")":"После этапа «"+(spStage(x.st)||{n:"?"}).n+"»: "+x.text+" | объяснение: "+(x.why||"(нет)"); }).join("\n")||"(ни одной)"));
+  if(S.notes&&S.notes.trim()) L.push("ОБЩИЕ ЗАМЕТКИ УЧЕНИКА:\n"+S.notes.trim().slice(0,3000));
+  return L.join("\n\n");
+}
+var SMP, spBusy=false;
+async function spSample(){ if(SMP===undefined){ try{ SMP=(window.claude&&window.claude.use)?await window.claude.use("sample"):null; }catch(e){ SMP=null; } } return SMP; }
+async function spCheck(){
+  if(spBusy) return;
+  var st=spStage(S.sp.cur), out=$("#spChkOut"), stt=$("#spChkSt"); if(!st||!out) return;
+  spBusy=true; stt.textContent="Подключаюсь…";
+  var smp=await spSample();
+  if(!smp){ spBusy=false; stt.textContent="Проверка здесь недоступна (нет связи или страница открыта как файл). Проверьте этап в чате курса."; return; }
+  stt.textContent="Читаю ваш разбор…"; out.textContent="";
+  try{
+    var r=await smp(spCheckInput(st),{modelTier:"complex",cache:false,onText:function(x){ if(S.sp.cur===st.id&&out.isConnected) out.textContent=x.text; }});
+    var at=Date.now(); S.sp.chk[st.id]={at:at,text:r.text||""}; save();
+    if(out.isConnected&&S.sp.cur===st.id){ out.textContent=r.text||""; stt.textContent="Последняя проверка: "+spWhen(at)+(r.truncated?" (ответ обрезан)":""); }
+  }catch(e){
+    var c=e&&e.code;
+    if(stt.isConnected) stt.textContent=c==="rate_limited"?"Слишком много проверок подряд. Попробуйте через несколько минут.":c==="not_granted"?"Проверка не разрешена: при запросе доступа нужно ответить «Разрешить».":"Проверка не удалась: "+((e&&e.message)||"нет связи")+". Попробуйте ещё раз.";
+  }
+  spBusy=false;
+}
+(function spInit(){
+  var d=document.createElement("div"); d.id="spiral"; $("#midBody").appendChild(d);
+  var b=document.createElement("button"); b.id="mSpiral"; b.textContent="Спираль"; $("#mStruct").after(b);
+  b.addEventListener("click",function(){ setMode("spiral"); });
+  d.addEventListener("input",function(e){
+    var t=e.target, sp=S.sp, c;
+    if(t.dataset.f){ sp.f[t.dataset.f]=t.value; }
+    else if(t.id==="spIdea"){ sp.f["_i_"+sp.cur]=t.value; }
+    else if(t.id==="spWhy"){ sp.f["_w_"+sp.cur]=t.value; }
+    else if(t.dataset.wf&&(c=t.closest("[data-w]"))){ var w=sp.words[+c.dataset.w]; if(w){ w[t.dataset.wf]=t.value; if(t.dataset.wf==="ru") c.querySelector("b").textContent=t.value||"Новое слово"; } }
+    else if(t.dataset.cf&&(c=t.closest("[data-c]"))){ var m=sp.comm[+c.dataset.c]; if(m){ m[t.dataset.cf]=t.value; if(t.dataset.cf==="src") c.querySelector("b").textContent=t.value||"Комментарий"; } }
+    else return;
+    save();
+  });
+  d.addEventListener("click",function(e){
+    var b=e.target.closest("button[data-sp]"); if(!b) return;
+    var a=b.dataset.sp, sp=S.sp, c, i;
+    if(a==="go"){ sp.cur=b.dataset.s; save(); renderSpiral(); $("#midBody").scrollTop=0; }
+    else if(a==="box"){ var w=document.createElement("div"); w.innerHTML=SP_BOX; openModal("Ящик инструментов","Справочник к этапам «Структура» и «Слова». Пополнится во второй очереди.",w,""); }
+    else if(a==="how"){ var w2=document.createElement("div"); w2.innerHTML=SP_HOW; openModal("Как идти по спирали","",w2,""); }
+    else if(a==="jr"){ spJournal(); }
+    else if(a==="sheet"){ $("#btnSheet").click(); }
+    else if(a==="dev"){ i=sp.dev.indexOf(b.dataset.v); if(i>=0) sp.dev.splice(i,1); else sp.dev.push(b.dataset.v); commit(); renderSpiral(); }
+    else if(a==="wadd"){ sp.words.push({id:uid(),ru:sel?bareRange(sel.a,sel.b):"",orig:"",range:"",uses:"",here:"",risk:""}); commit(); renderSpiral(); }
+    else if(a==="wdel"&&(c=b.closest("[data-w]"))){ sp.words.splice(+c.dataset.w,1); commit(); renderSpiral(); say("Карточка удалена. Можно «Отменить»."); }
+    else if(a==="cadd"){ sp.comm.push({id:uid(),src:"",says:"",verd:"",note:""}); commit(); renderSpiral(); }
+    else if(a==="cdel"&&(c=b.closest("[data-c]"))){ sp.comm.splice(+c.dataset.c,1); commit(); renderSpiral(); say("Запись удалена. Можно «Отменить»."); }
+    else if(a==="verd"&&(c=b.closest("[data-c]"))){ var m=sp.comm[+c.dataset.c]; if(m){ m.verd=m.verd===b.dataset.v?"":b.dataset.v; commit(); renderSpiral(); } }
+    else if(a==="idea"){
+      var tx=$("#spIdea").value.trim(), wy=$("#spWhy").value.trim();
+      if(!tx){ say("Сначала напишите главную мысль одним предложением"); $("#spIdea").focus(); return; }
+      if(!wy){ say("Напишите, что изменилось и почему: без этого версия не записывается"); $("#spWhy").focus(); return; }
+      sp.ideas.push({id:uid(),at:Date.now(),st:sp.cur,text:tx,why:wy}); delete sp.f["_i_"+sp.cur]; delete sp.f["_w_"+sp.cur];
+      commit(); renderSpiral(); say(sp.cur==="ctx"?"Версия записана":"Версия записана. Не меняет ли она план книги? Загляните в лист книги.");
+    }
+    else if(a==="done"){
+      if(!sp.done[sp.cur]&&!spHasIdea(sp.cur)){ say("Сначала запишите версию главной мысли после этого этапа"); return; }
+      if(sp.done[sp.cur]) delete sp.done[sp.cur]; else sp.done[sp.cur]=1;
+      commit(); renderSpiral();
+    }
+    else if(a==="unlock"){
+      if(!b.dataset.arm){ b.dataset.arm="1"; b.textContent="Точно открыть до своих выводов?"; setTimeout(function(){ if(b.isConnected){ delete b.dataset.arm; b.textContent="Открыть сейчас"; } },3500); return; }
+      sp.strict=false; sp.ideas.push({id:uid(),at:Date.now(),note:1,text:"Комментарии открыты до завершения собственных выводов"}); commit(); renderSpiral();
+    }
+    else if(a==="check"){ spCheck(); }
+  });
+})();
+
+/* ---------- help ---------- */
+var HELP='<div class="help">'+
+'<h4>Как устроено</h4><p>Библиотека: книга → отрывки. Отрывок выбираете сами во вкладке «Читать и выбрать»: нажмите на первый стих, затем на последний, и в отрывок войдут все стихи между ними, сколько угодно. Нажатие на стих ниже или выше двигает границу, «Сбросить» начинает выбор заново. Всё сохраняется в облаке само и видно с ноутбука и телефона. </p>'+
+'<h4>Два режима</h4><p>Вверху отрывка переключатель. <b>Изучение</b>: текст, структура, «Спираль», заметки и пометки. <b>Проповедь</b> (на ноутбуке): слева то, что дало изучение; посередине текст проповеди блоками; справа слайды, которые собираются из блоков сами.</p>'+
+'<h4>Спираль</h4><p>В отрывке, в среднем поле, есть режим «Спираль»: разбор по методу Осборна этап за этапом. Там же кнопки «Как идти по спирали» и «Ящик инструментов».</p>'+
+'<h4>Пометки на тексте</h4><p>Пометки ставятся в режиме «Проповедь»: слева вверху стоит текст отрывка. Нажмите на слово (для словосочетания: первое слово, затем с зажатым Shift последнее) и внизу выберите «Подчеркнуть», «Обвести» или «Стрелка от него». Для стрелки затем нажмите слово, к которому она ведёт. Подпись к пометке и её удаление — в списке под текстом; кнопка → ставит пометку слайдом. Подпись на экране пишется курсивом. Обводка работает, пока слова стоят в одной строке; если они переносятся, вместо неё рисуется подчёркивание.</p>'+
+'<h4>Проповедь из блоков</h4><p>Текст проповеди пишется блоками: блок — это пункт или абзац. У блока может быть слайд. Он выходит на экран в тот момент, когда вы начинаете говорить этот блок. Отдельного порядка шагов больше нет: порядок слайдов задаёт сам текст. Справа видна лента слайдов: название, чтение отрывка, слайды блоков, главная мысль, итог.</p>'+
+'<p><b>Чтение отрывка.</b> Сразу после названия идёт полный текст отрывка для чтения вслух. Размер шрифта подбирается сам; если весь текст крупно не помещается, он делится на несколько слайдов по границам стихов. Число слайдов считается под размер окна, поэтому на телевизоре оно может отличаться от ленты. Каждый стих начинается с новой строки. Отключается галочкой под названием.</p>'+
+'<p><b>Размер шрифта на экране.</b> Текст на каждом слайде сам занимает столько места, сколько есть: мало текста — крупно. Кнопки «−» и «+» рядом с «Показ» (в самом показе клавиши «−» и «+») сдвигают размер для всего отрывка. Если экран уже заполнен, «+» текст не увеличит; на слайдах чтения он тогда разложит отрывок на большее число слайдов.</p>'+
+'<p><b>Несколько пометок сразу.</b> У слайда «разметка» пометки отмечаются галочками: все отмеченные появятся на экране одновременно, например подчёркивание слова и стрелка к нему.</p>'+
+'<p><b>Какие бывают слайды.</b> «Тезис по центру» — одна мысль на чёрном экране. «Отрывок: открыть фразу» — текст отрывка раскрывается фраза за фразой; с галочкой «вместе с подчинёнными» главная фраза открывается сразу со своими подчинёнными. «Тезис к слову» — слово загорается в отрывке, тезис встаёт столбиком справа; такой блок вставляется кнопкой → у заметки к слову. «Разметка» — весь текст стоит на экране, пометка рисуется поверх. «Параллельное место» — ссылка и текст.</p>'+
+'<p><b>Собрать из разбора.</b> Кнопка расставляет черновик: по блоку на каждую главную фразу, под ней блоки тех слов, у которых заполнено поле «На экран» (текстом блока становится ваша заметка к слову). Тезисов она не сочиняет. Нынешние блоки она заменяет, вернуть их можно кнопкой «Отменить».</p>'+
+'<p><b>Текст в Word.</b> Скачивает текст проповеди файлом .docx. Перед блоком со слайдом стоит мелкая строка с номером слайда, чтобы на кафедре было видно, когда листать.</p>'+
+'<p><b>Показ.</b> «▶ Показ» начинает с названия, кнопка ▶ на слайде в ленте — с него. Стрелка вправо, пробел или кликер — дальше; стрелка влево — назад; Esc — выход. Для зала без интернета нажмите «Файл для зала»: скачается отдельный файл с этим отрывком. После правок файл нужно скачать заново.</p>'+
+'<h4>Что означают квадратные скобки</h4><p>Ветхий Завет Синодального перевода переведён с еврейского текста. Переводчики при этом сверялись с древним греческим переводом — Септуагинтой (перевод семидесяти, III–II века до Р. Х.). Слова и фразы, которые есть в греческом тексте, но которых нет в еврейском, они поставили в скобки. Пример: Бытие 1:6 — «[И стало так.]»; в Бытие 5 в скобках даны другие числа лет из греческого текста.</p>'+
+'<p><b>Почему в вашей печатной Библии их нет.</b> Издания, которыми обычно пользуются евангельские церкви, следуют только еврейскому тексту и вставки из Септуагинты опускают. Издания со скобками сохраняют текст в том виде, в каком его выпустил Синод.</p>'+
+'<p><b>Чем они полезны.</b> Скобка показывает место, где два древних свидетеля текста расходятся. Авторы Нового Завета часто цитируют Ветхий по Септуагинте, поэтому вставка иногда объясняет, почему цитата в Новом Завете звучит не так, как в Ветхом.</p>'+
+'<p><b>Как с ними обращаться.</b> Слова в скобках — не часть еврейского текста. Не стройте на них главную мысль и не читайте их с кафедры как Писание без оговорки. Это наблюдение для изучения, а не основание для вывода.</p>'+
+'<p>В Новом Завете этого текста скобок почти нет (15 стихов). В Есфири и Данииле в скобках стоят большие неканонические добавления. В отдельных местах вместо квадратных скобок стоят круглые. Курсив печатных изданий (слова, добавленные переводчиками для связи речи) здесь не сохранён.</p>'+
+'<h4>Насколько точен текст</h4><p>Текст взят из открытого электронного издания Синодального перевода. При выборочной сверке с другим электронным изданием около девяти стихов из десяти совпали буква в букву; расхождения мелкие: написание отдельных слов, заглавные буквы, вид скобок, нет буквы «ё». Цитату для проповеди сверяйте по bible.by или печатной Библии.</p>'+
+'<h4>Сохранение</h4><p>Справа вверху в отрывке видно состояние: «Сохранено в 14:05» или «Не сохранено». Без связи изменения лежат черновиком на этом устройстве и уйдут в облако, когда связь вернётся. Если один отрывок открыт сразу на двух устройствах, останется то, что сохранено последним. «Скачать всю библиотеку» — страховочная копия в файл.</p>'+
+'</div>';
+function showHelp(){ var w=document.createElement("div"); w.innerHTML=HELP; openModal("Справка","",w,""); }
+$("#btnHelp").addEventListener("click",showHelp);
+$("#btnHelp2").addEventListener("click",showHelp);
+
+/* ---------- start ---------- */
+function startLocal(){
+  T=tok(S.source); cleanScript(); lastSnap=JSON.stringify(S); $("#btnUndo").disabled=true;
+  document.body.classList.add(MODE==="embed"?"m-embed":"m-local"); setView("work"); setPane("text"); renderAll();
+}
+function oldLocal(){
+  var d=null;
+  try{ d=JSON.parse(localStorage.getItem(KEY)||"null"); }catch(e){}
+  if(d&&typeof d.source==="string"&&Array.isArray(d.phrases)){ S=normalize(d); }
+  else{ S=fresh(DEFAULT_TEXT,DEFAULT_TITLE); T=tok(S.source); cutVerses(); }
+}
+(async function init(){
+  if(EMBED){
+    MODE="embed"; LKEY="osb-embed-"+EMBED.id+"-"+EMBED.at;
+    var d=null; try{ d=JSON.parse(localStorage.getItem(LKEY)||"null"); }catch(e){}
+    S=normalize(d&&typeof d.source==="string"&&Array.isArray(d.phrases)?d:EMBED.S); startLocal(); return;
+  }
+  S=fresh("",""); setView("lib"); libSt("Подключаюсь к хранилищу…");
+  var db=null;
+  try{ db=window.claude&&window.claude.use?await window.claude.use("db"):null; }catch(e){}
+  if(!db&&STD){ db=LocalDB(); await db.ready; if(!db.ok()) db=null; else{ document.body.classList.add("m-std"); try{ if(navigator.storage&&navigator.storage.persist) navigator.storage.persist(); }catch(e){} } }
+  if(!db){ MODE="local"; oldLocal(); startLocal(); say("Хранилище недоступно: работаю с одним отрывком в этом браузере"); return; }
+  MODE="cloud"; C.db=db; document.body.classList.add("m-cloud");
+  try{ var r=await fetch("bible/index.json"); if(!r.ok) throw 0; BOOKS=await r.json(); }
+  catch(e){ libSt("Список книг не загрузился. Проверьте интернет и откройте страницу заново.","bad"); return; }
+  var got=false, lt=setTimeout(function(){ if(!got) libSt("Хранилище не отвечает. Проверьте интернет; попытки продолжаются.","bad"); },10000);
+  renderLib();
+  db.collection("passages").limit(1000).onSnapshot(function(q){
+    var P={}; q.docs.forEach(function(d){ P[d.id]=clone(d.data()); }); C.P=P;
+    if(!q.metadata.fromCache&&!got){ got=true; clearTimeout(lt); libSt(STD?"Данные хранятся в этом браузере. Время от времени нажимайте «Скачать всю библиотеку»: это ваша резервная копия.":""); }
+    if(view==="lib"){ renderBookList(); if(L.tab==="list") renderBookPage(); }
+  },function(e){ clearTimeout(lt); libSt("Ошибка хранилища: "+e.code,"bad"); });
+  db.collection("books").limit(200).onSnapshot(function(q){
+    q.docs.forEach(function(d){ if(!sheetDirty[d.id]) C.BK[d.id]=clone(d.data()); });
+    if(view==="lib"&&L.tab==="sheet"&&!(document.activeElement&&document.activeElement.classList.contains("shf"))) renderBookPage();
+  },function(){});
+})();
+})();
+</script>
+</body>
+</html>
