@@ -420,7 +420,7 @@ body.g-sermon .studyonly{display:none !important}
 </head>
 <body>
 <div id="app"></div>
-<script id="appjs">var __MARKUP__="<div id=\"lib\">\n  <header class=\"lhead\"><span class=\"brand\">Разбор Слова <small style=\"font:italic 11px var(--f-ui);letter-spacing:0;color:var(--ink-2)\">версия 12.11 · 9</small></span><span id=\"libSt\" role=\"status\"></span><button id=\"btnBackup\" class=\"cloudonly\">Скачать всю библиотеку</button><label class=\"filebtn cloudonly\" title=\"Файл, скачанный кнопкой «Скачать всю библиотеку»\">Загрузить библиотеку из файла<input id=\"impAll\" type=\"file\" accept=\".json,application/json\"></label><button id=\"btnHelp2\">Справка</button></header>\n  <div id=\"libBody\"><aside id=\"bookList\" aria-label=\"Книги\"></aside><div id=\"bookPage\"></div></div>\n</div>\n<div id=\"work\">\n<header>\n  <button id=\"btnLib\" class=\"cloudonly\">← Библиотека</button>\n  <input id=\"title\" aria-label=\"Название отрывка\" placeholder=\"Отрывок, например: Римлянам 5:1–5\">\n  <span class=\"seg wideonly\" id=\"modeSeg\" role=\"group\" aria-label=\"Режим работы\"><button id=\"gStudy\">Изучение</button><button id=\"gSermon\">Проповедь</button></span>\n  <button id=\"btnStatus\" class=\"cloudonly\"></button>\n  <button id=\"btnSheet\" class=\"cloudonly studyonly\">Лист книги</button>\n  <button id=\"btnUndo\" title=\"Отменить последнее действие (Ctrl+Z)\">Отменить</button>\n  <button id=\"btnSave\" class=\"wideonly studyonly\">Сохранить в файл</button>\n  <label class=\"filebtn localonly studyonly\">Открыть файл<input id=\"fileIn\" type=\"file\" accept=\".json,application/json\"></label>\n  <button id=\"btnPng\" class=\"wideonly studyonly\">Схема картинкой (PNG)</button>\n  <span class=\"fsz wideonly sermononly\" title=\"Размер шрифта на экране зала\">Шрифт <button id=\"fsDn\" aria-label=\"Шрифт на экране мельче\">−</button><b id=\"fsVal\">100%</b><button id=\"fsUp\" aria-label=\"Шрифт на экране крупнее\">+</button></span>\n  <button id=\"btnShow\" class=\"wideonly sermononly on\">▶ Показ</button>\n  <button id=\"btnDocx\" class=\"wideonly sermononly\">Текст в Word</button>\n  <button id=\"btnExport\" class=\"cloudonly wideonly sermononly\" title=\"Отдельный файл для показа в зале, работает без интернета\">Файл для зала</button>\n  <button id=\"btnHelp\" class=\"wideonly\">Справка</button>\n  <span id=\"cloudSt\" class=\"cloudonly\"></span>\n  <span id=\"status\" role=\"status\"></span>\n</header>\n<nav id=\"ptabs\"><button data-p=\"text\">Текст</button><button data-p=\"field\">Разбор</button><button data-p=\"notes\">Заметки</button></nav>\n\n<main id=\"main\">\n  <section id=\"left\" aria-label=\"Исходный текст\">\n    <div class=\"phead\">\n      <h2>Текст</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Что делает клик по слову\"><button id=\"tCut\">Резать</button><button id=\"tNote\">Заметки к словам</button></span>\n      <button id=\"btnEdit\" class=\"ghost\">Изменить текст</button>\n    </div>\n    <div class=\"phead\" id=\"srcTools\">\n      <button id=\"cutVerses\">Резать по стихам</button>\n      <button id=\"cutPunct\">По знакам препинания</button>\n      <button id=\"cutReset\" class=\"ghost\">Убрать все разрезы</button>\n    </div>\n    <div class=\"pbody\"><div id=\"srcWrap\"><div id=\"src\"></div><svg id=\"srcMarks\" aria-hidden=\"true\"></svg></div><div id=\"markList\"></div></div>\n    <div id=\"selBar\"></div>\n    <div id=\"srcEdit\">\n      <textarea id=\"srcText\" aria-label=\"Исходный текст\" placeholder=\"Вставьте сюда текст (Синодальный перевод). Номера стихов можно оставить: они станут маленькими цифрами.\"></textarea>\n      <div class=\"rowb\">\n        <button id=\"srcApply\" class=\"on\">Готово</button>\n        <button id=\"srcCancel\">Отмена</button>\n      </div>\n      <div style=\"color:var(--ink-2);font-size:12px\">Разрезы, заметки и текст проповеди сохранятся. Пропадёт только то, что привязано к удалённым словам. Если что-то пошло не так, есть кнопка «Отменить».</div>\n    </div>\n    <div class=\"hint\" id=\"srcHint\"></div>\n  </section>\n\n  <section id=\"mid\" aria-label=\"Рабочее поле\">\n    <div class=\"phead\">\n      <h2>Рабочее поле</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Режим\">\n        <button id=\"mStruct\">Структура</button>\n      </span>\n    </div>\n    <div class=\"pbody\" id=\"midBody\">\n      <div id=\"structure\"></div>\n    </div>\n    <div class=\"hint\" id=\"midHint\"></div>\n  </section>\n\n  <section id=\"right\" aria-label=\"Заметки\">\n    <div class=\"phead\"><h2>Заметки</h2></div>\n    <div class=\"pbody\" id=\"noteBody\">\n      <div id=\"noteHead\"></div>\n      <div id=\"scrWrap\">\n        <label for=\"scr\">На экран</label>\n        <textarea id=\"scr\" rows=\"2\" placeholder=\"Короткий тезис к этому слову\"></textarea>\n        <small>Это увидит зал. Заметка ниже остаётся только у вас.</small>\n      </div>\n      <textarea id=\"notes\" aria-label=\"Заметка\"></textarea>\n      <div id=\"noteList\"></div>\n    </div>\n  </section>\n</main>\n<div id=\"sm\">\n  <section id=\"smL\" aria-label=\"Материалы изучения\">\n    <div class=\"phead\"><h2>Из изучения</h2></div>\n    <div class=\"pbody\"><div id=\"smText\" class=\"tool-mark\"><div class=\"smh\">Текст и пометки</div><div class=\"smn\">Клик по слову выделяет его, Shift-клик растягивает до другого слова. Затем «Подчеркнуть», «Обвести» или «Стрелка от него». Кнопка → у пометки ставит её слайдом.</div></div><div id=\"smMat\"></div></div>\n    <div class=\"hint\">Кнопка → вставляет материал блоком под выбранным блоком. Здесь материал не меняется: править его нужно в режиме «Изучение».</div>\n  </section>\n  <section id=\"smM\" aria-label=\"Текст проповеди\">\n    <div class=\"phead\"><h2>Текст проповеди</h2><span id=\"smCount\" class=\"snote\"></span><button id=\"smBuild\">Собрать из разбора</button></div>\n    <div class=\"pbody\" id=\"smBody\">\n      <div class=\"sf\"><label for=\"sTheme\">Название</label><input id=\"sTheme\" placeholder=\"Название проповеди. Первый слайд\"><span></span><label class=\"rdl\"><input type=\"checkbox\" id=\"sRead\"> После названия показать полный текст отрывка для чтения</label></div>\n      <div id=\"smBlocks\"></div>\n      <button id=\"smAdd\" class=\"ghost\">+ Блок</button>\n      <div class=\"sf\" style=\"margin-top:22px\">\n        <label for=\"sMain\">Главная мысль</label><textarea id=\"sMain\" rows=\"2\" placeholder=\"Одно предложение, которое зал должен унести. Предпоследний слайд\"></textarea>\n        <label for=\"sSum\">Итог</label><textarea id=\"sSum\" rows=\"2\" placeholder=\"К чему зовёт текст. Последний слайд\"></textarea>\n      </div>\n    </div>\n    <div class=\"hint\">Блок — это пункт или абзац. Слайд блока выходит на экран, когда вы начинаете его говорить. Тёмная полоса в блоке — то, что увидит зал.</div>\n  </section>\n  <section id=\"smR\" aria-label=\"Слайды\">\n    <div class=\"phead\"><h2>Слайды</h2></div>\n    <div class=\"pbody\" id=\"smSlides\"></div>\n    <div class=\"hint\">Лента собирается сама, порядок задаёт текст. Клик по слайду ведёт к его блоку, ▶ начинает показ с него.</div>\n  </section>\n</div>\n</div>\n\n<datalist id=\"rels\">\n  <option value=\"основание\"><option value=\"причина\"><option value=\"следствие\"><option value=\"цель\"><option value=\"результат\">\n  <option value=\"условие\"><option value=\"уступка\"><option value=\"средство\"><option value=\"образ действия\"><option value=\"время\">\n  <option value=\"пояснение\"><option value=\"противопоставление\"><option value=\"ряд\"><option value=\"вывод\"><option value=\"сравнение\">\n</datalist>\n\n<div id=\"modal\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"mTitle\"><div class=\"box\">\n  <h3 id=\"mTitle\"></h3><p id=\"mText\"></p><div id=\"mBody\"></div>\n  <div class=\"rowb\"><button id=\"mCopy\">Скопировать</button><button id=\"mClose\">Закрыть</button></div>\n</div></div>\n\n<div id=\"show\" aria-label=\"Показ на экране\">\n  <div id=\"shBody\"><div id=\"shIn\"></div></div>\n  <div id=\"shThesis\"></div>\n  <div id=\"shCount\"></div>\n</div>\n";
+<script id="appjs">var __MARKUP__="<div id=\"lib\">\n  <header class=\"lhead\"><span class=\"brand\">Разбор Слова <small style=\"font:italic 11px var(--f-ui);letter-spacing:0;color:var(--ink-2)\">версия 12.11 · 10</small></span><span id=\"libSt\" role=\"status\"></span><button id=\"btnSync\" class=\"stdonly\">Синхронизация</button><span id=\"syncSt\" class=\"stdonly\" role=\"status\"></span><button id=\"btnBackup\" class=\"cloudonly\">Скачать всю библиотеку</button><label class=\"filebtn cloudonly\" title=\"Файл, скачанный кнопкой «Скачать всю библиотеку»\">Загрузить библиотеку из файла<input id=\"impAll\" type=\"file\" accept=\".json,application/json\"></label><button id=\"btnHelp2\">Справка</button></header>\n  <div id=\"libBody\"><aside id=\"bookList\" aria-label=\"Книги\"></aside><div id=\"bookPage\"></div></div>\n</div>\n<div id=\"work\">\n<header>\n  <button id=\"btnLib\" class=\"cloudonly\">← Библиотека</button>\n  <input id=\"title\" aria-label=\"Название отрывка\" placeholder=\"Отрывок, например: Римлянам 5:1–5\">\n  <span class=\"seg wideonly\" id=\"modeSeg\" role=\"group\" aria-label=\"Режим работы\"><button id=\"gStudy\">Изучение</button><button id=\"gSermon\">Проповедь</button></span>\n  <button id=\"btnStatus\" class=\"cloudonly\"></button>\n  <button id=\"btnSheet\" class=\"cloudonly studyonly\">Лист книги</button>\n  <button id=\"btnUndo\" title=\"Отменить последнее действие (Ctrl+Z)\">Отменить</button>\n  <button id=\"btnSave\" class=\"wideonly studyonly\">Сохранить в файл</button>\n  <label class=\"filebtn localonly studyonly\">Открыть файл<input id=\"fileIn\" type=\"file\" accept=\".json,application/json\"></label>\n  <button id=\"btnPng\" class=\"wideonly studyonly\">Схема картинкой (PNG)</button>\n  <span class=\"fsz wideonly sermononly\" title=\"Размер шрифта на экране зала\">Шрифт <button id=\"fsDn\" aria-label=\"Шрифт на экране мельче\">−</button><b id=\"fsVal\">100%</b><button id=\"fsUp\" aria-label=\"Шрифт на экране крупнее\">+</button></span>\n  <button id=\"btnShow\" class=\"wideonly sermononly on\">▶ Показ</button>\n  <button id=\"btnDocx\" class=\"wideonly sermononly\">Текст в Word</button>\n  <button id=\"btnExport\" class=\"cloudonly wideonly sermononly\" title=\"Отдельный файл для показа в зале, работает без интернета\">Файл для зала</button>\n  <button id=\"btnHelp\" class=\"wideonly\">Справка</button>\n  <span id=\"cloudSt\" class=\"cloudonly\"></span>\n  <span id=\"status\" role=\"status\"></span>\n</header>\n<nav id=\"ptabs\"><button data-p=\"text\">Текст</button><button data-p=\"field\">Разбор</button><button data-p=\"notes\">Заметки</button></nav>\n\n<main id=\"main\">\n  <section id=\"left\" aria-label=\"Исходный текст\">\n    <div class=\"phead\">\n      <h2>Текст</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Что делает клик по слову\"><button id=\"tCut\">Резать</button><button id=\"tNote\">Заметки к словам</button></span>\n      <button id=\"btnEdit\" class=\"ghost\">Изменить текст</button>\n    </div>\n    <div class=\"phead\" id=\"srcTools\">\n      <button id=\"cutVerses\">Резать по стихам</button>\n      <button id=\"cutPunct\">По знакам препинания</button>\n      <button id=\"cutReset\" class=\"ghost\">Убрать все разрезы</button>\n    </div>\n    <div class=\"pbody\"><div id=\"srcWrap\"><div id=\"src\"></div><svg id=\"srcMarks\" aria-hidden=\"true\"></svg></div><div id=\"markList\"></div></div>\n    <div id=\"selBar\"></div>\n    <div id=\"srcEdit\">\n      <textarea id=\"srcText\" aria-label=\"Исходный текст\" placeholder=\"Вставьте сюда текст (Синодальный перевод). Номера стихов можно оставить: они станут маленькими цифрами.\"></textarea>\n      <div class=\"rowb\">\n        <button id=\"srcApply\" class=\"on\">Готово</button>\n        <button id=\"srcCancel\">Отмена</button>\n      </div>\n      <div style=\"color:var(--ink-2);font-size:12px\">Разрезы, заметки и текст проповеди сохранятся. Пропадёт только то, что привязано к удалённым словам. Если что-то пошло не так, есть кнопка «Отменить».</div>\n    </div>\n    <div class=\"hint\" id=\"srcHint\"></div>\n  </section>\n\n  <section id=\"mid\" aria-label=\"Рабочее поле\">\n    <div class=\"phead\">\n      <h2>Рабочее поле</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Режим\">\n        <button id=\"mStruct\">Структура</button>\n      </span>\n    </div>\n    <div class=\"pbody\" id=\"midBody\">\n      <div id=\"structure\"></div>\n    </div>\n    <div class=\"hint\" id=\"midHint\"></div>\n  </section>\n\n  <section id=\"right\" aria-label=\"Заметки\">\n    <div class=\"phead\"><h2>Заметки</h2></div>\n    <div class=\"pbody\" id=\"noteBody\">\n      <div id=\"noteHead\"></div>\n      <div id=\"scrWrap\">\n        <label for=\"scr\">На экран</label>\n        <textarea id=\"scr\" rows=\"2\" placeholder=\"Короткий тезис к этому слову\"></textarea>\n        <small>Это увидит зал. Заметка ниже остаётся только у вас.</small>\n      </div>\n      <textarea id=\"notes\" aria-label=\"Заметка\"></textarea>\n      <div id=\"noteList\"></div>\n    </div>\n  </section>\n</main>\n<div id=\"sm\">\n  <section id=\"smL\" aria-label=\"Материалы изучения\">\n    <div class=\"phead\"><h2>Из изучения</h2></div>\n    <div class=\"pbody\"><div id=\"smText\" class=\"tool-mark\"><div class=\"smh\">Текст и пометки</div><div class=\"smn\">Клик по слову выделяет его, Shift-клик растягивает до другого слова. Затем «Подчеркнуть», «Обвести» или «Стрелка от него». Кнопка → у пометки ставит её слайдом.</div></div><div id=\"smMat\"></div></div>\n    <div class=\"hint\">Кнопка → вставляет материал блоком под выбранным блоком. Здесь материал не меняется: править его нужно в режиме «Изучение».</div>\n  </section>\n  <section id=\"smM\" aria-label=\"Текст проповеди\">\n    <div class=\"phead\"><h2>Текст проповеди</h2><span id=\"smCount\" class=\"snote\"></span><button id=\"smBuild\">Собрать из разбора</button></div>\n    <div class=\"pbody\" id=\"smBody\">\n      <div class=\"sf\"><label for=\"sTheme\">Название</label><input id=\"sTheme\" placeholder=\"Название проповеди. Первый слайд\"><span></span><label class=\"rdl\"><input type=\"checkbox\" id=\"sRead\"> После названия показать полный текст отрывка для чтения</label></div>\n      <div id=\"smBlocks\"></div>\n      <button id=\"smAdd\" class=\"ghost\">+ Блок</button>\n      <div class=\"sf\" style=\"margin-top:22px\">\n        <label for=\"sMain\">Главная мысль</label><textarea id=\"sMain\" rows=\"2\" placeholder=\"Одно предложение, которое зал должен унести. Предпоследний слайд\"></textarea>\n        <label for=\"sSum\">Итог</label><textarea id=\"sSum\" rows=\"2\" placeholder=\"К чему зовёт текст. Последний слайд\"></textarea>\n      </div>\n    </div>\n    <div class=\"hint\">Блок — это пункт или абзац. Слайд блока выходит на экран, когда вы начинаете его говорить. Тёмная полоса в блоке — то, что увидит зал.</div>\n  </section>\n  <section id=\"smR\" aria-label=\"Слайды\">\n    <div class=\"phead\"><h2>Слайды</h2></div>\n    <div class=\"pbody\" id=\"smSlides\"></div>\n    <div class=\"hint\">Лента собирается сама, порядок задаёт текст. Клик по слайду ведёт к его блоку, ▶ начинает показ с него.</div>\n  </section>\n</div>\n</div>\n\n<datalist id=\"rels\">\n  <option value=\"основание\"><option value=\"причина\"><option value=\"следствие\"><option value=\"цель\"><option value=\"результат\">\n  <option value=\"условие\"><option value=\"уступка\"><option value=\"средство\"><option value=\"образ действия\"><option value=\"время\">\n  <option value=\"пояснение\"><option value=\"противопоставление\"><option value=\"ряд\"><option value=\"вывод\"><option value=\"сравнение\">\n</datalist>\n\n<div id=\"modal\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"mTitle\"><div class=\"box\">\n  <h3 id=\"mTitle\"></h3><p id=\"mText\"></p><div id=\"mBody\"></div>\n  <div class=\"rowb\"><button id=\"mCopy\">Скопировать</button><button id=\"mClose\">Закрыть</button></div>\n</div></div>\n\n<div id=\"show\" aria-label=\"Показ на экране\">\n  <div id=\"shBody\"><div id=\"shIn\"></div></div>\n  <div id=\"shThesis\"></div>\n  <div id=\"shCount\"></div>\n</div>\n";
 (function(){
 "use strict";
 document.getElementById("app").innerHTML=__MARKUP__;
@@ -2011,8 +2011,9 @@ function LocalDB(){
       cur.onerror=function(){ ok(); };
     };
   });
-  return {
-    ready:ready, ok:function(){ return !!idb; },
+  var api={
+    ready:ready, ok:function(){ return !!idb; }, onChange:null,
+    dump:function(){ return clone(mem); },
     collection:function(n){
       var q={limit:function(){ return q; },
         get:function(){ return ready.then(function(){ return snap(n); }); },
@@ -2023,11 +2024,12 @@ function LocalDB(){
       var p=String(path).split("/");
       return {
         get:function(){ return ready.then(function(){ var v=col(p[0])[p[1]]; return {id:p[1],exists:v!==undefined,data:function(){ return v===undefined?undefined:clone(v); }}; }); },
-        set:function(v){ return ready.then(function(){ var c=clone(v); return put(path,c).then(function(){ col(p[0])[p[1]]=c; fire(p[0]); }); }); },
-        delete:function(){ return ready.then(function(){ return put(path,undefined).then(function(){ delete col(p[0])[p[1]]; fire(p[0]); }); }); }
+        set:function(v,o){ return ready.then(function(){ var c=clone(v); return put(path,c).then(function(){ col(p[0])[p[1]]=c; fire(p[0]); if(!(o&&o.sync)&&api.onChange) api.onChange(); }); }); },
+        delete:function(o){ return ready.then(function(){ return put(path,undefined).then(function(){ delete col(p[0])[p[1]]; fire(p[0]); if(!(o&&o.sync)&&api.onChange) api.onChange(); }); }); }
       };
     }
   };
+  return api;
 }
 if(STD){
   try{ if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(function(){}); }catch(e){}
@@ -2051,6 +2053,182 @@ async function restoreBackup(raw){
   }catch(e){ libSt("Перенос прервался: хранилище не приняло запись","bad"); return; }
   libSt("Библиотека перенесена: новых отрывков "+add+", обновлено "+upd+(same?", уже были "+same:""));
   renderLib();
+}
+
+/* ---------- sync between devices through a private GitHub repository ----------
+   Each document is a file data/<collection>/<id>.json. The device remembers, per file, the git blob of the last agreed version (base).
+   local == remote: nothing to do; only remote moved: take it; only local moved: send it; both moved: the later one (field at) wins,
+   the other is kept in data/conflicts/. A file missing on one side counts as deleted there if it had a base, as new otherwise. */
+var SYNC_COLS=["passages","bodies","books"], SYNC_KEY="rs-sync", SYNC_BASE="rs-sync-base";
+var SY={cfg:null, base:{}, busy:false, again:false, timer:null, last:0, st:"", bad:false, exp:null};
+function syLoad(){
+  try{ SY.cfg=JSON.parse(localStorage.getItem(SYNC_KEY)||"null"); }catch(e){ SY.cfg=null; }
+  try{ SY.base=JSON.parse(localStorage.getItem(SYNC_BASE)||"{}")||{}; }catch(e){ SY.base={}; }
+}
+function sySaveBase(){ try{ localStorage.setItem(SYNC_BASE,JSON.stringify(SY.base)); }catch(e){} }
+function sySt(msg,bad){
+  SY.st=msg; SY.bad=!!bad;
+  var el=$("#syncSt"); if(el){ el.textContent=msg; el.classList.toggle("bad",!!bad); }
+  var b=$("#btnSync"); if(b) b.classList.toggle("on",!!SY.cfg&&!bad);
+}
+function syEnc(s){ var u=new TextEncoder().encode(s), b="", i; for(i=0;i<u.length;i+=0x8000) b+=String.fromCharCode.apply(null,u.subarray(i,i+0x8000)); return btoa(b); }
+function syDec(b64){ var bin=atob(String(b64).replace(/\s/g,"")), u=new Uint8Array(bin.length), i; for(i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i); return new TextDecoder().decode(u); }
+async function syBlobSha(text){
+  var body=new TextEncoder().encode(text), head=new TextEncoder().encode("blob "+body.length+"\0"), all=new Uint8Array(head.length+body.length);
+  all.set(head,0); all.set(body,head.length);
+  var h=new Uint8Array(await crypto.subtle.digest("SHA-1",all));
+  return Array.prototype.map.call(h,function(x){ return (x<16?"0":"")+x.toString(16); }).join("");
+}
+function syText(doc){ return JSON.stringify(doc,null,1)+"\n"; }
+async function syApi(method,path,body){
+  var c=SY.cfg, r;
+  try{
+    r=await fetch("https://api.github.com/repos/"+c.repo+path,{method:method,cache:"no-store",
+      headers:{"Authorization":"Bearer "+c.token,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"},
+      body:body?JSON.stringify(body):undefined});
+  }catch(e){ var n=new Error("offline"); n.code="offline"; throw n; }
+  var ex=r.headers.get("github-authentication-token-expiration"); if(ex) SY.exp=ex;
+  if(!r.ok){ var er=new Error("http "+r.status); er.code=r.status; try{ er.info=await r.json(); }catch(x){} throw er; }
+  return r.status===204?null:r.json();
+}
+function syPath(p){ return p.split("/").map(encodeURIComponent).join("/"); }
+function syErrText(e){
+  if(!e) return "ошибка";
+  if(e.code==="offline") return "нет связи, повторю позже";
+  if(e.code===401) return "ключ не подходит или истёк. Создайте новый ключ и вставьте его в «Синхронизация»";
+  if(e.code===403) return "GitHub отказал в доступе. Проверьте, что у ключа право Contents: Read and write";
+  if(e.code===404) return "репозиторий не найден или ключ не даёт к нему доступа";
+  if(e.code===409||e.code===422) return "данные изменились во время записи, повторю";
+  return "ошибка GitHub ("+e.code+")";
+}
+/* writes that come from the other device: straight into this browser's storage, without starting a new sync */
+async function syLocalSet(coll,id,doc){ await C.db.doc(coll+"/"+id).set(doc,{sync:true}); if(coll==="passages") C.P[id]=doc; if(coll==="books") C.BK[id]=doc; }
+async function syLocalDel(coll,id){ await C.db.doc(coll+"/"+id).delete({sync:true}); if(coll==="passages") delete C.P[id]; }
+function syTitle(id){ return (C.P[id]&&C.P[id].title)||"отрывок"; }
+async function syncNow(){
+  if(!SY.cfg||!C.db) return;
+  if(SY.busy){ SY.again=true; return; }
+  SY.busy=true; clearTimeout(SY.timer);
+  if(C.cur&&C.dirty){ try{ await flush(); }catch(e){} }
+  sySt("Синхронизация…");
+  var touchedOpen=false, conflicts=[], sent=0, got=0;
+  try{
+    var info=await syApi("GET","");
+    var br=SY.cfg.branch=info.default_branch||"main";
+    var tr=await syApi("GET","/git/trees/"+encodeURIComponent(br)+"?recursive=1");
+    if(tr.truncated) throw Object.assign(new Error("tree"),{code:"tree"});
+    var remote={};
+    (tr.tree||[]).forEach(function(t){ var m=/^data\/(passages|bodies|books)\/([^\/]+)\.json$/.exec(t.path); if(t.type==="blob"&&m) remote[t.path]={sha:t.sha,c:m[1],id:m[2]}; });
+    var local={}, all=C.db.dump();
+    for(var ci=0;ci<SYNC_COLS.length;ci++){
+      var cn=SYNC_COLS[ci], docs=all[cn]||{};
+      for(var id in docs){ var tx=syText(docs[id]); local["data/"+cn+"/"+id+".json"]={c:cn,id:id,doc:docs[id],text:tx,sha:await syBlobSha(tx)}; }
+    }
+    var paths={}, p; for(p in remote) paths[p]=1; for(p in local) paths[p]=1; for(p in SY.base) paths[p]=1;
+    /* bodies first: a passage card must not arrive before its text */
+    var order=Object.keys(paths).sort(function(a,b){ return (a.indexOf("/bodies/")>=0?0:1)-(b.indexOf("/bodies/")>=0?0:1); });
+    for(var k=0;k<order.length;k++){
+      p=order[k];
+      var R=remote[p], L=local[p], B=SY.base[p], m2=/^data\/([^\/]+)\/([^\/]+)\.json$/.exec(p), coll=m2[1], did=m2[2];
+      if(R&&L&&R.sha===L.sha){ SY.base[p]=R.sha; continue; }
+      if(!R&&!L){ delete SY.base[p]; continue; }
+      if(R&&!L){
+        if(B&&B===R.sha){ await syApi("DELETE","/contents/"+syPath(p),{message:"Удалено: "+coll+"/"+did,sha:R.sha,branch:br}); delete SY.base[p]; sent++; continue; }
+        var bl=await syApi("GET","/git/blobs/"+R.sha), d=JSON.parse(syDec(bl.content));
+        await syLocalSet(coll,did,d); SY.base[p]=R.sha; got++; if(coll==="bodies"&&C.cur&&C.cur.id===did) touchedOpen=true; continue;
+      }
+      if(L&&!R){
+        if(B&&B===L.sha){ await syLocalDel(coll,did); delete SY.base[p]; got++; continue; }
+        var put=await syApi("PUT","/contents/"+syPath(p),{message:"Изменено: "+coll+"/"+did,content:syEnc(L.text),branch:br});
+        SY.base[p]=put.content.sha; sent++; continue;
+      }
+      /* both exist and differ */
+      if(B===L.sha){
+        var bl2=await syApi("GET","/git/blobs/"+R.sha), d2=JSON.parse(syDec(bl2.content));
+        await syLocalSet(coll,did,d2); SY.base[p]=R.sha; got++; if(coll==="bodies"&&C.cur&&C.cur.id===did) touchedOpen=true; continue;
+      }
+      if(B===R.sha){
+        var put2=await syApi("PUT","/contents/"+syPath(p),{message:"Изменено: "+coll+"/"+did,content:syEnc(L.text),sha:R.sha,branch:br});
+        SY.base[p]=put2.content.sha; sent++; continue;
+      }
+      var bl3=await syApi("GET","/git/blobs/"+R.sha), rd=JSON.parse(syDec(bl3.content)), rtext=syText(rd);
+      var localWins=(L.doc.at||0)>=(rd.at||0), loser=localWins?rtext:L.text, lat=localWins?(rd.at||0):(L.doc.at||0);
+      await syApi("PUT","/contents/"+syPath("data/conflicts/"+coll+"-"+did+"-"+lat+".json"),{message:"Сохранена более ранняя версия: "+coll+"/"+did,content:syEnc(loser),branch:br});
+      if(localWins){
+        var put3=await syApi("PUT","/contents/"+syPath(p),{message:"Изменено: "+coll+"/"+did,content:syEnc(L.text),sha:R.sha,branch:br});
+        SY.base[p]=put3.content.sha; sent++;
+      }else{
+        await syLocalSet(coll,did,rd); SY.base[p]=R.sha; got++; if(coll==="bodies"&&C.cur&&C.cur.id===did) touchedOpen=true;
+      }
+      if(coll==="bodies") conflicts.push(syTitle(did));
+    }
+    sySaveBase(); SY.last=Date.now();
+    var exp=SY.exp?new Date(SY.exp.replace(" UTC","Z").replace(" ","T")):null, left=exp&&!isNaN(exp)?Math.floor((exp-Date.now())/864e5):null;
+    if(left!==null&&left<21) sySt("Синхронизировано в "+hhmm(SY.last)+". Ключ истекает через "+Math.max(0,left)+" дн.: создайте новый",true);
+    else sySt("Синхронизировано в "+hhmm(SY.last));
+    if(conflicts.length) say("«"+conflicts.join("», «")+"» меняли на двух устройствах. Оставлена более поздняя версия, ранняя сохранена в архиве на GitHub.");
+    else if(got&&view==="lib") say("Получены изменения с другого устройства");
+    if(touchedOpen) syReloadOpen();
+  }catch(e){
+    sySaveBase();
+    sySt("Синхронизация: "+syErrText(e),e.code!=="offline"&&e.code!==409&&e.code!==422);
+    if(e.code==="offline"||e.code===409||e.code===422){ clearTimeout(SY.timer); SY.timer=setTimeout(syncNow,e.code==="offline"?60000:4000); }
+  }
+  SY.busy=false;
+  if(SY.again){ SY.again=false; syncNow(); }
+}
+function syReloadOpen(){
+  var cur=C.cur; if(!cur) return;
+  C.db.doc("bodies/"+cur.id).get().then(function(s){
+    var b=s.exists?s.data():null; if(!b||!b.S||C.cur!==cur) return;
+    if(C.dirty){ say("Этот отрывок изменён на другом устройстве. Ваши правки здесь новее и будут отправлены."); return; }
+    S=normalize(clone(b.S)); T=tok(S.source); cleanScript(); cur.at=b.at; lastSnap=JSON.stringify(S); undo=[]; sel=null;
+    if(C.P[cur.id]) cur.meta=clone(C.P[cur.id]);
+    renderAll(); say("Обновлено: отрывок меняли на другом устройстве");
+  });
+}
+function syLater(ms){ if(!SY.cfg) return; clearTimeout(SY.timer); SY.timer=setTimeout(syncNow,ms||6000); }
+function syStart(){
+  syLoad();
+  if(!SY.cfg){ sySt("Синхронизация выключена"); return; }
+  syncNow();
+  document.addEventListener("visibilitychange",function(){ if(!document.hidden) syLater(400); else if(SY.cfg) syncNow(); });
+  window.addEventListener("online",function(){ syLater(500); });
+  setInterval(function(){ if(!document.hidden) syncNow(); },180000);
+}
+function syDialog(){
+  var w=document.createElement("div"); w.className="syd";
+  var on=!!SY.cfg;
+  w.innerHTML='<p>Отрывки этого устройства хранятся и в вашем закрытом репозитории на GitHub. Так телефон и ноутбук видят одну и ту же библиотеку. Настройка нужна один раз на каждом устройстве.</p>'+
+    '<label>Репозиторий<input id="syRepo" placeholder="имя/razbor-slova-data" value="'+esc(on?SY.cfg.repo:"")+'" autocomplete="off" spellcheck="false"></label>'+
+    '<label>Ключ доступа<input id="syTok" type="password" placeholder="'+(on?"сохранён на этом устройстве":"github_pat_…")+'" autocomplete="off" spellcheck="false"></label>'+
+    '<div class="sybtn"><button id="syGo" class="on">'+(on?"Сохранить":"Подключить")+'</button>'+(on?'<button id="syNow">Синхронизировать сейчас</button><button id="syOff">Отключить на этом устройстве</button>':'')+'</div>'+
+    '<p id="syMsg" role="status">'+esc(SY.st||"")+'</p>'+
+    '<p class="snote">Ключ хранится только в этом браузере. На чужом компьютере его не вводите. Отключение не стирает отрывки на устройстве.</p>';
+  openModal("Синхронизация","",w,"");
+  var msg=w.querySelector("#syMsg");
+  w.querySelector("#syGo").addEventListener("click",async function(){
+    var repo=w.querySelector("#syRepo").value.trim().replace(/^https?:\/\/github\.com\//,"").replace(/\.git$/,"").replace(/\/+$/,""), tk=w.querySelector("#syTok").value.trim();
+    if(!/^[\w.-]+\/[\w.-]+$/.test(repo)){ msg.textContent="Репозиторий пишется так: имя/razbor-slova-data"; return; }
+    if(!tk&&!on){ msg.textContent="Вставьте ключ доступа"; return; }
+    var prev=SY.cfg; SY.cfg={repo:repo,token:tk||(prev&&prev.token)};
+    msg.textContent="Проверяю доступ…";
+    try{
+      var info=await syApi("GET","");
+      if(!info.private){ SY.cfg=prev; msg.textContent="Этот репозиторий открытый. Для данных нужен закрытый (Private)."; return; }
+      if(info.permissions&&info.permissions.push===false){ SY.cfg=prev; msg.textContent="У ключа нет права записи. Нужно Contents: Read and write."; return; }
+    }catch(e){ SY.cfg=prev; msg.textContent="Не подключилось: "+syErrText(e); return; }
+    if(!prev||prev.repo!==repo){ SY.base={}; sySaveBase(); }
+    try{ localStorage.setItem(SYNC_KEY,JSON.stringify(SY.cfg)); }catch(e){}
+    msg.textContent="Подключено. Синхронизирую…";
+    if(!prev) syStart(); else syncNow();
+    setTimeout(function(){ if(msg.isConnected) msg.textContent=SY.st; },2500);
+  });
+  var nw=w.querySelector("#syNow"); if(nw) nw.addEventListener("click",function(){ syncNow(); msg.textContent="Синхронизирую…"; setTimeout(function(){ if(msg.isConnected) msg.textContent=SY.st; },3000); });
+  var off=w.querySelector("#syOff"); if(off) off.addEventListener("click",function(){
+    try{ localStorage.removeItem(SYNC_KEY); localStorage.removeItem(SYNC_BASE); }catch(e){}
+    SY.cfg=null; SY.base={}; sySt("Синхронизация выключена"); closeModal();
+  });
 }
 
 async function importFile(f){
@@ -2103,6 +2281,7 @@ $("#lib").addEventListener("change",function(e){
   if(e.target.id==="impAll"){ var fa=e.target.files&&e.target.files[0]; e.target.value=""; if(fa) importFile(fa); }
   if(e.target.id==="impIn"){ var f=e.target.files&&e.target.files[0]; e.target.value=""; if(f) importFile(f); }
 });
+$("#btnSync").addEventListener("click",function(){ syDialog(); });
 $("#btnBackup").addEventListener("click",async function(){
   libSt("Собираю копию…");
   try{
@@ -2399,6 +2578,7 @@ var HELP='<div class="help">'+
 '<p><b>Собрать из разбора.</b> Кнопка расставляет черновик: по блоку на каждую главную фразу, под ней блоки тех слов, у которых заполнено поле «На экран» (текстом блока становится ваша заметка к слову). Тезисов она не сочиняет. Нынешние блоки она заменяет, вернуть их можно кнопкой «Отменить».</p>'+
 '<p><b>Текст в Word.</b> Скачивает текст проповеди файлом .docx. Перед блоком со слайдом стоит мелкая строка с номером слайда, чтобы на кафедре было видно, когда листать.</p>'+
 '<p><b>Показ.</b> «▶ Показ» начинает с названия, кнопка ▶ на слайде в ленте — с него. Стрелка вправо, пробел или кликер — дальше; стрелка влево — назад; Esc — выход. Для зала без интернета нажмите «Файл для зала»: скачается отдельный файл с этим отрывком. После правок файл нужно скачать заново.</p>'+
+'<h4>Синхронизация телефона и ноутбука (версия на GitHub)</h4><p>Кнопка «Синхронизация» в библиотеке. Один раз на каждом устройстве введите имя закрытого репозитория (например, dkloban-ctrl/razbor-slova-data) и ключ доступа. Дальше каждое сохранение уходит в репозиторий через несколько секунд, а изменения с другого устройства приходят при открытии приложения, при возвращении к нему и раз в три минуты. Рядом с кнопкой видно время последней синхронизации. Если один отрывок изменили на двух устройствах до синхронизации, остаётся более поздняя версия, а ранняя сохраняется в папке data/conflicts репозитория. Ключ хранится только в этом браузере: на чужом компьютере его не вводите.</p>'+
 '<h4>Что означают квадратные скобки</h4><p>Ветхий Завет Синодального перевода переведён с еврейского текста. Переводчики при этом сверялись с древним греческим переводом — Септуагинтой (перевод семидесяти, III–II века до Р. Х.). Слова и фразы, которые есть в греческом тексте, но которых нет в еврейском, они поставили в скобки. Пример: Бытие 1:6 — «[И стало так.]»; в Бытие 5 в скобках даны другие числа лет из греческого текста.</p>'+
 '<p><b>Почему в вашей печатной Библии их нет.</b> Издания, которыми обычно пользуются евангельские церкви, следуют только еврейскому тексту и вставки из Септуагинты опускают. Издания со скобками сохраняют текст в том виде, в каком его выпустил Синод.</p>'+
 '<p><b>Чем они полезны.</b> Скобка показывает место, где два древних свидетеля текста расходятся. Авторы Нового Завета часто цитируют Ветхий по Септуагинте, поэтому вставка иногда объясняет, почему цитата в Новом Завете звучит не так, как в Ветхом.</p>'+
@@ -2431,13 +2611,14 @@ function oldLocal(){
   S=fresh("",""); setView("lib"); libSt("Подключаюсь к хранилищу…");
   var db=null;
   try{ db=window.claude&&window.claude.use?await window.claude.use("db"):null; }catch(e){}
-  if(!db&&STD){ db=LocalDB(); await db.ready; if(!db.ok()) db=null; else{ document.body.classList.add("m-std"); try{ if(navigator.storage&&navigator.storage.persist) navigator.storage.persist(); }catch(e){} } }
+  if(!db&&STD){ db=LocalDB(); await db.ready; if(!db.ok()) db=null; else{ document.body.classList.add("m-std"); try{ if(navigator.storage&&navigator.storage.persist) navigator.storage.persist(); }catch(e){} db.onChange=function(){ syLater(6000); }; } }
   if(!db){ MODE="local"; oldLocal(); startLocal(); say("Хранилище недоступно: работаю с одним отрывком в этом браузере"); return; }
   MODE="cloud"; C.db=db; document.body.classList.add("m-cloud");
   try{ var r=await fetch("bible/index.json"); if(!r.ok) throw 0; BOOKS=await r.json(); }
   catch(e){ libSt("Список книг не загрузился. Проверьте интернет и откройте страницу заново.","bad"); return; }
   var got=false, lt=setTimeout(function(){ if(!got) libSt("Хранилище не отвечает. Проверьте интернет; попытки продолжаются.","bad"); },10000);
   renderLib();
+  if(STD) syStart();
   db.collection("passages").limit(1000).onSnapshot(function(q){
     var P={}; q.docs.forEach(function(d){ P[d.id]=clone(d.data()); }); C.P=P;
     if(!q.metadata.fromCache&&!got){ got=true; clearTimeout(lt); libSt(STD?"Данные хранятся в этом браузере. Время от времени нажимайте «Скачать всю библиотеку»: это ваша резервная копия.":""); }
