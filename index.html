@@ -2628,7 +2628,7 @@ function oldLocal(){
   if(STD) syStart();
   db.collection("passages").limit(1000).onSnapshot(function(q){
     var P={}; q.docs.forEach(function(d){ P[d.id]=clone(d.data()); }); C.P=P;
-    if(!q.metadata.fromCache&&!got){ got=true; clearTimeout(lt); libSt(STD?"Данные хранятся в этом браузере. Время от времени нажимайте «Скачать всю библиотеку»: это ваша резервная копия.":""); }
+    if(!q.metadata.fromCache&&!got){ got=true; clearTimeout(lt); libSt(""); }
     if(view==="lib"){ renderBookList(); if(L.tab==="list") renderBookPage(); }
   },function(e){ clearTimeout(lt); libSt("Ошибка хранилища: "+e.code,"bad"); });
   db.collection("books").limit(200).onSnapshot(function(q){
