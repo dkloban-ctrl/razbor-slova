@@ -4,6 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Разбор Слова</title>
+<meta name="theme-color" content="#1b1b1b">
+<script>(function(){
+  var R=document.documentElement, mq=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)");
+  function saved(){ try{ return localStorage.getItem("rs-theme"); }catch(e){ return null; } }
+  function apply(t){
+    R.dataset.theme=t;
+    var m=document.querySelector('meta[name=theme-color]'); if(m) m.content=t==="dark"?"#12110e":"#1b1b1b";
+    var b=document.getElementById("btnTheme"); if(b){ b.textContent=t==="dark"?"☀":"☾"; b.title=t==="dark"?"Дневной режим":"Ночной режим"; }
+  }
+  apply(saved()||(mq&&mq.matches?"dark":"light"));
+  if(mq&&mq.addEventListener) mq.addEventListener("change",function(e){ if(!saved()) apply(e.matches?"dark":"light"); });
+  window.rsTheme=function(){ var t=R.dataset.theme==="dark"?"light":"dark"; try{ localStorage.setItem("rs-theme",t); }catch(e){} apply(t); };
+  window.rsThemeSync=function(){ apply(R.dataset.theme); };
+  document.addEventListener("click",function(e){ if(e.target.closest&&e.target.closest("#btnTheme")) window.rsTheme(); });
+  document.addEventListener("DOMContentLoaded",function(){ apply(R.dataset.theme); });
+})();</script>
 <style id="appcss">
 /* Разбор Слова — дизайн рабочего режима.
    Писание и ваш текст: Literata (книжная антиква для долгого чтения). Интерфейс: Inter.
@@ -33,6 +49,8 @@
   --sh-2:0 1px 3px rgb(70 50 25 / .07),0 6px 18px rgb(70 50 25 / .07);
   --sh-3:0 18px 50px rgb(40 28 14 / .22),0 4px 12px rgb(40 28 14 / .12);
   --r:12px; --r-2:9px; --r-3:7px;
+  --on-ink:#fbf8f2; --lift:rgb(255 255 255 / .55); --ink-h:#3a332b; --panel-a:rgb(251 248 242 / .92);
+  color-scheme:light;
   --f-text:"Literata","PT Serif",Cambria,Georgia,"Times New Roman",serif;
   --f-ui:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   color-scheme:light;
@@ -56,8 +74,8 @@ button:active{transform:translateY(.5px)}
 button:disabled{opacity:.38;cursor:default;transform:none}
 button:disabled:hover{background:var(--hov)}
 button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,.filebtn:focus-within{outline:2px solid color-mix(in srgb,var(--mark) 55%,transparent);outline-offset:1px}
-button.on{background:var(--ink);border-color:var(--ink);color:#fbf8f2}
-button.on:hover{background:#3a332b}
+button.on{background:var(--ink);border-color:var(--ink);color:var(--on-ink)}
+button.on:hover{background:var(--ink-h)}
 button.ghost{background:transparent;border:1px dashed var(--line-2);color:var(--ink-2)}
 button.ghost:hover{border-color:var(--ink-3);color:var(--ink);background:var(--hov)}
 .filebtn{display:inline-flex;align-items:center;background:var(--hov);border:1px solid transparent;border-radius:var(--r-3);padding:5px 11px;min-height:30px;cursor:pointer;white-space:nowrap;font:500 13px/1.25 var(--f-ui);transition:background-color .12s}
@@ -70,7 +88,7 @@ select{appearance:none;-webkit-appearance:none;background:var(--card) url("data:
 input[type=checkbox]{accent-color:var(--mark);width:15px;height:15px;margin:0;flex:none;cursor:pointer}
 
 /* ---------- верхняя панель ---------- */
-header,.lhead{position:relative;z-index:5;display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:9px 14px;min-height:54px;background:var(--panel);border-bottom:1px solid var(--line);box-shadow:0 1px 0 rgb(255 255 255 / .6) inset,0 2px 10px rgb(70 50 25 / .05)}
+header,.lhead{position:relative;z-index:5;display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:9px 14px;min-height:54px;background:var(--panel);border-bottom:1px solid var(--line);box-shadow:0 1px 0 var(--lift) inset,0 2px 10px rgb(70 50 25 / .05)}
 #title{flex:1 1 180px;min-width:140px;font:560 19px/1.3 var(--f-text);letter-spacing:-.005em;background:transparent;border:1px solid transparent;border-radius:var(--r-3);padding:4px 8px;margin-right:6px}
 #title:hover{background:var(--hov)}
 #title:focus{background:var(--card);border-color:var(--line-2);outline:0;box-shadow:0 0 0 3px var(--hl-soft)}
@@ -84,8 +102,8 @@ header,.lhead{position:relative;z-index:5;display:flex;flex-wrap:wrap;gap:6px;al
   #title{min-width:170px}
 }
 @media (min-width:1240px){#work > header{flex-wrap:nowrap}#work > header > *{flex-shrink:0}#work > header #title,#work > header #status{flex-shrink:1}}
-#btnShow{background:var(--ink);color:#fbf8f2;padding:5px 14px;font-weight:600;box-shadow:var(--sh-1)}
-#btnShow:hover{background:#3a332b}
+#btnShow{background:var(--ink);color:var(--on-ink);padding:5px 14px;font-weight:600;box-shadow:var(--sh-1)}
+#btnShow:hover{background:var(--ink-h)}
 #btnHelp,#btnHelp2{background:transparent;color:var(--ink-2)}
 #btnHelp:hover,#btnHelp2:hover{background:var(--hov);color:var(--ink)}
 #btnUndo{background:transparent;color:var(--ink-2)}
@@ -95,7 +113,7 @@ header,.lhead{position:relative;z-index:5;display:flex;flex-wrap:wrap;gap:6px;al
 .seg{display:inline-flex;gap:2px;padding:3px;background:var(--hov);border-radius:var(--r-2)}
 .seg button{background:transparent;border:0;border-radius:var(--r-3);min-height:26px;padding:4px 12px;color:var(--ink-2)}
 .seg button + button{margin-left:0}
-.seg button:hover{background:rgb(255 255 255 / .55);color:var(--ink)}
+.seg button:hover{background:var(--lift);color:var(--ink)}
 .seg button.on{background:var(--card);color:var(--ink);box-shadow:var(--sh-1),0 0 0 .5px rgb(70 50 25 / .12)}
 .seg button.on:hover{background:var(--card)}
 #modeSeg{padding:3px}
@@ -137,7 +155,7 @@ section{min-height:0;min-width:0;display:flex;flex-direction:column;background:v
 /* ---------- структура ---------- */
 #structure{padding:18px 18px 44px}
 .row{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start;margin-left:calc(var(--ind)*34px);padding:6px 8px;border-left:2px solid transparent;border-radius:var(--r-3);transition:background-color .12s}
-.row:hover{background:rgb(255 255 255 / .6)}
+.row:hover{background:var(--lift)}
 .row[data-sub]{border-left-color:var(--line-2);border-radius:0 var(--r-3) var(--r-3) 0}
 .row.hl{background:var(--hl-soft)}
 .rowctl{display:flex;gap:2px;flex:none;opacity:.55;transition:opacity .12s}
@@ -173,7 +191,7 @@ section{min-height:0;min-width:0;display:flex;flex-direction:column;background:v
 .tool-mark #markList{display:block}
 #markList h3{margin:6px 0 10px;font:600 11px var(--f-ui);letter-spacing:.09em;text-transform:uppercase;color:var(--ink-2);border-bottom:1px solid var(--line);padding-bottom:6px}
 .mrow{display:flex;gap:6px;align-items:center;margin:0 0 4px;padding:4px 6px;border-radius:var(--r-3)}
-.mrow:hover{background:rgb(255 255 255 / .6)}
+.mrow:hover{background:var(--lift)}
 .mrow .mt{flex:1 1 50%;min-width:0;overflow-wrap:anywhere;font:15px/1.4 var(--f-text)}
 .mrow .mt i{color:var(--ink-2);font:12px var(--f-ui);font-style:normal}
 .mrow input{flex:1 1 34%;min-width:0;border:0;border-bottom:1px dashed var(--line-2);border-radius:0;background:transparent;color:var(--mark);font:italic 14px/1.7 var(--f-text);padding:0 2px}
@@ -194,7 +212,7 @@ body.g-sermon .studyonly{display:none !important}
 #smMat h3{margin:20px 0 6px;font:600 11px var(--f-ui);letter-spacing:.09em;text-transform:uppercase;color:var(--ink-2);border-bottom:1px solid var(--line);padding-bottom:6px}
 #smMat h3:first-child{margin-top:0}
 .mat{display:flex;gap:8px;align-items:flex-start;padding:7px 6px;border-bottom:1px solid var(--line);border-radius:0}
-.mat:hover{background:rgb(255 255 255 / .55)}
+.mat:hover{background:var(--lift)}
 .mat .mt{flex:1;min-width:0;overflow-wrap:anywhere;font:15px/1.45 var(--f-text);margin-left:calc(var(--ind,0)*12px)}
 .mat .mt i{color:var(--mark);font-size:13px}
 .mat .mt small{display:block;color:var(--ink-2);font:12px/1.4 var(--f-ui)}
@@ -202,7 +220,7 @@ body.g-sermon .studyonly{display:none !important}
 .mat .mt .scr{color:var(--mark)}
 .mat .mt .nt{white-space:pre-wrap;color:var(--ink-2);font-size:13.5px;line-height:1.45;max-height:8.4em;overflow:auto}
 .mat button{flex:none;padding:1px 8px;min-height:26px}
-.mat.used button{background:var(--ink);color:#fbf8f2}
+.mat.used button{background:var(--ink);color:var(--on-ink)}
 #smBody{padding:16px 18px 60px}
 #smBlocks{margin-top:16px}
 .blk{border:1px solid var(--line);border-left:3px solid var(--line-2);border-radius:var(--r-2);background:var(--card);margin:0 0 12px;padding:8px 12px 10px;box-shadow:var(--sh-1);transition:border-color .15s,box-shadow .15s}
@@ -317,7 +335,7 @@ body.g-sermon .studyonly{display:none !important}
 #scr::placeholder{color:#7a7a7a}
 #scr:focus{border-color:#D9A441 !important;box-shadow:0 0 0 3px rgb(217 164 65 / .25) !important}
 #notes{flex:1;min-height:150px;border:0;border-radius:0;resize:none;background:transparent;padding:14px 16px;font:16px/1.65 var(--f-text)}
-#notes:focus{outline:0;background:rgb(255 255 255 / .45)}
+#notes:focus{outline:0;background:var(--lift)}
 #noteList{border-top:1px solid var(--line);padding:12px 12px 16px;display:flex;flex-direction:column;gap:4px;max-height:42%;overflow:auto;background:var(--sunk)}
 #noteList:empty{display:none}
 #noteList h3{margin:0 0 4px 4px;font:600 11px var(--f-ui);letter-spacing:.09em;text-transform:uppercase;color:var(--ink-2)}
@@ -337,8 +355,8 @@ body.g-sermon .studyonly{display:none !important}
 #modal .imgw{overflow:auto;border:1px solid var(--line);border-radius:var(--r-3);background:#fff}
 #modal img{max-width:100%;display:block}
 #modal .rowb{display:flex;gap:8px;justify-content:flex-end;padding-top:4px}
-#mClose{background:var(--ink);color:#fbf8f2}
-#mClose:hover{background:#3a332b}
+#mClose{background:var(--ink);color:var(--on-ink)}
+#mClose:hover{background:var(--ink-h)}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes popIn{from{opacity:0;transform:translateY(6px) scale(.985)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
@@ -412,20 +430,18 @@ body.g-sermon .studyonly{display:none !important}
 #lib h3:first-child{margin-top:2px}
 #lib h3 small{font-weight:400;letter-spacing:0;text-transform:none;color:var(--ink-3);font-size:12px;margin-left:6px}
 .blist{display:flex;flex-direction:column;gap:1px}
-.prog{display:flex;flex-direction:column;gap:9px;padding:2px 8px 12px;margin-bottom:4px;border-bottom:1px solid var(--line)}
-.pgh{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font:600 11px var(--f-ui);letter-spacing:.09em;text-transform:uppercase;color:var(--ink-2)}
-.pgh b{font:600 15px var(--f-ui);letter-spacing:0;color:var(--ink);font-variant-numeric:tabular-nums}
-.pgb{display:flex;height:5px;border-radius:5px;background:var(--sunk);box-shadow:inset 0 0 0 1px var(--line);overflow:hidden;margin:5px 0 3px}
+.prog{display:flex;gap:14px;padding:0 8px 10px;margin-bottom:2px}
+.pg,.bprog{display:flex;align-items:center;gap:6px;flex:1;min-width:0;font:600 11px var(--f-ui);color:var(--ink-3);font-variant-numeric:tabular-nums}
+.pg em{font-style:normal;letter-spacing:.06em}
+.pg b,.bprog b{font-weight:600;color:var(--ink-2);min-width:2.6em;text-align:right}
+.pgb{display:flex;flex:1;height:3px;border-radius:3px;background:var(--line);overflow:hidden}
 .pgb i{background:var(--gold)} .pgb s{background:var(--hl)}
-.pgs{font:400 11.5px/1.3 var(--f-ui);color:var(--ink-3);font-variant-numeric:tabular-nums}
-.bprog{display:flex;flex-direction:column;gap:2px;margin:-4px 0 14px;max-width:420px}
-.bprog .pgb{max-width:360px;width:100%}
-.bprog span{font:400 12.5px var(--f-ui);color:var(--ink-2)} .bprog b{color:var(--ink)}
+.bprog{flex:none;width:auto !important;max-width:260px !important;margin:4px 0 18px}
 .bitem{display:flex;justify-content:space-between;align-items:center;gap:8px;text-align:left;white-space:normal;border:0;border-radius:var(--r-3);background:transparent;padding:5px 10px;min-height:32px;font:400 15px/1.3 var(--f-text);color:var(--ink-2)}
 .bitem:hover{background:var(--hov);color:var(--ink)}
 .bitem.has{color:var(--ink);font-weight:560}
-.bitem.cur{background:var(--ink);color:#fbf8f2}
-.bitem.cur i{background:rgb(255 255 255 / .16);color:#fbf8f2}
+.bitem.cur{background:var(--ink);color:var(--on-ink)}
+.bitem.cur i{background:rgb(128 128 128 / .25);color:var(--on-ink)}
 .bitem i{font:600 11px/1.6 var(--f-ui);color:var(--mark);font-style:normal;background:var(--mark-soft);border-radius:20px;padding:0 7px;font-variant-numeric:tabular-nums}
 .pitem{display:block;width:100%;text-align:left;white-space:normal;border:1px solid var(--line);border-left:3px solid var(--mark);border-radius:var(--r-2);background:var(--card);padding:10px 14px;margin-bottom:8px;min-height:0;font:560 16px/1.35 var(--f-text);overflow-wrap:anywhere;box-shadow:var(--sh-1)}
 .pitem:hover{background:var(--card);box-shadow:var(--sh-2);border-color:var(--line-2);border-left-color:var(--mark)}
@@ -445,7 +461,7 @@ body.g-sermon .studyonly{display:none !important}
 .cmap button:hover{border-color:var(--ink-3);color:var(--ink);background:var(--card)}
 .cmap .c1{background:linear-gradient(to top,var(--mark) 3px,var(--card) 3px);color:var(--ink);border-color:var(--line-2)}
 .cmap .c2{background:var(--hl);color:var(--ink);border-color:#e3cf86}
-.cmap .c3{background:var(--ink);color:#fbf8f2;border-color:var(--ink)}
+.cmap .c3{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
 .rowb{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 #reader{display:flex;flex-direction:column;flex:1}
 .rnav{display:flex;gap:6px;align-items:center;margin:10px 0}
@@ -457,11 +473,11 @@ body.g-sermon .studyonly{display:none !important}
 .rtext{font:18px/1.7 var(--f-text);max-width:700px;padding-bottom:24px;font-variant-numeric:oldstyle-nums}
 .vs{margin:0;padding:3px 10px;border-left:3px solid transparent;border-radius:0 var(--r-3) var(--r-3) 0;cursor:pointer;transition:background-color .1s}
 .vs b{font:600 .62em/1 var(--f-ui);color:var(--mark);vertical-align:.45em;margin-right:4px;font-variant-numeric:lining-nums}
-.vs:hover{background:rgb(255 255 255 / .55)}
+.vs:hover{background:var(--lift)}
 .vs.cov1{border-left-color:var(--mark)}
 .vs.cov2{border-left-color:var(--ink)}
 .vs.in{background:var(--hl-soft)}
-.rbar{position:sticky;bottom:0;margin:auto calc(-1 * clamp(18px,4vw,56px)) 0;padding:12px clamp(18px,4vw,56px);display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:rgb(251 248 242 / .92);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-top:1px solid var(--line);max-width:none !important;width:auto !important}
+.rbar{position:sticky;bottom:0;margin:auto calc(-1 * clamp(18px,4vw,56px)) 0;padding:12px clamp(18px,4vw,56px);display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:var(--panel-a);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-top:1px solid var(--line);max-width:none !important;width:auto !important}
 .rbar span{margin-right:auto}
 .sheet{display:grid;gap:14px;max-width:760px;padding:10px 0 30px}
 .sheet label{display:grid;gap:6px;font:600 11px var(--f-ui);letter-spacing:.09em;text-transform:uppercase;color:var(--ink-2)}
@@ -572,7 +588,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 #pDrawer .pds{font:12px var(--f-ui);color:var(--ink-2);margin:4px 2px 0}
 #pDrawer button.pi{display:block;width:100%;height:auto;text-align:left;white-space:normal;margin:0 0 6px;padding:10px 12px;min-height:42px;font:500 14.5px/1.3 var(--f-ui);background:var(--card);border:1px solid var(--line);border-radius:10px;color:var(--ink)}
 #pDrawer button.pi:hover{border-color:var(--line-2)}
-#pDrawer button.pi.on{background:#1b1b1b;color:#fff;border-color:#1b1b1b}
+#pDrawer button.pi.on{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
 #pDrawer button.pi small{display:block;font:12px/1.35 var(--f-ui);opacity:.7;margin-top:2px}
 #pDrawer button.pi.ghost{background:transparent;border-style:dashed;color:var(--ink-2)}
 #pDrawer .pclose{min-width:36px;min-height:36px;padding:0;font:22px/1 var(--f-ui);background:transparent;border:0}
@@ -602,14 +618,28 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   #left > .phead,#right > .phead{display:none}
   #pDrawer button.pi{min-height:44px;padding:11px 12px;font-size:15px}
 }
+:root[data-theme=dark]{
+  --bg:#12110e; --panel:#1b1915; --card:#221f1a; --sunk:#171511;
+  --ink:#e8e0d0; --ink-2:#b3a893; --ink-3:#7d7362;
+  --line:#2f2a23; --line-2:#433c32; --accent:#e8e0d0;
+  --mark:#de7a6e; --mark-soft:#3a211d;
+  --hl:#5a4920; --hl-soft:#2c2514;
+  --gold:#d6a446; --ok:#86bd80;
+  --hov:rgb(232 224 208 / .07); --hov-2:rgb(232 224 208 / .12);
+  --sh-1:0 1px 2px rgb(0 0 0 / .35); --sh-2:0 1px 3px rgb(0 0 0 / .35),0 6px 18px rgb(0 0 0 / .3); --sh-3:0 18px 50px rgb(0 0 0 / .55),0 4px 12px rgb(0 0 0 / .4);
+  --on-ink:#16140f; --lift:rgb(255 255 255 / .04); --ink-h:#cfc6b4; --panel-a:rgb(27 25 21 / .92);
+  color-scheme:dark;
+}
+:root[data-theme=dark] img{filter:none}
+#btnTheme{font-size:15px;padding:5px 9px}
 </style>
 </head>
 <body>
 <div id="app"></div>
-<script id="appjs">var __MARKUP__="<div id=\"lib\">\n  <header class=\"lhead\"><span class=\"brand\">Разбор Слова <small style=\"font:italic 11px var(--f-ui);letter-spacing:0;color:var(--ink-2)\">версия 13.11 · 1</small></span><span id=\"libSt\" role=\"status\"></span><button id=\"btnSync\" class=\"stdonly\" data-s=\"off\">Синхронизация</button><button id=\"btnBackup\" class=\"cloudonly\">Скачать всю библиотеку</button><label class=\"filebtn cloudonly\" title=\"Файл, скачанный кнопкой «Скачать всю библиотеку»\">Загрузить библиотеку из файла<input id=\"impAll\" type=\"file\" accept=\".json,application/json\"></label><button id=\"btnHelp2\">Справка</button></header>\n  <div id=\"libBody\"><aside id=\"bookList\" aria-label=\"Книги\"></aside><div id=\"bookPage\"></div></div>\n</div>\n<div id=\"work\">\n<header>\n  <button id=\"btnLib\" class=\"cloudonly\">← Библиотека</button>\n  <input id=\"title\" aria-label=\"Название отрывка\" placeholder=\"Отрывок, например: Римлянам 5:1–5\">\n  <span class=\"seg wideonly\" id=\"modeSeg\" role=\"group\" aria-label=\"Режим работы\"><button id=\"gStudy\">Изучение</button><button id=\"gSermon\">Проповедь</button></span>\n  <button id=\"btnStatus\" class=\"cloudonly\"></button>\n  <button id=\"btnSheet\" class=\"cloudonly studyonly\">Лист книги</button>\n  <button id=\"btnUndo\" title=\"Отменить последнее действие (Ctrl+Z)\">Отменить</button>\n  <button id=\"btnSave\" class=\"wideonly studyonly\">Сохранить в файл</button>\n  <label class=\"filebtn localonly studyonly\">Открыть файл<input id=\"fileIn\" type=\"file\" accept=\".json,application/json\"></label>\n  <button id=\"btnPng\" class=\"wideonly studyonly\">Схема картинкой (PNG)</button>\n  <span class=\"fsz wideonly sermononly\" title=\"Размер шрифта на экране зала\">Шрифт <button id=\"fsDn\" aria-label=\"Шрифт на экране мельче\">−</button><b id=\"fsVal\">100%</b><button id=\"fsUp\" aria-label=\"Шрифт на экране крупнее\">+</button></span>\n  <button id=\"btnShow\" class=\"wideonly sermononly on\">▶ Показ</button>\n  <button id=\"btnDocx\" class=\"wideonly sermononly\">Текст в Word</button>\n  <button id=\"btnExport\" class=\"cloudonly wideonly sermononly\" title=\"Отдельный файл для показа в зале, работает без интернета\">Файл для зала</button>\n  <button id=\"btnHelp\" class=\"wideonly\">Справка</button>\n  <span id=\"cloudSt\" class=\"cloudonly\"></span>\n  <span id=\"status\" role=\"status\"></span>\n</header>\n<nav id=\"ptabs\"><button data-p=\"text\">Текст</button><button data-p=\"field\">Разбор</button><button data-p=\"notes\">Заметки</button></nav>\n\n<main id=\"main\">\n  <section id=\"left\" aria-label=\"Исходный текст\">\n    <div class=\"phead\">\n      <h2>Текст</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Что делает клик по слову\"><button id=\"tCut\">Резать</button><button id=\"tNote\">Заметки к словам</button></span>\n      <button id=\"btnEdit\" class=\"ghost\">Изменить текст</button>\n    </div>\n    <div class=\"phead\" id=\"srcTools\">\n      <button id=\"cutVerses\">Резать по стихам</button>\n      <button id=\"cutPunct\">По знакам препинания</button>\n      <button id=\"cutReset\" class=\"ghost\">Убрать все разрезы</button>\n    </div>\n    <div class=\"pbody\"><div id=\"srcWrap\"><div id=\"src\"></div><svg id=\"srcMarks\" aria-hidden=\"true\"></svg></div><div id=\"markList\"></div></div>\n    <div id=\"selBar\"></div>\n    <div id=\"srcEdit\">\n      <textarea id=\"srcText\" aria-label=\"Исходный текст\" placeholder=\"Вставьте сюда текст (Синодальный перевод). Номера стихов можно оставить: они станут маленькими цифрами.\"></textarea>\n      <div class=\"rowb\">\n        <button id=\"srcApply\" class=\"on\">Готово</button>\n        <button id=\"srcCancel\">Отмена</button>\n      </div>\n      <div style=\"color:var(--ink-2);font-size:12px\">Разрезы, заметки и текст проповеди сохранятся. Пропадёт только то, что привязано к удалённым словам. Если что-то пошло не так, есть кнопка «Отменить».</div>\n    </div>\n    <div class=\"hint\" id=\"srcHint\"></div>\n  </section>\n\n  <section id=\"mid\" aria-label=\"Рабочее поле\">\n    <div class=\"phead\">\n      <h2>Рабочее поле</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Режим\">\n        <button id=\"mStruct\">Структура</button>\n      </span>\n    </div>\n    <div class=\"pbody\" id=\"midBody\">\n      <div id=\"structure\"></div>\n    </div>\n    <div class=\"hint\" id=\"midHint\"></div>\n  </section>\n\n  <section id=\"right\" aria-label=\"Заметки\">\n    <div class=\"phead\"><h2>Заметки</h2></div>\n    <div class=\"pbody\" id=\"noteBody\">\n      <div id=\"noteHead\"></div>\n      <div id=\"scrWrap\">\n        <label for=\"scr\">На экран</label>\n        <textarea id=\"scr\" rows=\"2\" placeholder=\"Короткий тезис к этому слову\"></textarea>\n        <small>Это увидит зал. Заметка ниже остаётся только у вас.</small>\n      </div>\n      <textarea id=\"notes\" aria-label=\"Заметка\"></textarea>\n      <div id=\"noteList\"></div>\n    </div>\n  </section>\n</main>\n<div id=\"sm\">\n  <section id=\"smL\" aria-label=\"Материалы изучения\">\n    <div class=\"phead\"><h2>Из изучения</h2></div>\n    <div class=\"pbody\"><div id=\"smText\" class=\"tool-mark\"><div class=\"smh\">Текст и пометки</div></div><div id=\"smMat\"></div></div>\n  </section>\n  <section id=\"smM\" aria-label=\"Текст проповеди\">\n    <div class=\"phead\"><h2>Текст проповеди</h2><span id=\"smCount\" class=\"snote\"></span><button id=\"smBuild\">Собрать из разбора</button></div>\n    <div class=\"pbody\" id=\"smBody\">\n      <div class=\"sf\"><label for=\"sTheme\">Название</label><input id=\"sTheme\" placeholder=\"Название проповеди. Первый слайд\"><span></span><label class=\"rdl\"><input type=\"checkbox\" id=\"sRead\"> После названия показать полный текст отрывка для чтения</label></div>\n      <div id=\"smBlocks\"></div>\n      <button id=\"smAdd\" class=\"ghost\">+ Блок</button>\n      <div class=\"sf\" style=\"margin-top:22px\">\n        <label for=\"sMain\">Главная мысль</label><textarea id=\"sMain\" rows=\"2\" placeholder=\"Одно предложение, которое зал должен унести. Предпоследний слайд\"></textarea>\n        <label for=\"sSum\">Итог</label><textarea id=\"sSum\" rows=\"2\" placeholder=\"К чему зовёт текст. Последний слайд\"></textarea>\n      </div>\n    </div>\n  </section>\n  <section id=\"smR\" aria-label=\"Слайды\">\n    <div class=\"phead\"><h2>Слайды</h2></div>\n    <div class=\"pbody\" id=\"smSlides\"></div>\n  </section>\n</div>\n</div>\n\n<datalist id=\"rels\">\n  <option value=\"основание\"><option value=\"причина\"><option value=\"следствие\"><option value=\"цель\"><option value=\"результат\">\n  <option value=\"условие\"><option value=\"уступка\"><option value=\"средство\"><option value=\"образ действия\"><option value=\"время\">\n  <option value=\"пояснение\"><option value=\"противопоставление\"><option value=\"ряд\"><option value=\"вывод\"><option value=\"сравнение\">\n</datalist>\n\n<div id=\"modal\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"mTitle\"><div class=\"box\">\n  <h3 id=\"mTitle\"></h3><p id=\"mText\"></p><div id=\"mBody\"></div>\n  <div class=\"rowb\"><button id=\"mCopy\">Скопировать</button><button id=\"mClose\">Закрыть</button></div>\n</div></div>\n\n<div id=\"show\" aria-label=\"Показ на экране\">\n  <div id=\"shBody\"><div id=\"shIn\"></div></div>\n  <div id=\"shThesis\"></div>\n  <div id=\"shCount\"></div>\n</div>\n";
+<script id="appjs">var __MARKUP__="<div id=\"lib\">\n  <header class=\"lhead\"><span class=\"brand\">Разбор Слова <small style=\"font:italic 11px var(--f-ui);letter-spacing:0;color:var(--ink-2)\">версия 13.11 · 2</small></span><span id=\"libSt\" role=\"status\"></span><button id=\"btnSync\" class=\"stdonly\" data-s=\"off\">Синхронизация</button><button id=\"btnBackup\" class=\"cloudonly\">Скачать всю библиотеку</button><label class=\"filebtn cloudonly\" title=\"Файл, скачанный кнопкой «Скачать всю библиотеку»\">Загрузить библиотеку из файла<input id=\"impAll\" type=\"file\" accept=\".json,application/json\"></label><button id=\"btnTheme\" title=\"Ночной режим\">☾</button><button id=\"btnHelp2\">Справка</button></header>\n  <div id=\"libBody\"><aside id=\"bookList\" aria-label=\"Книги\"></aside><div id=\"bookPage\"></div></div>\n</div>\n<div id=\"work\">\n<header>\n  <button id=\"btnLib\" class=\"cloudonly\">← Библиотека</button>\n  <input id=\"title\" aria-label=\"Название отрывка\" placeholder=\"Отрывок, например: Римлянам 5:1–5\">\n  <span class=\"seg wideonly\" id=\"modeSeg\" role=\"group\" aria-label=\"Режим работы\"><button id=\"gStudy\">Изучение</button><button id=\"gSermon\">Проповедь</button></span>\n  <button id=\"btnStatus\" class=\"cloudonly\"></button>\n  <button id=\"btnSheet\" class=\"cloudonly studyonly\">Лист книги</button>\n  <button id=\"btnUndo\" title=\"Отменить последнее действие (Ctrl+Z)\">Отменить</button>\n  <button id=\"btnSave\" class=\"wideonly studyonly\">Сохранить в файл</button>\n  <label class=\"filebtn localonly studyonly\">Открыть файл<input id=\"fileIn\" type=\"file\" accept=\".json,application/json\"></label>\n  <button id=\"btnPng\" class=\"wideonly studyonly\">Схема картинкой (PNG)</button>\n  <span class=\"fsz wideonly sermononly\" title=\"Размер шрифта на экране зала\">Шрифт <button id=\"fsDn\" aria-label=\"Шрифт на экране мельче\">−</button><b id=\"fsVal\">100%</b><button id=\"fsUp\" aria-label=\"Шрифт на экране крупнее\">+</button></span>\n  <button id=\"btnShow\" class=\"wideonly sermononly on\">▶ Показ</button>\n  <button id=\"btnDocx\" class=\"wideonly sermononly\">Текст в Word</button>\n  <button id=\"btnExport\" class=\"cloudonly wideonly sermononly\" title=\"Отдельный файл для показа в зале, работает без интернета\">Файл для зала</button>\n  <button id=\"btnHelp\" class=\"wideonly\">Справка</button>\n  <span id=\"cloudSt\" class=\"cloudonly\"></span>\n  <span id=\"status\" role=\"status\"></span>\n</header>\n<nav id=\"ptabs\"><button data-p=\"text\">Текст</button><button data-p=\"field\">Разбор</button><button data-p=\"notes\">Заметки</button></nav>\n\n<main id=\"main\">\n  <section id=\"left\" aria-label=\"Исходный текст\">\n    <div class=\"phead\">\n      <h2>Текст</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Что делает клик по слову\"><button id=\"tCut\">Резать</button><button id=\"tNote\">Заметки к словам</button></span>\n      <button id=\"btnEdit\" class=\"ghost\">Изменить текст</button>\n    </div>\n    <div class=\"phead\" id=\"srcTools\">\n      <button id=\"cutVerses\">Резать по стихам</button>\n      <button id=\"cutPunct\">По знакам препинания</button>\n      <button id=\"cutReset\" class=\"ghost\">Убрать все разрезы</button>\n    </div>\n    <div class=\"pbody\"><div id=\"srcWrap\"><div id=\"src\"></div><svg id=\"srcMarks\" aria-hidden=\"true\"></svg></div><div id=\"markList\"></div></div>\n    <div id=\"selBar\"></div>\n    <div id=\"srcEdit\">\n      <textarea id=\"srcText\" aria-label=\"Исходный текст\" placeholder=\"Вставьте сюда текст (Синодальный перевод). Номера стихов можно оставить: они станут маленькими цифрами.\"></textarea>\n      <div class=\"rowb\">\n        <button id=\"srcApply\" class=\"on\">Готово</button>\n        <button id=\"srcCancel\">Отмена</button>\n      </div>\n      <div style=\"color:var(--ink-2);font-size:12px\">Разрезы, заметки и текст проповеди сохранятся. Пропадёт только то, что привязано к удалённым словам. Если что-то пошло не так, есть кнопка «Отменить».</div>\n    </div>\n    <div class=\"hint\" id=\"srcHint\"></div>\n  </section>\n\n  <section id=\"mid\" aria-label=\"Рабочее поле\">\n    <div class=\"phead\">\n      <h2>Рабочее поле</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Режим\">\n        <button id=\"mStruct\">Структура</button>\n      </span>\n    </div>\n    <div class=\"pbody\" id=\"midBody\">\n      <div id=\"structure\"></div>\n    </div>\n    <div class=\"hint\" id=\"midHint\"></div>\n  </section>\n\n  <section id=\"right\" aria-label=\"Заметки\">\n    <div class=\"phead\"><h2>Заметки</h2></div>\n    <div class=\"pbody\" id=\"noteBody\">\n      <div id=\"noteHead\"></div>\n      <div id=\"scrWrap\">\n        <label for=\"scr\">На экран</label>\n        <textarea id=\"scr\" rows=\"2\" placeholder=\"Короткий тезис к этому слову\"></textarea>\n        <small>Это увидит зал. Заметка ниже остаётся только у вас.</small>\n      </div>\n      <textarea id=\"notes\" aria-label=\"Заметка\"></textarea>\n      <div id=\"noteList\"></div>\n    </div>\n  </section>\n</main>\n<div id=\"sm\">\n  <section id=\"smL\" aria-label=\"Материалы изучения\">\n    <div class=\"phead\"><h2>Из изучения</h2></div>\n    <div class=\"pbody\"><div id=\"smText\" class=\"tool-mark\"><div class=\"smh\">Текст и пометки</div></div><div id=\"smMat\"></div></div>\n  </section>\n  <section id=\"smM\" aria-label=\"Текст проповеди\">\n    <div class=\"phead\"><h2>Текст проповеди</h2><span id=\"smCount\" class=\"snote\"></span><button id=\"smBuild\">Собрать из разбора</button></div>\n    <div class=\"pbody\" id=\"smBody\">\n      <div class=\"sf\"><label for=\"sTheme\">Название</label><input id=\"sTheme\" placeholder=\"Название проповеди. Первый слайд\"><span></span><label class=\"rdl\"><input type=\"checkbox\" id=\"sRead\"> После названия показать полный текст отрывка для чтения</label></div>\n      <div id=\"smBlocks\"></div>\n      <button id=\"smAdd\" class=\"ghost\">+ Блок</button>\n      <div class=\"sf\" style=\"margin-top:22px\">\n        <label for=\"sMain\">Главная мысль</label><textarea id=\"sMain\" rows=\"2\" placeholder=\"Одно предложение, которое зал должен унести. Предпоследний слайд\"></textarea>\n        <label for=\"sSum\">Итог</label><textarea id=\"sSum\" rows=\"2\" placeholder=\"К чему зовёт текст. Последний слайд\"></textarea>\n      </div>\n    </div>\n  </section>\n  <section id=\"smR\" aria-label=\"Слайды\">\n    <div class=\"phead\"><h2>Слайды</h2></div>\n    <div class=\"pbody\" id=\"smSlides\"></div>\n  </section>\n</div>\n</div>\n\n<datalist id=\"rels\">\n  <option value=\"основание\"><option value=\"причина\"><option value=\"следствие\"><option value=\"цель\"><option value=\"результат\">\n  <option value=\"условие\"><option value=\"уступка\"><option value=\"средство\"><option value=\"образ действия\"><option value=\"время\">\n  <option value=\"пояснение\"><option value=\"противопоставление\"><option value=\"ряд\"><option value=\"вывод\"><option value=\"сравнение\">\n</datalist>\n\n<div id=\"modal\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"mTitle\"><div class=\"box\">\n  <h3 id=\"mTitle\"></h3><p id=\"mText\"></p><div id=\"mBody\"></div>\n  <div class=\"rowb\"><button id=\"mCopy\">Скопировать</button><button id=\"mClose\">Закрыть</button></div>\n</div></div>\n\n<div id=\"show\" aria-label=\"Показ на экране\">\n  <div id=\"shBody\"><div id=\"shIn\"></div></div>\n  <div id=\"shThesis\"></div>\n  <div id=\"shCount\"></div>\n</div>\n";
 (function(){
 "use strict";
-document.getElementById("app").innerHTML=__MARKUP__;
+document.getElementById("app").innerHTML=__MARKUP__; if(window.rsThemeSync) rsThemeSync();
 var KEY="osborne-workbench-v1", LKEY=KEY, MODE="local", EMBED=window.__EMBED__||null, armExt=false, pane="text";
 var DEFAULT_TITLE="Римлянам 5:1–5";
 var DEFAULT_TEXT="1 Итак, оправдавшись верою, мы имеем мир с Богом через Господа нашего Иисуса Христа, 2 через Которого верою и получили мы доступ к той благодати, в которой стоим и хвалимся надеждою славы Божией. 3 И не сим только, но хвалимся и скорбями, зная, что от скорби происходит терпение, 4 от терпения опытность, от опытности надежда, 5 а надежда не постыжает, потому что любовь Божия излилась в сердца наши Духом Святым, данным нам.";
@@ -2135,14 +2165,14 @@ function pfmt(x,t){
 }
 function pbar(c){
   var d=c.d/c.t*100, w=c.w/c.t*100;
-  return '<div class="pgb"><i style="width:'+(c.d?Math.max(d,1.2):0)+'%"></i><s style="width:'+(c.w?Math.max(w,1.2):0)+'%"></s></div>';
+  return '<span class="pgb"><i style="width:'+(c.d?Math.max(d,1.5):0)+'%"></i><s style="width:'+(c.w?Math.max(w,1.5):0)+'%"></s></span>';
 }
+function ptitle(c){ return 'Проработано '+nfmt(c.d)+' из '+nfmt(c.t)+' стихов'+(c.w?', в работе ещё '+nfmt(c.w):''); }
 function progHTML(){
-  return '<div class="prog" title="Считаются стихи из отрывков с отметкой «проработан». Стих, вошедший в несколько отрывков, считается один раз.">'+[["nt","Новый Завет"],["ot","Ветхий Завет"]].map(function(g){
+  return '<div class="prog">'+[["nt","НЗ","Новый Завет"],["ot","ВЗ","Ветхий Завет"]].map(function(g){
     var c={t:0,d:0,w:0};
     BOOKS.forEach(function(b){ if(b.g!==g[0]) return; var x=covCount(b.id); c.t+=x.t; c.d+=x.d; c.w+=x.w; });
-    return '<div class="pg"><div class="pgh"><span>'+g[1]+'</span><b>'+pfmt(c.d,c.t)+'</b></div>'+pbar(c)+
-      '<div class="pgs">проработано '+nfmt(c.d)+' из '+nfmt(c.t)+' стихов'+(c.w?' · в работе '+nfmt(c.w):'')+'</div></div>';
+    return '<span class="pg" title="'+g[2]+'. '+ptitle(c)+'"><em>'+g[1]+'</em>'+pbar(c)+'<b>'+pfmt(c.d,c.t)+'</b></span>';
   }).join("")+'</div>';
 }
 function coverage(bid){
@@ -2163,7 +2193,7 @@ function renderBookPage(){
   $("#lib").classList.toggle("show-book",!!bk);
   if(!bk){ el.innerHTML='<div class="empty">Выберите книгу слева. Цифры у книги: сколько отрывков проработано и сколько всего начато.</div>'; return; }
   var h='<div class="bhead"><button data-act="back" class="narrowonly">← Книги</button><h1>'+esc(bk.f)+'</h1></div>'+
-    (function(){ var c=covCount(bk.id); return '<div class="bprog">'+pbar(c)+'<span>Книга проработана на <b>'+pfmt(c.d,c.t)+'</b> · '+nfmt(c.d)+' из '+nfmt(c.t)+' стихов'+(c.w?' · в работе '+nfmt(c.w):'')+'</span></div>'; })()+
+    (function(){ var c=covCount(bk.id); return '<div class="bprog" title="'+ptitle(c)+'">'+pbar(c)+'<b>'+pfmt(c.d,c.t)+'</b></div>'; })()+
     (bk.n?'<div class="bnote">'+esc(bk.n)+'</div>':'')+
     '<div class="seg btabs">'+[["list","Отрывки"],["read","Читать и выбрать"],["sheet","Лист книги"]].map(function(t){ return '<button data-tab="'+t[0]+'"'+(L.tab===t[0]?' class="on"':'')+'>'+t[1]+'</button>'; }).join("")+'</div>';
   if(L.tab==="sheet"){ el.innerHTML=h+sheetHTML(bk.id); return; }
@@ -2962,6 +2992,8 @@ function oldLocal(){
         if($("#btnPng")) dr.appendChild(item("Схема картинкой (PNG)","",proxy("btnPng")));
       }
       if($("#btnLib")) dr.appendChild(item("← В библиотеку","",proxy("btnLib")));
+      var dk=document.documentElement.dataset.theme==="dark";
+      dr.appendChild(item(dk?"☀ Дневной режим":"☾ Ночной режим","",function(){ if(window.rsTheme) window.rsTheme(); }));
       var hp=$("#btnHelp")||$("#btnHelp2"); if(hp) dr.appendChild(item("Справка","",function(){ hp.click(); }));
     }
     menu.addEventListener("click",function(){ build(); dr.classList.add("open"); back.classList.add("open"); var f=dr.querySelector(".pclose"); if(f) f.focus(); });
