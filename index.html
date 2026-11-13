@@ -667,6 +667,65 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   #work > header #pTool{padding:0 8px}
   #work > header{gap:2px}
 }
+/* конспекты */
+.lhead #lTalks{flex:none;min-height:30px;padding:3px 12px;border:1px solid var(--line);border-radius:999px;background:transparent;font:500 13px var(--f-ui);color:var(--ink-2)}
+.lhead #lTalks:hover{background:var(--hov);color:var(--ink)}
+.lhead #lTalks.on{background:var(--ink);border-color:var(--ink);color:var(--on-ink)}
+.tkl-h{padding:0 4px 10px}
+.tkl-h button{width:100%}
+.tk-f{display:block;width:100%;margin:0 0 8px;padding:7px 10px;border:1px solid var(--line);border-radius:var(--r-3);background:var(--card);color:var(--ink);font:14px var(--f-ui)}
+.tki{display:flex;flex-direction:column;align-items:flex-start;gap:1px;width:100%;text-align:left;white-space:normal;border:0;border-radius:var(--r-3);background:transparent;padding:7px 10px;margin-bottom:2px;min-height:0}
+.tki:hover{background:var(--hov)}
+.tki.cur{background:var(--ink);color:var(--on-ink)}
+.tki b{font:560 15px/1.25 var(--f-text)}
+.tki span{font:400 12px var(--f-ui);color:var(--ink-3)}
+.tki i{font:italic 13px/1.3 var(--f-text);color:var(--ink-2)}
+.tki.cur span,.tki.cur i{color:inherit;opacity:.75}
+.tk{padding-bottom:60px}
+.tk label{display:flex;flex-direction:column;gap:4px;font:600 11px var(--f-ui);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.tk label input{text-transform:none;letter-spacing:0}
+.tkf,.tk .tkt{width:100%;border:1px solid var(--line);border-radius:var(--r-3);background:var(--card);color:var(--ink);padding:8px 11px;font:16px/1.45 var(--f-text);resize:none}
+.tkf:focus,.tk .tkt:focus{outline:0;border-color:var(--ink-3);box-shadow:0 0 0 3px var(--hl-soft)}
+.tkg{display:grid;grid-template-columns:1fr 170px;gap:12px;margin-bottom:14px}
+.tkl{margin:0 0 6px}
+label.tkl{margin-bottom:14px}
+.tkmain{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:16px}
+.tk button.sm{min-height:30px}
+.tk h3{margin:22px 0 10px;padding-bottom:6px;font:600 11px var(--f-ui);letter-spacing:.09em;text-transform:uppercase;color:var(--ink-2);border-bottom:1px solid var(--line)}
+.tk h3 small{font-weight:400;letter-spacing:0;text-transform:none;color:var(--ink-3);margin-left:8px}
+.tkp{display:flex;gap:8px;margin-bottom:10px}
+.tkp.lv1{margin-left:28px}
+.tkn{flex:none;min-width:24px;padding-top:9px;text-align:right;font:600 13px var(--f-ui);color:var(--mark);font-variant-numeric:tabular-nums}
+.tkb{flex:1;min-width:0}
+.tkr{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-top:5px}
+.tkc{display:inline-flex;align-items:stretch;border:1px solid var(--line-2);border-radius:999px;background:var(--card);overflow:hidden}
+.tkc button{min-height:26px;padding:2px 10px;border:0;border-radius:0;background:transparent;font:500 12.5px var(--f-ui);color:var(--ink)}
+.tkc button:hover{background:var(--hov)}
+.tkc.op{border-color:var(--gold);background:var(--hl-soft)}
+.tkc .x{padding:2px 8px 2px 4px;color:var(--ink-3)}
+.tkadd{min-height:26px;padding:2px 10px;border:1px dashed var(--line-2);border-radius:999px;background:transparent;font:500 12.5px var(--f-ui);color:var(--ink-2)}
+.tkx{margin-left:auto;display:inline-flex;gap:2px;opacity:.55}
+.tkp:focus-within .tkx,.tkp:hover .tkx{opacity:1}
+.tkx button{min-width:28px;min-height:26px;padding:0 6px;background:transparent;border:0;font:500 13px var(--f-ui);color:var(--ink-2)}
+.tkx button:disabled{opacity:.3;cursor:default}
+.tkvt{margin:6px 0 2px;padding:8px 12px;border-left:3px solid var(--gold);background:var(--hl-soft);border-radius:0 var(--r-3) var(--r-3) 0;font:15px/1.55 var(--f-text);color:var(--ink)}
+.tkvt sup{font:600 .62em var(--f-ui);color:var(--mark);margin:0 .2em 0 .35em}
+.tkpick{display:flex;flex-wrap:wrap;gap:6px;align-items:center;width:100%;margin:6px 0;padding:8px;border:1px solid var(--line);border-radius:var(--r-2);background:var(--sunk)}
+.tkpick select{min-height:32px;padding:3px 6px;border:1px solid var(--line-2);border-radius:var(--r-3);background:var(--card);color:var(--ink);font:14px var(--f-ui)}
+.tkpb{display:inline-flex;gap:6px;margin-left:auto}
+.tksum{min-height:80px}
+.tkfoot{margin-top:18px;justify-content:space-between}
+.tkb-i span{color:var(--ink-2);font-size:13px}
+@media (max-width:760px){
+  .lhead #lTalks{order:1}
+  .tkg{grid-template-columns:1fr 140px}
+  .tkp.lv1{margin-left:16px}
+  .tkx{opacity:1}
+  .tkpick select{flex:1 1 40%}
+  .tkpb{width:100%;justify-content:flex-end}
+  .tk .bhead h1{display:none}
+  .tk h3 small{display:none}
+}
 :root[data-theme=dark]{
   --bg:#12110e; --panel:#1b1915; --card:#221f1a; --sunk:#171511;
   --ink:#e8e0d0; --ink-2:#b3a893; --ink-3:#7d7362;
@@ -685,7 +744,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 </head>
 <body>
 <div id="app"></div>
-<script id="appjs">var __MARKUP__="<div id=\"lib\">\n  <header class=\"lhead\"><button id=\"lMenu\" type=\"button\" title=\"Меню\" aria-label=\"Меню библиотеки\">☰</button><button id=\"lHome\" type=\"button\" title=\"На главную\" aria-label=\"На главную\">⌂</button><div id=\"lCont\"></div><div id=\"lProg\"></div><span id=\"libSt\" role=\"status\"></span><button id=\"btnTheme\" class=\"thm\" title=\"Ночной режим\">☾</button></header><div id=\"lBack\"></div><nav id=\"lDrawer\" aria-label=\"Меню библиотеки\"><div class=\"ldt\"><span class=\"brand\">Разбор Слова</span><button type=\"button\" class=\"pclose\" id=\"lClose\" aria-label=\"Закрыть меню\">×</button></div><div class=\"lver\">версия 13.11 · 4</div><button id=\"btnSync\" class=\"stdonly\" data-s=\"off\">Синхронизация</button><button id=\"btnBackup\" class=\"cloudonly\">Скачать всю библиотеку</button><label class=\"filebtn cloudonly\" title=\"Файл, скачанный кнопкой «Скачать всю библиотеку»\">Загрузить библиотеку из файла<input id=\"impAll\" type=\"file\" accept=\".json,application/json\"></label><button id=\"btnHelp2\">Справка</button></nav>\n  <div id=\"libBody\"><aside id=\"bookList\" aria-label=\"Книги\"></aside><div id=\"bookPage\"></div></div>\n</div>\n<div id=\"work\">\n<header>\n  <button id=\"btnLib\" class=\"cloudonly\" title=\"На главную\">⌂ Главная</button>\n  <input id=\"title\" aria-label=\"Название отрывка\" placeholder=\"Отрывок, например: Римлянам 5:1–5\">\n  <span class=\"seg wideonly\" id=\"modeSeg\" role=\"group\" aria-label=\"Режим работы\"><button id=\"gStudy\">Изучение</button><button id=\"gSermon\">Проповедь</button></span>\n  <button id=\"btnStatus\" class=\"cloudonly\"></button>\n  <button id=\"btnSheet\" class=\"cloudonly studyonly\">Лист книги</button>\n  <button id=\"btnUndo\" title=\"Отменить последнее действие (Ctrl+Z)\">Отменить</button>\n  <button id=\"btnSave\" class=\"wideonly studyonly\">Сохранить в файл</button>\n  <label class=\"filebtn localonly studyonly\">Открыть файл<input id=\"fileIn\" type=\"file\" accept=\".json,application/json\"></label>\n  <button id=\"btnPng\" class=\"wideonly studyonly\">Схема картинкой (PNG)</button>\n  <span class=\"fsz wideonly sermononly\" title=\"Размер шрифта на экране зала\">Шрифт <button id=\"fsDn\" aria-label=\"Шрифт на экране мельче\">−</button><b id=\"fsVal\">100%</b><button id=\"fsUp\" aria-label=\"Шрифт на экране крупнее\">+</button></span>\n  <button id=\"btnShow\" class=\"wideonly sermononly on\">▶ Показ</button>\n  <button id=\"btnDocx\" class=\"wideonly sermononly\">Текст в Word</button>\n  <button id=\"btnExport\" class=\"cloudonly wideonly sermononly\" title=\"Отдельный файл для показа в зале, работает без интернета\">Файл для зала</button>\n  <button id=\"btnHelp\" class=\"wideonly\">Справка</button>\n  <span id=\"cloudSt\" class=\"cloudonly\"></span>\n  <span id=\"status\" role=\"status\"></span>\n</header>\n<nav id=\"ptabs\"><button data-p=\"text\">Текст</button><button data-p=\"field\">Разбор</button><button data-p=\"notes\">Заметки</button></nav>\n\n<main id=\"main\">\n  <section id=\"left\" aria-label=\"Исходный текст\">\n    <div class=\"phead\">\n      <h2>Текст</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Что делает клик по слову\"><button id=\"tCut\">Резать</button><button id=\"tNote\">Заметки к словам</button></span>\n      <button id=\"btnEdit\" class=\"ghost\">Изменить текст</button>\n    </div>\n    <div class=\"phead\" id=\"srcTools\">\n      <button id=\"cutVerses\">Резать по стихам</button>\n      <button id=\"cutPunct\">По знакам препинания</button>\n      <button id=\"cutReset\" class=\"ghost\">Убрать все разрезы</button>\n    </div>\n    <div class=\"pbody\"><div id=\"srcWrap\"><div id=\"src\"></div><svg id=\"srcMarks\" aria-hidden=\"true\"></svg></div><div id=\"markList\"></div></div>\n    <div id=\"selBar\"></div>\n    <div id=\"srcEdit\">\n      <textarea id=\"srcText\" aria-label=\"Исходный текст\" placeholder=\"Вставьте сюда текст (Синодальный перевод). Номера стихов можно оставить: они станут маленькими цифрами.\"></textarea>\n      <div class=\"rowb\">\n        <button id=\"srcApply\" class=\"on\">Готово</button>\n        <button id=\"srcCancel\">Отмена</button>\n      </div>\n      <div style=\"color:var(--ink-2);font-size:12px\">Разрезы, заметки и текст проповеди сохранятся. Пропадёт только то, что привязано к удалённым словам. Если что-то пошло не так, есть кнопка «Отменить».</div>\n    </div>\n    <div class=\"hint\" id=\"srcHint\"></div>\n  </section>\n\n  <section id=\"mid\" aria-label=\"Рабочее поле\">\n    <div class=\"phead\">\n      <h2>Рабочее поле</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Режим\">\n        <button id=\"mStruct\">Структура</button>\n      </span>\n    </div>\n    <div class=\"pbody\" id=\"midBody\">\n      <div id=\"structure\"></div>\n    </div>\n    <div class=\"hint\" id=\"midHint\"></div>\n  </section>\n\n  <section id=\"right\" aria-label=\"Заметки\">\n    <div class=\"phead\"><h2>Заметки</h2></div>\n    <div class=\"pbody\" id=\"noteBody\">\n      <div id=\"noteHead\"></div>\n      <div id=\"scrWrap\">\n        <label for=\"scr\">На экран</label>\n        <textarea id=\"scr\" rows=\"2\" placeholder=\"Короткий тезис к этому слову\"></textarea>\n        <small>Это увидит зал. Заметка ниже остаётся только у вас.</small>\n      </div>\n      <textarea id=\"notes\" aria-label=\"Заметка\"></textarea>\n      <div id=\"noteList\"></div>\n    </div>\n  </section>\n</main>\n<div id=\"sm\">\n  <section id=\"smL\" aria-label=\"Материалы изучения\">\n    <div class=\"phead\"><h2>Из изучения</h2></div>\n    <div class=\"pbody\"><div id=\"smText\" class=\"tool-mark\"><div class=\"smh\">Текст и пометки</div></div><div id=\"smMat\"></div></div>\n  </section>\n  <section id=\"smM\" aria-label=\"Текст проповеди\">\n    <div class=\"phead\"><h2>Текст проповеди</h2><span id=\"smCount\" class=\"snote\"></span><button id=\"smBuild\">Собрать из разбора</button></div>\n    <div class=\"pbody\" id=\"smBody\">\n      <div class=\"sf\"><label for=\"sTheme\">Название</label><input id=\"sTheme\" placeholder=\"Название проповеди. Первый слайд\"><span></span><label class=\"rdl\"><input type=\"checkbox\" id=\"sRead\"> После названия показать полный текст отрывка для чтения</label></div>\n      <div id=\"smBlocks\"></div>\n      <button id=\"smAdd\" class=\"ghost\">+ Блок</button>\n      <div class=\"sf\" style=\"margin-top:22px\">\n        <label for=\"sMain\">Главная мысль</label><textarea id=\"sMain\" rows=\"2\" placeholder=\"Одно предложение, которое зал должен унести. Предпоследний слайд\"></textarea>\n        <label for=\"sSum\">Итог</label><textarea id=\"sSum\" rows=\"2\" placeholder=\"К чему зовёт текст. Последний слайд\"></textarea>\n      </div>\n    </div>\n  </section>\n  <section id=\"smR\" aria-label=\"Слайды\">\n    <div class=\"phead\"><h2>Слайды</h2></div>\n    <div class=\"pbody\" id=\"smSlides\"></div>\n  </section>\n</div>\n</div>\n\n<datalist id=\"rels\">\n  <option value=\"основание\"><option value=\"причина\"><option value=\"следствие\"><option value=\"цель\"><option value=\"результат\">\n  <option value=\"условие\"><option value=\"уступка\"><option value=\"средство\"><option value=\"образ действия\"><option value=\"время\">\n  <option value=\"пояснение\"><option value=\"противопоставление\"><option value=\"ряд\"><option value=\"вывод\"><option value=\"сравнение\">\n</datalist>\n\n<div id=\"modal\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"mTitle\"><div class=\"box\">\n  <h3 id=\"mTitle\"></h3><p id=\"mText\"></p><div id=\"mBody\"></div>\n  <div class=\"rowb\"><button id=\"mCopy\">Скопировать</button><button id=\"mClose\">Закрыть</button></div>\n</div></div>\n\n<div id=\"show\" aria-label=\"Показ на экране\">\n  <div id=\"shBody\"><div id=\"shIn\"></div></div>\n  <div id=\"shThesis\"></div>\n  <div id=\"shCount\"></div>\n</div>\n";
+<script id="appjs">var __MARKUP__="<div id=\"lib\">\n  <header class=\"lhead\"><button id=\"lMenu\" type=\"button\" title=\"Меню\" aria-label=\"Меню библиотеки\">☰</button><button id=\"lHome\" type=\"button\" title=\"На главную\" aria-label=\"На главную\">⌂</button><div id=\"lCont\"></div><button id=\"lTalks\" type=\"button\" title=\"Конспекты чужих проповедей\">Конспекты</button><div id=\"lProg\"></div><span id=\"libSt\" role=\"status\"></span><button id=\"btnTheme\" class=\"thm\" title=\"Ночной режим\">☾</button></header><div id=\"lBack\"></div><nav id=\"lDrawer\" aria-label=\"Меню библиотеки\"><div class=\"ldt\"><span class=\"brand\">Разбор Слова</span><button type=\"button\" class=\"pclose\" id=\"lClose\" aria-label=\"Закрыть меню\">×</button></div><div class=\"lver\">версия 13.11 · 5</div><button id=\"btnSync\" class=\"stdonly\" data-s=\"off\">Синхронизация</button><button id=\"btnBackup\" class=\"cloudonly\">Скачать всю библиотеку</button><label class=\"filebtn cloudonly\" title=\"Файл, скачанный кнопкой «Скачать всю библиотеку»\">Загрузить библиотеку из файла<input id=\"impAll\" type=\"file\" accept=\".json,application/json\"></label><button id=\"btnHelp2\">Справка</button></nav>\n  <div id=\"libBody\"><aside id=\"bookList\" aria-label=\"Книги\"></aside><div id=\"bookPage\"></div></div>\n</div>\n<div id=\"work\">\n<header>\n  <button id=\"btnLib\" class=\"cloudonly\" title=\"На главную\">⌂ Главная</button>\n  <input id=\"title\" aria-label=\"Название отрывка\" placeholder=\"Отрывок, например: Римлянам 5:1–5\">\n  <span class=\"seg wideonly\" id=\"modeSeg\" role=\"group\" aria-label=\"Режим работы\"><button id=\"gStudy\">Изучение</button><button id=\"gSermon\">Проповедь</button></span>\n  <button id=\"btnStatus\" class=\"cloudonly\"></button>\n  <button id=\"btnSheet\" class=\"cloudonly studyonly\">Лист книги</button>\n  <button id=\"btnUndo\" title=\"Отменить последнее действие (Ctrl+Z)\">Отменить</button>\n  <button id=\"btnSave\" class=\"wideonly studyonly\">Сохранить в файл</button>\n  <label class=\"filebtn localonly studyonly\">Открыть файл<input id=\"fileIn\" type=\"file\" accept=\".json,application/json\"></label>\n  <button id=\"btnPng\" class=\"wideonly studyonly\">Схема картинкой (PNG)</button>\n  <span class=\"fsz wideonly sermononly\" title=\"Размер шрифта на экране зала\">Шрифт <button id=\"fsDn\" aria-label=\"Шрифт на экране мельче\">−</button><b id=\"fsVal\">100%</b><button id=\"fsUp\" aria-label=\"Шрифт на экране крупнее\">+</button></span>\n  <button id=\"btnShow\" class=\"wideonly sermononly on\">▶ Показ</button>\n  <button id=\"btnDocx\" class=\"wideonly sermononly\">Текст в Word</button>\n  <button id=\"btnExport\" class=\"cloudonly wideonly sermononly\" title=\"Отдельный файл для показа в зале, работает без интернета\">Файл для зала</button>\n  <button id=\"btnHelp\" class=\"wideonly\">Справка</button>\n  <span id=\"cloudSt\" class=\"cloudonly\"></span>\n  <span id=\"status\" role=\"status\"></span>\n</header>\n<nav id=\"ptabs\"><button data-p=\"text\">Текст</button><button data-p=\"field\">Разбор</button><button data-p=\"notes\">Заметки</button></nav>\n\n<main id=\"main\">\n  <section id=\"left\" aria-label=\"Исходный текст\">\n    <div class=\"phead\">\n      <h2>Текст</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Что делает клик по слову\"><button id=\"tCut\">Резать</button><button id=\"tNote\">Заметки к словам</button></span>\n      <button id=\"btnEdit\" class=\"ghost\">Изменить текст</button>\n    </div>\n    <div class=\"phead\" id=\"srcTools\">\n      <button id=\"cutVerses\">Резать по стихам</button>\n      <button id=\"cutPunct\">По знакам препинания</button>\n      <button id=\"cutReset\" class=\"ghost\">Убрать все разрезы</button>\n    </div>\n    <div class=\"pbody\"><div id=\"srcWrap\"><div id=\"src\"></div><svg id=\"srcMarks\" aria-hidden=\"true\"></svg></div><div id=\"markList\"></div></div>\n    <div id=\"selBar\"></div>\n    <div id=\"srcEdit\">\n      <textarea id=\"srcText\" aria-label=\"Исходный текст\" placeholder=\"Вставьте сюда текст (Синодальный перевод). Номера стихов можно оставить: они станут маленькими цифрами.\"></textarea>\n      <div class=\"rowb\">\n        <button id=\"srcApply\" class=\"on\">Готово</button>\n        <button id=\"srcCancel\">Отмена</button>\n      </div>\n      <div style=\"color:var(--ink-2);font-size:12px\">Разрезы, заметки и текст проповеди сохранятся. Пропадёт только то, что привязано к удалённым словам. Если что-то пошло не так, есть кнопка «Отменить».</div>\n    </div>\n    <div class=\"hint\" id=\"srcHint\"></div>\n  </section>\n\n  <section id=\"mid\" aria-label=\"Рабочее поле\">\n    <div class=\"phead\">\n      <h2>Рабочее поле</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Режим\">\n        <button id=\"mStruct\">Структура</button>\n      </span>\n    </div>\n    <div class=\"pbody\" id=\"midBody\">\n      <div id=\"structure\"></div>\n    </div>\n    <div class=\"hint\" id=\"midHint\"></div>\n  </section>\n\n  <section id=\"right\" aria-label=\"Заметки\">\n    <div class=\"phead\"><h2>Заметки</h2></div>\n    <div class=\"pbody\" id=\"noteBody\">\n      <div id=\"noteHead\"></div>\n      <div id=\"scrWrap\">\n        <label for=\"scr\">На экран</label>\n        <textarea id=\"scr\" rows=\"2\" placeholder=\"Короткий тезис к этому слову\"></textarea>\n        <small>Это увидит зал. Заметка ниже остаётся только у вас.</small>\n      </div>\n      <textarea id=\"notes\" aria-label=\"Заметка\"></textarea>\n      <div id=\"noteList\"></div>\n    </div>\n  </section>\n</main>\n<div id=\"sm\">\n  <section id=\"smL\" aria-label=\"Материалы изучения\">\n    <div class=\"phead\"><h2>Из изучения</h2></div>\n    <div class=\"pbody\"><div id=\"smText\" class=\"tool-mark\"><div class=\"smh\">Текст и пометки</div></div><div id=\"smMat\"></div></div>\n  </section>\n  <section id=\"smM\" aria-label=\"Текст проповеди\">\n    <div class=\"phead\"><h2>Текст проповеди</h2><span id=\"smCount\" class=\"snote\"></span><button id=\"smBuild\">Собрать из разбора</button></div>\n    <div class=\"pbody\" id=\"smBody\">\n      <div class=\"sf\"><label for=\"sTheme\">Название</label><input id=\"sTheme\" placeholder=\"Название проповеди. Первый слайд\"><span></span><label class=\"rdl\"><input type=\"checkbox\" id=\"sRead\"> После названия показать полный текст отрывка для чтения</label></div>\n      <div id=\"smBlocks\"></div>\n      <button id=\"smAdd\" class=\"ghost\">+ Блок</button>\n      <div class=\"sf\" style=\"margin-top:22px\">\n        <label for=\"sMain\">Главная мысль</label><textarea id=\"sMain\" rows=\"2\" placeholder=\"Одно предложение, которое зал должен унести. Предпоследний слайд\"></textarea>\n        <label for=\"sSum\">Итог</label><textarea id=\"sSum\" rows=\"2\" placeholder=\"К чему зовёт текст. Последний слайд\"></textarea>\n      </div>\n    </div>\n  </section>\n  <section id=\"smR\" aria-label=\"Слайды\">\n    <div class=\"phead\"><h2>Слайды</h2></div>\n    <div class=\"pbody\" id=\"smSlides\"></div>\n  </section>\n</div>\n</div>\n\n<datalist id=\"rels\">\n  <option value=\"основание\"><option value=\"причина\"><option value=\"следствие\"><option value=\"цель\"><option value=\"результат\">\n  <option value=\"условие\"><option value=\"уступка\"><option value=\"средство\"><option value=\"образ действия\"><option value=\"время\">\n  <option value=\"пояснение\"><option value=\"противопоставление\"><option value=\"ряд\"><option value=\"вывод\"><option value=\"сравнение\">\n</datalist>\n\n<div id=\"modal\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"mTitle\"><div class=\"box\">\n  <h3 id=\"mTitle\"></h3><p id=\"mText\"></p><div id=\"mBody\"></div>\n  <div class=\"rowb\"><button id=\"mCopy\">Скопировать</button><button id=\"mClose\">Закрыть</button></div>\n</div></div>\n\n<div id=\"show\" aria-label=\"Показ на экране\">\n  <div id=\"shBody\"><div id=\"shIn\"></div></div>\n  <div id=\"shThesis\"></div>\n  <div id=\"shCount\"></div>\n</div>\n";
 (function(){
 "use strict";
 document.getElementById("app").innerHTML=__MARKUP__; if(window.rsThemeSync) rsThemeSync();
@@ -2194,6 +2253,8 @@ function renderBookList(){
     all.map(function(x){ return '<button class="lc-i" data-open="'+x.id+'" data-q="'+esc((x.m.title||"")+" "+(x.m.theme||"")).toLowerCase()+'"><b>'+esc(x.m.title||"Без названия")+'</b>'+chip(x.m.status)+'</button>'; }).join("")+'</div>':'';
   lc.classList.toggle("open",op&&!!all.length);
   if(q){ fv=lc.querySelector(".lc-f"); if(fv){ fv.value=q; lcFilter(q); } }
+  $("#lTalks").classList.toggle("on",L.view==="talks");
+  if(L.view==="talks"){ renderTalkList(); return; }
   [["nt","Новый Завет"],["ot","Ветхий Завет"],["nc","Неканонические книги"]].forEach(function(g){
     h+='<h3>'+g[1]+'</h3>'+(g[0]==="nc"?'<div class="snote" style="padding:0 4px 6px">Для чтения и общего знакомства. В канон Писания не входят.</div>':'')+'<div class="blist">';
     BOOKS.forEach(function(b){
@@ -2244,6 +2305,7 @@ function coverage(bid){
 function refStr(a,b){ return a.c+":"+a.v+((a.c===b.c&&a.v===b.v)?"":"–"+(a.c===b.c?b.v:b.c+":"+b.v)); }
 function cmpV(x,y){ return x.c-y.c||x.v-y.v; }
 function renderBookPage(){
+  if(L.view==="talks"){ renderTalkPage(); return; }
   var el=$("#bookPage"), bk=L.book&&bookById(L.book);
   $("#lib").classList.toggle("show-book",!!bk);
   if(!bk){ el.innerHTML='<div class="empty">Выберите книгу слева. Цифры у книги: сколько отрывков проработано и сколько всего начато.</div>'; return; }
@@ -2264,6 +2326,8 @@ function renderBookPage(){
     return '<div class="prow"><button class="pitem" data-open="'+x.id+'"><b>'+esc(x.m.title||"Без названия")+'</b> '+chip(x.m.status)+
       '<span>'+(x.m.theme?esc(clip(x.m.theme,80))+' · ':'')+'изменён '+ddmm(x.m.at)+'</span></button><button class="ghost" data-del="'+x.id+'" title="Удалить отрывок">✕</button></div>';
   }).join(""):'<div class="snote">В этой книге отрывков пока нет.</div>';
+  var tks=tkAll().filter(function(d){ return d.ref&&d.ref.b===bk.id; });
+  if(tks.length) h+='<h3>Конспекты проповедей</h3>'+tks.map(function(d){ return '<button class="pitem tkb-i" data-tk-open="'+d.id+'"><b>'+esc(tkRef(d.ref))+'</b> <span>'+esc([d.who,tkDate(d.date),d.theme&&clip(d.theme,60)].filter(Boolean).join(" · "))+'</span></button>'; }).join("");
   h+='<div class="rowb" style="margin-top:14px"><button class="on" data-tab="read">+ Новый отрывок</button><label class="filebtn">Перенести из файла .json<input id="impIn" type="file" accept=".json,application/json"></label></div>';
   el.innerHTML=h;
 }
@@ -2388,6 +2452,8 @@ async function restoreBackup(raw){
       C.P[id]=P[id]; if(cur) upd++; else add++;
     }
     for(id in K){ if(!C.BK[id]||(C.BK[id].at||0)<(K[id].at||0)){ await C.db.doc("books/"+id).set(K[id]); C.BK[id]=K[id]; } }
+    var TT=raw.talks||{};
+    for(id in TT){ if(!C.TK[id]||(C.TK[id].at||0)<(TT[id].at||0)){ await C.db.doc("talks/"+id).set(TT[id]); C.TK[id]=TT[id]; add++; } }
   }catch(e){ libSt("Перенос прервался: хранилище не приняло запись","bad"); return; }
   libSt("Библиотека перенесена: новых отрывков "+add+", обновлено "+upd+(same?", уже были "+same:""));
   renderLib();
@@ -2397,7 +2463,7 @@ async function restoreBackup(raw){
    Each document is a file data/<collection>/<id>.json. The device remembers, per file, the git blob of the last agreed version (base).
    local == remote: nothing to do; only remote moved: take it; only local moved: send it; both moved: the later one (field at) wins,
    the other is kept in data/conflicts/. A file missing on one side counts as deleted there if it had a base, as new otherwise. */
-var SYNC_COLS=["passages","bodies","books"], SYNC_KEY="rs-sync", SYNC_BASE="rs-sync-base";
+var SYNC_COLS=["passages","bodies","books","talks"], SYNC_KEY="rs-sync", SYNC_BASE="rs-sync-base";
 var SY={cfg:null, base:{}, busy:false, again:false, timer:null, last:0, st:"", bad:false, exp:null};
 function syLoad(){
   try{ SY.cfg=JSON.parse(localStorage.getItem(SYNC_KEY)||"null"); }catch(e){ SY.cfg=null; }
@@ -2443,8 +2509,8 @@ function syErrText(e){
   return "ошибка GitHub ("+e.code+")";
 }
 /* writes that come from the other device: straight into this browser's storage, without starting a new sync */
-async function syLocalSet(coll,id,doc){ await C.db.doc(coll+"/"+id).set(doc,{sync:true}); if(coll==="passages") C.P[id]=doc; if(coll==="books") C.BK[id]=doc; }
-async function syLocalDel(coll,id){ await C.db.doc(coll+"/"+id).delete({sync:true}); if(coll==="passages") delete C.P[id]; }
+async function syLocalSet(coll,id,doc){ await C.db.doc(coll+"/"+id).set(doc,{sync:true}); if(coll==="passages") C.P[id]=doc; if(coll==="books") C.BK[id]=doc; if(coll==="talks") C.TK[id]=doc; }
+async function syLocalDel(coll,id){ await C.db.doc(coll+"/"+id).delete({sync:true}); if(coll==="passages") delete C.P[id]; if(coll==="talks") delete C.TK[id]; }
 function syTitle(id){ return (C.P[id]&&C.P[id].title)||"отрывок"; }
 async function syncNow(){
   if(!SY.cfg||!C.db) return;
@@ -2459,7 +2525,7 @@ async function syncNow(){
     var tr=await syApi("GET","/git/trees/"+encodeURIComponent(br)+"?recursive=1");
     if(tr.truncated) throw Object.assign(new Error("tree"),{code:"tree"});
     var remote={};
-    (tr.tree||[]).forEach(function(t){ var m=/^data\/(passages|bodies|books)\/([^\/]+)\.json$/.exec(t.path); if(t.type==="blob"&&m) remote[t.path]={sha:t.sha,c:m[1],id:m[2]}; });
+    (tr.tree||[]).forEach(function(t){ var m=/^data\/(passages|bodies|books|talks)\/([^\/]+)\.json$/.exec(t.path); if(t.type==="blob"&&m) remote[t.path]={sha:t.sha,c:m[1],id:m[2]}; });
     var local={}, all=C.db.dump();
     for(var ci=0;ci<SYNC_COLS.length;ci++){
       var cn=SYNC_COLS[ci], docs=all[cn]||{};
@@ -2589,10 +2655,177 @@ async function deletePassage(id){
   try{ localStorage.removeItem("osb-d-"+id); }catch(e){}
   delete C.P[id]; renderLib();
 }
+/* ---------- конспекты чужих проповедей: отдельная коллекция talks ---------- */
+var TK={cur:null,doc:null,pick:null,open:{},q:"",tm:null,lastB:"40",focus:null};
+C.TK={};
+function tkToday(){ var d=new Date(); return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2); }
+function tkDate(s){ var m=/^(\d{4})-(\d\d)-(\d\d)$/.exec(s||""); return m?m[3]+"."+m[2]+"."+m[1]:""; }
+function tkRef(r){ if(!r) return ""; var bk=bookById(r.b), n=bk?bk.s:"?"; return n+" "+r.c+(r.v1?":"+r.v1+(r.v2&&r.v2>r.v1?"–"+r.v2:""):""); }
+function tkNew(){
+  var id="t"+uid().slice(1), d={id:id,kind:"talk",at:Date.now(),created:Date.now(),date:tkToday(),who:"",theme:"",ref:null,pts:[{id:uid(),t:"",lv:0,refs:[]}],sum:""};
+  C.TK[id]=clone(d); TK.cur=id; TK.doc=d; TK.pick=null; TK.open={}; tkSaveNow();
+  renderTalkList(); renderTalkPage(true);
+  var f=document.querySelector('#tkEd [data-f="who"]'); if(f) f.focus();
+}
+function tkOpen(id){
+  if(!C.TK[id]) return; tkFlush(); TK.cur=id; TK.doc=clone(C.TK[id]); TK.pick=null; TK.open={};
+  renderTalkList(); renderTalkPage(true); $("#bookPage").scrollTop=0;
+}
+function tkClose(){ tkFlush(); TK.cur=null; TK.doc=null; TK.pick=null; renderTalkList(); renderTalkPage(true); }
+function tkSaveNow(){ clearTimeout(TK.tm); TK.tm=null; if(!TK.doc) return; var d=clone(TK.doc); C.TK[d.id]=d; C.db.doc("talks/"+d.id).set(d).catch(function(){ libSt("Конспект не сохранился: хранилище недоступно","bad"); }); }
+function tkSave(soon){ if(!TK.doc) return; TK.doc.at=Date.now(); C.TK[TK.doc.id]=clone(TK.doc); if(soon){ clearTimeout(TK.tm); TK.tm=setTimeout(tkSaveNow,600); } else tkSaveNow(); }
+function tkFlush(){ if(TK.tm) tkSaveNow(); }
+window.addEventListener("pagehide",tkFlush);
+document.addEventListener("visibilitychange",function(){ if(document.visibilityState==="hidden") tkFlush(); });
+function tkAll(){ return Object.keys(C.TK).map(function(id){ return C.TK[id]; }).sort(function(x,y){ return (y.date||"").localeCompare(x.date||"")||(y.created||0)-(x.created||0); }); }
+function tkFilter(){
+  var q=TK.q.trim().toLowerCase();
+  Array.prototype.forEach.call(document.querySelectorAll("#bookList .tki"),function(b){ b.style.display=!q||b.dataset.q.indexOf(q)>=0?"":"none"; });
+}
+function renderTalkList(){
+  var all=tkAll(), h='<div class="tkl-h"><button class="on" data-tk="new">+ Новый конспект</button></div>';
+  if(all.length>6) h+='<input class="tk-f" type="search" placeholder="Найти: проповедник, место, тема" aria-label="Найти конспект">';
+  h+=all.length?all.map(function(d){
+    var r=tkRef(d.ref), q=[d.who,r,d.theme,tkDate(d.date)].join(" ").toLowerCase();
+    return '<button class="tki'+(TK.cur===d.id?' cur':'')+'" data-tk-open="'+d.id+'" data-q="'+esc(q)+'"><b>'+esc(d.who||"Проповедник не указан")+'</b><span>'+esc([r,tkDate(d.date)].filter(Boolean).join(" · "))+'</span>'+(d.theme?'<i>'+esc(clip(d.theme,70))+'</i>':'')+'</button>';
+  }).join(""):'<div class="snote" style="padding:6px 8px">Конспектов пока нет.</div>';
+  var bl=$("#bookList"), f=bl.querySelector(".tk-f"), had=f&&document.activeElement===f;
+  bl.innerHTML=h; f=bl.querySelector(".tk-f"); if(f){ f.value=TK.q; if(had) f.focus(); } tkFilter();
+}
+function tkBookSel(b){
+  return '<select class="tkps" data-k="b" aria-label="Книга">'+[["nt","Новый Завет"],["ot","Ветхий Завет"],["nc","Неканонические"]].map(function(g){
+    return '<optgroup label="'+g[1]+'">'+BOOKS.filter(function(x){ return x.g===g[0]; }).map(function(x){ return '<option value="'+x.id+'"'+(x.id===b?' selected':'')+'>'+esc(x.s)+'</option>'; }).join("")+'</optgroup>';
+  }).join("")+'</select>';
+}
+function tkPickHTML(){
+  var p=TK.pick, bk=bookById(p.b)||BOOKS[0], nc=bk.v.length, i, o;
+  p.c=Math.max(1,Math.min(nc,p.c)); var nv=bk.v[p.c-1]; if(p.v1>nv) p.v1=nv; if(p.v2&&(p.v2<=p.v1||p.v2>nv)) p.v2=0;
+  o='<option value="'+0+'"'+(!p.v1?' selected':'')+'>вся глава</option>'; for(i=1;i<=nv;i++) o+='<option value="'+i+'"'+(i===p.v1?' selected':'')+'>ст. '+i+'</option>';
+  var c=''; for(i=1;i<=nc;i++) c+='<option value="'+i+'"'+(i===p.c?' selected':'')+'>гл. '+i+'</option>';
+  var v2='<option value="0">—</option>'; if(p.v1) for(i=p.v1+1;i<=nv;i++) v2+='<option value="'+i+'"'+(i===p.v2?' selected':'')+'>по '+i+'</option>';
+  return '<div class="tkpick" id="tkPick">'+tkBookSel(bk.id)+'<select class="tkps" data-k="c" aria-label="Глава">'+c+'</select><select class="tkps" data-k="v1" aria-label="С какого стиха">'+o+'</select>'+
+    (p.v1?'<select class="tkps" data-k="v2" aria-label="По какой стих">'+v2+'</select>':'')+
+    '<span class="tkpb"><button class="on" data-tk="pickok">'+(p.t==="main"?'Готово':'Добавить')+'</button><button class="ghost" data-tk="pickx">Отмена</button></span></div>';
+}
+function tkChip(r,key,del){
+  return '<span class="tkc'+(TK.open[key]?' op':'')+'"><button data-tk="vt" data-key="'+key+'" title="Показать текст">'+esc(tkRef(r))+'</button>'+(del?'<button class="x" data-tk="rdel" data-key="'+key+'" aria-label="Убрать место">×</button>':'')+'</span>';
+}
+function tkVerses(r){
+  var tx=TEXT[r.b]; if(!tx) return null;
+  var ch=tx.c[r.c-1]||[], a=r.v1||1, b=r.v1?(r.v2||r.v1):ch.length, out=[];
+  for(var v=a;v<=b&&v<=ch.length;v++) out.push('<sup>'+v+'</sup>'+esc(ch[v-1]));
+  return out.join(" ");
+}
+function tkVtHTML(r,key){
+  if(!TK.open[key]) return "";
+  var t=tkVerses(r);
+  if(t===null){ loadBook(r.b).then(function(){ var el=document.querySelector('.tkvt[data-key="'+key+'"]'); if(el) el.innerHTML=tkVerses(r); },function(){}); t="Загружаю текст…"; }
+  return '<div class="tkvt" data-key="'+key+'">'+t+'</div>';
+}
+function tkFindPt(pid){ var ps=TK.doc.pts; for(var i=0;i<ps.length;i++) if(ps[i].id===pid) return i; return -1; }
+function tkNum(){ var n=0, m=0, out={}; TK.doc.pts.forEach(function(p){ if(!p.lv){ n++; m=0; out[p.id]=n+"."; } else { m++; out[p.id]=n?n+"."+m:"–"; } }); return out; }
+function renderTalkPage(force){
+  var el=$("#bookPage"); $("#lib").classList.toggle("show-book",!!TK.cur);
+  var ae=document.activeElement;
+  if(!force&&TK.cur&&ae&&el.contains(ae)&&/^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName)) return;
+  if(!TK.cur||!TK.doc){
+    el.innerHTML='<div class="empty"><b>Конспекты проповедей</b><br>Записывайте за проповедником: кто, на какой текст, как шла мысль, какие места он приводил, и итог. Нажмите «+ Новый конспект».</div>'; return;
+  }
+  var d=TK.doc, num=tkNum(), who={};
+  Object.keys(C.TK).forEach(function(id){ var w=(C.TK[id].who||"").trim(); if(w) who[w]=1; });
+  var h='<div class="tk" id="tkEd"><div class="bhead"><button data-tk="back" class="narrowonly">← Конспекты</button><h1>Конспект проповеди</h1></div>'+
+    '<datalist id="tkWho">'+Object.keys(who).sort().map(function(w){ return '<option value="'+esc(w)+'">'; }).join("")+'</datalist>'+
+    '<div class="tkg"><label>Проповедник<input class="tkf" data-f="who" list="tkWho" autocomplete="off" placeholder="Имя" value="'+esc(d.who)+'"></label>'+
+    '<label class="tkd">Дата<input class="tkf" data-f="date" type="date" value="'+esc(d.date||"")+'"></label></div>'+
+    '<label class="tkl">Место Писания</label><div class="tkmain">'+
+      (TK.pick&&TK.pick.t==="main"?tkPickHTML():d.ref?tkChip(d.ref,"main",false)+'<button class="ghost sm" data-tk="pickmain">Изменить</button>'+tkVtHTML(d.ref,"main"):'<button class="sm" data-tk="pickmain">+ Выбрать место</button>')+'</div>'+
+    '<label class="tkl">Тема<input class="tkf" data-f="theme" placeholder="Как её назвал проповедник или как вы её поняли" value="'+esc(d.theme)+'"></label>'+
+    '<h3>Ход проповеди <small>Enter — новый пункт, Shift+Enter — новая строка</small></h3><div class="tkps-list">'+
+    d.pts.map(function(p,i){
+      return '<div class="tkp'+(p.lv?' lv1':'')+'" data-pid="'+p.id+'"><span class="tkn">'+num[p.id]+'</span><div class="tkb">'+
+        '<textarea class="tkt" data-pid="'+p.id+'" rows="1" placeholder="'+(i?'Следующая мысль':'Первая мысль проповедника')+'">'+esc(p.t)+'</textarea>'+
+        '<div class="tkr">'+p.refs.map(function(r,j){ return tkChip(r,p.id+":"+j,true); }).join("")+
+        (TK.pick&&TK.pick.t===p.id?'':'<button class="tkadd" data-tk="pickpt" data-pid="'+p.id+'">+ место</button>')+
+        '<span class="tkx"><button data-tk="out" data-pid="'+p.id+'" title="Пункт выше уровнем"'+(p.lv?'':' disabled')+'>◂</button><button data-tk="in" data-pid="'+p.id+'" title="Подпункт"'+(p.lv||!i?' disabled':'')+'>▸</button><button data-tk="up" data-pid="'+p.id+'" title="Выше"'+(i?'':' disabled')+'>↑</button><button data-tk="dn" data-pid="'+p.id+'" title="Ниже"'+(i<d.pts.length-1?'':' disabled')+'>↓</button><button data-tk="pdel" data-pid="'+p.id+'" title="Удалить пункт">✕</button></span></div>'+
+        (TK.pick&&TK.pick.t===p.id?tkPickHTML():'')+
+        p.refs.map(function(r,j){ return tkVtHTML(r,p.id+":"+j); }).join("")+'</div></div>';
+    }).join("")+'</div><button class="ghost" data-tk="addpt">+ Пункт</button>'+
+    '<h3>Итог</h3><textarea class="tkf tksum" data-f="sum" rows="3" placeholder="Главная мысль и к чему она зовёт. Что взять себе">'+esc(d.sum)+'</textarea>'+
+    '<div class="rowb tkfoot"><button data-tk="copy">Скопировать текстом</button><button class="ghost" data-tk="del">Удалить конспект</button></div></div>';
+  el.innerHTML=h;
+  Array.prototype.forEach.call(el.querySelectorAll("textarea"),tkGrow);
+  if(TK.focus){ var t=el.querySelector('.tkt[data-pid="'+TK.focus.pid+'"]'); if(t){ t.focus(); var at=TK.focus.at==null?t.value.length:TK.focus.at; try{ t.setSelectionRange(at,at); }catch(e){} } TK.focus=null; }
+}
+function tkGrow(t){ t.style.height="auto"; t.style.height=(t.scrollHeight+2)+"px"; }
+function tkPlain(d){
+  var num=tkNum(), L2=[];
+  L2.push("Проповедник: "+(d.who||"—")); if(d.date) L2.push("Дата: "+tkDate(d.date)); if(d.ref) L2.push("Место: "+tkRef(d.ref)); if(d.theme) L2.push("Тема: "+d.theme);
+  L2.push("","Ход проповеди");
+  d.pts.forEach(function(p){ if(!p.t.trim()&&!p.refs.length) return; L2.push((p.lv?"   ":"")+num[p.id]+" "+p.t.trim()+(p.refs.length?" ("+p.refs.map(tkRef).join("; ")+")":"")); });
+  if(d.sum.trim()) L2.push("","Итог",d.sum.trim());
+  return L2.join("\n");
+}
+function tkAct(b){
+  var a=b.dataset.tk, pid=b.dataset.pid, d=TK.doc, i=pid?tkFindPt(pid):-1;
+  if(a==="new"){ tkNew(); return; }
+  if(a==="back"){ tkClose(); return; }
+  if(!d) return;
+  if(a==="pickmain"){ var r=d.ref||{}; TK.pick={t:"main",b:r.b||TK.lastB,c:r.c||1,v1:r.v1||0,v2:r.v2||0}; renderTalkPage(true); return; }
+  if(a==="pickpt"){ var mr=d.ref||{}; TK.pick={t:pid,b:TK.lastB||mr.b||"40",c:(TK.lastB===mr.b&&mr.c)||1,v1:1,v2:0}; renderTalkPage(true); return; }
+  if(a==="pickx"){ TK.pick=null; renderTalkPage(true); return; }
+  if(a==="pickok"){
+    var p=TK.pick, ref={b:p.b,c:p.c,v1:p.v1,v2:p.v1&&p.v2>p.v1?p.v2:0}; TK.lastB=p.b;
+    if(p.t==="main") d.ref=ref; else { var k=tkFindPt(p.t); if(k>=0) d.pts[k].refs.push(ref); }
+    TK.pick=null; tkSave(); renderTalkList(); renderTalkPage(true); return;
+  }
+  if(a==="vt"){ var key=b.dataset.key; TK.open[key]=!TK.open[key]; renderTalkPage(true); return; }
+  if(a==="rdel"){ var kk=b.dataset.key.split(":"), pi=tkFindPt(kk[0]); if(pi>=0){ d.pts[pi].refs.splice(+kk[1],1); TK.open={}; tkSave(); renderTalkPage(true); } return; }
+  if(a==="addpt"){ var np={id:uid(),t:"",lv:0,refs:[]}; d.pts.push(np); TK.focus={pid:np.id}; tkSave(); renderTalkPage(true); return; }
+  if(a==="in"&&i>0){ d.pts[i].lv=1; tkSave(); renderTalkPage(true); return; }
+  if(a==="out"&&i>=0){ d.pts[i].lv=0; tkSave(); renderTalkPage(true); return; }
+  if(a==="up"&&i>0){ var x=d.pts.splice(i,1)[0]; d.pts.splice(i-1,0,x); if(i-1===0) x.lv=0; tkSave(); renderTalkPage(true); return; }
+  if(a==="dn"&&i>=0&&i<d.pts.length-1){ var y=d.pts.splice(i,1)[0]; d.pts.splice(i+1,0,y); if(d.pts[0].lv) d.pts[0].lv=0; tkSave(); renderTalkPage(true); return; }
+  if(a==="pdel"&&i>=0){
+    var pt=d.pts[i];
+    if((pt.t.trim()||pt.refs.length)&&!b.dataset.arm){ b.dataset.arm="1"; b.textContent="Удалить?"; setTimeout(function(){ if(b.isConnected){ delete b.dataset.arm; b.textContent="✕"; } },3000); return; }
+    d.pts.splice(i,1); if(!d.pts.length) d.pts.push({id:uid(),t:"",lv:0,refs:[]}); if(d.pts[0].lv) d.pts[0].lv=0; TK.open={}; tkSave(); renderTalkPage(true); return;
+  }
+  if(a==="copy"){ var tx=tkPlain(d), ta=document.createElement("textarea"); ta.readOnly=true; ta.value=tx; ta.rows=14; openModal("Конспект текстом","Можно вставить в сообщение или документ.",ta,tx); return; }
+  if(a==="del"){
+    if(!b.dataset.arm){ b.dataset.arm="1"; b.textContent="Удалить навсегда? Нажмите ещё раз"; setTimeout(function(){ if(b.isConnected){ delete b.dataset.arm; b.textContent="Удалить конспект"; } },3500); return; }
+    var id=d.id; clearTimeout(TK.tm); TK.tm=null; delete C.TK[id]; TK.cur=null; TK.doc=null;
+    C.db.doc("talks/"+id).delete().catch(function(){ libSt("Не удалено: хранилище недоступно","bad"); });
+    renderTalkList(); renderTalkPage(true); libSt("Конспект удалён"); setTimeout(function(){ libSt(""); },2500); return;
+  }
+}
+$("#bookPage").addEventListener("change",function(e){
+  var s=e.target; if(!s.classList.contains("tkps")||!TK.pick) return;
+  var k=s.dataset.k; TK.pick[k]=k==="b"?s.value:+s.value;
+  if(k==="b"){ TK.pick.c=1; TK.pick.v1=TK.pick.v1?1:0; TK.pick.v2=0; } if(k==="c"){ TK.pick.v1=TK.pick.v1?1:0; TK.pick.v2=0; } if(k==="v1") TK.pick.v2=0;
+  var el=$("#tkPick"); if(el){ el.outerHTML=tkPickHTML(); var n=document.querySelector('#tkPick [data-k="'+k+'"]'); if(n) n.focus(); }
+});
+$("#bookPage").addEventListener("input",function(e){
+  var t=e.target; if(!TK.doc) return;
+  if(t.classList.contains("tkf")){ TK.doc[t.dataset.f]=t.value; if(t.tagName==="TEXTAREA") tkGrow(t); tkSave(true); if(t.dataset.f!=="sum") renderTalkList(); return; }
+  if(t.classList.contains("tkt")){ var i=tkFindPt(t.dataset.pid); if(i>=0){ TK.doc.pts[i].t=t.value; tkGrow(t); tkSave(true); } }
+});
+$("#bookPage").addEventListener("keydown",function(e){
+  var t=e.target; if(!TK.doc||!t.classList.contains("tkt")) return;
+  var i=tkFindPt(t.dataset.pid); if(i<0) return; var ps=TK.doc.pts;
+  if(e.key==="Enter"&&!e.shiftKey&&!e.isComposing){
+    e.preventDefault();
+    var pos=t.selectionStart, rest=t.value.slice(t.selectionEnd); ps[i].t=t.value.slice(0,pos).replace(/\s+$/,"");
+    var np={id:uid(),t:rest.replace(/^\s+/,""),lv:ps[i].lv,refs:[]}; ps.splice(i+1,0,np); TK.focus={pid:np.id,at:0}; tkSave(); renderTalkPage(true); return;
+  }
+  if(e.key==="Backspace"&&!t.value&&ps.length>1&&!ps[i].refs.length){ e.preventDefault(); ps.splice(i,1); if(ps[0].lv) ps[0].lv=0; TK.focus=i?{pid:ps[i-1].id}:{pid:ps[0].id,at:0}; tkSave(); renderTalkPage(true); return; }
+  if(e.key==="Tab"){ e.preventDefault(); if(e.shiftKey) ps[i].lv=0; else if(i>0) ps[i].lv=1; TK.focus={pid:ps[i].id,at:t.selectionStart}; tkSave(); renderTalkPage(true); }
+});
+$("#bookList").addEventListener("input",function(e){ if(e.target.classList.contains("tk-f")){ TK.q=e.target.value; tkFilter(); } });
+function setLibView(v){ tkFlush(); L.view=v; if(v!=="talks"){ TK.cur=null; TK.doc=null; TK.pick=null; } $("#lCont").classList.remove("open"); renderLib(); if(v==="talks") renderTalkPage(true); }
 function renderLib(){ renderBookList(); renderBookPage(); }
 function lcFilter(q){ q=q.trim().toLowerCase(); Array.prototype.forEach.call(document.querySelectorAll("#lCont .lc-i"),function(b){ b.style.display=!q||b.dataset.q.indexOf(q)>=0?"":"none"; }); }
 document.addEventListener("input",function(e){ if(e.target.classList&&e.target.classList.contains("lc-f")) lcFilter(e.target.value); });
-function goHome(){ L.book=null; L.tab="list"; L.a=L.b=null; $("#lCont").classList.remove("open"); renderLib(); }
+function goHome(){ tkFlush(); L.view="bible"; TK.cur=null; TK.doc=null; TK.pick=null; L.book=null; L.tab="list"; L.a=L.b=null; $("#lCont").classList.remove("open"); renderLib(); }
 function lDrawer(o){ $("#lDrawer").classList.toggle("open",o); $("#lBack").classList.toggle("open",o); }
 $("#lib").addEventListener("click",function(e){
   var t=e.target, b;
@@ -2600,6 +2833,9 @@ $("#lib").addEventListener("click",function(e){
   if(t.closest("#lClose")||t.id==="lBack"){ lDrawer(false); return; }
   if(t.closest("#lDrawer")&&t.closest("button,label")) setTimeout(function(){ lDrawer(false); },0);
   if(t.closest("#lHome")){ goHome(); return; }
+  if(t.closest("#lTalks")){ setLibView(L.view==="talks"?"bible":"talks"); return; }
+  if((b=t.closest("[data-tk-open]"))){ if(L.view!=="talks") setLibView("talks"); tkOpen(b.dataset.tkOpen); return; }
+  if((b=t.closest("[data-tk]"))){ tkAct(b); return; }
   if(t.closest(".lc-btn")){ var lc=$("#lCont"); lc.classList.toggle("open"); var f=lc.querySelector(".lc-f"); if(f&&lc.classList.contains("open")&&!narrow()) f.focus(); return; }
   if(!t.closest(".lc-pop")) $("#lCont").classList.remove("open");
   if((b=t.closest("[data-open]"))){ openPassage(b.dataset.open); return; }
@@ -2638,7 +2874,8 @@ $("#btnBackup").addEventListener("click",async function(){
   try{
     var q=await C.db.collection("bodies").limit(1000).get(), bodies={};
     q.docs.forEach(function(d){ bodies[d.id]=d.data(); });
-    var json=JSON.stringify({kind:"razbor-slova-backup",v:1,at:Date.now(),passages:C.P,books:C.BK,bodies:bodies});
+    tkFlush();
+    var json=JSON.stringify({kind:"razbor-slova-backup",v:1,at:Date.now(),passages:C.P,books:C.BK,bodies:bodies,talks:C.TK});
     libSt("");
     deliver("Разбор_Слова_копия_"+ddmm(Date.now()).replace(/\./g,"-")+".json",new Blob([json],{type:"application/json"}),function(msg){
       var ta=document.createElement("textarea"); ta.readOnly=true; ta.value=json;
@@ -2918,6 +3155,7 @@ async function spCheck(){
 /* ---------- help ---------- */
 var HELP='<div class="help">'+
 '<h4>Как устроено</h4><p>Библиотека: книга → отрывки. Отрывок выбираете сами во вкладке «Читать и выбрать»: нажмите на первый стих, затем на последний, и в отрывок войдут все стихи между ними, сколько угодно. Нажатие на стих ниже или выше двигает границу, «Сбросить» начинает выбор заново. Всё сохраняется в облаке само и видно с ноутбука и телефона. </p>'+
+'<h4>Конспекты</h4><p>Кнопка «Конспекты» на главном экране: записи чужих проповедей. Укажите проповедника и место Писания, затем записывайте ход мысли пунктами: Enter начинает новый пункт, ▸ делает подпункт, «+ место» добавляет к пункту ссылку из списка. Нажатие на ссылку показывает текст стихов. Внизу итог. Конспекты хранятся и синхронизируются вместе с библиотекой; конспекты по книге видны и на её странице.</p>'+
 '<h4>Два режима</h4><p>Вверху отрывка переключатель. <b>Изучение</b>: текст, структура, «Спираль», заметки и пометки. <b>Проповедь</b> (на ноутбуке): слева то, что дало изучение; посередине текст проповеди блоками; справа слайды, которые собираются из блоков сами.</p>'+
 '<h4>Спираль</h4><p>В отрывке, в среднем поле, есть режим «Спираль»: разбор по методу Осборна этап за этапом. Там же кнопки «Как идти по спирали» и «Ящик инструментов».</p>'+
 '<h4>Пометки на тексте</h4><p>Пометки ставятся в режиме «Проповедь»: слева вверху стоит текст отрывка. Нажмите на слово (для словосочетания: первое слово, затем с зажатым Shift последнее) и внизу выберите «Подчеркнуть», «Обвести» или «Стрелка от него». Для стрелки затем нажмите слово, к которому она ведёт. Подпись к пометке и её удаление — в списке под текстом; кнопка → ставит пометку слайдом. Подпись на экране пишется курсивом. Обводка работает, пока слова стоят в одной строке; если они переносятся, вместо неё рисуется подчёркивание.</p>'+
@@ -2976,6 +3214,16 @@ function oldLocal(){
     if(!q.metadata.fromCache&&!got){ got=true; clearTimeout(lt); libSt(""); }
     if(view==="lib"){ renderBookList(); if(L.tab==="list") renderBookPage(); }
   },function(e){ clearTimeout(lt); libSt("Ошибка хранилища: "+e.code,"bad"); });
+  db.collection("talks").limit(2000).onSnapshot(function(q){
+    var T2={}; q.docs.forEach(function(d){ T2[d.id]=clone(d.data()); });
+    if(TK.doc&&TK.tm) T2[TK.doc.id]=clone(TK.doc);
+    C.TK=T2;
+    if(view!=="lib") return;
+    if(L.view==="talks"){
+      renderTalkList();
+      if(TK.cur){ var nd=C.TK[TK.cur]; if(!nd){ TK.cur=null; TK.doc=null; renderTalkPage(true); } else if((nd.at||0)>(TK.doc.at||0)){ TK.doc=clone(nd); renderTalkPage(); } }
+    }else if(L.book&&L.tab==="list") renderBookPage();
+  },function(){});
   db.collection("books").limit(200).onSnapshot(function(q){
     q.docs.forEach(function(d){ if(!sheetDirty[d.id]) C.BK[d.id]=clone(d.data()); });
     if(view==="lib"&&L.tab==="sheet"&&!(document.activeElement&&document.activeElement.classList.contains("shf"))) renderBookPage();
