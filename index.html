@@ -407,6 +407,42 @@ body.g-sermon .studyonly{display:none !important}
 .e-div{height:.04em;min-height:2px;width:22%;background:#D9A441;margin:.7em 0 .6em}
 .e-sum{font-size:.7em;line-height:1.25;white-space:pre-wrap}
 .e-main.dim{color:#8c8c8c}
+/* picture slides */
+#shBody.im{padding:5vh 5vw}
+#shBody.im #shIn{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.im-i{flex:1 1 0;min-height:0;width:100%;object-fit:contain;display:block}
+.im-t{flex:none;text-align:center;line-height:1.25;white-space:pre-wrap;margin-top:.55em;max-width:100%}
+#shBody.im.cov{padding:0;position:relative}
+#shBody.cov .im-i{object-fit:cover;height:100%;flex:none}
+#shBody.cov .im-t{position:absolute;left:0;right:0;bottom:0;margin:0;padding:6vh 7vw 6vh;background:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.85) 45%)}
+.im-miss{color:#555;font:3vh Arial,Helvetica,sans-serif}
+.pv-empty{color:#555!important}
+/* a slide enlarged for editing: the real show, scaled down */
+#show.pv{inset:auto;width:100vw;height:100vh;transform-origin:0 0;cursor:default;pointer-events:none;box-shadow:0 0 0 2px #D9A441,0 10px 40px rgba(0,0,0,.6)}
+#sed{position:fixed;inset:0;z-index:90;display:none;background:rgb(24 22 19 / .93)}
+#sed.open{display:block}
+#sedNav{position:fixed;display:flex;gap:8px;align-items:center;flex-wrap:wrap;color:#ddd;font:14px var(--f-ui)}
+#sedNav button{background:#000;color:#fff;border-color:#555}
+#sedNav button:hover{border-color:#D9A441}
+#sedNav .gap{flex:1}
+#sedNav b{color:#D9A441;font-weight:700}
+#sedP{position:fixed;overflow:auto;background:var(--bg);color:var(--ink);border:1px solid var(--ink);padding:14px 16px 18px;display:flex;flex-direction:column;gap:9px}
+#sedP h3{margin:0;font:700 12px var(--f-ui);letter-spacing:.14em;text-transform:uppercase;border-bottom:1px solid var(--line);padding-bottom:5px}
+#sedP label.f{display:block;font:700 11px var(--f-ui);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);margin-bottom:-4px}
+#sedP input[type=text],#sedP textarea{width:100%;border:1px solid var(--line);border-radius:2px;background:var(--card);padding:6px 8px;font:16px/1.45 var(--f-text);resize:vertical}
+#sedP .cb{display:flex;gap:7px;align-items:center;cursor:pointer}
+#sedP .row{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+#sedP .snote{line-height:1.4}
+#sedP .warn{color:var(--mark);font-size:12px}
+#sedP .warn:empty{display:none}
+#sedP .ed-th{max-width:100%;max-height:150px;object-fit:contain;background:#000;display:block;border:1px solid var(--line)}
+.bimgw{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.bimgw img{max-height:70px;max-width:120px;object-fit:contain;background:#111;border:1px solid #555}
+.bimgw .filebtn{background:#000;color:#fff;border-color:#555;font-size:12.5px}
+.bsl .bovr{background:#000;color:#D9A441;border-color:#555;padding:0 6px;font-size:11.5px;margin-left:6px}
+.sld img.sth{display:block;max-height:64px;max-width:100%;object-fit:contain;margin-bottom:3px}
+.sld .ed{position:absolute;right:30px;bottom:4px;color:#D9A441;font:700 9.5px Arial,sans-serif;letter-spacing:.05em;text-transform:uppercase;pointer-events:none}
+.rdl input:disabled+span{opacity:.55}
 
 /* ---------- оболочка, библиотека, телефон ---------- */
 #app,#work{flex:1;min-height:0;display:flex;flex-direction:column}
@@ -824,7 +860,7 @@ body,#bookPage{background-color:var(--bg)}
 </head>
 <body>
 <div id="app"></div>
-<script id="appjs">var __MARKUP__="<div id=\"lib\">\n  <header class=\"lhead\"><button id=\"lMenu\" type=\"button\" title=\"Меню\" aria-label=\"Меню библиотеки\">☰</button><button id=\"lHome\" type=\"button\" title=\"На главную\" aria-label=\"На главную\">⌂</button><div id=\"lCont\"></div><button id=\"lTalks\" type=\"button\" title=\"Конспекты чужих проповедей\">Конспекты</button><div id=\"lProg\"></div><span id=\"libSt\" role=\"status\"></span><button id=\"btnTheme\" class=\"thm\" title=\"Ночной режим\">☾</button></header><div id=\"lBack\"></div><nav id=\"lDrawer\" aria-label=\"Меню библиотеки\"><div class=\"ldt\"><span class=\"brand\">VDMA</span><button type=\"button\" class=\"pclose\" id=\"lClose\" aria-label=\"Закрыть меню\">×</button></div><div class=\"lmotto\"><b>Слово Господне пребывает вовек</b><i>Verbum Domini Manet in Aeternum</i><i>Ис. 40:8; 1 Пет. 1:25</i></div><div class=\"lver\">версия 13.11 · 13</div><button id=\"btnSync\" class=\"stdonly\" data-s=\"off\">Синхронизация</button><button id=\"btnBackup\" class=\"cloudonly\">Скачать всю библиотеку</button><label class=\"filebtn cloudonly\" title=\"Файл, скачанный кнопкой «Скачать всю библиотеку»\">Загрузить библиотеку из файла<input id=\"impAll\" type=\"file\" accept=\".json,application/json\"></label><button id=\"btnHelp2\">Справка</button></nav>\n  <div id=\"libBody\"><aside id=\"bookList\" aria-label=\"Книги\"></aside><div id=\"bookPage\"></div></div>\n</div>\n<div id=\"work\">\n<header>\n  <button id=\"btnLib\" class=\"cloudonly\" title=\"На главную\">Главная</button>\n  <input id=\"title\" aria-label=\"Название отрывка\" placeholder=\"Отрывок, например: Римлянам 5:1–5\">\n  <span class=\"seg wideonly\" id=\"modeSeg\" role=\"group\" aria-label=\"Режим работы\"><button id=\"gStudy\">Изучение</button><button id=\"gSermon\">Проповедь</button></span>\n  <button id=\"btnStatus\" class=\"cloudonly\"></button>\n  <button id=\"btnSheet\" class=\"cloudonly studyonly\">Лист книги</button>\n  <button id=\"btnUndo\" title=\"Отменить последнее действие (Ctrl+Z)\">Отменить</button>\n  <button id=\"btnSave\" class=\"wideonly studyonly\">Сохранить в файл</button>\n  <label class=\"filebtn localonly studyonly\">Открыть файл<input id=\"fileIn\" type=\"file\" accept=\".json,application/json\"></label>\n  <button id=\"btnPng\" class=\"wideonly studyonly\">Схема картинкой (PNG)</button>\n  <span class=\"fsz wideonly sermononly\" title=\"Размер шрифта на экране зала\">Шрифт <button id=\"fsDn\" aria-label=\"Шрифт на экране мельче\">−</button><b id=\"fsVal\">100%</b><button id=\"fsUp\" aria-label=\"Шрифт на экране крупнее\">+</button></span>\n  <button id=\"btnShow\" class=\"wideonly sermononly on\">▶ Показ</button>\n  <button id=\"btnDocx\" class=\"wideonly sermononly\">Текст в Word</button>\n  <button id=\"btnExport\" class=\"cloudonly wideonly sermononly\" title=\"Отдельный файл для показа в зале, работает без интернета\">Файл для зала</button>\n  <button id=\"btnHelp\" class=\"wideonly\">Справка</button>\n  <span id=\"cloudSt\" class=\"cloudonly\"></span>\n  <span id=\"status\" role=\"status\"></span>\n</header>\n<nav id=\"ptabs\"><button data-p=\"text\">Текст</button><button data-p=\"field\">Разбор</button><button data-p=\"notes\">Заметки</button></nav>\n\n<main id=\"main\">\n  <section id=\"left\" aria-label=\"Исходный текст\">\n    <div class=\"phead\">\n      <h2>Текст</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Что делает клик по слову\"><button id=\"tCut\">Резать</button><button id=\"tNote\">Заметки к словам</button></span>\n      <button id=\"btnEdit\" class=\"ghost\">Изменить текст</button>\n    </div>\n    <div class=\"phead\" id=\"srcTools\">\n      <button id=\"cutVerses\">Резать по стихам</button>\n      <button id=\"cutPunct\">По знакам препинания</button>\n      <button id=\"cutReset\" class=\"ghost\">Убрать все разрезы</button>\n    </div>\n    <div class=\"pbody\"><div id=\"srcWrap\"><div id=\"src\"></div><svg id=\"srcMarks\" aria-hidden=\"true\"></svg></div><div id=\"markList\"></div></div>\n    <div id=\"selBar\"></div>\n    <div id=\"srcEdit\">\n      <textarea id=\"srcText\" aria-label=\"Исходный текст\" placeholder=\"Вставьте сюда текст (Синодальный перевод). Номера стихов можно оставить: они станут маленькими цифрами.\"></textarea>\n      <div class=\"rowb\">\n        <button id=\"srcApply\" class=\"on\">Готово</button>\n        <button id=\"srcCancel\">Отмена</button>\n      </div>\n      <div style=\"color:var(--ink-2);font-size:12px\">Разрезы, заметки и текст проповеди сохранятся. Пропадёт только то, что привязано к удалённым словам. Если что-то пошло не так, есть кнопка «Отменить».</div>\n    </div>\n    <div class=\"hint\" id=\"srcHint\"></div>\n  </section>\n\n  <section id=\"mid\" aria-label=\"Рабочее поле\">\n    <div class=\"phead\">\n      <h2>Рабочее поле</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Режим\">\n        <button id=\"mStruct\">Структура</button>\n      </span>\n    </div>\n    <div class=\"pbody\" id=\"midBody\">\n      <div id=\"structure\"></div>\n    </div>\n    <div class=\"hint\" id=\"midHint\"></div>\n  </section>\n\n  <section id=\"right\" aria-label=\"Заметки\">\n    <div class=\"phead\"><h2>Заметки</h2></div>\n    <div class=\"pbody\" id=\"noteBody\">\n      <div id=\"noteHead\"></div>\n      <div id=\"scrWrap\">\n        <label for=\"scr\">На экран</label>\n        <textarea id=\"scr\" rows=\"2\" placeholder=\"Короткий тезис к этому слову\"></textarea>\n        <small>Это увидит зал. Заметка ниже остаётся только у вас.</small>\n      </div>\n      <textarea id=\"notes\" aria-label=\"Заметка\"></textarea>\n      <div id=\"noteList\"></div>\n    </div>\n  </section>\n</main>\n<div id=\"sm\">\n  <section id=\"smL\" aria-label=\"Материалы изучения\">\n    <div class=\"phead\"><h2>Из изучения</h2></div>\n    <div class=\"pbody\"><div id=\"smText\" class=\"tool-mark\"><div class=\"smh\">Текст и пометки</div></div><div id=\"smMat\"></div></div>\n  </section>\n  <section id=\"smM\" aria-label=\"Текст проповеди\">\n    <div class=\"phead\"><h2>Текст проповеди</h2><span id=\"smCount\" class=\"snote\"></span><button id=\"smBuild\">Собрать из разбора</button></div>\n    <div class=\"pbody\" id=\"smBody\">\n      <div class=\"sf\"><label for=\"sTheme\">Название</label><input id=\"sTheme\" placeholder=\"Название проповеди. Первый слайд\"><span></span><label class=\"rdl\"><input type=\"checkbox\" id=\"sRead\"> После названия показать полный текст отрывка для чтения</label></div>\n      <div id=\"smBlocks\"></div>\n      <button id=\"smAdd\" class=\"ghost\">+ Блок</button>\n      <div class=\"sf\" style=\"margin-top:22px\">\n        <label for=\"sMain\">Главная мысль</label><textarea id=\"sMain\" rows=\"2\" placeholder=\"Одно предложение, которое зал должен унести. Предпоследний слайд\"></textarea>\n        <label for=\"sSum\">Итог</label><textarea id=\"sSum\" rows=\"2\" placeholder=\"К чему зовёт текст. Последний слайд\"></textarea>\n      </div>\n    </div>\n  </section>\n  <section id=\"smR\" aria-label=\"Слайды\">\n    <div class=\"phead\"><h2>Слайды</h2></div>\n    <div class=\"pbody\" id=\"smSlides\"></div>\n  </section>\n</div>\n</div>\n\n<datalist id=\"rels\">\n  <option value=\"основание\"><option value=\"причина\"><option value=\"следствие\"><option value=\"цель\"><option value=\"результат\">\n  <option value=\"условие\"><option value=\"уступка\"><option value=\"средство\"><option value=\"образ действия\"><option value=\"время\">\n  <option value=\"пояснение\"><option value=\"противопоставление\"><option value=\"ряд\"><option value=\"вывод\"><option value=\"сравнение\">\n</datalist>\n\n<div id=\"modal\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"mTitle\"><div class=\"box\">\n  <h3 id=\"mTitle\"></h3><p id=\"mText\"></p><div id=\"mBody\"></div>\n  <div class=\"rowb\"><button id=\"mCopy\">Скопировать</button><button id=\"mClose\">Закрыть</button></div>\n</div></div>\n\n<div id=\"show\" aria-label=\"Показ на экране\">\n  <div id=\"shBody\"><div id=\"shIn\"></div></div>\n  <div id=\"shThesis\"></div>\n  <div id=\"shCount\"></div>\n</div>\n";
+<script id="appjs">var __MARKUP__="<div id=\"lib\">\n  <header class=\"lhead\"><button id=\"lMenu\" type=\"button\" title=\"Меню\" aria-label=\"Меню библиотеки\">☰</button><button id=\"lHome\" type=\"button\" title=\"На главную\" aria-label=\"На главную\">⌂</button><div id=\"lCont\"></div><button id=\"lTalks\" type=\"button\" title=\"Конспекты чужих проповедей\">Конспекты</button><div id=\"lProg\"></div><span id=\"libSt\" role=\"status\"></span><button id=\"btnTheme\" class=\"thm\" title=\"Ночной режим\">☾</button></header><div id=\"lBack\"></div><nav id=\"lDrawer\" aria-label=\"Меню библиотеки\"><div class=\"ldt\"><span class=\"brand\">VDMA</span><button type=\"button\" class=\"pclose\" id=\"lClose\" aria-label=\"Закрыть меню\">×</button></div><div class=\"lmotto\"><b>Слово Господне пребывает вовек</b><i>Verbum Domini Manet in Aeternum</i><i>Ис. 40:8; 1 Пет. 1:25</i></div><div class=\"lver\">версия 18.11 · 14</div><button id=\"btnSync\" class=\"stdonly\" data-s=\"off\">Синхронизация</button><button id=\"btnBackup\" class=\"cloudonly\">Скачать всю библиотеку</button><label class=\"filebtn cloudonly\" title=\"Файл, скачанный кнопкой «Скачать всю библиотеку»\">Загрузить библиотеку из файла<input id=\"impAll\" type=\"file\" accept=\".json,application/json\"></label><button id=\"btnHelp2\">Справка</button></nav>\n  <div id=\"libBody\"><aside id=\"bookList\" aria-label=\"Книги\"></aside><div id=\"bookPage\"></div></div>\n</div>\n<div id=\"work\">\n<header>\n  <button id=\"btnLib\" class=\"cloudonly\" title=\"На главную\">Главная</button>\n  <input id=\"title\" aria-label=\"Название отрывка\" placeholder=\"Отрывок, например: Римлянам 5:1–5\">\n  <span class=\"seg wideonly\" id=\"modeSeg\" role=\"group\" aria-label=\"Режим работы\"><button id=\"gStudy\">Изучение</button><button id=\"gSermon\">Проповедь</button></span>\n  <button id=\"btnStatus\" class=\"cloudonly\"></button>\n  <button id=\"btnSheet\" class=\"cloudonly studyonly\">Лист книги</button>\n  <button id=\"btnUndo\" title=\"Отменить последнее действие (Ctrl+Z)\">Отменить</button>\n  <button id=\"btnSave\" class=\"wideonly studyonly\">Сохранить в файл</button>\n  <label class=\"filebtn localonly studyonly\">Открыть файл<input id=\"fileIn\" type=\"file\" accept=\".json,application/json\"></label>\n  <button id=\"btnPng\" class=\"wideonly studyonly\">Схема картинкой (PNG)</button>\n  <span class=\"fsz wideonly sermononly\" title=\"Размер шрифта на экране зала\">Шрифт <button id=\"fsDn\" aria-label=\"Шрифт на экране мельче\">−</button><b id=\"fsVal\">100%</b><button id=\"fsUp\" aria-label=\"Шрифт на экране крупнее\">+</button></span>\n  <button id=\"btnShow\" class=\"wideonly sermononly on\">▶ Показ</button>\n  <button id=\"btnDocx\" class=\"wideonly sermononly\">Текст в Word</button>\n  <button id=\"btnExport\" class=\"cloudonly wideonly sermononly\" title=\"Отдельный файл для показа в зале, работает без интернета\">Файл для зала</button>\n  <button id=\"btnHelp\" class=\"wideonly\">Справка</button>\n  <span id=\"cloudSt\" class=\"cloudonly\"></span>\n  <span id=\"status\" role=\"status\"></span>\n</header>\n<nav id=\"ptabs\"><button data-p=\"text\">Текст</button><button data-p=\"field\">Разбор</button><button data-p=\"notes\">Заметки</button></nav>\n\n<main id=\"main\">\n  <section id=\"left\" aria-label=\"Исходный текст\">\n    <div class=\"phead\">\n      <h2>Текст</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Что делает клик по слову\"><button id=\"tCut\">Резать</button><button id=\"tNote\">Заметки к словам</button></span>\n      <button id=\"btnEdit\" class=\"ghost\">Изменить текст</button>\n    </div>\n    <div class=\"phead\" id=\"srcTools\">\n      <button id=\"cutVerses\">Резать по стихам</button>\n      <button id=\"cutPunct\">По знакам препинания</button>\n      <button id=\"cutReset\" class=\"ghost\">Убрать все разрезы</button>\n    </div>\n    <div class=\"pbody\"><div id=\"srcWrap\"><div id=\"src\"></div><svg id=\"srcMarks\" aria-hidden=\"true\"></svg></div><div id=\"markList\"></div></div>\n    <div id=\"selBar\"></div>\n    <div id=\"srcEdit\">\n      <textarea id=\"srcText\" aria-label=\"Исходный текст\" placeholder=\"Вставьте сюда текст (Синодальный перевод). Номера стихов можно оставить: они станут маленькими цифрами.\"></textarea>\n      <div class=\"rowb\">\n        <button id=\"srcApply\" class=\"on\">Готово</button>\n        <button id=\"srcCancel\">Отмена</button>\n      </div>\n      <div style=\"color:var(--ink-2);font-size:12px\">Разрезы, заметки и текст проповеди сохранятся. Пропадёт только то, что привязано к удалённым словам. Если что-то пошло не так, есть кнопка «Отменить».</div>\n    </div>\n    <div class=\"hint\" id=\"srcHint\"></div>\n  </section>\n\n  <section id=\"mid\" aria-label=\"Рабочее поле\">\n    <div class=\"phead\">\n      <h2>Рабочее поле</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Режим\">\n        <button id=\"mStruct\">Структура</button>\n      </span>\n    </div>\n    <div class=\"pbody\" id=\"midBody\">\n      <div id=\"structure\"></div>\n    </div>\n    <div class=\"hint\" id=\"midHint\"></div>\n  </section>\n\n  <section id=\"right\" aria-label=\"Заметки\">\n    <div class=\"phead\"><h2>Заметки</h2></div>\n    <div class=\"pbody\" id=\"noteBody\">\n      <div id=\"noteHead\"></div>\n      <div id=\"scrWrap\">\n        <label for=\"scr\">На экран</label>\n        <textarea id=\"scr\" rows=\"2\" placeholder=\"Короткий тезис к этому слову\"></textarea>\n        <small>Это увидит зал. Заметка ниже остаётся только у вас.</small>\n      </div>\n      <textarea id=\"notes\" aria-label=\"Заметка\"></textarea>\n      <div id=\"noteList\"></div>\n    </div>\n  </section>\n</main>\n<div id=\"sm\">\n  <section id=\"smL\" aria-label=\"Материалы изучения\">\n    <div class=\"phead\"><h2>Из изучения</h2></div>\n    <div class=\"pbody\"><div id=\"smText\" class=\"tool-mark\"><div class=\"smh\">Текст и пометки</div></div><div id=\"smMat\"></div></div>\n  </section>\n  <section id=\"smM\" aria-label=\"Текст проповеди\">\n    <div class=\"phead\"><h2>Текст проповеди</h2><span id=\"smCount\" class=\"snote\"></span><button id=\"smBuild\">Собрать из разбора</button></div>\n    <div class=\"pbody\" id=\"smBody\">\n      <div class=\"sf\"><label for=\"sTheme\">Название</label><input id=\"sTheme\" placeholder=\"Название проповеди. Первый слайд\"><span></span><label class=\"rdl\"><input type=\"checkbox\" id=\"sRead\"><span id=\"sReadT\">После названия показать полный текст отрывка для чтения</span></label></div>\n      <div id=\"smBlocks\"></div>\n      <button id=\"smAdd\" class=\"ghost\">+ Блок</button>\n      <div class=\"sf\" style=\"margin-top:22px\">\n        <label for=\"sMain\">Главная мысль</label><textarea id=\"sMain\" rows=\"2\" placeholder=\"Одно предложение, которое зал должен унести. Предпоследний слайд\"></textarea>\n        <label for=\"sSum\">Итог</label><textarea id=\"sSum\" rows=\"2\" placeholder=\"К чему зовёт текст. Последний слайд\"></textarea>\n      </div>\n    </div>\n  </section>\n  <section id=\"smR\" aria-label=\"Слайды\">\n    <div class=\"phead\"><h2>Слайды</h2></div>\n    <div class=\"pbody\" id=\"smSlides\"></div>\n  </section>\n</div>\n</div>\n\n<datalist id=\"rels\">\n  <option value=\"основание\"><option value=\"причина\"><option value=\"следствие\"><option value=\"цель\"><option value=\"результат\">\n  <option value=\"условие\"><option value=\"уступка\"><option value=\"средство\"><option value=\"образ действия\"><option value=\"время\">\n  <option value=\"пояснение\"><option value=\"противопоставление\"><option value=\"ряд\"><option value=\"вывод\"><option value=\"сравнение\">\n</datalist>\n\n<div id=\"modal\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"mTitle\"><div class=\"box\">\n  <h3 id=\"mTitle\"></h3><p id=\"mText\"></p><div id=\"mBody\"></div>\n  <div class=\"rowb\"><button id=\"mCopy\">Скопировать</button><button id=\"mClose\">Закрыть</button></div>\n</div></div>\n\n<div id=\"show\" aria-label=\"Показ на экране\">\n  <div id=\"shBody\"><div id=\"shIn\"></div></div>\n  <div id=\"shThesis\"></div>\n  <div id=\"shCount\"></div>\n</div>\n";
 (function(){
 "use strict";
 document.getElementById("app").innerHTML=__MARKUP__; if(window.rsThemeSync) rsThemeSync();
@@ -848,7 +884,7 @@ function frameById(id){ for(var i=0;i<S.frames.length;i++) if(S.frames[i].id===i
 function fresh(text,title){
   var n=tok(text).length;
   return {v:1,title:title||"",source:text||"",phrases:n?[{id:uid(),s:0,e:n,indent:0,label:"",x:40,y:30}]:[],arrows:[],notes:"",wnotes:{},mode:"structure",manual:false,
-    theme:"",main:"",sum:"",screen:{},frames:[],script:[],marks:[],kind:"struct",alt:[],blocks:[],read:true,fs:100,sp:spDef()};
+    theme:"",main:"",sum:"",screen:{},frames:[],script:[],marks:[],kind:"struct",alt:[],blocks:[],read:true,fs:100,sk:{title:1,main:1,sum:1},tref:"",sp:spDef()};
 }
 function normalize(d){
   function obj(o){ return (o&&typeof o==="object"&&!Array.isArray(o))?o:{}; }
@@ -862,6 +898,7 @@ function normalize(d){
   d.marks=(Array.isArray(d.marks)?d.marks:[]).filter(function(m){return m&&m.id&&(m.t==="u"||m.t==="o"||m.t==="a")&&m.a>=0&&m.b>=m.a&&(m.t!=="a"||(m.c>=0&&m.d>=m.c))})
     .map(function(m){ var o={id:String(m.id),t:m.t,a:m.a|0,b:m.b|0,tx:m.tx||""}; if(m.t==="a"){ o.c=m.c|0; o.d=m.d|0; } return o; });
   d.mode=(d.mode==="sermon"||d.mode==="spiral")?d.mode:"structure"; d.manual=!!d.manual;
+  d.sk=obj(d.sk); d.sk={title:kN(d.sk.title),main:kN(d.sk.main),sum:kN(d.sk.sum)}; d.tref=typeof d.tref==="string"?d.tref:"";
   d.read=d.read!==false; d.fs=Math.max(60,Math.min(160,Math.round((+d.fs||100)/10)*10));
   d.blocks=(Array.isArray(d.blocks)?d.blocks:migrateBlocks(d)).filter(function(b){return b&&b.id}).map(normBlock);
   return spNorm(d);
@@ -1155,13 +1192,14 @@ function mkRand(str){
 function mkF(x){ return Math.round(x*10)/10; }
 function mkEls(root){ var m={}; Array.prototype.forEach.call(root.querySelectorAll("[data-i]"),function(n){ m[+n.dataset.i]=n; }); return m; }
 /* one rectangle per text line covered by words a..b, relative to root */
+var MKS=1;
 function mkLines(root,els,a,b){
-  var R=root.getBoundingClientRect(), out=[], cur=null;
+  var R=root.getBoundingClientRect(), out=[], cur=null, q=MKS;
   for(var i=a;i<=b;i++){
     var el=els[i]; if(!el||isNum(T[i])) continue;
     Array.prototype.forEach.call(el.getClientRects(),function(r){
       if(r.width<1) return;
-      var o={x0:r.left-R.left,x1:r.right-R.left,y0:r.top-R.top,y1:r.bottom-R.top};
+      var o={x0:(r.left-R.left)/q,x1:(r.right-R.left)/q,y0:(r.top-R.top)/q,y1:(r.bottom-R.top)/q};
       if(cur&&Math.abs(o.y0-cur.y0)<(o.y1-o.y0)*.5){ cur.x0=Math.min(cur.x0,o.x0); cur.x1=Math.max(cur.x1,o.x1); }
       else{ cur=o; out.push(o); }
     });
@@ -1335,12 +1373,14 @@ function renderTools(){
 
 /* ---------- sermon: the text is written in blocks, the slides follow the blocks ---------- */
 var curB=null, lastStudy="structure";
-var SL_N={none:"нет",thesis:"тезис по центру экрана",word:"тезис к слову отрывка",phrase:"отрывок: открыть фразу",mark:"разметка: пометка на тексте",frame:"параллельное место, цитата"};
+var SL_N={none:"нет",thesis:"тезис по центру экрана",read:"чтение отрывка (весь текст)",word:"тезис к слову отрывка",phrase:"отрывок: открыть фразу",mark:"разметка: пометка на тексте",frame:"параллельное место, цитата",image:"картинка"};
+function kN(v){ v=+v; return v>=.6&&v<=1.6?Math.round(v*10)/10:1; }
 function words(s){ return tok(s).length; }
 function normBlock(b){
   var s=(b.sl&&typeof b.sl==="object")?b.sl:{}, t=SL_N[s.t]?s.t:"none";
   return {id:String(b.id),text:typeof b.text==="string"?b.text:"",
-    sl:{t:t,ref:s.ref==null?"":String(s.ref),text:typeof s.text==="string"?s.text:"",cap:typeof s.cap==="string"?s.cap:"",lab:!!s.lab,grp:!!s.grp}};
+    sl:{t:t,ref:s.ref==null?"":String(s.ref),text:typeof s.text==="string"?s.text:"",cap:typeof s.cap==="string"?s.cap:"",lab:!!s.lab,grp:!!s.grp,
+      to:typeof s.to==="string"?s.to:"",lo:typeof s.lo==="string"?s.lo:null,k:kN(s.k),img:typeof s.img==="string"?s.img:"",cov:!!s.cov}};
 }
 function newBlock(text,sl){ return normBlock({id:uid(),text:text||"",sl:sl||{}}); }
 function blockById(id){ for(var i=0;i<S.blocks.length;i++) if(S.blocks[i].id===id) return S.blocks[i]; return null; }
@@ -1408,7 +1448,7 @@ function readHTML(a,b){
   return (S.title?'<div class="rd-ref">'+esc(S.title)+'</div>':'')+'<div class="rd-tx">'+out.map(function(v){ return '<div class="rd-v">'+v+'</div>'; }).join("")+'</div>';
 }
 function readPages(){
-  if(!S.read||!T.length) return [];
+  if(!T.length) return [];
   var W=window.innerWidth, H=window.innerHeight, rmin=Math.min(12,Math.round(RD_MIN*fsK()*10)/10), k=W+"x"+H+"|"+rmin+"|"+S.title+"|"+S.source;
   if(readCache.k===k) return readCache.pages;
   var units=[], i, s=0, box=$("#shMeas"), inn, avail=H*.88, pages=[], a, end, bal, tot=0, cum=0, n, ok;
@@ -1514,13 +1554,23 @@ function slFields(b){
         return '<label><input type="checkbox" class="bmkc" value="'+m.id+'"'+(on.indexOf(m.id)>=0?' checked':'')+'> '+MK_N[m.t]+': '+markText(m)+(m.tx.trim()?' — '+esc(clip(m.tx,40)):'')+'</label>';
       }).join("")+'</div>';
   }
+  if(s.t==="read")
+    h+='<div class="bref">Здесь на экран выйдет весь текст отрывка для чтения: столько слайдов, сколько нужно, чтобы шрифт был крупным. Галочка «после названия» тогда не нужна.</div>';
+  if(s.t==="image"){
+    h+='<div class="bimgw">'+(s.img?'<img alt="" data-img="'+esc(s.img)+'" src="'+(IMG[s.img]||"")+'">':'<span class="bref">Картинка не выбрана</span>')+
+      '<label class="filebtn">'+(s.img?'Заменить картинку':'Выбрать картинку')+'<input type="file" class="bimg" accept="image/*"></label>'+
+      '<label><input type="checkbox" class="bcov"'+(s.cov?' checked':'')+'> на весь экран, без полей</label></div>'+
+      '<textarea class="bst" rows="1" aria-label="Подпись под картинкой" placeholder="Подпись под картинкой. Можно оставить пустой">'+esc(s.text)+'</textarea><span class="warn">'+thWarn(s.text)+'</span>';
+  }
+  if(s.t==="phrase"&&(s.to.trim()||s.lo!=null))
+    h+='<div class="bref">Текст или подпись этого слайда изменены вручную; разбор не тронут.<button class="bovr" data-act="ovr">как в разборе</button></div>';
   if(s.t==="frame")
     h+='<input type="text" class="bcap" aria-label="Ссылка" placeholder="Ссылка, например: Иакова 1:2–4" value="'+esc(s.cap)+'">'+
       '<textarea class="bst" rows="2" aria-label="Текст на экран" placeholder="Текст места. Писание — дословно по Синодальному переводу.">'+esc(s.text)+'</textarea><span class="warn">'+frWarn(s.text)+'</span>';
   return '<div class="bsl">'+h+'</div>';
 }
 function blockHTML(b,i){
-  var s=b.sl, opt=["none","thesis","phrase","mark","frame"];
+  var s=b.sl, opt=["none","thesis","read","phrase","mark","frame","image"];
   if(s.t==="word") opt.splice(2,0,"word");
   return '<div class="blk'+(b.id===curB?' cur':'')+'" data-id="'+b.id+'">'+
     '<div class="bhd"><span class="bn">'+(i+1)+'</span><label>Слайд: <select class="bt">'+opt.map(function(t){ return '<option value="'+t+'"'+(t===s.t?' selected':'')+'>'+SL_N[t]+'</option>'; }).join("")+'</select></label>'+
@@ -1542,6 +1592,7 @@ function slidePlain(s){
   if(s.t==="main") return "главная мысль";
   if(s.t==="sum") return "итог";
   if(s.t==="read") return "чтение отрывка";
+  if(s.t==="image") return "картинка"+(s.text.trim()?": "+clip(s.text,80):"");
   if(s.t==="frame") return (s.big?"тезис: ":"место: ")+clip((s.cap?s.cap+". ":"")+s.text,90);
   if(s.t==="phrase"){ p=byId(s.ref); return "отрывок: «"+clip(bareRange(p.s,p.e-1),60)+"»"+(s.grp?" и подчинённые":""); }
   if(s.t==="mark") return "разметка: "+s.refs.map(function(id){ return mkPlain(markById(id)); }).join("; ");
@@ -1551,15 +1602,17 @@ function renderSlides(){
   var st=buildSteps(), h="", n=0;
   st.forEach(function(s,i){
     var k,t,p,o,m;
-    if(s.t==="title"){ k="Название"; t='<b>'+esc(S.theme.trim()||S.title||"(тема не заполнена)")+'</b>'+(S.theme.trim()&&S.title?'<div class="dim">'+esc(S.title)+'</div>':''); }
+    if(s.t==="title"){ k="Название"; t='<b>'+esc(S.theme.trim()||S.title||"(тема не заполнена)")+'</b>'+(S.theme.trim()&&tRef()?'<div class="dim">'+esc(tRef())+'</div>':''); }
+    else if(s.t==="image"){ k="Картинка"+(s.cov?" · на весь экран":""); t=(s.img?'<img class="sth" alt="" data-img="'+esc(s.img)+'" src="'+(IMG[s.img]||"")+'">':'<span class="dim">(картинка не выбрана)</span>')+(s.text.trim()?esc(s.text):''); }
     else if(s.t==="read"){ k="Чтение"+(s.pn>1?" "+(s.pi+1)+" из "+s.pn:""); t=esc(clip(T.slice(s.ra,s.rb).join(" "),120)); }
     else if(s.t==="main"){ k="Главная мысль"; t=esc(S.main); }
     else if(s.t==="sum"){ k="Итог"; t=esc(S.sum); }
     else if(s.t==="frame"){ k=s.big?"Тезис":"Место"; t=(s.cap.trim()?'<b>'+esc(s.cap)+'</b> ':'')+esc(s.text); }
-    else if(s.t==="phrase"){ p=byId(s.ref); k="Отрывок"+(s.grp?" · с подчинёнными":""); t=(s.lab&&p.label?'<b>'+esc(p.label)+'</b> ':'')+esc(bareRange(p.s,p.e-1)); }
+    else if(s.t==="phrase"){ p=byId(s.ref); var ov=phOv()[p.id]||{}, lb=ov.lo!=null?ov.lo:p.label; k="Отрывок"+(s.grp?" · с подчинёнными":""); t=(s.lab&&lb&&lb.trim()?'<b>'+esc(lb)+'</b> ':'')+esc(ov.to&&ov.to.trim()?ov.to:bareRange(p.s,p.e-1)); }
     else if(s.t==="mark"){ k="Разметка"+(s.refs.length>1?" · "+s.refs.length+" пометки":""); t=s.refs.map(function(id){ m=markById(id); return '<span class="dim">'+MK_N[m.t]+':</span> '+markText(m)+(m.tx.trim()?' — '+esc(m.tx):''); }).join("; "); }
     else{ o=parseKey(s.ref); k="К слову"; t='<b>'+esc(bareRange(o.a,o.b))+'</b>'+(s.text.trim()?' — '+esc(s.text):' <span class="dim">(слово загорится)</span>'); }
-    h+='<div class="sld'+(s.b&&s.b===curB?' cur':'')+'" data-i="'+i+'" data-k="'+s.t+'"'+(s.b?' data-b="'+s.b+'"':'')+'><span class="k">'+i+' · '+k+'</span><div class="t">'+t+'</div>'+
+    var edd=slEdited(s);
+    h+='<div class="sld'+(s.b&&s.b===curB?' cur':'')+'" data-i="'+i+'" data-k="'+s.t+'"'+(s.b?' data-b="'+s.b+'"':'')+' title="Открыть слайд крупно"><span class="k">'+i+' · '+k+'</span><div class="t">'+t+'</div>'+(edd?'<span class="ed">'+edd+'</span>':'')+
       '<button data-play="'+i+'" title="Показ с этого слайда" aria-label="Показ с этого слайда">▶</button></div>';
   });
   $("#smSlides").innerHTML=h;
@@ -1569,7 +1622,10 @@ function renderSlides(){
 function renderSermon(){
   cleanBlocks();
   ["sTheme","sMain","sSum"].forEach(function(id,i){ var el=$("#"+id); if(document.activeElement!==el) el.value=[S.theme,S.main,S.sum][i]; });
-  $("#sRead").checked=!!S.read;
+  var rb=S.blocks.filter(function(b){ return b.sl.t==="read"; })[0];
+  $("#sRead").checked=!!S.read&&!rb; $("#sRead").disabled=!!rb;
+  $("#sReadT").textContent=rb?"Чтение отрывка стоит в блоке "+(S.blocks.indexOf(rb)+1)+", после названия его не будет":"После названия показать полный текст отрывка для чтения";
+  imgPreload();
   if(curB&&!blockById(curB)) curB=null;
   renderMat();
   var body=$("#smBody"), keep=body.scrollTop;
@@ -1651,7 +1707,9 @@ $("#smBlocks").addEventListener("change",function(e){
     if(!t.length){ el.checked=true; say("У слайда должна остаться хотя бы одна пометка"); return; }
     s.ref=t.join(",");
   }
-  else if(el.classList.contains("bph")) s.ref=el.value;
+  else if(el.classList.contains("bimg")){ var f=el.files&&el.files[0]; el.value=""; if(f) setBlockImage(b,f); return; }
+  else if(el.classList.contains("bcov")) s.cov=el.checked;
+  else if(el.classList.contains("bph")){ s.ref=el.value; s.to=""; s.lo=null; }
   else if(el.classList.contains("bgrp")) s.grp=el.checked;
   else if(el.classList.contains("blab")) s.lab=el.checked;
   else return;
@@ -1662,6 +1720,7 @@ $("#smBlocks").addEventListener("click",function(e){
   var id=bt.closest(".blk").dataset.id, a=bt.dataset.act, i=-1, j, t;
   S.blocks.forEach(function(x,k){ if(x.id===id) i=k; }); if(i<0) return;
   if(a==="add"){ curB=id; insertBlock(newBlock()); return; }
+  if(a==="ovr"){ S.blocks[i].sl.to=""; S.blocks[i].sl.lo=null; commit(); renderSermon(); say("Слайд снова как в разборе"); return; }
   if(a==="del"){ S.blocks.splice(i,1); if(curB===id) curB=null; commit(); renderSermon(); say("Блок удалён. Вернуть: «Отменить»."); return; }
   j=a==="up"?i-1:i+1; if(j<0||j>=S.blocks.length) return;
   t=S.blocks[i]; S.blocks[i]=S.blocks[j]; S.blocks[j]=t; curB=id; commit(); renderSermon(); focusBlock(id,'button[data-act="'+a+'"]');
@@ -1669,8 +1728,8 @@ $("#smBlocks").addEventListener("click",function(e){
 $("#smSlides").addEventListener("click",function(e){
   var p=e.target.closest("[data-play]"); if(p){ openShow(+p.dataset.play); return; }
   var c=e.target.closest(".sld"); if(!c) return;
-  if(c.dataset.b){ setCur(c.dataset.b); focusBlock(c.dataset.b); }
-  else{ var f=$({title:"#sTheme",main:"#sMain",sum:"#sSum"}[c.dataset.k]); if(f){ f.focus(); try{ f.scrollIntoView({block:"nearest"}); }catch(x){} } }
+  if(c.dataset.b) setCur(c.dataset.b);
+  openEd(+c.dataset.i);
 });
 $("#sm").addEventListener("input",function(e){
   var el=e.target;
@@ -1685,7 +1744,7 @@ $("#btnShow").addEventListener("click",function(){ openShow(0); });
 /* ---------- sermon text as a Word file ---------- */
 function sermonParts(){
   var st=buildSteps(), at={}, out=[], theme=S.theme.trim();
-  st.forEach(function(s,i){ if(s.b) at[s.b]="слайд "+i+" · "+slidePlain(s); });
+  st.forEach(function(s,i){ if(s.b&&!at[s.b]) at[s.b]="слайд "+i+(s.t==="read"&&s.pn>1?"–"+(i+s.pn-1):"")+" · "+slidePlain(s); });
   out.push({k:"title",text:theme||S.title||"Проповедь"});
   if(theme&&S.title) out.push({k:"ref",text:S.title});
   S.blocks.forEach(function(b){
@@ -1827,6 +1886,7 @@ $("#mStruct").addEventListener("click",function(){ setMode("structure"); });
 $("#gStudy").addEventListener("click",function(){ if(em()==="sermon") setMode(lastStudy); });
 $("#gSermon").addEventListener("click",function(){ if(em()!=="sermon"){ sel=null; setMode("sermon"); } });
 document.addEventListener("keydown",function(e){
+  if(ED.open){ edKey(e); return; }
   if(show.open){ showKey(e); return; }
   var inField=/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName);
   if(e.key==="Escape"&&$("#modal").classList.contains("open")){ closeModal(); return; }
@@ -1985,24 +2045,259 @@ $("#btnPng").addEventListener("click",async function(){
   },"image/png");
 });
 
+/* ---------- pictures: kept apart from the passage (imgs/<id>), loaded when needed ---------- */
+var IMG={}, IMGP={};
+function imgIds(){ var o={}; S.blocks.forEach(function(b){ if(b.sl.t==="image"&&b.sl.img) o[b.sl.img]=1; }); return Object.keys(o); }
+function imgGet(id){
+  if(IMG[id]) return Promise.resolve(IMG[id]);
+  if(IMGP[id]) return IMGP[id];
+  var p;
+  if(MODE==="cloud"&&C.db) p=C.db.doc("imgs/"+id).get().then(function(s){ var d=s.exists?s.data():null; if(d&&d.d) IMG[id]=d.d; return IMG[id]||null; },function(){ return null; });
+  else{ try{ var v=localStorage.getItem("osb-img-"+id); if(v) IMG[id]=v; }catch(e){} p=Promise.resolve(IMG[id]||null); }
+  IMGP[id]=p; p.then(function(d){ if(!d) delete IMGP[id]; });
+  return p;
+}
+function imgPut(id,d){
+  IMG[id]=d;
+  if(MODE==="cloud"&&C.db) return C.db.doc("imgs/"+id).set({d:d,at:Date.now()});
+  try{ localStorage.setItem("osb-img-"+id,d); }catch(e){}
+  return Promise.resolve();
+}
+function imgFill(id){
+  Array.prototype.forEach.call(document.querySelectorAll('img[data-img="'+id+'"]'),function(n){ if(IMG[id]&&n.getAttribute("src")!==IMG[id]) n.src=IMG[id]; });
+}
+function imgPreload(){
+  imgIds().forEach(function(id){ if(!IMG[id]) imgGet(id).then(function(d){ if(!d) return; imgFill(id); if(show.open&&show.steps[show.n]&&show.steps[show.n].img===id) drawShow(); }); });
+}
+/* the picture is cut down to the size of a screen and turned into JPEG on a black ground, so a document stays well under the limit */
+function readImage(file){
+  return new Promise(function(res,rej){
+    if(!file||(file.type&&!/^image\//.test(file.type))){ rej(new Error("type")); return; }
+    var url=URL.createObjectURL(file), im=new Image();
+    im.onload=function(){
+      URL.revokeObjectURL(url);
+      var max=1920, q=.86, d="", c=document.createElement("canvas"), x=c.getContext("2d"), i, r, w, h;
+      for(i=0;i<8;i++){
+        r=Math.min(1,max/Math.max(im.naturalWidth,im.naturalHeight)); w=Math.max(1,Math.round(im.naturalWidth*r)); h=Math.max(1,Math.round(im.naturalHeight*r));
+        c.width=w; c.height=h; x.fillStyle="#000"; x.fillRect(0,0,w,h); x.drawImage(im,0,0,w,h);
+        d=c.toDataURL("image/jpeg",q); if(d.length<=700000) break;
+        if(q>.7) q=Math.round((q-.08)*100)/100; else max=Math.round(max*.8);
+      }
+      res(d);
+    };
+    im.onerror=function(){ URL.revokeObjectURL(url); rej(new Error("decode")); };
+    im.src=url;
+  });
+}
+async function setBlockImage(b,file){
+  var d, id=uid();
+  say("Готовлю картинку…");
+  try{ d=await readImage(file); }
+  catch(e){ say("Картинка не открылась. Нужен JPG или PNG (снимки iPhone HEIC сохраните как JPG)"); return; }
+  try{ await imgPut(id,d); }
+  catch(e){ say(e&&e.code==="quota_exceeded"?"Картинка не сохранена: хранилище заполнено":"Картинка не сохранена: нет связи с хранилищем"); return; }
+  commit(); b.sl.img=id; save();
+  say("Картинка добавлена");
+  if(ED.open){ edRefresh(); edPanel(); } else renderSermon();
+}
+function drawImage(cur){
+  var body=$("#shBody"), inn=$("#shIn"), src=cur.img?IMG[cur.img]:"", tx=cur.text.trim();
+  body.className="im"+(cur.cov&&src?" cov":"");
+  if(!src){
+    inn.innerHTML='<div class="im-miss">'+(cur.img?"Картинка загружается…":"Картинка не выбрана")+'</div>'+(tx?'<div class="im-t">'+esc(tx)+'</div>':'');
+    inn.style.fontSize=(4.6*fsK()*show.k)+"vh";
+    if(cur.img) imgGet(cur.img).then(function(d){ if(d&&show.open&&show.steps[show.n]===cur) drawShow(); });
+    return;
+  }
+  inn.innerHTML='<img class="im-i" alt="" src="'+src+'">'+(tx?'<div class="im-t">'+esc(tx)+'</div>':'');
+  inn.style.fontSize=(4.6*fsK()*show.k)+"vh";
+}
+/* the title slide may carry its own line under the theme; by default the reference of the passage */
+function tRef(){ return S.tref.trim()||S.title; }
+/* text and relation label of a phrase written for the screen only */
+function phOv(){
+  var o={};
+  S.blocks.forEach(function(b){ var s=b.sl; if(s.t==="phrase"&&(s.to.trim()||s.lo!=null)){ var x=o[s.ref]||(o[s.ref]={to:"",lo:null}); if(s.to.trim()&&!x.to) x.to=s.to; if(s.lo!=null&&x.lo==null) x.lo=s.lo; } });
+  return o;
+}
+function slEdited(s){
+  var b=s.b?blockById(s.b):null;
+  if(s.t==="phrase"&&b&&(b.sl.to.trim()||b.sl.lo!=null)) return "правлено";
+  if(s.k&&s.k!==1) return Math.round(s.k*100)+"%";
+  if(s.t==="title"&&S.tref.trim()) return "правлено";
+  return "";
+}
+
+/* ---------- a slide enlarged: the real show scaled down, with its fields beside it ---------- */
+var ED={open:false,k:.6,arm:false};
+var ED_N={title:"Название",read:"Чтение отрывка",frame:"Тезис",phrase:"Отрывок: фраза",word:"Тезис к слову",mark:"Разметка",image:"Картинка",main:"Главная мысль",sum:"Итог"};
+function edEnsure(){
+  if($("#sed")) return;
+  var d=document.createElement("div"); d.id="sed"; d.setAttribute("role","dialog"); d.setAttribute("aria-modal","true"); d.setAttribute("aria-label","Слайд крупно");
+  d.innerHTML='<div id="sedNav"><button data-e="prev" title="Предыдущий слайд (PageUp)" aria-label="Предыдущий слайд">◀</button><span id="sedPos"></span><button data-e="next" title="Следующий слайд (PageDown)" aria-label="Следующий слайд">▶</button><span class="gap"></span><button data-e="play">▶ Показ с этого слайда</button><button data-e="close">Закрыть (Esc)</button></div><div id="sedP"></div>';
+  document.body.appendChild(d);
+  d.addEventListener("click",edClick);
+  $("#sedP").addEventListener("focusin",function(){ ED.arm=true; });
+  $("#sedP").addEventListener("input",edInput);
+  $("#sedP").addEventListener("change",edChange);
+}
+function edLayout(){
+  var W=window.innerWidth, H=window.innerHeight, pw=Math.max(330,Math.min(470,W*.31)), g=Math.max(12,W*.018), k, el=$("#show"), nav=$("#sedNav"), p=$("#sedP");
+  k=Math.min((W-pw-3*g)/W,(H-2*g-56)/H); k=Math.max(.28,Math.min(.7,k)); ED.k=k;
+  el.style.left=g+"px"; el.style.top=g+"px"; el.style.transform="scale("+k+")";
+  nav.style.left=g+"px"; nav.style.top=(g+k*H+12)+"px"; nav.style.width=(k*W)+"px";
+  p.style.right=g+"px"; p.style.top=g+"px"; p.style.bottom=g+"px"; p.style.width=(W-3*g-k*W)+"px";
+}
+function stepKey(s){ return (s.b||s.t)+"|"+(s.pi||0); }
+function openEd(n){
+  if(narrow()) return;
+  edEnsure();
+  ED.open=true; show.pv=true; show.open=true; show.fs=false;
+  show.steps=buildSteps(true); show.n=Math.max(0,Math.min(n||0,show.steps.length-1)); show.last=-2;
+  $("#show").classList.add("open","pv"); $("#sed").classList.add("open");
+  edLayout(); drawShow(); edPanel();
+}
+function closeEd(){
+  if(!ED.open) return;
+  ED.open=false; show.pv=false; show.open=false; MKS=1;
+  var el=$("#show"); el.classList.remove("open","pv"); el.style.left=el.style.top=el.style.transform="";
+  $("#sed").classList.remove("open");
+  renderSermon();
+}
+function edGo(d){
+  var n=Math.max(0,Math.min(show.steps.length-1,show.n+d)); if(n===show.n) return;
+  show.n=n; show.last=-2; drawShow(); edPanel();
+  var b=show.steps[n].b; if(b) setCur(b);
+}
+/* after a change: the same slide stays in front even if slides before it came or went */
+function edRefresh(){
+  var key=stepKey(show.steps[show.n]), st=buildSteps(true), i;
+  show.steps=st;
+  for(i=0;i<st.length;i++) if(stepKey(st[i])===key){ show.n=i; break; }
+  show.n=Math.max(0,Math.min(show.n,st.length-1)); show.last=-2;
+  drawShow(); edPos();
+}
+function edPos(){ var s=show.steps[show.n]; $("#sedPos").innerHTML='Слайд <b>'+show.n+'</b> из '+(show.steps.length-1)+' · '+esc(ED_N[s.t]==="Тезис"&&!s.big?"Место, цитата":ED_N[s.t]||"")+(s.t==="read"&&s.pn>1?" "+(s.pi+1)+" из "+s.pn:""); }
+function edSize(k){ return '<div class="row"><span class="snote" style="font-style:normal">Размер текста на этом слайде:</span><button data-e="szDn" aria-label="Мельче">−</button><b>'+Math.round((k||1)*100)+'%</b><button data-e="szUp" aria-label="Крупнее">+</button>'+((k||1)!==1?'<button data-e="sz1" class="ghost">100%</button>':'')+'</div>'+
+  '<div class="snote">Шрифт сам подбирается под размер экрана; это поправка только для этого слайда. Общий размер — кнопки «Шрифт» вверху.</div>'; }
+function edPanel(){
+  var s=show.steps[show.n], b=s.b?blockById(s.b):null, h=[], p, o;
+  edPos();
+  h.push('<h3>'+esc(s.t==="frame"&&!s.big?"Место, цитата":ED_N[s.t]||"Слайд")+'</h3>');
+  if(s.t==="title"){
+    h.push('<label class="f" for="edTheme">Название</label><input type="text" id="edTheme" data-f="theme" value="'+esc(S.theme)+'" placeholder="Название проповеди">');
+    h.push('<label class="f" for="edTref">Строка под названием</label><input type="text" id="edTref" data-f="tref" value="'+esc(S.tref)+'" placeholder="'+esc(S.title||"Например: Римлянам 5:1–5")+'">');
+    h.push('<div class="snote">Пусто — под названием стоит ссылка на отрывок: «'+esc(S.title||"—")+'». Название отрывка в библиотеке от этого не меняется.</div>');
+    h.push(edSize(S.sk.title));
+  }else if(s.t==="read"){
+    h.push('<div class="snote">Текст Писания здесь не правится: он берётся из отрывка. Если текст крупно не помещается, он делится на слайды по стихам сам.</div>');
+    h.push(b?'<div class="snote">Чтение стоит там, где в тексте проповеди блок «чтение отрывка».</div>':'<div class="snote">Чтение стоит сразу после названия. Чтобы поставить перед ним тезис или картинку, сделайте блок со слайдом «чтение отрывка» после нужного блока.</div>');
+  }else if(s.t==="main"||s.t==="sum"){
+    h.push('<label class="f" for="edMain">Главная мысль</label><textarea id="edMain" data-f="main" rows="3">'+esc(S.main)+'</textarea>');
+    if(s.t==="sum") h.push('<label class="f" for="edSum">Итог</label><textarea id="edSum" data-f="sum" rows="3">'+esc(S.sum)+'</textarea><div class="snote">На слайде итога главная мысль стоит сверху, итог под ней.</div>');
+    h.push(edSize(s.t==="main"?S.sk.main:S.sk.sum));
+  }else if(b&&s.t==="frame"){
+    if(!s.big) h.push('<label class="f" for="edCap">Ссылка</label><input type="text" id="edCap" data-f="cap" value="'+esc(b.sl.cap)+'" placeholder="Например: Иакова 1:2–4">');
+    h.push('<label class="f" for="edText">'+(s.big?'Тезис':'Текст места')+'</label><textarea id="edText" data-f="text" rows="4">'+esc(b.sl.text)+'</textarea><span class="warn" id="edWarn">'+(s.big?thWarn(b.sl.text):frWarn(b.sl.text))+'</span>');
+    if(!s.big) h.push('<div class="snote">Писание — дословно по Синодальному переводу, сверьте по bible.by.</div>');
+    h.push(edSize(b.sl.k));
+  }else if(b&&s.t==="image"){
+    h.push(b.sl.img?'<img class="ed-th" alt="" data-img="'+esc(b.sl.img)+'" src="'+(IMG[b.sl.img]||"")+'">':'<div class="snote">Картинка не выбрана.</div>');
+    h.push('<div class="row"><label class="filebtn">'+(b.sl.img?'Заменить картинку':'Выбрать картинку')+'<input type="file" data-f="img" accept="image/*"></label><span class="snote">или Ctrl+V — вставить из буфера</span></div>');
+    h.push('<label class="cb"><input type="checkbox" data-f="cov"'+(b.sl.cov?' checked':'')+'> На весь экран, без полей (края картинки могут обрезаться)</label>');
+    h.push('<label class="f" for="edText">Подпись</label><textarea id="edText" data-f="text" rows="2" placeholder="Можно оставить пустой">'+esc(b.sl.text)+'</textarea><span class="warn" id="edWarn">'+thWarn(b.sl.text)+'</span>');
+    h.push(edSize(b.sl.k));
+  }else if(b&&s.t==="phrase"){
+    p=byId(b.sl.ref);
+    h.push('<label class="f" for="edTo">Текст фразы на экране</label><textarea id="edTo" data-f="to" rows="3">'+esc(b.sl.to.trim()?b.sl.to:bareRange(p.s,p.e-1))+'</textarea>');
+    h.push('<label class="f" for="edLo">Подпись связи на экране</label><input type="text" id="edLo" data-f="lo" list="rels" value="'+esc(b.sl.lo!=null?b.sl.lo:(p.label||""))+'" placeholder="Например: основание">');
+    h.push('<label class="cb"><input type="checkbox" data-f="lab"'+(b.sl.lab?' checked':'')+'> Показать подпись связи</label>');
+    h.push('<label class="cb"><input type="checkbox" data-f="grp"'+(b.sl.grp?' checked':'')+'> Вместе с подчинёнными фразами</label>');
+    h.push('<div class="snote">Правка живёт только в проповеди: структура, разрезы и подписи в «Изучении» не меняются. Если переписать текст, номера стихов и подсветка слов в этой фразе на экране пропадут.</div>');
+    if(b.sl.to.trim()||b.sl.lo!=null) h.push('<div class="row"><button data-e="ovr">Вернуть как в разборе</button></div>');
+  }else if(b&&s.t==="word"){
+    o=parseKey(b.sl.ref);
+    h.push('<div class="snote">Слово «'+esc(o?bareRange(o.a,o.b):"?")+'» загорится в отрывке, тезис встанет справа.</div>');
+    h.push('<label class="f" for="edText">Тезис на экран</label><textarea id="edText" data-f="text" rows="3">'+esc(b.sl.text)+'</textarea><span class="warn" id="edWarn">'+thWarn(b.sl.text)+'</span>');
+    h.push('<div class="snote">Тезис хранится в проповеди. Поле «На экран» у заметки в «Изучении» от этого не меняется.</div>');
+  }else if(s.t==="mark"){
+    h.push('<div class="snote">Пометки и их подписи правятся слева, в тексте отрывка. Какие пометки выходят на этом слайде — галочки в блоке.</div>');
+  }
+  if(b) h.push('<div class="row" style="margin-top:6px"><button data-e="blk" class="ghost">Перейти к блоку '+(S.blocks.indexOf(b)+1)+' в тексте проповеди</button></div>');
+  $("#sedP").innerHTML=h.join("");
+  var ta=$("#sedP").querySelectorAll("textarea"); Array.prototype.forEach.call(ta,function(t){ t.style.height="auto"; t.style.height=Math.min(320,t.scrollHeight+2)+"px"; });
+  if(b&&s.t==="image"&&b.sl.img&&!IMG[b.sl.img]) imgGet(b.sl.img).then(function(){ imgFill(b.sl.img); });
+}
+function edCur(){ var s=show.steps[show.n]; return {s:s,b:s.b?blockById(s.b):null}; }
+function edInput(e){
+  var el=e.target, f=el.dataset.f, c=edCur(), b=c.b, p, w; if(!f||el.type==="checkbox"||el.type==="file") return;
+  if(ED.arm){ commit(); ED.arm=false; }
+  var v=el.value;
+  if(f==="theme") S.theme=v; else if(f==="tref") S.tref=v; else if(f==="main") S.main=v; else if(f==="sum") S.sum=v;
+  else if(!b) return;
+  else if(f==="cap") b.sl.cap=v;
+  else if(f==="text"){ b.sl.text=v; w=$("#edWarn"); if(w) w.textContent=c.s.t==="frame"&&!c.s.big?frWarn(v):thWarn(v); }
+  else if(f==="to"){ p=byId(b.sl.ref); b.sl.to=v.trim()===bareRange(p.s,p.e-1)?"":v; }
+  else if(f==="lo"){ p=byId(b.sl.ref); b.sl.lo=v===(p.label||"")?null:v; }
+  save(); edRefresh();
+}
+function edChange(e){
+  var el=e.target, f=el.dataset.f, c=edCur(), b=c.b; if(!f||!b) return;
+  if(f==="img"){ var fl=el.files&&el.files[0]; el.value=""; if(fl) setBlockImage(b,fl); return; }
+  if(el.type!=="checkbox") return;
+  commit(); b.sl[f]=el.checked; save(); edRefresh();
+}
+function edClick(e){
+  var t=e.target.closest("[data-e]"); if(!t) return;
+  var a=t.dataset.e, c=edCur(), s=c.s, b=c.b, k, key;
+  if(a==="prev") edGo(-1);
+  else if(a==="next") edGo(1);
+  else if(a==="close") closeEd();
+  else if(a==="play"){ key=stepKey(s); closeEd(); var st=buildSteps(), i, n=0; for(i=0;i<st.length;i++) if(stepKey(st[i])===key){ n=i; break; } openShow(n); }
+  else if(a==="blk"){ closeEd(); if(b){ setCur(b.id); focusBlock(b.id); } }
+  else if(a==="ovr"&&b){ commit(); b.sl.to=""; b.sl.lo=null; save(); edRefresh(); edPanel(); say("Слайд снова как в разборе"); }
+  else if(a==="szDn"||a==="szUp"||a==="sz1"){
+    k=s.t==="title"?S.sk.title:s.t==="main"?S.sk.main:s.t==="sum"?S.sk.sum:b?b.sl.k:1;
+    k=a==="sz1"?1:Math.max(.6,Math.min(1.6,Math.round((k+(a==="szUp"?.1:-.1))*10)/10));
+    commit();
+    if(s.t==="title") S.sk.title=k; else if(s.t==="main") S.sk.main=k; else if(s.t==="sum") S.sk.sum=k; else if(b) b.sl.k=k;
+    save(); edRefresh(); edPanel();
+  }
+}
+function edKey(e){
+  var k=e.key, inField=/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName);
+  if(k==="Escape"){ e.preventDefault(); closeEd(); return; }
+  if(k==="PageDown"||(!inField&&(k==="ArrowRight"||k==="ArrowDown"))){ e.preventDefault(); edGo(1); }
+  else if(k==="PageUp"||(!inField&&(k==="ArrowLeft"||k==="ArrowUp"))){ e.preventDefault(); edGo(-1); }
+}
+document.addEventListener("paste",function(e){
+  if(!ED.open) return;
+  var c=edCur(), it=e.clipboardData&&e.clipboardData.items, i, f;
+  if(!c.b||c.s.t!=="image"||!it) return;
+  for(i=0;i<it.length;i++) if(it[i].kind==="file"&&/^image\//.test(it[i].type)){ f=it[i].getAsFile(); if(f){ e.preventDefault(); setBlockImage(c.b,f); return; } }
+});
+
 /* ---------- show ---------- */
-function buildSteps(){
+/* pv: the enlarged editor, where an empty slide is kept so that it can be filled in */
+function buildSteps(pv){
   cleanBlocks();
-  var st=[{t:"title"}], rp=readPages(), anyPh=S.blocks.some(function(b){ return b.sl.t==="phrase"; }), anyMk=S.blocks.some(function(b){ return b.sl.t==="mark"; });
-  var scene=(anyPh||!anyMk)?"struct":"marks";
-  rp.forEach(function(p,i){ st.push({t:"read",ra:p[0],rb:p[1],pi:i,pn:rp.length}); });
+  var st=[{t:"title",k:S.sk.title}], rp=readPages(), anyPh=S.blocks.some(function(b){ return b.sl.t==="phrase"; }), anyMk=S.blocks.some(function(b){ return b.sl.t==="mark"; });
+  var scene=(anyPh||!anyMk)?"struct":"marks", readAt=S.blocks.some(function(b){ return b.sl.t==="read"; });
+  if(S.read&&!readAt) rp.forEach(function(p,i){ st.push({t:"read",ra:p[0],rb:p[1],pi:i,pn:rp.length}); });
   S.blocks.forEach(function(b){
     var s=b.sl, o;
     if(s.t==="none") return;
-    if(s.t==="thesis"){ if(!s.text.trim()) return; o={t:"frame",cap:"",text:s.text,big:1}; }
-    else if(s.t==="frame"){ if(!s.text.trim()&&!s.cap.trim()) return; o={t:"frame",cap:s.cap,text:s.text}; }
+    if(s.t==="read"){ rp.forEach(function(p,i){ st.push({t:"read",ra:p[0],rb:p[1],pi:i,pn:rp.length,b:b.id}); }); return; }
+    if(s.t==="thesis"){ if(!s.text.trim()&&!pv) return; o={t:"frame",cap:"",text:s.text,big:1,k:s.k}; }
+    else if(s.t==="frame"){ if(!s.text.trim()&&!s.cap.trim()&&!pv) return; o={t:"frame",cap:s.cap,text:s.text,k:s.k}; }
+    else if(s.t==="image"){ if(!s.img&&!s.text.trim()&&!pv) return; o={t:"image",img:s.img,text:s.text,cov:s.cov,k:s.k}; }
     else if(s.t==="phrase"){ scene="struct"; o={t:"phrase",ref:s.ref,lab:s.lab,grp:s.grp}; }
     else if(s.t==="mark"){ scene="marks"; o={t:"mark",refs:mkIds(s)}; }
     else o={t:"word",ref:s.ref,text:s.text};
     o.scene=scene; o.b=b.id; st.push(o);
   });
-  if(S.main.trim()) st.push({t:"main"});
-  if(S.sum.trim()) st.push({t:"sum"});
+  if(S.main.trim()) st.push({t:"main",k:S.sk.main});
+  if(S.sum.trim()) st.push({t:"sum",k:S.sk.sum});
   return st;
 }
 function openShow(n){
@@ -2017,11 +2312,11 @@ function closeShow(){
   try{ if(document.fullscreenElement) document.exitFullscreen(); }catch(e){}
 }
 document.addEventListener("fullscreenchange",function(){
-  if(!show.open) return;
+  if(!show.open||show.pv) return;
   if(document.fullscreenElement){ show.fs=true; rebuildShow(); }
   else if(show.fs){ closeShow(); }
 });
-window.addEventListener("resize",function(){ if(show.open) drawShow(); });
+window.addEventListener("resize",function(){ if(ED.open) edLayout(); if(show.open) drawShow(); });
 function go(d){ var n=Math.max(0,Math.min(show.steps.length-1,show.n+d)); if(n!==show.n){ show.n=n; drawShow(); } }
 function showKey(e){
   var k=e.key;
@@ -2037,7 +2332,7 @@ $("#show").addEventListener("click",function(e){ go(e.clientX<window.innerWidth*
 $("#show").addEventListener("contextmenu",function(e){ e.preventDefault(); go(-1); });
 /* Largest size (in vh) between max and min at which the content fits the body. Returns false if it does not fit even at min. */
 function fit(max,min){
-  max=Math.round(max*fsK()*10)/10; if(min>max) min=max;
+  max=Math.round(max*fsK()*(show.k||1)*10)/10; if(min>max) min=max;
   var body=$("#shBody"), inn=$("#shIn"), cs=getComputedStyle(body);
   var avail=body.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom), v=max;
   /* a size fits only if no word has to be broken in the middle; at the smallest size breaking is allowed */
@@ -2084,16 +2379,18 @@ function drawShow(){
   var st=show.steps, n=show.n, cur=st[n], body=$("#shBody"), inn=$("#shIn"), th=$("#shThesis"), h="", i;
   $("#shCount").textContent=n+" / "+(st.length-1);
   show.fwd=show.last===n-1; show.last=n;
-  body.scrollTop=0;
+  show.k=/^(title|frame|image|main|sum)$/.test(cur.t)?(cur.k||1):1;
+  body.scrollTop=0; inn.style.fontSize="";
+  if(cur.t==="image"){ th.className=""; th.innerHTML=""; drawImage(cur); return; }
   if(cur.t==="read"){ th.className=""; th.innerHTML=""; body.className=""; inn.innerHTML=readHTML(cur.ra,cur.rb); fit(13,3.6); return; }
   if(cur.t==="title"||cur.t==="frame"||cur.t==="main"||cur.t==="sum"){
     th.className=""; th.innerHTML=""; body.className="center";
     if(cur.t==="title"){
       var theme=S.theme.trim();
-      inn.innerHTML='<div class="t-theme">'+esc(theme||S.title||"")+'</div>'+(theme&&S.title?'<div class="t-ref">'+esc(S.title)+'</div>':'');
+      inn.innerHTML='<div class="t-theme">'+esc(theme||S.title||"")+'</div>'+(theme&&tRef()?'<div class="t-ref">'+esc(tRef())+'</div>':'');
       fit(15,4.4);
     }else if(cur.t==="frame"){
-      inn.innerHTML=(cur.cap.trim()?'<div class="f-ref">'+esc(cur.cap)+'</div>':'')+'<div class="'+(cur.big?'e-main':'f-text')+'">'+esc(cur.text)+'</div>';
+      inn.innerHTML=(cur.cap.trim()?'<div class="f-ref">'+esc(cur.cap)+'</div>':'')+(cur.text.trim()||cur.cap.trim()?'<div class="'+(cur.big?'e-main':'f-text')+'">'+esc(cur.text)+'</div>':'<div class="e-main pv-empty">Пустой слайд. В показ он не попадёт, пока нет текста</div>');
       fit(cur.big?14:10,3.4);
     }else{
       var main=S.main.trim(), withSum=cur.t==="sum";
@@ -2105,7 +2402,7 @@ function drawShow(){
   }
   if(cur.scene==="marks"){ drawMarkShow(st,n,cur); return; }
   /* passage scene: phrases open one by one */
-  var vis={}, labs={}, labAny={}, curPh={}, curW=null, wc=wordCls(st,n,cur);
+  var vis={}, labs={}, labAny={}, curPh={}, curW=null, wc=wordCls(st,n,cur), ov=phOv();
   function ids(s){ return s.grp?groupIds(s.ref):[s.ref]; }
   function reveal(o){ S.phrases.forEach(function(p){ if(p.s<=o.b&&p.e>o.a) vis[p.id]=1; }); }
   st.forEach(function(s){ if(s.t==="phrase"&&s.lab) ids(s).forEach(function(id){ labAny[id]=1; }); });
@@ -2116,10 +2413,11 @@ function drawShow(){
   }
   if(cur.t==="phrase") ids(cur).forEach(function(id){ curPh[id]=1; }); else curW=parseKey(cur.ref);
   S.phrases.forEach(function(p){
-    var w=[], lab=labAny[p.id]&&p.label&&p.label.trim();
-    for(var k=p.s;k<p.e;k++) w.push(isNum(T[k])?'<span class="sh-vn">'+esc(T[k])+'</span>':'<span class="sh-w'+wc(k)+'">'+esc(T[k])+'</span>');
+    var w=[], o=ov[p.id]||{}, lt=o.lo!=null?o.lo:p.label, lab=labAny[p.id]&&lt&&lt.trim();
+    if(o.to&&o.to.trim()) w.push('<span class="sh-w">'+esc(o.to.trim())+'</span>');
+    else for(var k=p.s;k<p.e;k++) w.push(isNum(T[k])?'<span class="sh-vn">'+esc(T[k])+'</span>':'<span class="sh-w'+wc(k)+'">'+esc(T[k])+'</span>');
     h+='<div class="sh-row'+(vis[p.id]?'':' hid')+(curPh[p.id]?' cur':'')+'" data-id="'+p.id+'" style="--ind:'+Math.min(p.indent,8)+'">'+
-       (lab?'<span class="sh-lab'+(labs[p.id]?'':' hid')+(curPh[p.id]?' cur':'')+'">'+esc(p.label)+'</span>':'')+
+       (lab?'<span class="sh-lab'+(labs[p.id]?'':' hid')+(curPh[p.id]?' cur':'')+'">'+esc(lt)+'</span>':'')+
        '<span class="sh-tx">'+w.join(" ")+'</span></div>';
   });
   body.className=""; inn.innerHTML=h;
@@ -2142,10 +2440,12 @@ function drawMarkShow(st,n,cur){
   drawThesis(st,n,cur);
   var ok=fit(11.5,3.4), wrap=inn.querySelector(".mk-wrap"); if(show.fitTh) show.fitTh();
   if(!ok) body.className="long";
-  drawMarks(wrap,wrap.querySelector("svg"),list,{color:"#D9A441",sw:.05,lab:.5,anim:(cur.t==="mark"&&show.fwd)?cur.refs:null});
+  MKS=show.pv?ED.k:1;
+  drawMarks(wrap,wrap.querySelector("svg"),list,{color:"#D9A441",sw:.05,lab:.5,anim:(cur.t==="mark"&&show.fwd&&!show.pv)?cur.refs:null});
+  MKS=1;
   if(!ok){
     var at=cur.t==="mark"?markById(cur.refs[0]):curW, el=at&&wrap.querySelector('[data-i="'+at.a+'"]');
-    if(el) body.scrollTop=Math.max(0,el.getBoundingClientRect().top-wrap.getBoundingClientRect().top-body.clientHeight*.4);
+    if(el) body.scrollTop=Math.max(0,(el.getBoundingClientRect().top-wrap.getBoundingClientRect().top)/(show.pv?ED.k:1)-body.clientHeight*.4);
   }
 }
 
@@ -2548,6 +2848,8 @@ async function restoreBackup(raw){
     for(id in K){ if(!C.BK[id]||(C.BK[id].at||0)<(K[id].at||0)){ await C.db.doc("books/"+id).set(K[id]); C.BK[id]=K[id]; } }
     var TT=raw.talks||{};
     for(id in TT){ if(!C.TK[id]||(C.TK[id].at||0)<(TT[id].at||0)){ await C.db.doc("talks/"+id).set(TT[id]); C.TK[id]=TT[id]; add++; } }
+    var IM=raw.imgs||{};
+    for(id in IM){ if(IM[id]&&typeof IM[id].d==="string"){ cur=await C.db.doc("imgs/"+id).get(); if(!cur.exists) await C.db.doc("imgs/"+id).set(IM[id]); IMG[id]=IM[id].d; } }
   }catch(e){ libSt("Перенос прервался: хранилище не приняло запись","bad"); return; }
   libSt("Библиотека перенесена: новых отрывков "+add+", обновлено "+upd+(same?", уже были "+same:""));
   renderLib();
@@ -2557,7 +2859,7 @@ async function restoreBackup(raw){
    Each document is a file data/<collection>/<id>.json. The device remembers, per file, the git blob of the last agreed version (base).
    local == remote: nothing to do; only remote moved: take it; only local moved: send it; both moved: the later one (field at) wins,
    the other is kept in data/conflicts/. A file missing on one side counts as deleted there if it had a base, as new otherwise. */
-var SYNC_COLS=["passages","bodies","books","talks"], SYNC_KEY="rs-sync", SYNC_BASE="rs-sync-base";
+var SYNC_COLS=["passages","bodies","books","talks","imgs"], SYNC_KEY="rs-sync", SYNC_BASE="rs-sync-base";
 var SY={cfg:null, base:{}, busy:false, again:false, timer:null, last:0, st:"", bad:false, exp:null};
 function syLoad(){
   try{ SY.cfg=JSON.parse(localStorage.getItem(SYNC_KEY)||"null"); }catch(e){ SY.cfg=null; }
@@ -2978,7 +3280,9 @@ $("#btnBackup").addEventListener("click",async function(){
     var q=await C.db.collection("bodies").limit(1000).get(), bodies={};
     q.docs.forEach(function(d){ bodies[d.id]=d.data(); });
     tkFlush();
-    var json=JSON.stringify({kind:"razbor-slova-backup",v:1,at:Date.now(),passages:C.P,books:C.BK,bodies:bodies,talks:C.TK});
+    var qi=await C.db.collection("imgs").limit(1000).get(), imgs={};
+    qi.docs.forEach(function(d){ imgs[d.id]=d.data(); });
+    var json=JSON.stringify({kind:"razbor-slova-backup",v:1,at:Date.now(),passages:C.P,books:C.BK,bodies:bodies,talks:C.TK,imgs:imgs});
     libSt("");
     lsSet("rs-last-backup",String(Date.now())); bkHint();
     deliver("VDMA_копия_"+ddmm(Date.now()).replace(/\./g,"-")+".json",new Blob([json],{type:"application/json"}),function(msg){
@@ -2994,7 +3298,9 @@ $("#btnExport").addEventListener("click",async function(){
   await flush();
   var css=document.getElementById("appcss").textContent, js=document.getElementById("appjs").textContent;
   var st=clone(S); st.mode="sermon";
-  var emb=JSON.stringify({id:C.cur.id,at:Date.now(),S:st}).replace(/</g,"\\u003c");
+  var I={}, ids=imgIds(), i, d;
+  for(i=0;i<ids.length;i++){ d=await imgGet(ids[i]); if(d) I[ids[i]]=d; else{ say("Картинка не загрузилась из хранилища, файл не собран. Проверьте связь."); return; } }
+  var emb=JSON.stringify({id:C.cur.id,at:Date.now(),S:st,I:I}).replace(/</g,"\\u003c");
   var html='<!DOCTYPE html>\n<html lang="ru">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>'+esc(S.title||"Проповедь")+'</title>\n<style id="appcss">'+css+'</style>\n</head>\n<body>\n<div id="app"></div>\n<script>window.__EMBED__='+emb+';<\/script>\n<script id="appjs">'+js+'<\/script>\n</body>\n</html>\n';
   deliver(fname("html"),new Blob([html],{type:"text/html"}),function(msg){
     var ta=document.createElement("textarea"); ta.readOnly=true; ta.value=html;
@@ -3268,6 +3574,9 @@ var HELP='<div class="help">'+
 '<p><b>Что где на экране проповеди.</b> Слева — материал из изучения: текст с пометками, структура, заметки к словам. Кнопка → вставляет материал блоком под выбранным блоком; сам материал здесь не меняется, править его нужно в режиме «Изучение». Посередине — блоки; тёмная полоса в блоке — то, что увидит зал. Справа — лента слайдов: клик по слайду ведёт к его блоку, ▶ начинает показ с него.</p>'+
 '<p><b>Чтение отрывка.</b> Сразу после названия идёт полный текст отрывка для чтения вслух. Размер шрифта подбирается сам; если весь текст крупно не помещается, он делится на несколько слайдов по границам стихов. Число слайдов считается под размер окна, поэтому на телевизоре оно может отличаться от ленты. Каждый стих начинается с новой строки. Отключается галочкой под названием.</p>'+
 '<p><b>Размер шрифта на экране.</b> Текст на каждом слайде сам занимает столько места, сколько есть: мало текста — крупно. Кнопки «−» и «+» рядом с «Показ» (в самом показе клавиши «−» и «+») сдвигают размер для всего отрывка. Если экран уже заполнен, «+» текст не увеличит; на слайдах чтения он тогда разложит отрывок на большее число слайдов.</p>'+
+'<p><b>Тезис или картинка до чтения.</b> Чтобы перед чтением стоял тезис, вопрос или картинка, сделайте первым блоком тезис (или картинку), а вторым — блок со слайдом «чтение отрывка». Чтение тогда выйдет там, где стоит этот блок, а не сразу после названия.</p>'+
+'<p><b>Слайд крупно.</b> Клик по слайду в ленте открывает его крупно, так, как его увидит зал. Справа поля этого слайда: текст, подпись, размер шрифта, картинка. Листать: кнопки ◀ ▶ или PageUp / PageDown, выход — Esc. Правки хранятся только в проповеди: у слайда «отрывок» можно переписать текст фразы и подпись связи для экрана, а структура, заметки и «Спираль» остаются как были (кнопка «как в разборе» возвращает исходное). Текст Писания на слайдах чтения и пометки здесь не правятся. Размер у отдельного слайда есть только у названия, тезиса, места, картинки, главной мысли и итога: у слайдов отрывка размер общий, иначе текст прыгал бы между шагами.</p>'+
+'<p><b>Картинки.</b> Слайд «картинка»: выберите файл (JPG или PNG) или в крупном виде вставьте из буфера Ctrl+V. Картинка уменьшается до размера экрана и хранится в облаке отдельно от отрывка; в «Файл для зала» она входит целиком. Можно добавить подпись и включить «на весь экран, без полей». Снимки iPhone в формате HEIC браузер не открывает: сохраните их как JPG. Берите картинки, которые вам можно показывать.</p>'+
 '<p><b>Несколько пометок сразу.</b> У слайда «разметка» пометки отмечаются галочками: все отмеченные появятся на экране одновременно, например подчёркивание слова и стрелка к нему.</p>'+
 '<p><b>Какие бывают слайды.</b> «Тезис по центру» — одна мысль на чёрном экране. «Отрывок: открыть фразу» — текст отрывка раскрывается фраза за фразой; с галочкой «вместе с подчинёнными» главная фраза открывается сразу со своими подчинёнными. «Тезис к слову» — слово загорается в отрывке, тезис встаёт столбиком справа; такой блок вставляется кнопкой → у заметки к слову. «Разметка» — весь текст стоит на экране, пометка рисуется поверх. «Параллельное место» — ссылка и текст.</p>'+
 '<p><b>Собрать из разбора.</b> Кнопка расставляет черновик: по блоку на каждую главную фразу, под ней блоки тех слов, у которых заполнено поле «На экран» (текстом блока становится ваша заметка к слову). Тезисов она не сочиняет. Нынешние блоки она заменяет, вернуть их можно кнопкой «Отменить».</p>'+
@@ -3300,6 +3609,7 @@ function oldLocal(){
 (async function init(){
   if(EMBED){
     MODE="embed"; LKEY="osb-embed-"+EMBED.id+"-"+EMBED.at;
+    if(EMBED.I) Object.keys(EMBED.I).forEach(function(k){ IMG[k]=EMBED.I[k]; });
     var d=null; try{ d=JSON.parse(localStorage.getItem(LKEY)||"null"); }catch(e){}
     S=normalize(d&&typeof d.source==="string"&&Array.isArray(d.phrases)?d:EMBED.S); startLocal(); return;
   }
