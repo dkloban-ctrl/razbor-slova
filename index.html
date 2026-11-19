@@ -334,6 +334,13 @@ body.g-sermon .studyonly{display:none !important}
 .nword{font:560 22px/1.25 var(--f-text);letter-spacing:-.005em;overflow-wrap:anywhere}
 .nref{color:var(--ink-2);font:12.5px var(--f-ui);margin-top:4px}
 #noteHead button{margin-top:10px}
+.nbtns{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.nbtns #noteDel{color:var(--mark)}
+#noteDel[hidden]{display:none!important}
+.ndel{margin-top:10px;padding:10px 12px;border:1px solid var(--mark);border-radius:var(--r-2);background:var(--card);display:flex;flex-direction:column;gap:8px;font:13.5px/1.4 var(--f-ui)}
+.ndel .row{display:flex;gap:8px;flex-wrap:wrap}
+.ndel button{margin-top:0!important}
+button.danger{background:var(--mark)!important;color:#fff!important;border-color:var(--mark)!important}
 #scrWrap{display:none;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--sunk)}
 #scrWrap.use{display:block}
 #scrWrap label{display:block;font:600 11px var(--f-ui);letter-spacing:.09em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
@@ -420,6 +427,9 @@ body.g-sermon .studyonly{display:none !important}
 /* marks inside a slide text: **bold**, *italic*, __underline__, ==gold== */
 #show .gd{color:var(--s-gold,#D9A441)}
 .plk{flex-wrap:wrap;gap:6px}
+.pmode{padding:4px!important}
+.pmode .seg{display:flex;width:100%;gap:2px}
+.pmode .seg button{flex:1;min-height:38px!important;font:600 14px var(--f-ui)!important}
 .plk .seg{display:inline-flex;gap:2px;margin-left:auto}
 .plk .seg button{padding:4px 12px!important;font:500 13px var(--f-ui)!important;min-height:28px}
 /* the screen in the colours and type of the app itself */
@@ -521,6 +531,15 @@ html:fullscreen #hallTip{display:none}
 #sedNav button{background:#000;color:#fff;border-color:#555}
 #sedNav button:hover{border-color:#D9A441}
 #sedNav .gap{flex:1}
+#sed.ph{background:var(--bg)}
+#sed.ph #sedNav{left:0;right:0;top:0;padding:8px 10px;background:var(--panel);border-bottom:1px solid var(--line);color:var(--ink);gap:6px;z-index:2}
+#sed.ph #sedNav button,#sed.ph #sedNav select{background:var(--card);color:var(--ink);border:1px solid var(--line-2);min-height:38px}
+#sed.ph #sedNav b{color:var(--mark)}
+#sed.ph #sedNav .gap{flex-basis:100%;height:0}
+#sed.ph #sedNav [data-e="close"]{margin-left:auto}
+#sed.ph #sedP{left:0;right:0;bottom:0;width:auto;border:0;padding:14px 14px calc(24px + env(safe-area-inset-bottom))}
+#sed.ph #sedP textarea,#sed.ph #sedP input[type=text]{font-size:16px}
+#sed.ph #sedP .grp button,#sed.ph #sedP .stp button,#sed.ph #sedP .fmt button{min-width:38px;height:36px}
 #sedNav b{color:#D9A441;font-weight:700}
 #sedNav select{background:#000;color:#fff;border:1px solid #555;border-radius:3px;padding:3px 6px;font:13px var(--f-ui)}
 #sedP{position:fixed;overflow:auto;background:var(--bg);color:var(--ink);border:1px solid var(--ink);padding:14px 16px 18px;display:flex;flex-direction:column;gap:9px}
@@ -764,6 +783,28 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 #left > .phead #btnEdit,#srcTools{display:none !important}
 #toolSeg{flex:none}
 .g-sermon #toolSeg{display:none}
+@media (max-width:760px){
+  .g-sermon #sm{display:block;padding:8px 8px calc(62px + env(safe-area-inset-bottom));min-height:0;overflow:hidden}
+  #sm>section{display:none;height:100%;min-height:0;flex-direction:column}
+  #sm>section.act{display:flex}
+  #sm .pbody{flex:1;min-height:0;overflow:auto}
+  #smL>.phead,#smR>.phead{display:none}
+  #smM>.phead{flex-wrap:wrap;gap:6px}
+  #smM>.phead h2{flex:1 1 auto}
+  #smBody{padding:12px 12px 40px}
+  .sf{grid-template-columns:1fr;gap:4px}
+  .sf>label{padding-top:6px}
+  .sf>span:empty{display:none}
+  .blk{padding:8px 10px 10px}
+  .bhd{gap:4px}
+  .bhd select{flex:1 1 150px;min-width:0;min-height:36px;font-size:14px}
+  .bhd button{min-width:36px;min-height:36px;font-size:16px}
+  .bsl textarea,.bsl input[type=text],.bsl select{font-size:16px}
+  #smSlides{padding:10px 10px 30px}
+  .sld{min-height:96px}
+  .sld button{min-height:30px;min-width:34px;font-size:12px;opacity:1}
+  .g-sermon #pTool{visibility:hidden}
+}
 #work > header #status{position:fixed;left:50%;transform:translateX(-50%);bottom:22px;z-index:40;max-width:min(560px,calc(100vw - 24px));margin:0;padding:9px 14px;border-radius:10px;background:#1b1b1b;color:#fff;font:13px/1.35 var(--f-ui);text-align:center;white-space:normal;pointer-events:none;box-shadow:0 6px 20px rgb(0 0 0 / .25)}
 #work > header #status:empty{display:none}
 @media (max-width:760px){
@@ -978,7 +1019,7 @@ body,#bookPage{background-color:var(--bg)}
 </head>
 <body>
 <div id="app"></div>
-<script id="appjs">var __MARKUP__="<div id=\"lib\">\n  <header class=\"lhead\"><button id=\"lMenu\" type=\"button\" title=\"Меню\" aria-label=\"Меню библиотеки\">☰</button><button id=\"lHome\" type=\"button\" title=\"На главную\" aria-label=\"На главную\">⌂</button><div id=\"lCont\"></div><button id=\"lTalks\" type=\"button\" title=\"Конспекты чужих проповедей\">Конспекты</button><div id=\"lProg\"></div><span id=\"libSt\" role=\"status\"></span><button id=\"btnTheme\" class=\"thm\" title=\"Ночной режим\">☾</button></header><div id=\"lBack\"></div><nav id=\"lDrawer\" aria-label=\"Меню библиотеки\"><div class=\"ldt\"><span class=\"brand\">VDMA</span><button type=\"button\" class=\"pclose\" id=\"lClose\" aria-label=\"Закрыть меню\">×</button></div><div class=\"lmotto\"><b>Слово Господне пребывает вовек</b><i>Verbum Domini Manet in Aeternum</i><i>Ис. 40:8; 1 Пет. 1:25</i></div><div class=\"lver\">версия 19.11 · 21</div><button id=\"btnSync\" class=\"stdonly\" data-s=\"off\">Синхронизация</button><button id=\"btnBackup\" class=\"cloudonly\">Скачать всю библиотеку</button><label class=\"filebtn cloudonly\" title=\"Файл, скачанный кнопкой «Скачать всю библиотеку»\">Загрузить библиотеку из файла<input id=\"impAll\" type=\"file\" accept=\".json,application/json\"></label><button id=\"btnHelp2\">Справка</button></nav>\n  <div id=\"libBody\"><aside id=\"bookList\" aria-label=\"Книги\"></aside><div id=\"bookPage\"></div></div>\n</div>\n<div id=\"work\">\n<header>\n  <button id=\"btnLib\" class=\"cloudonly\" title=\"На главную\">Главная</button>\n  <input id=\"title\" aria-label=\"Название отрывка\" placeholder=\"Отрывок, например: Римлянам 5:1–5\">\n  <span class=\"seg wideonly\" id=\"modeSeg\" role=\"group\" aria-label=\"Режим работы\"><button id=\"gStudy\">Изучение</button><button id=\"gSermon\">Проповедь</button></span>\n  <button id=\"btnStatus\" class=\"cloudonly\"></button>\n  <button id=\"btnSheet\" class=\"cloudonly studyonly\">Лист книги</button>\n  <button id=\"btnUndo\" title=\"Отменить последнее действие (Ctrl+Z)\">Отменить</button>\n  <button id=\"btnSave\" class=\"wideonly studyonly\">Сохранить в файл</button>\n  <label class=\"filebtn localonly studyonly\">Открыть файл<input id=\"fileIn\" type=\"file\" accept=\".json,application/json\"></label>\n  <button id=\"btnPng\" class=\"wideonly studyonly\">Схема картинкой (PNG)</button>\n  <span class=\"fsz wideonly sermononly\" title=\"Размер шрифта на экране зала\">Шрифт <button id=\"fsDn\" aria-label=\"Шрифт на экране мельче\">−</button><b id=\"fsVal\">100%</b><button id=\"fsUp\" aria-label=\"Шрифт на экране крупнее\">+</button></span><span class=\"fsz wideonly sermononly\" title=\"Вид экрана зала\">Экран <select id=\"shLook\" aria-label=\"Вид экрана зала\"><option value=\"dark\">тёмный</option><option value=\"light\">светлый</option></select></span>\n  <button id=\"btnShow\" class=\"wideonly sermononly on\">▶ Показ</button>\n  <button id=\"btnDocx\" class=\"wideonly sermononly\">Текст в Word</button>\n  <button id=\"btnExport\" class=\"cloudonly wideonly sermononly\" title=\"Отдельный файл для показа в зале, работает без интернета\">Файл для зала</button>\n  <button id=\"btnHelp\" class=\"wideonly\">Справка</button>\n  <span id=\"cloudSt\" class=\"cloudonly\"></span>\n  <span id=\"status\" role=\"status\"></span>\n</header>\n<nav id=\"ptabs\"><button data-p=\"text\">Текст</button><button data-p=\"field\">Разбор</button><button data-p=\"notes\">Заметки</button></nav>\n\n<main id=\"main\">\n  <section id=\"left\" aria-label=\"Исходный текст\">\n    <div class=\"phead\">\n      <h2>Текст</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Что делает клик по слову\"><button id=\"tCut\">Резать</button><button id=\"tNote\">Заметки к словам</button></span>\n      <button id=\"btnEdit\" class=\"ghost\">Изменить текст</button>\n    </div>\n    <div class=\"phead\" id=\"srcTools\">\n      <button id=\"cutVerses\">Резать по стихам</button>\n      <button id=\"cutPunct\">По знакам препинания</button>\n      <button id=\"cutReset\" class=\"ghost\">Убрать все разрезы</button>\n    </div>\n    <div class=\"pbody\"><div id=\"srcWrap\"><div id=\"src\"></div><svg id=\"srcMarks\" aria-hidden=\"true\"></svg></div><div id=\"markList\"></div></div>\n    <div id=\"selBar\"></div>\n    <div id=\"srcEdit\">\n      <textarea id=\"srcText\" aria-label=\"Исходный текст\" placeholder=\"Вставьте сюда текст (Синодальный перевод). Номера стихов можно оставить: они станут маленькими цифрами.\"></textarea>\n      <div class=\"rowb\">\n        <button id=\"srcApply\" class=\"on\">Готово</button>\n        <button id=\"srcCancel\">Отмена</button>\n      </div>\n      <div style=\"color:var(--ink-2);font-size:12px\">Разрезы, заметки и текст проповеди сохранятся. Пропадёт только то, что привязано к удалённым словам. Если что-то пошло не так, есть кнопка «Отменить».</div>\n    </div>\n    <div class=\"hint\" id=\"srcHint\"></div>\n  </section>\n\n  <section id=\"mid\" aria-label=\"Рабочее поле\">\n    <div class=\"phead\">\n      <h2>Рабочее поле</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Режим\">\n        <button id=\"mStruct\">Структура</button>\n      </span>\n    </div>\n    <div class=\"pbody\" id=\"midBody\">\n      <div id=\"structure\"></div>\n    </div>\n    <div class=\"hint\" id=\"midHint\"></div>\n  </section>\n\n  <section id=\"right\" aria-label=\"Заметки\">\n    <div class=\"phead\"><h2>Заметки</h2></div>\n    <div class=\"pbody\" id=\"noteBody\">\n      <div id=\"noteHead\"></div>\n      <div id=\"scrWrap\">\n        <label for=\"scr\">На экран</label>\n        <textarea id=\"scr\" rows=\"2\" placeholder=\"Короткий тезис к этому слову\"></textarea>\n        <small>Это увидит зал. Заметка ниже остаётся только у вас.</small>\n      </div>\n      <textarea id=\"notes\" aria-label=\"Заметка\"></textarea>\n      <div id=\"noteList\"></div>\n    </div>\n  </section>\n</main>\n<div id=\"sm\">\n  <section id=\"smL\" aria-label=\"Материалы изучения\">\n    <div class=\"phead\"><h2>Из изучения</h2></div>\n    <div class=\"pbody\"><div id=\"smText\" class=\"tool-mark\"><div class=\"smh\">Текст и пометки</div></div><div id=\"smMat\"></div></div>\n  </section>\n  <section id=\"smM\" aria-label=\"Текст проповеди\">\n    <div class=\"phead\"><h2>Текст проповеди</h2><span id=\"smCount\" class=\"snote\"></span><button id=\"smBuild\">Собрать из разбора</button></div>\n    <div class=\"pbody\" id=\"smBody\">\n      <div class=\"sf\"><label for=\"sTheme\">Название</label><input id=\"sTheme\" placeholder=\"Название проповеди. Первый слайд\"><span></span><label class=\"rdl\"><input type=\"checkbox\" id=\"sRead\"><span id=\"sReadT\">После названия показать полный текст отрывка для чтения</span></label></div>\n      <div id=\"smBlocks\"></div>\n      <button id=\"smAdd\" class=\"ghost\">+ Блок</button>\n      <div class=\"sf\" style=\"margin-top:22px\">\n        <label for=\"sMain\">Главная мысль</label><textarea id=\"sMain\" rows=\"2\" placeholder=\"Одно предложение, которое зал должен унести. Предпоследний слайд\"></textarea>\n        <label for=\"sSum\">Итог</label><textarea id=\"sSum\" rows=\"2\" placeholder=\"К чему зовёт текст. Последний слайд\"></textarea>\n      </div>\n    </div>\n  </section>\n  <section id=\"smR\" aria-label=\"Слайды\">\n    <div class=\"phead\"><h2>Слайды</h2></div>\n    <div class=\"pbody\" id=\"smSlides\"></div>\n  </section>\n</div>\n</div>\n\n<datalist id=\"rels\">\n  <option value=\"основание\"><option value=\"причина\"><option value=\"следствие\"><option value=\"цель\"><option value=\"результат\">\n  <option value=\"условие\"><option value=\"уступка\"><option value=\"средство\"><option value=\"образ действия\"><option value=\"время\">\n  <option value=\"пояснение\"><option value=\"противопоставление\"><option value=\"ряд\"><option value=\"вывод\"><option value=\"сравнение\">\n</datalist>\n\n<div id=\"modal\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"mTitle\"><div class=\"box\">\n  <h3 id=\"mTitle\"></h3><p id=\"mText\"></p><div id=\"mBody\"></div>\n  <div class=\"rowb\"><button id=\"mCopy\">Скопировать</button><button id=\"mClose\">Закрыть</button></div>\n</div></div>\n\n<div id=\"show\" aria-label=\"Показ на экране\">\n  <div id=\"shBody\"><div id=\"shIn\"></div></div>\n  <div id=\"shThesis\"></div>\n  <div id=\"shCount\"></div>\n</div>\n";
+<script id="appjs">var __MARKUP__="<div id=\"lib\">\n  <header class=\"lhead\"><button id=\"lMenu\" type=\"button\" title=\"Меню\" aria-label=\"Меню библиотеки\">☰</button><button id=\"lHome\" type=\"button\" title=\"На главную\" aria-label=\"На главную\">⌂</button><div id=\"lCont\"></div><button id=\"lTalks\" type=\"button\" title=\"Конспекты чужих проповедей\">Конспекты</button><div id=\"lProg\"></div><span id=\"libSt\" role=\"status\"></span><button id=\"btnTheme\" class=\"thm\" title=\"Ночной режим\">☾</button></header><div id=\"lBack\"></div><nav id=\"lDrawer\" aria-label=\"Меню библиотеки\"><div class=\"ldt\"><span class=\"brand\">VDMA</span><button type=\"button\" class=\"pclose\" id=\"lClose\" aria-label=\"Закрыть меню\">×</button></div><div class=\"lmotto\"><b>Слово Господне пребывает вовек</b><i>Verbum Domini Manet in Aeternum</i><i>Ис. 40:8; 1 Пет. 1:25</i></div><div class=\"lver\">версия 19.11 · 22</div><button id=\"btnSync\" class=\"stdonly\" data-s=\"off\">Синхронизация</button><button id=\"btnBackup\" class=\"cloudonly\">Скачать всю библиотеку</button><label class=\"filebtn cloudonly\" title=\"Файл, скачанный кнопкой «Скачать всю библиотеку»\">Загрузить библиотеку из файла<input id=\"impAll\" type=\"file\" accept=\".json,application/json\"></label><button id=\"btnHelp2\">Справка</button></nav>\n  <div id=\"libBody\"><aside id=\"bookList\" aria-label=\"Книги\"></aside><div id=\"bookPage\"></div></div>\n</div>\n<div id=\"work\">\n<header>\n  <button id=\"btnLib\" class=\"cloudonly\" title=\"На главную\">Главная</button>\n  <input id=\"title\" aria-label=\"Название отрывка\" placeholder=\"Отрывок, например: Римлянам 5:1–5\">\n  <span class=\"seg wideonly\" id=\"modeSeg\" role=\"group\" aria-label=\"Режим работы\"><button id=\"gStudy\">Изучение</button><button id=\"gSermon\">Проповедь</button></span>\n  <button id=\"btnStatus\" class=\"cloudonly\"></button>\n  <button id=\"btnSheet\" class=\"cloudonly studyonly\">Лист книги</button>\n  <button id=\"btnUndo\" title=\"Отменить последнее действие (Ctrl+Z)\">Отменить</button>\n  <button id=\"btnSave\" class=\"wideonly studyonly\">Сохранить в файл</button>\n  <label class=\"filebtn localonly studyonly\">Открыть файл<input id=\"fileIn\" type=\"file\" accept=\".json,application/json\"></label>\n  <button id=\"btnPng\" class=\"wideonly studyonly\">Схема картинкой (PNG)</button>\n  <span class=\"fsz wideonly sermononly\" title=\"Размер шрифта на экране зала\">Шрифт <button id=\"fsDn\" aria-label=\"Шрифт на экране мельче\">−</button><b id=\"fsVal\">100%</b><button id=\"fsUp\" aria-label=\"Шрифт на экране крупнее\">+</button></span><span class=\"fsz wideonly sermononly\" title=\"Вид экрана зала\">Экран <select id=\"shLook\" aria-label=\"Вид экрана зала\"><option value=\"dark\">тёмный</option><option value=\"light\">светлый</option></select></span>\n  <button id=\"btnShow\" class=\"wideonly sermononly on\">▶ Показ</button>\n  <button id=\"btnDocx\" class=\"wideonly sermononly\">Текст в Word</button>\n  <button id=\"btnExport\" class=\"cloudonly wideonly sermononly\" title=\"Отдельный файл для показа в зале, работает без интернета\">Файл для зала</button>\n  <button id=\"btnHelp\" class=\"wideonly\">Справка</button>\n  <span id=\"cloudSt\" class=\"cloudonly\"></span>\n  <span id=\"status\" role=\"status\"></span>\n</header>\n<nav id=\"ptabs\"><button data-p=\"text\">Текст</button><button data-p=\"field\">Разбор</button><button data-p=\"notes\">Заметки</button></nav>\n\n<main id=\"main\">\n  <section id=\"left\" aria-label=\"Исходный текст\">\n    <div class=\"phead\">\n      <h2>Текст</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Что делает клик по слову\"><button id=\"tCut\">Резать</button><button id=\"tNote\">Заметки к словам</button></span>\n      <button id=\"btnEdit\" class=\"ghost\">Изменить текст</button>\n    </div>\n    <div class=\"phead\" id=\"srcTools\">\n      <button id=\"cutVerses\">Резать по стихам</button>\n      <button id=\"cutPunct\">По знакам препинания</button>\n      <button id=\"cutReset\" class=\"ghost\">Убрать все разрезы</button>\n    </div>\n    <div class=\"pbody\"><div id=\"srcWrap\"><div id=\"src\"></div><svg id=\"srcMarks\" aria-hidden=\"true\"></svg></div><div id=\"markList\"></div></div>\n    <div id=\"selBar\"></div>\n    <div id=\"srcEdit\">\n      <textarea id=\"srcText\" aria-label=\"Исходный текст\" placeholder=\"Вставьте сюда текст (Синодальный перевод). Номера стихов можно оставить: они станут маленькими цифрами.\"></textarea>\n      <div class=\"rowb\">\n        <button id=\"srcApply\" class=\"on\">Готово</button>\n        <button id=\"srcCancel\">Отмена</button>\n      </div>\n      <div style=\"color:var(--ink-2);font-size:12px\">Разрезы, заметки и текст проповеди сохранятся. Пропадёт только то, что привязано к удалённым словам. Если что-то пошло не так, есть кнопка «Отменить».</div>\n    </div>\n    <div class=\"hint\" id=\"srcHint\"></div>\n  </section>\n\n  <section id=\"mid\" aria-label=\"Рабочее поле\">\n    <div class=\"phead\">\n      <h2>Рабочее поле</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Режим\">\n        <button id=\"mStruct\">Структура</button>\n      </span>\n    </div>\n    <div class=\"pbody\" id=\"midBody\">\n      <div id=\"structure\"></div>\n    </div>\n    <div class=\"hint\" id=\"midHint\"></div>\n  </section>\n\n  <section id=\"right\" aria-label=\"Заметки\">\n    <div class=\"phead\"><h2>Заметки</h2></div>\n    <div class=\"pbody\" id=\"noteBody\">\n      <div id=\"noteHead\"></div>\n      <div id=\"scrWrap\">\n        <label for=\"scr\">На экран</label>\n        <textarea id=\"scr\" rows=\"2\" placeholder=\"Короткий тезис к этому слову\"></textarea>\n        <small>Это увидит зал. Заметка ниже остаётся только у вас.</small>\n      </div>\n      <textarea id=\"notes\" aria-label=\"Заметка\"></textarea>\n      <div id=\"noteList\"></div>\n    </div>\n  </section>\n</main>\n<div id=\"sm\">\n  <section id=\"smL\" aria-label=\"Материалы изучения\">\n    <div class=\"phead\"><h2>Из изучения</h2></div>\n    <div class=\"pbody\"><div id=\"smText\" class=\"tool-mark\"><div class=\"smh\">Текст и пометки</div></div><div id=\"smMat\"></div></div>\n  </section>\n  <section id=\"smM\" aria-label=\"Текст проповеди\">\n    <div class=\"phead\"><h2>Текст проповеди</h2><span id=\"smCount\" class=\"snote\"></span><button id=\"smBuild\">Собрать из разбора</button></div>\n    <div class=\"pbody\" id=\"smBody\">\n      <div class=\"sf\"><label for=\"sTheme\">Название</label><input id=\"sTheme\" placeholder=\"Название проповеди. Первый слайд\"><span></span><label class=\"rdl\"><input type=\"checkbox\" id=\"sRead\"><span id=\"sReadT\">После названия показать полный текст отрывка для чтения</span></label></div>\n      <div id=\"smBlocks\"></div>\n      <button id=\"smAdd\" class=\"ghost\">+ Блок</button>\n      <div class=\"sf\" style=\"margin-top:22px\">\n        <label for=\"sMain\">Главная мысль</label><textarea id=\"sMain\" rows=\"2\" placeholder=\"Одно предложение, которое зал должен унести. Предпоследний слайд\"></textarea>\n        <label for=\"sSum\">Итог</label><textarea id=\"sSum\" rows=\"2\" placeholder=\"К чему зовёт текст. Последний слайд\"></textarea>\n      </div>\n    </div>\n  </section>\n  <section id=\"smR\" aria-label=\"Слайды\">\n    <div class=\"phead\"><h2>Слайды</h2></div>\n    <div class=\"pbody\" id=\"smSlides\"></div>\n  </section>\n</div>\n</div>\n\n<datalist id=\"rels\">\n  <option value=\"основание\"><option value=\"причина\"><option value=\"следствие\"><option value=\"цель\"><option value=\"результат\">\n  <option value=\"условие\"><option value=\"уступка\"><option value=\"средство\"><option value=\"образ действия\"><option value=\"время\">\n  <option value=\"пояснение\"><option value=\"противопоставление\"><option value=\"ряд\"><option value=\"вывод\"><option value=\"сравнение\">\n</datalist>\n\n<div id=\"modal\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"mTitle\"><div class=\"box\">\n  <h3 id=\"mTitle\"></h3><p id=\"mText\"></p><div id=\"mBody\"></div>\n  <div class=\"rowb\"><button id=\"mCopy\">Скопировать</button><button id=\"mClose\">Закрыть</button></div>\n</div></div>\n\n<div id=\"show\" aria-label=\"Показ на экране\">\n  <div id=\"shBody\"><div id=\"shIn\"></div></div>\n  <div id=\"shThesis\"></div>\n  <div id=\"shCount\"></div>\n</div>\n";
 (function(){
 "use strict";
 document.getElementById("app").innerHTML=__MARKUP__; if(window.rsThemeSync) rsThemeSync();
@@ -1216,7 +1257,7 @@ function renderNotes(){
   var h=$("#noteHead"), ta=$("#notes"), sw=$("#scrWrap");
   if(sel&&sel.b<T.length){
     var r=refOf(sel.a,sel.b), one=sel.a===sel.b, vs=isVerseSel(sel), v1=verseOf(sel.a), v2=verseOf(sel.b);
-    h.innerHTML='<div class="nword">'+esc(clip(bareRange(sel.a,sel.b),vs?160:220))+'</div><div class="nref">'+(vs?'заметка к '+(v1===v2?'стиху '+esc(v1):'стихам '+esc(v1)+'–'+esc(v2)):'заметка к '+(one?'слову':'словосочетанию')+(r?', '+esc(r):''))+'</div><div class="nhint">Касание другого слова или номера стиха добавит его к заметке</div><button id="noteBack">К общим заметкам</button>';
+    h.innerHTML='<div class="nword">'+esc(clip(bareRange(sel.a,sel.b),vs?160:220))+'</div><div class="nref">'+(vs?'заметка к '+(v1===v2?'стиху '+esc(v1):'стихам '+esc(v1)+'–'+esc(v2)):'заметка к '+(one?'слову':'словосочетанию')+(r?', '+esc(r):''))+'</div><div class="nhint">Касание другого слова или номера стиха добавит его к заметке</div><div class="nbtns"><button id="noteBack">К общим заметкам</button><button id="noteDel" class="ghost"'+(hasNote(key(sel.a,sel.b))?'':' hidden')+'>Удалить заметку</button></div><div id="noteAsk"></div>';
     ta.value=S.wnotes[key(sel.a,sel.b)]||""; ta.placeholder="Что это значит здесь? Как связано с соседними словами? Вопросы…";
     sw.classList.add("use"); if(document.activeElement!==$("#scr")) $("#scr").value=S.screen[key(sel.a,sel.b)]||"";
   }else{
@@ -1518,6 +1559,10 @@ function renderTools(){
   $("#mStruct").classList.toggle("on",m==="structure");
   $("#gStudy").classList.toggle("on",m!=="sermon");
   $("#gSermon").classList.toggle("on",m==="sermon");
+  var tl=m==="sermon"?["Материалы","Проповедь","Слайды"]:["Текст","Разбор","Заметки"];
+  Array.prototype.forEach.call(document.querySelectorAll("#ptabs button"),function(b,i){ b.textContent=tl[i]; });
+  if(narrow()&&(renderTools.last===undefined?m==="sermon":(renderTools.last==="sermon")!==(m==="sermon"))) setPane(m==="sermon"?"field":"text");
+  renderTools.last=m;
   $("#fsVal").textContent=(S.fs||100)+"%";
   $("#midHint").textContent=m==="spiral"?"Этапы идут слева направо. В конце каждого запишите версию главной мысли и нажмите «Проверить этап».":
     "";
@@ -1613,13 +1658,15 @@ function readHTML(a,b){
 }
 function readPages(){
   if(!T.length) return [];
-  var W=window.innerWidth, H=window.innerHeight, rmin=Math.min(12,Math.round(RD_MIN*fsK()*10)/10), k=W+"x"+H+"|"+rmin+"|"+S.title+"|"+S.source+"|"+JSON.stringify(S.st.read)+"|"+S.look;
+  /* preparing on an upright phone: reading is cut as for a wide 16:9 screen, as the hall will see it */
+  var W=window.innerWidth, H=window.innerHeight, emu=H>W&&!(show.open&&!show.pv), VW=emu?Math.round(H*16/9):W, rmin=Math.min(12,Math.round(RD_MIN*fsK()*10)/10), k=VW+"x"+H+"|"+rmin+"|"+S.title+"|"+S.source+"|"+JSON.stringify(S.st.read)+"|"+S.look;
   if(readCache.k===k) return readCache.pages;
   var units=[], i, s=0, box=$("#shMeas"), inn, avail=H*.88, pages=[], a, end, bal, tot=0, cum=0, n, ok;
   for(i=1;i<T.length;i++) if(isNum(T[i])){ units.push([s,i]); s=i; }
   units.push([s,T.length]);
   if(!box){ box=document.createElement("div"); box.id="shMeas"; box.appendChild(document.createElement("div")); document.body.appendChild(box); }
   inn=box.firstChild; inn.style.fontSize=rmin+"vh"; lookSet(box);
+  box.style.width=emu?VW+"px":""; box.style.paddingLeft=box.style.paddingRight=emu?Math.round(VW*.06)+"px":"";
   function fits(x,y){ inn.innerHTML=readHTML(x,y); return inn.scrollHeight<=avail+1&&inn.scrollWidth<=inn.clientWidth+1; }
   a=units[0][0]; end=units[0][1];
   for(i=1;i<units.length;i++){
@@ -2054,7 +2101,7 @@ $("#gSermon").addEventListener("click",function(){ if(em()!=="sermon"){ sel=null
 document.addEventListener("keydown",function(e){
   if(OPS.on&&!OPS.hall&&!show.open){ opKey(e); return; }
   if(OPS.hall&&(e.key==="b"||e.key==="B"||e.key==="и"||e.key==="И")){ e.preventDefault(); try{ window.opener.postMessage({rs:"black"},"*"); }catch(x){} return; }
-  if(ED.open){ edKey(e); return; }
+  if(ED.open&&!(show.open&&!show.pv)){ edKey(e); return; }
   if(show.open){ showKey(e); return; }
   var inField=/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName);
   if(e.key==="Escape"&&$("#modal").classList.contains("open")){ closeModal(); return; }
@@ -2084,11 +2131,13 @@ $("#notes").addEventListener("input",function(){
   else{
     var k=key(sel.a,sel.b);
     if(this.value.trim()) S.wnotes[k]=this.value; else delete S.wnotes[k];
-    markCover();
+    markCover(); noteDelSync();
   }
   save();
 });
+function noteDelSync(){ var d=$("#noteDel"); if(d&&sel&&!$("#noteAsk").innerHTML) d.hidden=!hasNote(key(sel.a,sel.b)); }
 $("#scr").addEventListener("input",function(){
+  setTimeout(noteDelSync,0);
   if(!sel) return;
   var k=key(sel.a,sel.b);
   if(this.value.trim()) S.screen[k]=this.value; else delete S.screen[k];
@@ -2098,6 +2147,16 @@ $("#scr").addEventListener("input",function(){
 });
 $("#noteBody").addEventListener("click",function(e){
   if(e.target.id==="noteBack"){ sel=null; renderAll(); return; }
+  if(e.target.id==="noteDel"&&sel){
+    var sc=S.screen[key(sel.a,sel.b)];
+    $("#noteAsk").innerHTML='<div class="ndel"><span>Удалить заметку к «'+esc(clip(bareRange(sel.a,sel.b),40))+'»?'+(sc?' Текст «На экран» тоже удалится.':'')+'</span><span class="row"><button id="noteDelYes" class="danger">Удалить</button><button id="noteDelNo">Отмена</button></span></div>';
+    $("#noteDel").style.display="none"; return;
+  }
+  if(e.target.id==="noteDelNo"){ $("#noteAsk").innerHTML=""; var d=$("#noteDel"); if(d) d.style.display=""; noteDelSync(); return; }
+  if(e.target.id==="noteDelYes"&&sel){
+    var k=key(sel.a,sel.b); commit(); delete S.wnotes[k]; delete S.screen[k]; sel=null; save(); renderAll();
+    say("Заметка удалена. Вернуть: «Отменить»"); return;
+  }
   var b=e.target.closest(".nitem"), o=b&&parseKey(b.dataset.k); if(o){ selFresh=false; setSel(o.a,o.b); }
 });
 $("#title").addEventListener("input",function(){ S.title=this.value; save(); if(em()==="sermon") renderSlides(); });
@@ -2317,7 +2376,7 @@ var ED_N={title:"Название",read:"Чтение отрывка",frame:"Т�
 function edEnsure(){
   if($("#sed")) return;
   var d=document.createElement("div"); d.id="sed"; d.setAttribute("role","dialog"); d.setAttribute("aria-modal","true"); d.setAttribute("aria-label","Слайд крупно");
-  d.innerHTML='<div id="sedNav"><button data-e="prev" title="Предыдущий слайд (PageUp)" aria-label="Предыдущий слайд">◀</button><span id="sedPos"></span><button data-e="next" title="Следующий слайд (PageDown)" aria-label="Следующий слайд">▶</button><span class="gap"></span><label>Экран <select id="sedLook" aria-label="Вид экрана зала"><option value="dark">тёмный</option><option value="light">светлый</option></select></label><button data-e="play">▶ Показ с этого слайда</button><button data-e="close">Закрыть (Esc)</button></div><div id="sedP"></div>';
+  d.innerHTML='<div id="sedNav"><button data-e="prev" title="Предыдущий слайд (PageUp)" aria-label="Предыдущий слайд">◀</button><span id="sedPos"></span><button data-e="next" title="Следующий слайд (PageDown)" aria-label="Следующий слайд">▶</button><span class="gap"></span><label>Экран <select id="sedLook" aria-label="Вид экрана зала"><option value="dark">тёмный</option><option value="light">светлый</option></select></label><button data-e="play">▶ Показ с этого слайда</button><button data-e="close">Закрыть</button></div><div id="sedP"></div>';
   document.body.appendChild(d);
   d.addEventListener("click",edClick);
   $("#sedP").addEventListener("focusin",function(e){ ED.arm=true; if(/^(TEXTAREA|INPUT)$/.test(e.target.tagName)&&e.target.type!=="checkbox"&&e.target.type!=="file") ED.ta=e.target; });
@@ -2327,6 +2386,11 @@ function edEnsure(){
   $("#sedP").addEventListener("change",edChange);
 }
 function edLayout(){
+  if(ED.phone){
+    var nv=$("#sedNav"), pp=$("#sedP");
+    nv.style.left=nv.style.top=nv.style.width=""; pp.style.right=pp.style.top=pp.style.bottom=pp.style.width="";
+    pp.style.top=nv.offsetHeight+"px"; return;
+  }
   var W=window.innerWidth, H=window.innerHeight, pw=Math.max(330,Math.min(470,W*.31)), g=Math.max(12,W*.018), k, el=$("#show"), nav=$("#sedNav"), p=$("#sedP");
   k=Math.min((W-pw-3*g)/W,(H-2*g-56)/H); k=Math.max(.28,Math.min(.7,k)); ED.k=k;
   el.style.left=g+"px"; el.style.top=g+"px"; el.style.transform="scale("+k+")";
@@ -2335,24 +2399,26 @@ function edLayout(){
 }
 function stepKey(s){ return (s.b||s.t)+"|"+(s.pi||0); }
 function openEd(n){
-  if(narrow()) return;
   edEnsure();
-  ED.open=true; show.pv=true; show.open=true; show.fs=false;
+  ED.open=true; ED.phone=narrow();
   show.steps=buildSteps(true); show.n=Math.max(0,Math.min(n||0,show.steps.length-1)); show.last=-2;
-  $("#show").classList.add("open","pv"); $("#sed").classList.add("open");
+  $("#sed").classList.add("open"); $("#sed").classList.toggle("ph",ED.phone);
+  $('#sedNav [data-e="play"]').textContent=ED.phone?"▶ Смотреть":"▶ Показ с этого слайда";
+  if(!ED.phone){ show.pv=true; show.open=true; show.fs=false; $("#show").classList.add("open","pv"); }
   $("#sedLook").value=S.look;
-  edLayout(); drawShow(); edPanel();
+  edLayout(); if(!ED.phone) drawShow(); edPanel();
 }
 function closeEd(){
   if(!ED.open) return;
-  ED.open=false; show.pv=false; show.open=false; MKS=1;
-  var el=$("#show"); el.classList.remove("open","pv"); el.style.left=el.style.top=el.style.transform="";
+  ED.open=false;
+  if(!ED.phone){ show.pv=false; show.open=false; MKS=1;
+    var el=$("#show"); el.classList.remove("open","pv"); el.style.left=el.style.top=el.style.transform=""; }
   $("#sed").classList.remove("open");
   renderSermon();
 }
 function edGo(d){
   var n=Math.max(0,Math.min(show.steps.length-1,show.n+d)); if(n===show.n) return;
-  show.n=n; show.last=-2; drawShow(); edPanel();
+  show.n=n; show.last=-2; if(!ED.phone) drawShow(); edPanel();
   var b=show.steps[n].b; if(b) setCur(b);
 }
 /* after a change: the same slide stays in front even if slides before it came or went */
@@ -2361,7 +2427,7 @@ function edRefresh(){
   show.steps=st;
   for(i=0;i<st.length;i++) if(stepKey(st[i])===key){ show.n=i; break; }
   show.n=Math.max(0,Math.min(show.n,st.length-1)); show.last=-2;
-  drawShow(); edPos();
+  if(!ED.phone) drawShow(); edPos();
 }
 function edPos(){ var s=show.steps[show.n]; $("#sedPos").innerHTML='Слайд <b>'+show.n+'</b> из '+(show.steps.length-1)+' · '+esc(ED_N[s.t]==="Тезис"&&!s.big?"Место, цитата":ED_N[s.t]||"")+(s.t==="read"&&s.pn>1?" "+(s.pi+1)+" из "+s.pn:""); }
 var IC={
@@ -2473,6 +2539,7 @@ function edClick(e){
   if(a==="prev") edGo(-1);
   else if(a==="next") edGo(1);
   else if(a==="close") closeEd();
+  else if(a==="play"&&ED.phone){ key=stepKey(s); var st0=buildSteps(), j, m0=0; for(j=0;j<st0.length;j++) if(stepKey(st0[j])===key){ m0=j; break; } openShow(m0); }
   else if(a==="play"){ key=stepKey(s); closeEd(); var st=buildSteps(), i, n=0; for(i=0;i<st.length;i++) if(stepKey(st[i])===key){ n=i; break; } openShow(n); }
   else if(a==="blk"){ closeEd(); if(b){ setCur(b.id); focusBlock(b.id); } }
   else if(a==="ovr"&&b){ commit(); b.sl.to=""; b.sl.lo=null; save(); edRefresh(); edPanel(); say("Слайд снова как в разборе"); }
@@ -2703,10 +2770,11 @@ function rebuildShow(){
 
 /* ---------- panes (phone) ---------- */
 function narrow(){ return window.matchMedia("(max-width:760px)").matches; }
-function em(){ var m=(S.mode==="sermon"||S.mode==="spiral")?S.mode:"structure"; return narrow()&&m==="sermon"?"structure":m; }
+function em(){ return (S.mode==="sermon"||S.mode==="spiral")?S.mode:"structure"; }
+/* on the phone the three columns are three tabs; in the sermon they are its materials, its text and its slides */
 function setPane(p){
   pane=p;
-  [["text","#left"],["field","#mid"],["notes","#right"]].forEach(function(x){ $(x[1]).classList.toggle("act",x[0]===p); });
+  [["text","#left","#smL"],["field","#mid","#smM"],["notes","#right","#smR"]].forEach(function(x){ $(x[1]).classList.toggle("act",x[0]===p); $(x[2]).classList.toggle("act",x[0]===p); });
   Array.prototype.forEach.call(document.querySelectorAll("#ptabs button"),function(b){ b.classList.toggle("on",b.dataset.p===p); });
 }
 $("#ptabs").addEventListener("click",function(e){ var b=e.target.closest("button"); if(b) setPane(b.dataset.p); });
@@ -3838,6 +3906,8 @@ var HELP='<div class="help">'+
 '<p><b>Слайд крупно.</b> Клик по слайду в ленте открывает его крупно, так, как его увидит зал. Справа поля этого слайда: текст, подпись, размер шрифта, картинка. Листать: кнопки ◀ ▶ или PageUp / PageDown, выход — Esc. Правки хранятся только в проповеди: у слайда «отрывок» можно переписать текст фразы и подпись связи для экрана, а структура, заметки и «Спираль» остаются как были (кнопка «как в разборе» возвращает исходное). Текст Писания на слайдах чтения и пометки здесь не правятся. Размер у отдельного слайда есть только у названия, тезиса, места, картинки, главной мысли и итога: у слайдов отрывка размер общий, иначе текст прыгал бы между шагами.</p>'+
 '<p><b>Оформление слайда.</b> В крупном виде под полями есть «Оформление»: выравнивание (влево, по центру, вправо, по ширине), межстрочный интервал, место по вертикали (сверху, по центру, снизу), шрифт с засечками или без, золотой цвет текста и ЗАГЛАВНЫЕ буквы. Оно есть у названия, тезиса, места, картинки (подпись), главной мысли и итога; у слайдов чтения — одно на все. «Сбросить оформление» возвращает как было. Над текстом — кнопки выделения части текста: <b>Ж</b> жирный, <i>К</i> курсив, <u>Ч</u> подчёркнуто, «Золото» — слово золотым цветом; «Снять» убирает выделение. Выделите слова в поле и нажмите кнопку (или Ctrl+B, Ctrl+I, Ctrl+U, Ctrl+G). В тексте это видно как **жирный**, *курсив*, __подчёркнуто__, ==золото==; так же можно писать и в полях блока посередине. В Word эти значки не попадают.</p>'+
 '<p><b>Вид экрана.</b> В меню ☰ режима «Проповедь» и в крупном виде слайда — «Экран»: тёмный или светлый, как само приложение: тот же фон-бумага, шрифты Literata и Inter, красные номера стихов, подписи и пометки. Выбор хранится в проповеди и уходит в файл для зала вместе со шрифтами.</p>'+
+'<p><b>Проповедь на телефоне.</b> Меню ☰ → вверху «Изучение / Проповедь». Внизу три вкладки: «Материалы» (текст с пометками и разбор), «Проповедь» (текст по блокам) и «Слайды». Нажатие на слайд открывает его правку на весь экран; «▶ Смотреть» показывает сам слайд, поверните телефон боком. Показ и «Текст в Word» — в меню ☰.</p>'+
+'<p><b>Удалить заметку.</b> Откройте заметку к слову и нажмите «Удалить заметку», затем подтвердите. Удаляется и её текст «На экран». Ошиблись — «Отменить».</p>'+
 '<p><b>Картинки.</b> Слайд «картинка»: выберите файл (JPG или PNG) или в крупном виде вставьте из буфера Ctrl+V. Картинка уменьшается до размера экрана и хранится в облаке отдельно от отрывка; в «Файл для зала» она входит целиком. Можно добавить подпись и включить «на весь экран, без полей». Снимки iPhone в формате HEIC браузер не открывает: сохраните их как JPG. Берите картинки, которые вам можно показывать.</p>'+
 '<p><b>Несколько пометок сразу.</b> У слайда «разметка» пометки отмечаются галочками: все отмеченные появятся на экране одновременно, например подчёркивание слова и стрелка к нему.</p>'+
 '<p><b>Какие бывают слайды.</b> «Тезис по центру» — одна мысль на чёрном экране. «Отрывок: открыть фразу» — текст отрывка раскрывается фраза за фразой; с галочкой «вместе с подчинёнными» главная фраза открывается сразу со своими подчинёнными. «Тезис к слову» — слово загорается в отрывке, тезис встаёт столбиком справа; такой блок вставляется кнопкой → у заметки к слову. «Разметка» — весь текст стоит на экране, пометка рисуется поверх. «Параллельное место» — ссылка и текст.</p>'+
@@ -4067,6 +4137,7 @@ function oldLocal(){
     function narrow(){ return window.matchMedia("(max-width:760px)").matches; }
     function sermon(){ return document.body.classList.contains("g-sermon"); }
     function syncTool(){
+      if(sermon()){ tool.style.visibility="hidden"; return; }
       var cut=on("tCut"), note=on("tNote");
       tool.textContent=cut?"✂ Резать":note?"✎ Заметки":"Пометки";
       tool.title=cut?"Нажатие на слово режет текст. Нажмите, чтобы переключить на заметки к словам":"Нажатие на слово открывает заметку. Нажмите, чтобы переключить на «Резать»";
@@ -4109,9 +4180,22 @@ function oldLocal(){
       var t=document.createElement("span"); t.textContent=($("#title")&&$("#title").value)||"Отрывок";
       var x=document.createElement("button"); x.type="button"; x.className="pclose"; x.textContent="×"; x.setAttribute("aria-label","Закрыть меню"); x.addEventListener("click",close);
       top.appendChild(t); top.appendChild(x); dr.appendChild(top);
+      if(narrow()&&$("#gStudy")){
+        var mr=document.createElement("div"); mr.className="pfs pmode"; var mg=document.createElement("span"); mg.className="seg";
+        [["gStudy","Изучение"],["gSermon","Проповедь"]].forEach(function(x){
+          var b=document.createElement("button"); b.type="button"; b.textContent=x[1]; if(on(x[0])) b.className="on";
+          b.addEventListener("click",function(){ close(); setTimeout(function(){ var o=$("#"+x[0]); if(o) o.click(); },0); });
+          mg.appendChild(b);
+        });
+        mr.appendChild(mg); dr.appendChild(mr);
+      }
       var st=$("#cloudSt"); if(st&&st.textContent.trim()){ var d=document.createElement("div"); d.className="pds"; d.textContent=st.textContent; dr.appendChild(d); }
       if(sermon()){
         dr.appendChild(head("Показ в зале"));
+        if(narrow()){
+          if($("#btnShow")) dr.appendChild(item("▶ Показ","Слайды на весь экран; поверните телефон",proxy("btnShow")));
+          if($("#btnDocx")) dr.appendChild(item("Текст в Word","Текст проповеди файлом .docx",proxy("btnDocx")));
+        }
         if($("#btnExport")) dr.appendChild(item("Файл для зала","Только слайды и пульт оператора, без текста проповеди; работает без интернета",proxy("btnExport")));
         if($("#fsVal")) dr.appendChild(fontRow());
         if($("#shLook")) dr.appendChild(lookRow());
