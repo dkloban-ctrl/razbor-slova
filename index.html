@@ -207,6 +207,8 @@ section{min-height:0;min-width:0;display:flex;flex-direction:column;background:v
 .mk-t{font-family:Arial,Helvetica,sans-serif;font-weight:700;letter-spacing:.02em}
 .mk-wrap{position:relative}
 .mk-tx{line-height:2;color:#f2f2f2}
+#show .mk-tx.caps{line-height:2.4}
+#show .mk-t{paint-order:stroke;stroke:var(--s-bg,#000);stroke-width:.32em;stroke-linejoin:round}
 .kindseg{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin:0 0 10px}
 
 /* ---------- два режима: изучение и проповедь ---------- */
@@ -396,11 +398,11 @@ button.danger{background:var(--mark)!important;color:#fff!important;border-color
 /* side column: screen texts of the word steps pile up, the current one is bright */
 #shThesis{display:none;flex:0 0 40vw;min-width:0;flex-direction:column;justify-content:center;gap:2.6vh;padding:6vh 3vw 6vh 0;overflow:hidden;font-size:4.8vh}
 #shThesis.use{display:flex}
-.th-i{flex:none;border-left:.35vh solid #333;padding:.1em 0 .1em .6em;color:#8c8c8c;font-size:.78em}
-.th-i.cur{border-left-color:#D9A441;color:#fff;font-size:1em}
+.th-i{flex:none;border-left:.35vh solid #333;padding:.1em 0 .1em .6em;color:#fff;font-size:.86em;opacity:.6;transition:opacity .3s}
+.th-i.cur{border-left-color:#D9A441;color:#fff;font-size:1em;opacity:1}
 .th-w{font:700 .58em/1.2 Arial,Helvetica,sans-serif;color:#D9A441;letter-spacing:.05em;margin-bottom:.35em}
-.th-i:not(.cur) .th-w{opacity:.65}
-.th-t{line-height:1.2;white-space:pre-wrap;overflow-wrap:break-word}
+.th-i:not(.cur) .th-w{opacity:1}
+.th-t{line-height:1.22;white-space:pre-wrap;overflow-wrap:break-word}
 @media (orientation:portrait){
   #show{flex-direction:column}
   #shThesis{flex:none;max-height:42vh;padding:2vh 6vw 5vh}
@@ -444,7 +446,7 @@ button.danger{background:var(--mark)!important;color:#fff!important;border-color
 #show.lk .sh-lab,#show.lk .sh-vn,#show.lk .th-w,#show.lk .t-ref,#show.lk .f-ref,#show.lk .e-lab,.lk .rd-ref{color:var(--s-acc);font-family:var(--s-ui)}
 #show.lk .sh-vn{font-weight:600}
 #show.lk .sh-w.on{color:var(--s-acc)}
-#show.lk .th-i{border-left-color:var(--s-line);color:var(--s-dim)}
+#show.lk .th-i{border-left-color:var(--s-line);color:var(--s-ink)}
 #show.lk .th-i.cur{border-left-color:var(--s-acc);color:var(--s-ink)}
 #show.lk .e-div{background:var(--s-acc)}
 #show.lk #shCount{color:var(--s-line);font-family:var(--s-ui)}
@@ -1020,7 +1022,7 @@ body,#bookPage{background-color:var(--bg)}
 </head>
 <body>
 <div id="app"></div>
-<script id="appjs">var __MARKUP__="<div id=\"lib\">\n  <header class=\"lhead\"><button id=\"lMenu\" type=\"button\" title=\"Меню\" aria-label=\"Меню библиотеки\">☰</button><button id=\"lHome\" type=\"button\" title=\"На главную\" aria-label=\"На главную\">⌂</button><div id=\"lCont\"></div><button id=\"lTalks\" type=\"button\" title=\"Конспекты чужих проповедей\">Конспекты</button><div id=\"lProg\"></div><span id=\"libSt\" role=\"status\"></span><button id=\"btnTheme\" class=\"thm\" title=\"Ночной режим\">☾</button></header><div id=\"lBack\"></div><nav id=\"lDrawer\" aria-label=\"Меню библиотеки\"><div class=\"ldt\"><span class=\"brand\">VDMA</span><button type=\"button\" class=\"pclose\" id=\"lClose\" aria-label=\"Закрыть меню\">×</button></div><div class=\"lmotto\"><b>Слово Господне пребывает вовек</b><i>Verbum Domini Manet in Aeternum</i><i>Ис. 40:8; 1 Пет. 1:25</i></div><div class=\"lver\">версия 19.11 · 23</div><button id=\"btnSync\" class=\"stdonly\" data-s=\"off\">Синхронизация</button><button id=\"btnBackup\" class=\"cloudonly\">Скачать всю библиотеку</button><label class=\"filebtn cloudonly\" title=\"Файл, скачанный кнопкой «Скачать всю библиотеку»\">Загрузить библиотеку из файла<input id=\"impAll\" type=\"file\" accept=\".json,application/json\"></label><button id=\"btnHelp2\">Справка</button></nav>\n  <div id=\"libBody\"><aside id=\"bookList\" aria-label=\"Книги\"></aside><div id=\"bookPage\"></div></div>\n</div>\n<div id=\"work\">\n<header>\n  <button id=\"btnLib\" class=\"cloudonly\" title=\"На главную\">Главная</button>\n  <input id=\"title\" aria-label=\"Название отрывка\" placeholder=\"Отрывок, например: Римлянам 5:1–5\">\n  <span class=\"seg wideonly\" id=\"modeSeg\" role=\"group\" aria-label=\"Режим работы\"><button id=\"gStudy\">Изучение</button><button id=\"gSermon\">Проповедь</button></span>\n  <button id=\"btnStatus\" class=\"cloudonly\"></button>\n  <button id=\"btnSheet\" class=\"cloudonly studyonly\">Лист книги</button>\n  <button id=\"btnUndo\" title=\"Отменить последнее действие (Ctrl+Z)\">Отменить</button>\n  <button id=\"btnSave\" class=\"wideonly studyonly\">Сохранить в файл</button>\n  <label class=\"filebtn localonly studyonly\">Открыть файл<input id=\"fileIn\" type=\"file\" accept=\".json,application/json\"></label>\n  <button id=\"btnPng\" class=\"wideonly studyonly\">Схема картинкой (PNG)</button>\n  <span class=\"fsz wideonly sermononly\" title=\"Размер шрифта на экране зала\">Шрифт <button id=\"fsDn\" aria-label=\"Шрифт на экране мельче\">−</button><b id=\"fsVal\">100%</b><button id=\"fsUp\" aria-label=\"Шрифт на экране крупнее\">+</button></span><span class=\"fsz wideonly sermononly\" title=\"Вид экрана зала\">Экран <select id=\"shLook\" aria-label=\"Вид экрана зала\"><option value=\"dark\">тёмный</option><option value=\"light\">светлый</option></select></span>\n  <button id=\"btnShow\" class=\"wideonly sermononly on\">▶ Показ</button>\n  <button id=\"btnDocx\" class=\"wideonly sermononly\">Текст в Word</button>\n  <button id=\"btnExport\" class=\"cloudonly wideonly sermononly\" title=\"Отдельный файл для показа в зале, работает без интернета\">Файл для зала</button>\n  <button id=\"btnHelp\" class=\"wideonly\">Справка</button>\n  <span id=\"cloudSt\" class=\"cloudonly\"></span>\n  <span id=\"status\" role=\"status\"></span>\n</header>\n<nav id=\"ptabs\"><button data-p=\"text\">Текст</button><button data-p=\"field\">Разбор</button><button data-p=\"notes\">Заметки</button></nav>\n\n<main id=\"main\">\n  <section id=\"left\" aria-label=\"Исходный текст\">\n    <div class=\"phead\">\n      <h2>Текст</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Что делает клик по слову\"><button id=\"tCut\">Резать</button><button id=\"tNote\">Заметки к словам</button></span>\n      <button id=\"btnEdit\" class=\"ghost\">Изменить текст</button>\n    </div>\n    <div class=\"phead\" id=\"srcTools\">\n      <button id=\"cutVerses\">Резать по стихам</button>\n      <button id=\"cutPunct\">По знакам препинания</button>\n      <button id=\"cutReset\" class=\"ghost\">Убрать все разрезы</button>\n    </div>\n    <div class=\"pbody\"><div id=\"srcWrap\"><div id=\"src\"></div><svg id=\"srcMarks\" aria-hidden=\"true\"></svg></div><div id=\"markList\"></div></div>\n    <div id=\"selBar\"></div>\n    <div id=\"srcEdit\">\n      <textarea id=\"srcText\" aria-label=\"Исходный текст\" placeholder=\"Вставьте сюда текст (Синодальный перевод). Номера стихов можно оставить: они станут маленькими цифрами.\"></textarea>\n      <div class=\"rowb\">\n        <button id=\"srcApply\" class=\"on\">Готово</button>\n        <button id=\"srcCancel\">Отмена</button>\n      </div>\n      <div style=\"color:var(--ink-2);font-size:12px\">Разрезы, заметки и текст проповеди сохранятся. Пропадёт только то, что привязано к удалённым словам. Если что-то пошло не так, есть кнопка «Отменить».</div>\n    </div>\n    <div class=\"hint\" id=\"srcHint\"></div>\n  </section>\n\n  <section id=\"mid\" aria-label=\"Рабочее поле\">\n    <div class=\"phead\">\n      <h2>Рабочее поле</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Режим\">\n        <button id=\"mStruct\">Структура</button>\n      </span>\n    </div>\n    <div class=\"pbody\" id=\"midBody\">\n      <div id=\"structure\"></div>\n    </div>\n    <div class=\"hint\" id=\"midHint\"></div>\n  </section>\n\n  <section id=\"right\" aria-label=\"Заметки\">\n    <div class=\"phead\"><h2>Заметки</h2></div>\n    <div class=\"pbody\" id=\"noteBody\">\n      <div id=\"noteHead\"></div>\n      <div id=\"scrWrap\">\n        <label for=\"scr\">На экран</label>\n        <textarea id=\"scr\" rows=\"2\" placeholder=\"Короткий тезис к этому слову\"></textarea>\n        <small>Это увидит зал. Заметка ниже остаётся только у вас.</small>\n      </div>\n      <textarea id=\"notes\" aria-label=\"Заметка\"></textarea>\n      <div id=\"noteList\"></div>\n    </div>\n  </section>\n</main>\n<div id=\"sm\">\n  <section id=\"smL\" aria-label=\"Материалы изучения\">\n    <div class=\"phead\"><h2>Из изучения</h2></div>\n    <div class=\"pbody\"><div id=\"smText\" class=\"tool-mark\"><div class=\"smh\">Текст и пометки</div></div><div id=\"smMat\"></div></div>\n  </section>\n  <section id=\"smM\" aria-label=\"Текст проповеди\">\n    <div class=\"phead\"><h2>Текст проповеди</h2><span id=\"smCount\" class=\"snote\"></span><button id=\"smBuild\">Собрать из разбора</button></div>\n    <div class=\"pbody\" id=\"smBody\">\n      <div class=\"sf\"><label for=\"sTheme\">Название</label><input id=\"sTheme\" placeholder=\"Название проповеди. Первый слайд\"><span></span><label class=\"rdl\"><input type=\"checkbox\" id=\"sRead\"><span id=\"sReadT\">После названия показать полный текст отрывка для чтения</span></label></div>\n      <div id=\"smBlocks\"></div>\n      <button id=\"smAdd\" class=\"ghost\">+ Блок</button>\n      <div class=\"sf\" style=\"margin-top:22px\">\n        <label for=\"sMain\">Главная мысль</label><textarea id=\"sMain\" rows=\"2\" placeholder=\"Одно предложение, которое зал должен унести. Предпоследний слайд\"></textarea>\n        <label for=\"sSum\">Итог</label><textarea id=\"sSum\" rows=\"2\" placeholder=\"К чему зовёт текст. Последний слайд\"></textarea>\n      </div>\n    </div>\n  </section>\n  <section id=\"smR\" aria-label=\"Слайды\">\n    <div class=\"phead\"><h2>Слайды</h2></div>\n    <div class=\"pbody\" id=\"smSlides\"></div>\n  </section>\n</div>\n</div>\n\n<datalist id=\"rels\">\n  <option value=\"основание\"><option value=\"причина\"><option value=\"следствие\"><option value=\"цель\"><option value=\"результат\">\n  <option value=\"условие\"><option value=\"уступка\"><option value=\"средство\"><option value=\"образ действия\"><option value=\"время\">\n  <option value=\"пояснение\"><option value=\"противопоставление\"><option value=\"ряд\"><option value=\"вывод\"><option value=\"сравнение\">\n</datalist>\n\n<div id=\"modal\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"mTitle\"><div class=\"box\">\n  <h3 id=\"mTitle\"></h3><p id=\"mText\"></p><div id=\"mBody\"></div>\n  <div class=\"rowb\"><button id=\"mCopy\">Скопировать</button><button id=\"mClose\">Закрыть</button></div>\n</div></div>\n\n<div id=\"show\" aria-label=\"Показ на экране\">\n  <div id=\"shBody\"><div id=\"shIn\"></div></div>\n  <div id=\"shThesis\"></div>\n  <div id=\"shCount\"></div>\n</div>\n";
+<script id="appjs">var __MARKUP__="<div id=\"lib\">\n  <header class=\"lhead\"><button id=\"lMenu\" type=\"button\" title=\"Меню\" aria-label=\"Меню библиотеки\">☰</button><button id=\"lHome\" type=\"button\" title=\"На главную\" aria-label=\"На главную\">⌂</button><div id=\"lCont\"></div><button id=\"lTalks\" type=\"button\" title=\"Конспекты чужих проповедей\">Конспекты</button><div id=\"lProg\"></div><span id=\"libSt\" role=\"status\"></span><button id=\"btnTheme\" class=\"thm\" title=\"Ночной режим\">☾</button></header><div id=\"lBack\"></div><nav id=\"lDrawer\" aria-label=\"Меню библиотеки\"><div class=\"ldt\"><span class=\"brand\">VDMA</span><button type=\"button\" class=\"pclose\" id=\"lClose\" aria-label=\"Закрыть меню\">×</button></div><div class=\"lmotto\"><b>Слово Господне пребывает вовек</b><i>Verbum Domini Manet in Aeternum</i><i>Ис. 40:8; 1 Пет. 1:25</i></div><div class=\"lver\">версия 20.11 · 24</div><button id=\"btnSync\" class=\"stdonly\" data-s=\"off\">Синхронизация</button><button id=\"btnBackup\" class=\"cloudonly\">Скачать всю библиотеку</button><label class=\"filebtn cloudonly\" title=\"Файл, скачанный кнопкой «Скачать всю библиотеку»\">Загрузить библиотеку из файла<input id=\"impAll\" type=\"file\" accept=\".json,application/json\"></label><button id=\"btnHelp2\">Справка</button></nav>\n  <div id=\"libBody\"><aside id=\"bookList\" aria-label=\"Книги\"></aside><div id=\"bookPage\"></div></div>\n</div>\n<div id=\"work\">\n<header>\n  <button id=\"btnLib\" class=\"cloudonly\" title=\"На главную\">Главная</button>\n  <input id=\"title\" aria-label=\"Название отрывка\" placeholder=\"Отрывок, например: Римлянам 5:1–5\">\n  <span class=\"seg wideonly\" id=\"modeSeg\" role=\"group\" aria-label=\"Режим работы\"><button id=\"gStudy\">Изучение</button><button id=\"gSermon\">Проповедь</button></span>\n  <button id=\"btnStatus\" class=\"cloudonly\"></button>\n  <button id=\"btnSheet\" class=\"cloudonly studyonly\">Лист книги</button>\n  <button id=\"btnUndo\" title=\"Отменить последнее действие (Ctrl+Z)\">Отменить</button>\n  <button id=\"btnSave\" class=\"wideonly studyonly\">Сохранить в файл</button>\n  <label class=\"filebtn localonly studyonly\">Открыть файл<input id=\"fileIn\" type=\"file\" accept=\".json,application/json\"></label>\n  <button id=\"btnPng\" class=\"wideonly studyonly\">Схема картинкой (PNG)</button>\n  <span class=\"fsz wideonly sermononly\" title=\"Размер шрифта на экране зала\">Шрифт <button id=\"fsDn\" aria-label=\"Шрифт на экране мельче\">−</button><b id=\"fsVal\">100%</b><button id=\"fsUp\" aria-label=\"Шрифт на экране крупнее\">+</button></span><span class=\"fsz wideonly sermononly\" title=\"Вид экрана зала\">Экран <select id=\"shLook\" aria-label=\"Вид экрана зала\"><option value=\"dark\">тёмный</option><option value=\"light\">светлый</option></select></span>\n  <button id=\"btnShow\" class=\"wideonly sermononly on\">▶ Показ</button>\n  <button id=\"btnDocx\" class=\"wideonly sermononly\">Текст в Word</button>\n  <button id=\"btnExport\" class=\"cloudonly wideonly sermononly\" title=\"Отдельный файл для показа в зале, работает без интернета\">Файл для зала</button>\n  <button id=\"btnHelp\" class=\"wideonly\">Справка</button>\n  <span id=\"cloudSt\" class=\"cloudonly\"></span>\n  <span id=\"status\" role=\"status\"></span>\n</header>\n<nav id=\"ptabs\"><button data-p=\"text\">Текст</button><button data-p=\"field\">Разбор</button><button data-p=\"notes\">Заметки</button></nav>\n\n<main id=\"main\">\n  <section id=\"left\" aria-label=\"Исходный текст\">\n    <div class=\"phead\">\n      <h2>Текст</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Что делает клик по слову\"><button id=\"tCut\">Резать</button><button id=\"tNote\">Заметки к словам</button></span>\n      <button id=\"btnEdit\" class=\"ghost\">Изменить текст</button>\n    </div>\n    <div class=\"phead\" id=\"srcTools\">\n      <button id=\"cutVerses\">Резать по стихам</button>\n      <button id=\"cutPunct\">По знакам препинания</button>\n      <button id=\"cutReset\" class=\"ghost\">Убрать все разрезы</button>\n    </div>\n    <div class=\"pbody\"><div id=\"srcWrap\"><div id=\"src\"></div><svg id=\"srcMarks\" aria-hidden=\"true\"></svg></div><div id=\"markList\"></div></div>\n    <div id=\"selBar\"></div>\n    <div id=\"srcEdit\">\n      <textarea id=\"srcText\" aria-label=\"Исходный текст\" placeholder=\"Вставьте сюда текст (Синодальный перевод). Номера стихов можно оставить: они станут маленькими цифрами.\"></textarea>\n      <div class=\"rowb\">\n        <button id=\"srcApply\" class=\"on\">Готово</button>\n        <button id=\"srcCancel\">Отмена</button>\n      </div>\n      <div style=\"color:var(--ink-2);font-size:12px\">Разрезы, заметки и текст проповеди сохранятся. Пропадёт только то, что привязано к удалённым словам. Если что-то пошло не так, есть кнопка «Отменить».</div>\n    </div>\n    <div class=\"hint\" id=\"srcHint\"></div>\n  </section>\n\n  <section id=\"mid\" aria-label=\"Рабочее поле\">\n    <div class=\"phead\">\n      <h2>Рабочее поле</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Режим\">\n        <button id=\"mStruct\">Структура</button>\n      </span>\n    </div>\n    <div class=\"pbody\" id=\"midBody\">\n      <div id=\"structure\"></div>\n    </div>\n    <div class=\"hint\" id=\"midHint\"></div>\n  </section>\n\n  <section id=\"right\" aria-label=\"Заметки\">\n    <div class=\"phead\"><h2>Заметки</h2></div>\n    <div class=\"pbody\" id=\"noteBody\">\n      <div id=\"noteHead\"></div>\n      <div id=\"scrWrap\">\n        <label for=\"scr\">На экран</label>\n        <textarea id=\"scr\" rows=\"2\" placeholder=\"Короткий тезис к этому слову\"></textarea>\n        <small>Это увидит зал. Заметка ниже остаётся только у вас.</small>\n      </div>\n      <textarea id=\"notes\" aria-label=\"Заметка\"></textarea>\n      <div id=\"noteList\"></div>\n    </div>\n  </section>\n</main>\n<div id=\"sm\">\n  <section id=\"smL\" aria-label=\"Материалы изучения\">\n    <div class=\"phead\"><h2>Из изучения</h2></div>\n    <div class=\"pbody\"><div id=\"smText\" class=\"tool-mark\"><div class=\"smh\">Текст и пометки</div></div><div id=\"smMat\"></div></div>\n  </section>\n  <section id=\"smM\" aria-label=\"Текст проповеди\">\n    <div class=\"phead\"><h2>Текст проповеди</h2><span id=\"smCount\" class=\"snote\"></span><button id=\"smBuild\">Собрать из разбора</button></div>\n    <div class=\"pbody\" id=\"smBody\">\n      <div class=\"sf\"><label for=\"sTheme\">Название</label><input id=\"sTheme\" placeholder=\"Название проповеди. Первый слайд\"><span></span><label class=\"rdl\"><input type=\"checkbox\" id=\"sRead\"><span id=\"sReadT\">После названия показать полный текст отрывка для чтения</span></label></div>\n      <div id=\"smBlocks\"></div>\n      <button id=\"smAdd\" class=\"ghost\">+ Блок</button>\n      <div class=\"sf\" style=\"margin-top:22px\">\n        <label for=\"sMain\">Главная мысль</label><textarea id=\"sMain\" rows=\"2\" placeholder=\"Одно предложение, которое зал должен унести. Предпоследний слайд\"></textarea>\n        <label for=\"sSum\">Итог</label><textarea id=\"sSum\" rows=\"2\" placeholder=\"К чему зовёт текст. Последний слайд\"></textarea>\n      </div>\n    </div>\n  </section>\n  <section id=\"smR\" aria-label=\"Слайды\">\n    <div class=\"phead\"><h2>Слайды</h2></div>\n    <div class=\"pbody\" id=\"smSlides\"></div>\n  </section>\n</div>\n</div>\n\n<datalist id=\"rels\">\n  <option value=\"основание\"><option value=\"причина\"><option value=\"следствие\"><option value=\"цель\"><option value=\"результат\">\n  <option value=\"условие\"><option value=\"уступка\"><option value=\"средство\"><option value=\"образ действия\"><option value=\"время\">\n  <option value=\"пояснение\"><option value=\"противопоставление\"><option value=\"ряд\"><option value=\"вывод\"><option value=\"сравнение\">\n</datalist>\n\n<div id=\"modal\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"mTitle\"><div class=\"box\">\n  <h3 id=\"mTitle\"></h3><p id=\"mText\"></p><div id=\"mBody\"></div>\n  <div class=\"rowb\"><button id=\"mCopy\">Скопировать</button><button id=\"mClose\">Закрыть</button></div>\n</div></div>\n\n<div id=\"show\" aria-label=\"Показ на экране\">\n  <div id=\"shBody\"><div id=\"shIn\"></div></div>\n  <div id=\"shThesis\"></div>\n  <div id=\"shCount\"></div>\n</div>\n";
 (function(){
 "use strict";
 document.getElementById("app").innerHTML=__MARKUP__; if(window.rsThemeSync) rsThemeSync();
@@ -1380,7 +1382,7 @@ function mkOval(l,rnd){
 }
 /* a ring around words that run over several lines: one hand-drawn outline around all their lines */
 function mkHull(L,rnd){
-  var H=L[0].y1-L[0].y0, px=H*.24, py=H*.1, n=L.length, P=[], i, yb, R=-1e9, M=1e9;
+  var H=L[0].y1-L[0].y0, px=H*.3, py=H*.13, n=L.length, P=[], i, yb, R=-1e9, M=1e9;
   /* the shape of a text selection: inner lines reach the common left and right edges */
   for(i=0;i<n-1;i++) R=Math.max(R,L[i].x1);
   for(i=1;i<n;i++) M=Math.min(M,L[i].x0);
@@ -1398,16 +1400,33 @@ function mkHull(L,rnd){
     Q.push([b[0]+(rnd()-.5)*H*.08,b[1]+(rnd()-.5)*H*.08]);
   }
   function lerp(u,v,t){ return [u[0]+(v[0]-u[0])*t,u[1]+(v[1]-u[1])*t]; }
-  function dist(u,v){ return Math.hypot(v[0]-u[0],v[1]-u[1]); }
-  var m=Q.length, d="", k, prev, cur, next, r1, r2, s0, e0;
-  for(k=0;k<=m;k++){
-    prev=Q[(k+m-1)%m]; cur=Q[k%m]; next=Q[(k+1)%m];
-    r1=Math.min(H*.45,dist(prev,cur)/2)/dist(prev,cur); r2=Math.min(H*.45,dist(cur,next)/2)/dist(cur,next);
-    s0=lerp(cur,prev,r1); e0=lerp(cur,next,r2);
-    d+=(k?" L":"M")+mkF(s0[0])+" "+mkF(s0[1])+" Q"+mkF(cur[0])+" "+mkF(cur[1])+" "+mkF(e0[0])+" "+mkF(e0[1]);
+  function dist(u,v){ return Math.hypot(v[0]-u[0],v[1]-u[1])||1; }
+  var m=Q.length, k, cx=0, cy=0, ang=(rnd()-.5)*.035, ca, sa;
+  Q.forEach(function(q){ cx+=q[0]/m; cy+=q[1]/m; });
+  ca=Math.cos(ang); sa=Math.sin(ang);
+  Q=Q.map(function(q){ var x=q[0]-cx, y=q[1]-cy; return [cx+x*ca-y*sa,cy+x*sa+y*ca]; });
+  /* the pen starts and ends at the lower right, away from the caption */
+  var k0=0; for(k=1;k<m;k++) if(Q[k][0]+Q[k][1]>Q[k0][0]+Q[k0][1]) k0=k;
+  Q=Q.slice(k0).concat(Q.slice(0,k0));
+  /* each corner is cut by a curve; s: where the curve begins, e: where it ends */
+  var Sx=[], Ex=[];
+  for(k=0;k<m;k++){
+    var pv=Q[(k+m-1)%m], cu=Q[k], nx=Q[(k+1)%m];
+    Sx.push(lerp(cu,pv,Math.min(H*.75,dist(pv,cu)/2.2)/dist(pv,cu)));
+    Ex.push(lerp(cu,nx,Math.min(H*.75,dist(cu,nx)/2.2)/dist(cu,nx)));
   }
-  /* the pen runs a little past the start, as by hand */
-  var o=lerp(Q[0],Q[1%m],Math.min(.6,Math.min(H*.45,dist(Q[0],Q[1%m])/2)/dist(Q[0],Q[1%m])+.18)); d+=" L"+mkF(o[0])+" "+mkF(o[1]+H*.04);
+  function side(a,b,amp){
+    var mx=(a[0]+b[0])/2, my=(a[1]+b[1])/2, len=dist(a,b), nx=-(b[1]-a[1])/len, ny=(b[0]-a[0])/len, bow=(rnd()-.5)*Math.min(H*.3,len*.05)+amp;
+    return " Q"+mkF(mx+nx*bow)+" "+mkF(my+ny*bow)+" "+mkF(b[0])+" "+mkF(b[1]);
+  }
+  var d="M"+mkF(Ex[0][0])+" "+mkF(Ex[0][1]);
+  for(k=1;k<=m;k++){
+    var c=k%m;
+    d+=side(Ex[k-1],Sx[c],0)+" Q"+mkF(Q[c][0])+" "+mkF(Q[c][1])+" "+mkF(Ex[c][0])+" "+mkF(Ex[c][1]);
+  }
+  /* past the start, a little outside the first stroke */
+  var e1=Sx[1%m], len0=dist(Ex[0],e1), t=Math.min(.45,H*1.4/len0), end=lerp(Ex[0],e1,t), onx=(e1[1]-Ex[0][1])/len0, ony=-(e1[0]-Ex[0][0])/len0;
+  d+=" Q"+mkF((Ex[0][0]+end[0])/2+onx*H*.05)+" "+mkF((Ex[0][1]+end[1])/2+ony*H*.05)+" "+mkF(end[0]-onx*H*.13)+" "+mkF(end[1]-ony*H*.13);
   return d;
 }
 function mkArrow(A,B,rnd){
@@ -1445,13 +1464,37 @@ function drawMarks(root,svg,list,opt){
       if(after>=0){ R=mkLines(root,els,after+1,m.b); if(R.length) A=R[0]; }
       lx=A.x0;
       if(m.t==="o"&&L.length===1){ paths=[mkOval(L[0],rnd)]; ly=A.y0-H*.16; }
-      else if(m.t==="o"){ paths=[mkHull(L,rnd)]; ly=L[0].y0-H*.2; lx=L[0].x0; }
+      else if(m.t==="o"){ paths=[mkHull(L,rnd)]; ly=L[0].y0-H*.17; lx=L[0].x0+H*.15; }
       else{ paths=L.map(function(l){ return mkUnder(l,rnd); }); ly=A.y0+H*.05; }
     }
-    h+='<g data-m="'+m.id+'">'+paths.map(function(d){ return '<path class="mk-p" d="'+d+'" style="stroke:'+opt.color+';stroke-width:'+mkF(sw)+'px"/>'; }).join("")+
+    var Lz=L[L.length-1], pad=m.t==="o"?H*.45:H*.3, cand=m.t==="a"?[]:[[L[0].x1+pad,L[0].y0+H*.7],[Lz.x1+pad,Lz.y0+H*.7]];
+    if(m.t==="o"&&L.length>1) cand=[[lx,L[0].y0-H*.24],[lx,L[0].y0-H*.31]].concat(cand);
+    h+='<g data-m="'+m.id+'" data-c="'+cand.map(function(c){ return mkF(c[0])+","+mkF(c[1]); }).join(";")+'">'+paths.map(function(d){ return '<path class="mk-p" d="'+d+'" style="stroke:'+opt.color+';stroke-width:'+mkF(sw)+'px"/>'; }).join("")+
       (m.tx&&m.tx.trim()?'<text class="mk-t" x="'+mkF(lx)+'" y="'+mkF(ly)+'" text-anchor="'+anchor+'" style="fill:'+opt.color+';font-size:'+mkF(H*opt.lab)+'px">'+esc(m.tx.trim())+'</text>':'')+'</g>';
   });
   svg.innerHTML=h;
+  /* a caption stays above its words if there is room; if it would sit on other words or on another mark, it moves beside the line */
+  (function(){
+    var R0=root.getBoundingClientRect(), q=MKS, words=[], W=root.scrollWidth, groups=svg.querySelectorAll("g[data-m]"), boxes=[];
+    Object.keys(els).forEach(function(k){ var r=els[k].getBoundingClientRect(); if(!r.width) return; var hh=(r.bottom-r.top)/q;
+      words.push({x0:(r.left-R0.left)/q,x1:(r.right-R0.left)/q,y0:(r.top-R0.top)/q+hh*.12,y1:(r.bottom-R0.top)/q-hh*.12}); });
+    Array.prototype.forEach.call(groups,function(g){ var b=[]; Array.prototype.forEach.call(g.querySelectorAll("path"),function(p){ try{ var x=p.getBBox(); b.push({x0:x.x,x1:x.x+x.width,y0:x.y,y1:x.y+x.height}); }catch(e){} }); boxes.push(b); });
+    function hit(a,b,g){ return a.x0<b.x1+g&&a.x1+g>b.x0&&a.y0<b.y1+g&&a.y1+g>b.y0; }
+    function under(b){ return b.y1-b.y0<12; }
+    Array.prototype.forEach.call(groups,function(g,gi){
+      var t=g.querySelector("text.mk-t"); if(!t||g.dataset.c===undefined) return;
+      var cs=[[t.getAttribute("x"),t.getAttribute("y")]].concat(g.dataset.c?g.dataset.c.split(";").map(function(c){ return c.split(","); }):[]), i, bb, box, ok;
+      for(i=0;i<cs.length;i++){
+        t.setAttribute("x",cs[i][0]); t.setAttribute("y",cs[i][1]);
+        try{ bb=t.getBBox(); }catch(e){ return; }
+        box={x0:bb.x,x1:bb.x+bb.width,y0:bb.y,y1:bb.y+bb.height};
+        ok=box.x0>=-2&&box.x1<=W+2&&!words.some(function(w){ return hit(box,w,0); });
+        if(ok) ok=!boxes.some(function(bs,bi){ return bi!==gi&&bs.some(function(b){ return under(b)?hit(box,b,2):(hit(box,b,0)&&!(box.x0>b.x0&&box.x1<b.x1&&box.y0>b.y0&&box.y1<b.y1)); }); });
+        if(ok) return;
+      }
+      t.setAttribute("x",cs[0][0]); t.setAttribute("y",cs[0][1]);
+    });
+  })();
   /* captions never overlap: one that would land on an earlier caption moves to the right of it */
   var placed=[];
   Array.prototype.forEach.call(svg.querySelectorAll("text.mk-t"),function(t){
@@ -2664,19 +2707,20 @@ function drawThesis(st,n,cur){
   show.fitTh=null;
   if(!st.some(function(s){ return s.t==="word"&&s.text.trim(); })){ th.className=""; th.innerHTML=""; return; }
   for(i=1;i<=n;i++) if(st[i].t==="word"&&st[i].text.trim()) items.push(i);
+  items=items.slice(-2);
   function paint(){
     th.innerHTML=items.map(function(k){ var o=parseKey(st[k].ref);
-      return '<div class="th-i'+(k===n?' cur':'')+'"><div class="th-w">'+esc(bareRange(o.a,o.b))+'</div><div class="th-t">'+fmt(st[k].text)+'</div></div>'; }).join("");
+      return '<div class="th-i'+(k===n||(st[n].t!=="word"&&k===items[items.length-1])?' cur':'')+'"><div class="th-w">'+esc(bareRange(o.a,o.b))+'</div><div class="th-t">'+fmt(st[k].text)+'</div></div>'; }).join("");
   }
   th.className="use"; paint();
   /* called after the passage is sized: the current text starts at the size of the passage and shrinks only if it has to */
   show.fitTh=function(){
-    var v0=Math.max(3.2,parseFloat($("#shIn").style.fontSize)||4.8); v=v0;
+    var v0=Math.max(4,Math.min(5.6,(parseFloat($("#shIn").style.fontSize)||4.8)*.95)); v=v0;
     th.style.overflowWrap="normal";
     for(;;){
       th.style.fontSize=v+"vh";
       if(th.scrollHeight<=th.clientHeight+1&&th.scrollWidth<=th.clientWidth+1) break;
-      if(v>3.2){ v=Math.max(3.2,Math.round((v-.2)*10)/10); continue; }
+      if(v>3.4){ v=Math.max(3.4,Math.round((v-.2)*10)/10); continue; }
       if(items.length>1){ items.shift(); v=v0; paint(); continue; }
       th.style.overflowWrap=""; break;
     }
@@ -2752,7 +2796,7 @@ function drawMarkShow(st,n,cur){
   for(i=1;i<=n;i++) if(st[i].t==="mark") st[i].refs.forEach(function(id){ if(!on[id]){ on[id]=1; m=markById(id); if(m) list.push(m); } });
   if(cur.t==="word") curW=parseKey(cur.ref);
   for(i=0;i<T.length;i++) w.push(isNum(T[i])?(i?'<br>':'')+'<span class="sh-vn">'+esc(T[i])+'</span>':'<span class="sh-w'+wc(i)+'" data-i="'+i+'">'+esc(T[i])+'</span>');
-  body.className=""; inn.innerHTML='<div class="mk-wrap"><div class="mk-tx">'+w.join(" ")+'</div><svg class="mk-svg" aria-hidden="true"></svg></div>';
+  body.className=""; inn.innerHTML='<div class="mk-wrap"><div class="mk-tx'+(list.some(function(x){ return x.tx&&x.tx.trim(); })?' caps':'')+'">'+w.join(" ")+'</div><svg class="mk-svg" aria-hidden="true"></svg></div>';
   drawThesis(st,n,cur);
   var ok=fit(11.5,3.4), wrap=inn.querySelector(".mk-wrap"); if(show.fitTh) show.fitTh();
   if(!ok) body.className="long";
