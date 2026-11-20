@@ -1052,11 +1052,82 @@ body,#bookPage{background-color:var(--bg)}
 }
 :root[data-theme=dark] img{filter:none}
 #btnTheme{font-size:15px;padding:5px 9px}
+
+/* ---------- Кафедра ---------- */
+#kaf{position:fixed;inset:0;z-index:120;display:none;flex-direction:column;background:#14120f;color:#e8e0d0;font-family:Inter,Arial,sans-serif;--kfk:1}
+#kaf.open{display:flex}
+body.kf-on{overflow:hidden}
+#kaf button{font-family:inherit;cursor:pointer}
+#kaf .gap{flex:1}
+#kaf>header{flex:none;display:flex;align-items:center;gap:16px;padding:0 24px;height:60px;background:#1b1915;border-bottom:1px solid #2c2720}
+#kaf .kfk{font:600 12px Inter,Arial,sans-serif;letter-spacing:.12em;color:#d2705f}
+#kaf .kft{font:600 20px "EB Garamond",Georgia,serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+#kaf .kftm{display:flex;align-items:baseline;gap:6px;white-space:nowrap;user-select:none}
+#kaf .kftm b{font:600 26px Inter,Arial,sans-serif;font-variant-numeric:tabular-nums}
+#kaf .kftm span{font-size:15px;color:#7d7362}
+#kaf .kfpill{font-size:13px;color:#a89c87;background:#24201a;border-radius:20px;padding:4px 10px;white-space:nowrap;font-variant-numeric:tabular-nums}
+#kaf .kfpill.over{color:#d6a446;background:#3a2f18}
+#kaf .kfclk{font-size:15px;color:#7d7362;font-variant-numeric:tabular-nums}
+#kaf .kfx{border:1px solid #3a3328;background:none;color:#a89c87;border-radius:8px;padding:8px 14px;font-size:14px}
+#kaf .kfx:hover{color:#e8e0d0}
+#kaf .kfm{flex:1;display:flex;min-height:0}
+#kaf main{flex:1;min-width:0;padding:36px 56px 20px;display:flex;flex-direction:column;gap:22px;overflow-y:auto}
+#kaf .kfl{font:600 13px Inter,Arial,sans-serif;letter-spacing:.08em;color:#a89c87;text-transform:uppercase}
+#kaf .kftx{font:400 calc(31px*var(--kfk))/1.55 Literata,Georgia,serif}
+#kaf .kftx p{margin:0 0 .6em}
+#kaf .kftx b{font-weight:700;color:#fff}
+#kaf .kftx .gd{color:#d6a446}
+#kaf .kftx .kfe{color:#7d7362;font-size:.7em}
+#kaf .kfn{flex:none;border-top:1px solid #2c2720;padding-top:14px;display:flex;gap:12px;align-items:baseline;color:#7d7362;font:17px/1.5 Literata,Georgia,serif;min-width:0}
+#kaf .kfnl{font:600 12px Inter,Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;flex:none}
+#kaf .kfnt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+#kaf aside{width:clamp(220px,27vw,380px);flex:none;box-sizing:border-box;border-left:1px solid #2c2720;padding:28px 24px;display:flex;flex-direction:column;gap:22px;background:#17150f;overflow-y:auto}
+#kaf .kfsl{display:flex;flex-direction:column;gap:8px}
+#kaf .kfsl.dim{opacity:.6}
+#kaf .kfst{font:600 12px/1.4 Inter,Arial,sans-serif;color:#a89c87;letter-spacing:.04em;text-transform:uppercase}
+#kaf .kfst b{color:#e8e0d0;font-size:15px;letter-spacing:0;white-space:nowrap}
+#kaf .kfsn{font-size:13px;line-height:1.5;color:#7d7362}
+#kaf .kffs{font-size:13px;color:#7d7362;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+#kaf .kffs button{border:1px solid #3a3328;background:none;color:#e8e0d0;border-radius:6px;min-width:36px;height:30px}
+.kfth{position:relative;overflow:hidden;background:#000;flex:none;border-radius:6px;outline:1px solid #3a3328}
+.kfth .kfno{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#555}
+#kaf #show.thc{position:absolute;inset:auto;left:0;top:0;transform-origin:0 0;z-index:auto;cursor:default;pointer-events:none;display:flex}
+#kaf #show.thc #shCount{display:none}
+#show.land{flex-direction:row}
+#show.land #shThesis{max-height:none}
+#kaf>footer{flex:none;padding:14px 24px 18px;background:#1b1915;border-top:1px solid #2c2720;display:flex;gap:16px;align-items:center}
+#kaf .kfp{flex:none;border:1px solid #3a3328;background:none;color:#a89c87;border-radius:10px;padding:14px 20px;font-size:16px}
+#kaf .kfnx{flex:none;border:0;background:#e8e0d0;color:#14120f;border-radius:10px;padding:14px 28px;font-size:16px;font-weight:600}
+#kaf .kfcs{flex:1;display:flex;gap:6px;min-width:0}
+#kaf .kfc{min-width:0;background:transparent;color:#a89c87;border:1px solid #3a3328;border-radius:8px;padding:8px 10px;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left}
+#kaf .kfc.done{background:#2c2720;border-color:#2c2720;color:#7d7362}
+#kaf .kfc.cur{background:#e8e0d0;border-color:#e8e0d0;color:#14120f;font-weight:600}
+/* phone */
+#kaf.ph>header{height:auto;flex-direction:column;align-items:stretch;gap:10px;padding:10px 14px 10px;padding-top:max(10px,env(safe-area-inset-top))}
+#kaf.ph .kfr{display:flex;align-items:center;gap:10px;min-width:0;width:100%;box-sizing:border-box}
+#kaf.ph .kfr .kfl{flex:1 1 0}
+#kaf.ph>header .kfcs{width:100%;flex:none}
+#kaf>header{box-sizing:border-box;width:100%;min-width:0}
+#kaf.ph .kfx{border:0;padding:4px 6px;font-size:18px}
+#kaf.ph .kfl{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+#kaf.ph .kftm1{font:600 20px Inter,Arial,sans-serif;font-variant-numeric:tabular-nums;user-select:none}
+#kaf.ph .kfpill{padding:2px 8px;font-size:12px}
+#kaf.ph .kfcs{gap:4px}
+#kaf.ph .kfc{height:10px;padding:0;border-radius:4px}
+#kaf.ph .kfrow{flex:none;display:flex;gap:12px;align-items:center;padding:10px 16px;border-bottom:1px solid #2c2720;background:#17150f}
+#kaf.ph .kfrow .kfst{text-transform:none;letter-spacing:0;font-weight:400;font-size:13px}
+#kaf.ph main{padding:18px 20px;gap:14px}
+#kaf.ph .kftx{font-size:calc(22px*var(--kfk))}
+#kaf.ph .kfn{flex-direction:column;gap:2px;font-size:15px}
+#kaf.ph .kfnt{white-space:normal}
+#kaf.ph>nav{flex:none;display:grid;grid-template-columns:1fr 2fr;gap:8px;padding:8px 12px 14px;padding-bottom:max(14px,env(safe-area-inset-bottom));background:#1b1915;border-top:1px solid #2c2720}
+#kaf.ph>nav button{height:60px;border-radius:12px;font-size:17px;padding:0}
+.m-ops #btnKaf{display:none}
 </style>
 </head>
 <body>
 <div id="app"></div>
-<script id="appjs">var __MARKUP__="<div id=\"lib\">\n  <header class=\"lhead\"><button id=\"lMenu\" type=\"button\" title=\"Меню\" aria-label=\"Меню библиотеки\">☰</button><button id=\"lHome\" type=\"button\" title=\"На главную\" aria-label=\"На главную\">⌂</button><div id=\"lCont\"></div><button id=\"lTalks\" type=\"button\" title=\"Конспекты чужих проповедей\">Конспекты</button><div id=\"lProg\"></div><span id=\"libSt\" role=\"status\"></span><button id=\"btnTheme\" class=\"thm\" title=\"Ночной режим\">☾</button></header><div id=\"lBack\"></div><nav id=\"lDrawer\" aria-label=\"Меню библиотеки\"><div class=\"ldt\"><span class=\"brand\">VDMA</span><button type=\"button\" class=\"pclose\" id=\"lClose\" aria-label=\"Закрыть меню\">×</button></div><div class=\"lmotto\"><b>Слово Господне пребывает вовек</b><i>Verbum Domini Manet in Aeternum</i><i>Ис. 40:8; 1 Пет. 1:25</i></div><div class=\"lver\">версия 20.11 · 27</div><button id=\"btnSync\" class=\"stdonly\" data-s=\"off\">Синхронизация</button><button id=\"btnBackup\" class=\"cloudonly\">Скачать всю библиотеку</button><label class=\"filebtn cloudonly\" title=\"Файл, скачанный кнопкой «Скачать всю библиотеку»\">Загрузить библиотеку из файла<input id=\"impAll\" type=\"file\" accept=\".json,application/json\"></label><button id=\"btnHelp2\">Справка</button></nav>\n  <div id=\"libBody\"><aside id=\"bookList\" aria-label=\"Книги\"></aside><div id=\"bookPage\"></div></div>\n</div>\n<div id=\"work\">\n<header>\n  <button id=\"btnLib\" class=\"cloudonly\" title=\"На главную\">Главная</button>\n  <input id=\"title\" aria-label=\"Название отрывка\" placeholder=\"Отрывок, например: Римлянам 5:1–5\">\n  <span class=\"seg wideonly\" id=\"modeSeg\" role=\"group\" aria-label=\"Режим работы\"><button id=\"gStudy\">Изучение</button><button id=\"gSermon\">Проповедь</button></span>\n  <button id=\"btnStatus\" class=\"cloudonly\"></button>\n  <button id=\"btnSheet\" class=\"cloudonly studyonly\">Лист книги</button>\n  <button id=\"btnUndo\" title=\"Отменить последнее действие (Ctrl+Z)\">Отменить</button>\n  <button id=\"btnSave\" class=\"wideonly studyonly\">Сохранить в файл</button>\n  <label class=\"filebtn localonly studyonly\">Открыть файл<input id=\"fileIn\" type=\"file\" accept=\".json,application/json\"></label>\n  <button id=\"btnPng\" class=\"wideonly studyonly\">Схема картинкой (PNG)</button>\n  <span class=\"fsz wideonly sermononly\" title=\"Размер шрифта на экране зала\">Шрифт <button id=\"fsDn\" aria-label=\"Шрифт на экране мельче\">−</button><b id=\"fsVal\">100%</b><button id=\"fsUp\" aria-label=\"Шрифт на экране крупнее\">+</button></span><span class=\"fsz wideonly sermononly\" title=\"Вид экрана зала\">Экран <select id=\"shLook\" aria-label=\"Вид экрана зала\"><option value=\"dark\">тёмный</option><option value=\"light\">светлый</option></select></span>\n  <button id=\"btnShow\" class=\"wideonly sermononly on\">▶ Показ</button>\n  <button id=\"btnDocx\" class=\"wideonly sermononly\">Текст в Word</button>\n  <button id=\"btnExport\" class=\"cloudonly wideonly sermononly\" title=\"Отдельный файл для показа в зале, работает без интернета\">Файл для зала</button>\n  <button id=\"btnHelp\" class=\"wideonly\">Справка</button>\n  <span id=\"cloudSt\" class=\"cloudonly\"></span>\n  <span id=\"status\" role=\"status\"></span>\n</header>\n<nav id=\"ptabs\"><button data-p=\"text\">Текст</button><button data-p=\"field\">Разбор</button><button data-p=\"notes\">Заметки</button></nav>\n\n<main id=\"main\">\n  <section id=\"left\" aria-label=\"Исходный текст\">\n    <div class=\"phead\">\n      <h2>Текст</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Что делает клик по слову\"><button id=\"tCut\">Резать</button><button id=\"tNote\">Заметки к словам</button></span>\n      <button id=\"btnEdit\" class=\"ghost\">Изменить текст</button>\n    </div>\n    <div class=\"phead\" id=\"srcTools\">\n      <button id=\"cutVerses\">Резать по стихам</button>\n      <button id=\"cutPunct\">По знакам препинания</button>\n      <button id=\"cutReset\" class=\"ghost\">Убрать все разрезы</button>\n    </div>\n    <div class=\"pbody\"><div id=\"srcWrap\"><div id=\"src\"></div><svg id=\"srcMarks\" aria-hidden=\"true\"></svg></div><div id=\"markList\"></div></div>\n    <div id=\"selBar\"></div>\n    <div id=\"srcEdit\">\n      <textarea id=\"srcText\" aria-label=\"Исходный текст\" placeholder=\"Вставьте сюда текст (Синодальный перевод). Номера стихов можно оставить: они станут маленькими цифрами.\"></textarea>\n      <div class=\"rowb\">\n        <button id=\"srcApply\" class=\"on\">Готово</button>\n        <button id=\"srcCancel\">Отмена</button>\n      </div>\n      <div style=\"color:var(--ink-2);font-size:12px\">Разрезы, заметки и текст проповеди сохранятся. Пропадёт только то, что привязано к удалённым словам. Если что-то пошло не так, есть кнопка «Отменить».</div>\n    </div>\n    <div class=\"hint\" id=\"srcHint\"></div>\n  </section>\n\n  <section id=\"mid\" aria-label=\"Рабочее поле\">\n    <div class=\"phead\">\n      <h2>Рабочее поле</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Режим\">\n        <button id=\"mStruct\">Структура</button>\n      </span>\n    </div>\n    <div class=\"pbody\" id=\"midBody\">\n      <div id=\"structure\"></div>\n    </div>\n    <div class=\"hint\" id=\"midHint\"></div>\n  </section>\n\n  <section id=\"right\" aria-label=\"Заметки\">\n    <div class=\"phead\"><h2>Заметки</h2></div>\n    <div class=\"pbody\" id=\"noteBody\">\n      <div id=\"noteHead\"></div>\n      <div id=\"scrWrap\">\n        <label for=\"scr\">На экран</label>\n        <textarea id=\"scr\" rows=\"2\" placeholder=\"Короткий тезис к этому слову\"></textarea>\n        <small>Это увидит зал. Заметка ниже остаётся только у вас.</small>\n      </div>\n      <textarea id=\"notes\" aria-label=\"Заметка\"></textarea>\n      <div id=\"noteList\"></div>\n    </div>\n  </section>\n</main>\n<div id=\"sm\">\n  <section id=\"smL\" aria-label=\"Материалы изучения\">\n    <div class=\"phead\"><h2>Из изучения</h2></div>\n    <div class=\"pbody\"><div id=\"smText\" class=\"tool-mark\"><div class=\"smh\">Текст и пометки</div></div><div id=\"smMat\"></div></div>\n  </section>\n  <section id=\"smM\" aria-label=\"Текст проповеди\">\n    <div class=\"phead\"><h2>Текст проповеди</h2><span id=\"smCount\" class=\"snote\"></span><button id=\"smBuild\">Собрать из разбора</button></div>\n    <div class=\"pbody\" id=\"smBody\">\n      <div class=\"sf\"><label for=\"sTheme\">Название</label><input id=\"sTheme\" placeholder=\"Название проповеди. Первый слайд\"><span></span><label class=\"rdl\"><input type=\"checkbox\" id=\"sRead\"><span id=\"sReadT\">После названия показать полный текст отрывка для чтения</span></label></div>\n      <div id=\"smBlocks\"></div>\n      <button id=\"smAdd\" class=\"ghost\">+ Блок</button>\n      <div class=\"sf\" style=\"margin-top:22px\">\n        <label for=\"sMain\">Главная мысль</label><textarea id=\"sMain\" rows=\"2\" placeholder=\"Одно предложение, которое зал должен унести. Предпоследний слайд\"></textarea>\n        <label for=\"sSum\">Итог</label><textarea id=\"sSum\" rows=\"2\" placeholder=\"К чему зовёт текст. Последний слайд\"></textarea>\n      </div>\n    </div>\n  </section>\n  <section id=\"smR\" aria-label=\"Слайды\">\n    <div class=\"phead\"><h2>Слайды</h2></div>\n    <div class=\"pbody\" id=\"smSlides\"></div>\n  </section>\n</div>\n</div>\n\n<datalist id=\"rels\">\n  <option value=\"основание\"><option value=\"причина\"><option value=\"следствие\"><option value=\"цель\"><option value=\"результат\">\n  <option value=\"условие\"><option value=\"уступка\"><option value=\"средство\"><option value=\"образ действия\"><option value=\"время\">\n  <option value=\"пояснение\"><option value=\"противопоставление\"><option value=\"ряд\"><option value=\"вывод\"><option value=\"сравнение\">\n</datalist>\n\n<div id=\"modal\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"mTitle\"><div class=\"box\">\n  <h3 id=\"mTitle\"></h3><p id=\"mText\"></p><div id=\"mBody\"></div>\n  <div class=\"rowb\"><button id=\"mCopy\">Скопировать</button><button id=\"mClose\">Закрыть</button></div>\n</div></div>\n\n<div id=\"show\" aria-label=\"Показ на экране\">\n  <div id=\"shBody\"><div id=\"shIn\"></div></div>\n  <div id=\"shThesis\"></div>\n  <div id=\"shCount\"></div>\n</div>\n";
+<script id="appjs">var __MARKUP__="<div id=\"lib\">\n  <header class=\"lhead\"><button id=\"lMenu\" type=\"button\" title=\"Меню\" aria-label=\"Меню библиотеки\">☰</button><button id=\"lHome\" type=\"button\" title=\"На главную\" aria-label=\"На главную\">⌂</button><div id=\"lCont\"></div><button id=\"lTalks\" type=\"button\" title=\"Конспекты чужих проповедей\">Конспекты</button><div id=\"lProg\"></div><span id=\"libSt\" role=\"status\"></span><button id=\"btnTheme\" class=\"thm\" title=\"Ночной режим\">☾</button></header><div id=\"lBack\"></div><nav id=\"lDrawer\" aria-label=\"Меню библиотеки\"><div class=\"ldt\"><span class=\"brand\">VDMA</span><button type=\"button\" class=\"pclose\" id=\"lClose\" aria-label=\"Закрыть меню\">×</button></div><div class=\"lmotto\"><b>Слово Господне пребывает вовек</b><i>Verbum Domini Manet in Aeternum</i><i>Ис. 40:8; 1 Пет. 1:25</i></div><div class=\"lver\">версия 20.11 · 28</div><button id=\"btnSync\" class=\"stdonly\" data-s=\"off\">Синхронизация</button><button id=\"btnBackup\" class=\"cloudonly\">Скачать всю библиотеку</button><label class=\"filebtn cloudonly\" title=\"Файл, скачанный кнопкой «Скачать всю библиотеку»\">Загрузить библиотеку из файла<input id=\"impAll\" type=\"file\" accept=\".json,application/json\"></label><button id=\"btnHelp2\">Справка</button></nav>\n  <div id=\"libBody\"><aside id=\"bookList\" aria-label=\"Книги\"></aside><div id=\"bookPage\"></div></div>\n</div>\n<div id=\"work\">\n<header>\n  <button id=\"btnLib\" class=\"cloudonly\" title=\"На главную\">Главная</button>\n  <input id=\"title\" aria-label=\"Название отрывка\" placeholder=\"Отрывок, например: Римлянам 5:1–5\">\n  <span class=\"seg wideonly\" id=\"modeSeg\" role=\"group\" aria-label=\"Режим работы\"><button id=\"gStudy\">Изучение</button><button id=\"gSermon\">Проповедь</button></span>\n  <button id=\"btnStatus\" class=\"cloudonly\"></button>\n  <button id=\"btnSheet\" class=\"cloudonly studyonly\">Лист книги</button>\n  <button id=\"btnUndo\" title=\"Отменить последнее действие (Ctrl+Z)\">Отменить</button>\n  <button id=\"btnSave\" class=\"wideonly studyonly\">Сохранить в файл</button>\n  <label class=\"filebtn localonly studyonly\">Открыть файл<input id=\"fileIn\" type=\"file\" accept=\".json,application/json\"></label>\n  <button id=\"btnPng\" class=\"wideonly studyonly\">Схема картинкой (PNG)</button>\n  <span class=\"fsz wideonly sermononly\" title=\"Размер шрифта на экране зала\">Шрифт <button id=\"fsDn\" aria-label=\"Шрифт на экране мельче\">−</button><b id=\"fsVal\">100%</b><button id=\"fsUp\" aria-label=\"Шрифт на экране крупнее\">+</button></span><span class=\"fsz wideonly sermononly\" title=\"Вид экрана зала\">Экран <select id=\"shLook\" aria-label=\"Вид экрана зала\"><option value=\"dark\">тёмный</option><option value=\"light\">светлый</option></select></span>\n  <button id=\"btnShow\" class=\"wideonly sermononly on\">▶ Показ</button>\n  <button id=\"btnKaf\" class=\"wideonly sermononly\" title=\"Ваш текст по блокам во время проповеди: крупно, со слайдом и таймером\">Кафедра</button>\n  <button id=\"btnDocx\" class=\"wideonly sermononly\">Текст в Word</button>\n  <button id=\"btnExport\" class=\"cloudonly wideonly sermononly\" title=\"Отдельный файл для показа в зале, работает без интернета\">Файл для зала</button>\n  <button id=\"btnHelp\" class=\"wideonly\">Справка</button>\n  <span id=\"cloudSt\" class=\"cloudonly\"></span>\n  <span id=\"status\" role=\"status\"></span>\n</header>\n<nav id=\"ptabs\"><button data-p=\"text\">Текст</button><button data-p=\"field\">Разбор</button><button data-p=\"notes\">Заметки</button></nav>\n\n<main id=\"main\">\n  <section id=\"left\" aria-label=\"Исходный текст\">\n    <div class=\"phead\">\n      <h2>Текст</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Что делает клик по слову\"><button id=\"tCut\">Резать</button><button id=\"tNote\">Заметки к словам</button></span>\n      <button id=\"btnEdit\" class=\"ghost\">Изменить текст</button>\n    </div>\n    <div class=\"phead\" id=\"srcTools\">\n      <button id=\"cutVerses\">Резать по стихам</button>\n      <button id=\"cutPunct\">По знакам препинания</button>\n      <button id=\"cutReset\" class=\"ghost\">Убрать все разрезы</button>\n    </div>\n    <div class=\"pbody\"><div id=\"srcWrap\"><div id=\"src\"></div><svg id=\"srcMarks\" aria-hidden=\"true\"></svg></div><div id=\"markList\"></div></div>\n    <div id=\"selBar\"></div>\n    <div id=\"srcEdit\">\n      <textarea id=\"srcText\" aria-label=\"Исходный текст\" placeholder=\"Вставьте сюда текст (Синодальный перевод). Номера стихов можно оставить: они станут маленькими цифрами.\"></textarea>\n      <div class=\"rowb\">\n        <button id=\"srcApply\" class=\"on\">Готово</button>\n        <button id=\"srcCancel\">Отмена</button>\n      </div>\n      <div style=\"color:var(--ink-2);font-size:12px\">Разрезы, заметки и текст проповеди сохранятся. Пропадёт только то, что привязано к удалённым словам. Если что-то пошло не так, есть кнопка «Отменить».</div>\n    </div>\n    <div class=\"hint\" id=\"srcHint\"></div>\n  </section>\n\n  <section id=\"mid\" aria-label=\"Рабочее поле\">\n    <div class=\"phead\">\n      <h2>Рабочее поле</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Режим\">\n        <button id=\"mStruct\">Структура</button>\n      </span>\n    </div>\n    <div class=\"pbody\" id=\"midBody\">\n      <div id=\"structure\"></div>\n    </div>\n    <div class=\"hint\" id=\"midHint\"></div>\n  </section>\n\n  <section id=\"right\" aria-label=\"Заметки\">\n    <div class=\"phead\"><h2>Заметки</h2></div>\n    <div class=\"pbody\" id=\"noteBody\">\n      <div id=\"noteHead\"></div>\n      <div id=\"scrWrap\">\n        <label for=\"scr\">На экран</label>\n        <textarea id=\"scr\" rows=\"2\" placeholder=\"Короткий тезис к этому слову\"></textarea>\n        <small>Это увидит зал. Заметка ниже остаётся только у вас.</small>\n      </div>\n      <textarea id=\"notes\" aria-label=\"Заметка\"></textarea>\n      <div id=\"noteList\"></div>\n    </div>\n  </section>\n</main>\n<div id=\"sm\">\n  <section id=\"smL\" aria-label=\"Материалы изучения\">\n    <div class=\"phead\"><h2>Из изучения</h2></div>\n    <div class=\"pbody\"><div id=\"smText\" class=\"tool-mark\"><div class=\"smh\">Текст и пометки</div></div><div id=\"smMat\"></div></div>\n  </section>\n  <section id=\"smM\" aria-label=\"Текст проповеди\">\n    <div class=\"phead\"><h2>Текст проповеди</h2><span id=\"smCount\" class=\"snote\"></span><button id=\"smBuild\">Собрать из разбора</button></div>\n    <div class=\"pbody\" id=\"smBody\">\n      <div class=\"sf\"><label for=\"sTheme\">Название</label><input id=\"sTheme\" placeholder=\"Название проповеди. Первый слайд\"><span></span><label class=\"rdl\"><input type=\"checkbox\" id=\"sRead\"><span id=\"sReadT\">После названия показать полный текст отрывка для чтения</span></label></div>\n      <div id=\"smBlocks\"></div>\n      <button id=\"smAdd\" class=\"ghost\">+ Блок</button>\n      <div class=\"sf\" style=\"margin-top:22px\">\n        <label for=\"sMain\">Главная мысль</label><textarea id=\"sMain\" rows=\"2\" placeholder=\"Одно предложение, которое зал должен унести. Предпоследний слайд\"></textarea>\n        <label for=\"sSum\">Итог</label><textarea id=\"sSum\" rows=\"2\" placeholder=\"К чему зовёт текст. Последний слайд\"></textarea>\n      </div>\n    </div>\n  </section>\n  <section id=\"smR\" aria-label=\"Слайды\">\n    <div class=\"phead\"><h2>Слайды</h2></div>\n    <div class=\"pbody\" id=\"smSlides\"></div>\n  </section>\n</div>\n</div>\n\n<datalist id=\"rels\">\n  <option value=\"основание\"><option value=\"причина\"><option value=\"следствие\"><option value=\"цель\"><option value=\"результат\">\n  <option value=\"условие\"><option value=\"уступка\"><option value=\"средство\"><option value=\"образ действия\"><option value=\"время\">\n  <option value=\"пояснение\"><option value=\"противопоставление\"><option value=\"ряд\"><option value=\"вывод\"><option value=\"сравнение\">\n</datalist>\n\n<div id=\"modal\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"mTitle\"><div class=\"box\">\n  <h3 id=\"mTitle\"></h3><p id=\"mText\"></p><div id=\"mBody\"></div>\n  <div class=\"rowb\"><button id=\"mCopy\">Скопировать</button><button id=\"mClose\">Закрыть</button></div>\n</div></div>\n\n<div id=\"show\" aria-label=\"Показ на экране\">\n  <div id=\"shBody\"><div id=\"shIn\"></div></div>\n  <div id=\"shThesis\"></div>\n  <div id=\"shCount\"></div>\n</div>\n";
 (function(){
 "use strict";
 document.getElementById("app").innerHTML=__MARKUP__; if(window.rsThemeSync) rsThemeSync();
@@ -2046,6 +2117,166 @@ $("#fsDn").addEventListener("click",function(){ setFs(-1); });
 $("#fsUp").addEventListener("click",function(){ setFs(1); });
 $("#btnShow").addEventListener("click",function(){ openShow(0); });
 
+/* ---------- Кафедра: the sermon live, for the preacher's own device ----------
+   One step is one sermon block (also blocks without a slide). The device does not know what the hall shows:
+   the operator turns the slides from his own file, the slide numbers are the common language. */
+var KF={open:false,i:0,t0:0,b0:0,tm:null,th:[],steps:[],first:{},last:{},wl:null,vw:0,vh:0,port:false,pass:null,k:1};
+try{ KF.k=Math.max(.7,Math.min(1.6,+localStorage.getItem("vdma-kf-k")||1)); }catch(e){}
+function kfLabel(b){ var l=kfLabel0(b); return l.charAt(0).toUpperCase()+l.slice(1); }
+function kfLabel0(b){
+  var tx=String(b.text||""), m=tx.match(/^\s*\*\*([^*\n]{1,60})\*\*\s*(\n|$)/), s=b.sl;
+  if(m) return m[1].trim();
+  if((s.t==="thesis"||s.t==="frame"||s.t==="word")&&s.text.trim()) return clip(unfmt(s.text).replace(/\s+/g," ").trim(),34);
+  if(s.t==="frame"&&s.cap.trim()) return clip(unfmt(s.cap).trim(),34);
+  if(s.t==="read") return "Чтение";
+  var t=unfmt(tx).replace(/\s+/g," ").trim();
+  if(t){ var w=t.split(" "); return w.slice(0,4).join(" ").replace(/[,.;:—–-]+$/,"")+(w.length>4?"…":""); }
+  return s.t==="image"?"Картинка":s.t==="phrase"?"Фраза отрывка":s.t==="mark"?"Пометка":"Блок";
+}
+function kfW(b){ return Math.max(25,words(b.text)); }
+function kfPlan(b){ return kfW(b)/110*60000; }
+function kfCapture(){
+  var el=$("#show"), keep=[show.steps,show.n,show.open,show.last,show.k], W=window.innerWidth, H=window.innerHeight;
+  KF.port=H>W; KF.vw=KF.port?Math.round(H*16/9):W; KF.vh=H;
+  KF.steps=buildSteps(); KF.first={}; KF.last={};
+  KF.steps.forEach(function(st,i){ if(st.b){ if(!(st.b in KF.first)) KF.first[st.b]=i; KF.last[st.b]=i; } });
+  show.steps=KF.steps; show.open=false;
+  el.classList.add("open","meas"); if(KF.port){ el.classList.add("land"); el.style.width=KF.vw+"px"; el.style.right="auto"; }
+  KF.th=KF.steps.map(function(st,i){ show.n=i; show.last=-2; drawShow(); return el.innerHTML; });
+  el.classList.remove("open","meas","land"); el.style.width=el.style.right="";
+  show.steps=keep[0]; show.n=keep[1]; show.open=keep[2]; show.last=keep[3]; show.k=keep[4];
+}
+function kfThumb(i,w){
+  var k=w/KF.vw, h=Math.round(KF.vh*k);
+  if(i<0||i>=KF.th.length) return '<div class="kfth" style="width:'+Math.round(w)+'px;height:'+h+'px"><span class="kfno">—</span></div>';
+  return '<div class="kfth" style="width:'+Math.round(w)+'px;height:'+h+'px"><div id="show" class="open thc'+(KF.port?' land':'')+(S.look?' lk lk-'+S.look:'')+'" style="width:'+KF.vw+'px;height:'+KF.vh+'px;transform:scale('+k+')">'+KF.th[i]+'</div></div>';
+}
+/* which slide belongs to the block, which one stays on screen, which comes next */
+function kfSlides(i){
+  var b=S.blocks[i], a=KF.first[b.id], z=KF.last[b.id], st=KF.steps, j, cur, nx=-1, own=a!=null;
+  if(own) cur=a;
+  else{ cur=0; var seen=false; for(j=0;j<st.length;j++){ var x=st[j]; if(x.b){ seen=true; var bi=kfIdx(x.b); if(bi<i) cur=j; else if(bi>i) break; } else if(!seen) cur=j; } }
+  var from=own?z:cur;
+  for(j=from+1;j<st.length;j++){ if(!st[j].b||kfIdx(st[j].b)>i){ nx=j; break; } }
+  return {own:own,cur:cur,a:a,z:z,nx:nx};
+}
+function kfIdx(id){ for(var i=0;i<S.blocks.length;i++) if(S.blocks[i].id===id) return i; return -1; }
+function kfNum(sl){ return sl.own&&sl.z>sl.a?sl.a+"–"+sl.z:String(sl.cur); }
+function kfPara(t){
+  var h=fmt(t.replace(/\r/g,"").trim());
+  return h.split(/\n\s*\n/).map(function(p){ return "<p>"+p.replace(/\n/g,"<br>")+"</p>"; }).join("");
+}
+function kfMin(ms){ var s=Math.max(0,Math.floor(ms/1000)); return Math.floor(s/60)+":"+("0"+s%60).slice(-2); }
+function kfClock(){ var d=new Date(); return d.getHours()+":"+("0"+d.getMinutes()).slice(-2); }
+function kfTotal(){ var t=0; S.blocks.forEach(function(b){ t+=kfPlan(b); }); return t; }
+function kfRender(){
+  var el=$("#kaf"); if(!el) return;
+  var ph=narrow(), n=S.blocks.length, i=KF.i, b=S.blocks[i], nb=S.blocks[i+1], sl=kfSlides(i), h="";
+  var chips=S.blocks.map(function(x,j){
+    return '<button class="kfc'+(j<i?' done':j===i?' cur':'')+'" data-j="'+j+'" style="flex:'+kfW(x)+' 1 0" title="'+esc((j+1)+". "+kfLabel(x))+'">'+(ph?'':(j<i?'✓ ':'')+esc(kfLabel(x)))+'</button>';
+  }).join("");
+  var lab=(i+1)+(ph?' / ':' из ')+n+' · '+esc(kfLabel(b));
+  var body=b.text.trim()?kfPara(b.text):'<p class="kfe">Своего текста у блока нет'+(sl.own?' — только слайд.':'.')+'</p>';
+  var next=nb?'<span class="kfnl">Дальше · '+esc(kfLabel(nb))+'</span><span class="kfnt">'+esc(clip(unfmt(nb.text).replace(/\s+/g," ").trim(),180))+'</span>':'<span class="kfnl">Это последний блок</span>';
+  var sTitle=sl.own?'Слайд этого блока <b>№ '+kfNum(sl)+'</b>':'Своего слайда нет · на экране <b>№ '+sl.cur+'</b>';
+  var nTitle=sl.nx>=0?'Следующий <b>№ '+sl.nx+'</b>':'Слайды кончились';
+  if(!ph){
+    var aw=Math.max(220,Math.min(380,window.innerWidth*.27))-48;
+    h='<header><span class="kfk">КАФЕДРА</span><span class="kft">'+esc(S.theme.trim()||S.title||"Проповедь")+'</span><span class="gap"></span>'+
+      '<span class="kftm" title="Двойной клик — начать отсчёт заново"><b id="kfT"></b><span>из '+Math.max(1,Math.round(kfTotal()/60000))+'</span></span>'+
+      '<span id="kfB" class="kfpill"></span><span id="kfC" class="kfclk"></span><button class="kfx" data-k="x">Выйти</button></header>'+
+      '<div class="kfm"><main id="kfMain"><div class="kfl">Блок '+lab+'</div><div class="kftx">'+body+'</div><div class="gap"></div><div class="kfn">'+next+'</div></main>'+
+      '<aside><div class="kfsl"><div class="kfst">'+sTitle+'</div>'+kfThumb(sl.cur,aw)+'</div>'+
+      '<div class="kfsl dim"><div class="kfst">'+nTitle+'</div>'+kfThumb(sl.nx,aw*.76)+'</div>'+
+      '<div class="kfsn">Слайды листает оператор. Номер — чтобы свериться с ним взглядом или словом.</div><div class="gap"></div>'+
+      '<div class="kffs">Шрифт <button data-k="dn" aria-label="Мельче">A−</button><button data-k="up" aria-label="Крупнее">A+</button><span id="kfWl"></span></div></aside></div>'+
+      '<footer><button class="kfp" data-k="prev">‹ Назад</button><div class="kfcs">'+chips+'</div><button class="kfnx" data-k="next">Дальше ›</button></footer>';
+  }else{
+    h='<header><div class="kfr"><button class="kfx" data-k="x" aria-label="Выйти">✕</button><span class="kfl">'+lab+'</span><span class="gap"></span><b id="kfT" class="kftm1" title="Двойное касание — начать отсчёт заново"></b><span id="kfB" class="kfpill"></span></div><div class="kfcs">'+chips+'</div></header>'+
+      '<div class="kfrow">'+kfThumb(sl.cur,120)+'<div class="kfst"><b>'+(sl.own?'Слайд № '+kfNum(sl):'Без слайда · на экране № '+sl.cur)+'</b><br>'+(sl.nx>=0?'дальше № '+sl.nx:'слайды кончились')+'</div></div>'+
+      '<main id="kfMain"><div class="kftx">'+body+'</div><div class="kfn">'+next+'</div></main>'+
+      '<nav><button class="kfp" data-k="prev" aria-label="Назад">‹</button><button class="kfnx" data-k="next">Дальше ›</button></nav>';
+  }
+  el.className=(ph?"ph ":"")+(KF.open?"open":"");
+  el.style.setProperty("--kfk",KF.k);
+  el.innerHTML=h;
+  kfTick();
+}
+function kfTick(){
+  if(!KF.open) return;
+  var now=Date.now(), b=S.blocks[KF.i], t=$("#kfT"), p=$("#kfB"), c=$("#kfC"), ph=narrow();
+  if(!b) return;
+  var be=now-KF.b0, pl=kfPlan(b), over=be>pl*1.15+30000;
+  if(t) t.textContent=kfMin(now-KF.t0);
+  if(p){ p.textContent=ph?(over?"+"+Math.max(1,Math.round((be-pl)/60000)):kfMin(be)):"блок идёт "+Math.floor(be/60000)+" мин · план "+Math.max(1,Math.round(pl/60000)); p.classList.toggle("over",over); }
+  if(c) c.textContent=kfClock();
+}
+function kfGo(j){
+  j=Math.max(0,Math.min(S.blocks.length-1,j)); if(j===KF.i) return;
+  KF.i=j; KF.b0=Date.now(); KF.pass.i=j; KF.pass.b0=KF.b0; kfRender();
+  var m=$("#kfMain"); if(m) m.scrollTop=0;
+}
+function kfWake(){
+  if(!KF.open||!navigator.wakeLock||document.visibilityState!=="visible") return;
+  try{ navigator.wakeLock.request("screen").then(function(w){ KF.wl=w; var e=$("#kfWl"); if(e) e.textContent=" · экран не гаснет"; },function(){}); }catch(e){}
+}
+function openKaf(){
+  if(show.open||ED.open) return;
+  cleanBlocks();
+  if(!S.blocks.length){ say("Сначала напишите проповедь по блокам"); return; }
+  if(document.activeElement&&document.activeElement.blur) document.activeElement.blur();
+  /* leaving by mistake and coming back keeps the place and the time, for the same passage within three hours */
+  var id=(typeof C!=="undefined"&&C.cur&&C.cur.id)||S.title||"", now=Date.now(), p=KF.pass;
+  if(!p||p.id!==id||now-p.t0>3*3600000) p=KF.pass={id:id,t0:now,b0:now,i:0};
+  KF.t0=p.t0; KF.b0=p.b0; KF.i=Math.min(p.i,S.blocks.length-1);
+  var el=$("#kaf");
+  if(!el){
+    el=document.createElement("div"); el.id="kaf"; el.setAttribute("role","dialog"); el.setAttribute("aria-label","Кафедра"); document.body.appendChild(el);
+    el.addEventListener("click",function(e){
+      var c=e.target.closest(".kfc"); if(c){ kfGo(+c.dataset.j); return; }
+      var k=e.target.closest("[data-k]"); if(!k) return; k=k.dataset.k;
+      if(k==="x") closeKaf(); else if(k==="next") kfGo(KF.i+1); else if(k==="prev") kfGo(KF.i-1);
+      else if(k==="up"||k==="dn") kfFont(k==="up"?1:-1);
+    });
+    el.addEventListener("dblclick",function(e){ if(e.target.closest("#kfT,.kftm")){ KF.t0=KF.b0=KF.pass.t0=KF.pass.b0=Date.now(); kfTick(); } });
+    var tx=0,ty=0,tt=0;
+    el.addEventListener("touchstart",function(e){ var t=e.touches[0]; tx=t.clientX; ty=t.clientY; tt=Date.now(); },{passive:true});
+    el.addEventListener("touchend",function(e){
+      if(e.target.closest(".kfcs,button")) return;
+      var t=e.changedTouches[0], dx=t.clientX-tx, dy=t.clientY-ty;
+      if(Date.now()-tt<700&&Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5) kfGo(KF.i+(dx<0?1:-1));
+    },{passive:true});
+  }
+  KF.open=true; document.body.classList.add("kf-on");
+  kfCapture(); kfRender(); el.classList.add("open");
+  clearInterval(KF.tm); KF.tm=setInterval(kfTick,1000);
+  kfWake();
+  try{ var de=document.documentElement, r=narrow()&&de.requestFullscreen?de.requestFullscreen():null; if(r&&r.catch) r.catch(function(){}); }catch(e){}
+}
+function closeKaf(){
+  if(!KF.open) return;
+  KF.open=false; clearInterval(KF.tm); document.body.classList.remove("kf-on");
+  var el=$("#kaf"); if(el){ el.classList.remove("open"); el.innerHTML=""; }
+  try{ if(KF.wl) KF.wl.release(); }catch(e){} KF.wl=null;
+  try{ if(document.fullscreenElement&&!show.open) document.exitFullscreen(); }catch(e){}
+  setTimeout(regrow,300);
+}
+function kfFont(d){ KF.k=Math.max(.7,Math.min(1.6,Math.round((KF.k+d*.1)*10)/10)); try{ localStorage.setItem("vdma-kf-k",KF.k); }catch(e){} var el=$("#kaf"); if(el) el.style.setProperty("--kfk",KF.k); }
+function kfKey(e){
+  var k=e.key;
+  if(e.ctrlKey||e.metaKey||e.altKey) return;
+  if(k==="Escape"){ e.preventDefault(); closeKaf(); }
+  else if(k==="ArrowRight"||k==="PageDown"||k===" "||k==="Enter"){ e.preventDefault(); kfGo(KF.i+1); }
+  else if(k==="ArrowLeft"||k==="PageUp"||k==="Backspace"){ e.preventDefault(); kfGo(KF.i-1); }
+  else if(k==="Home"){ e.preventDefault(); kfGo(0); }
+  else if(k==="End"){ e.preventDefault(); kfGo(1e6); }
+  else if(k==="+"||k==="="){ e.preventDefault(); kfFont(1); }
+  else if(k==="-"||k==="_"){ e.preventDefault(); kfFont(-1); }
+}
+document.addEventListener("visibilitychange",function(){ if(KF.open&&document.visibilityState==="visible") kfWake(); });
+window.addEventListener("resize",debounce(function(){ if(KF.open){ kfCapture(); kfRender(); } },250));
+$("#btnKaf").addEventListener("click",openKaf);
+
 /* ---------- sermon text as a Word file ---------- */
 function sermonParts(){
   var st=buildSteps(), at={}, out=[], theme=S.theme.trim();
@@ -2269,6 +2500,7 @@ $("#mStruct").addEventListener("click",function(){ setMode("structure"); });
 $("#gStudy").addEventListener("click",function(){ if(em()==="sermon") setMode(lastStudy); });
 $("#gSermon").addEventListener("click",function(){ if(em()!=="sermon"){ sel=null; setMode("sermon"); } });
 document.addEventListener("keydown",function(e){
+  if(KF.open){ kfKey(e); return; }
   if(OPS.on&&!OPS.hall&&!show.open){ opKey(e); return; }
   if(OPS.hall&&(e.key==="b"||e.key==="B"||e.key==="и"||e.key==="И")){ e.preventDefault(); try{ window.opener.postMessage({rs:"black"},"*"); }catch(x){} return; }
   if(ED.open&&!(show.open&&!show.pv)){ edKey(e); return; }
@@ -4111,6 +4343,7 @@ var HELP='<div class="help">'+
 '<p><b>Собрать из разбора.</b> Кнопка расставляет черновик: по блоку на каждую главную фразу, под ней блоки тех слов, у которых заполнено поле «На экран» (текстом блока становится ваша заметка к слову). Тезисов она не сочиняет. Нынешние блоки она заменяет, вернуть их можно кнопкой «Отменить».</p>'+
 '<p><b>Текст в Word.</b> Скачивает текст проповеди файлом .docx. Перед блоком со слайдом стоит мелкая строка с номером слайда, чтобы на кафедре было видно, когда листать.</p>'+
 '<p><b>Файл для зала (для оператора).</b> Кнопка «Файл для зала» скачивает файл только со слайдами: текста проповеди, заметок и разбора в нём нет. Оператор открывает его двойным кликом, ставит телевизор в режим «Расширить» (Win+P), нажимает «Открыть экран зала», перетаскивает новое окно на телевизор и нажимает в нём жёлтую плашку — окно развернётся на весь экран. На своём экране оператор видит текущий слайд, следующий и через один, а внизу ленту всех слайдов. Листает стрелками, пробелом или кликером; B — чёрный экран. Если телевизор только дублирует экран, есть кнопка «Показ на этом экране». После правок файл нужно скачать заново. Если браузер не открыл окно зала, разрешите всплывающие окна для этого файла.</p>'+
+'<p><b>Кафедра.</b> Для проповеди вживую на вашем ноутбуке, планшете или телефоне (на телефоне — в меню ☰). Шаг — это блок проповеди, а не слайд: крупно ваш текст блока, сбоку слайд этого блока и следующий с номерами, внизу полоса плана — касание по ней переходит к блоку. Таймер: общее время и время блока; золотой — блок затянулся. План считается по длине текста, примерно 110 слов в минуту. Если блок начинается со строки **жирным**, она станет его названием в плане. Листать: пробел, стрелки, кликер, на телефоне — свайп. Двойной клик по таймеру — отсчёт заново. Слайды в зале листает оператор со своего файла: ваш аппарат не знает, что сейчас на экране, поэтому сверяйтесь по номеру.</p>'+
 '<p><b>Показ.</b> «▶ Показ» начинает с названия, кнопка ▶ на слайде в ленте — с него. Стрелка вправо, пробел или кликер — дальше; стрелка влево — назад; Esc — выход. Для зала без интернета нажмите «Файл для зала»: скачается отдельный файл с этим отрывком. После правок файл нужно скачать заново.</p>'+
 '<h4>Синхронизация телефона и ноутбука (версия на GitHub)</h4><p>Кнопка «Синхронизация» в библиотеке. Один раз на каждом устройстве введите имя закрытого репозитория (например, dkloban-ctrl/razbor-slova-data) и ключ доступа. Дальше каждое сохранение уходит в репозиторий через несколько секунд, а изменения с другого устройства приходят при открытии приложения, при возвращении к нему и раз в три минуты. Рядом с кнопкой видно время последней синхронизации. Если один отрывок изменили на двух устройствах до синхронизации, остаётся более поздняя версия, а ранняя сохраняется в папке data/conflicts репозитория. Ключ хранится только в этом браузере: на чужом компьютере его не вводите.</p>'+
 '<h4>Что означают квадратные скобки</h4><p>Ветхий Завет Синодального перевода переведён с еврейского текста. Переводчики при этом сверялись с древним греческим переводом — Септуагинтой (перевод семидесяти, III–II века до Р. Х.). Слова и фразы, которые есть в греческом тексте, но которых нет в еврейском, они поставили в скобки. Пример: Бытие 1:6 — «[И стало так.]»; в Бытие 5 в скобках даны другие числа лет из греческого текста.</p>'+
@@ -4390,6 +4623,7 @@ function oldLocal(){
       if(sermon()){
         dr.appendChild(head("Показ в зале"));
         if(narrow()){
+          if($("#btnKaf")) dr.appendChild(item("Кафедра","Ваш текст по блокам во время проповеди",proxy("btnKaf")));
           if($("#btnShow")) dr.appendChild(item("▶ Показ","Слайды на весь экран; поверните телефон",proxy("btnShow")));
           if($("#btnDocx")) dr.appendChild(item("Текст в Word","Текст проповеди файлом .docx",proxy("btnDocx")));
           if($("#btnExport")) dr.appendChild(item("Файл для зала","Только слайды и пульт оператора; без интернета",proxy("btnExport")));
