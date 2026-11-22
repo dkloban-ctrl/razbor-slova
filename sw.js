@@ -5,7 +5,7 @@ self.addEventListener("activate",function(e){ e.waitUntil(self.clients.claim());
 self.addEventListener("fetch",function(e){
   var u=new URL(e.request.url);
   if(e.request.method!=="GET"||u.origin!==self.location.origin) return;
-  var bible=u.pathname.indexOf("/bible/")>=0;
+  var bible=u.pathname.indexOf("/bible/")>=0||u.pathname.indexOf("/enc/")>=0;
   e.respondWith(caches.open(CACHE).then(function(c){
     if(bible) return c.match(e.request).then(function(r){
       return r||fetch(e.request).then(function(n){ if(n.ok) c.put(e.request,n.clone()); return n; });
