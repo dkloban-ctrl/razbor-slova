@@ -788,6 +788,19 @@ html:fullscreen #hallTip{display:none}
 .spout:not(:empty){border-left:3px solid var(--ink);padding:4px 0 4px 14px;margin-top:8px}
 .splock{border:1px dashed var(--line-2);border-radius:var(--r-2);padding:12px 14px}
 .spjn{color:var(--ink-2);font-style:italic}
+.spsrc{border:1px solid var(--line);border-radius:var(--r-2);padding:10px 14px;margin:16px 0;background:var(--card)}
+.spsrc h4{margin:0 0 4px;font:600 11px var(--f-ui);letter-spacing:.09em;text-transform:uppercase;color:var(--ink-2)}
+.spsrc h5{margin:12px 0 2px;font:600 13px var(--f-ui);color:var(--ink)}
+.spsrc ul{list-style:none;margin:0;padding:0}
+.spsrc li{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;padding:5px 0;border-bottom:1px solid var(--line)}
+.spsrc li:last-child{border-bottom:0}
+.spsrc li a{font:16px/1.4 var(--f-text);color:var(--ink);text-decoration:underline;text-decoration-color:var(--line-2);text-underline-offset:3px}
+.spsrc li a:hover{text-decoration-color:var(--ink)}
+.spsrc li small{color:var(--ink-2);font:12px/1.4 var(--f-ui);margin-right:auto}
+.spsrc li button{padding:2px 8px;font-size:12px}
+.spsrc .sprow a{font:14px var(--f-ui);color:var(--ink)}
+.spsrc input{border:1px solid var(--line-2);background:var(--panel);padding:6px 10px;font:16px var(--f-text);min-width:0;flex:1 1 160px}
+@media (max-width:760px){ .spsrc li{padding:9px 0} .spsrc li a{font-size:17px} .spsrc li button{padding:6px 10px} }
 
 /* notes panel: its parts and the word notes are never squeezed (buttons have a min-height, so flex could shrink them and the text overlapped); the panel scrolls instead */
 #noteBody>*{flex-shrink:0}
@@ -1151,7 +1164,7 @@ body.kf-on{overflow:hidden}
 </head>
 <body>
 <div id="app"></div>
-<script id="appjs">var __MARKUP__="<div id=\"lib\">\n  <header class=\"lhead\"><button id=\"lMenu\" type=\"button\" title=\"Меню\" aria-label=\"Меню библиотеки\">☰</button><button id=\"lHome\" type=\"button\" title=\"На главную\" aria-label=\"На главную\">⌂</button><div id=\"lCont\"></div><button id=\"lTalks\" type=\"button\" title=\"Конспекты чужих проповедей\">Конспекты</button><div id=\"lProg\"></div><span id=\"libSt\" role=\"status\"></span><button id=\"btnTheme\" class=\"thm\" title=\"Ночной режим\">☾</button></header><div id=\"lBack\"></div><nav id=\"lDrawer\" aria-label=\"Меню библиотеки\"><div class=\"ldt\"><span class=\"brand\">VDMA</span><button type=\"button\" class=\"pclose\" id=\"lClose\" aria-label=\"Закрыть меню\">×</button></div><div class=\"lmotto\"><b>Слово Господне пребывает вовек</b><i>Verbum Domini Manet in Aeternum</i><i>Ис. 40:8; 1 Пет. 1:25</i></div><div class=\"lver\">версия 20.11 · 45</div><button id=\"btnSync\" class=\"stdonly\" data-s=\"off\">Синхронизация</button><button id=\"btnBackup\" class=\"cloudonly\">Скачать всю библиотеку</button><label class=\"filebtn cloudonly\" title=\"Файл, скачанный кнопкой «Скачать всю библиотеку»\">Загрузить библиотеку из файла<input id=\"impAll\" type=\"file\" accept=\".json,application/json\"></label><button id=\"btnHelp2\">Справка</button></nav>\n  <div id=\"libBody\"><aside id=\"bookList\" aria-label=\"Книги\"></aside><div id=\"bookPage\"></div></div>\n</div>\n<div id=\"work\">\n<header>\n  <button id=\"btnLib\" class=\"cloudonly\" title=\"На главную\">Главная</button>\n  <input id=\"title\" aria-label=\"Название отрывка\" placeholder=\"Отрывок, например: Римлянам 5:1–5\">\n  <span class=\"seg wideonly\" id=\"modeSeg\" role=\"group\" aria-label=\"Режим работы\"><button id=\"gStudy\">Изучение</button><button id=\"gSermon\">Проповедь</button></span>\n  <button id=\"btnStatus\" class=\"cloudonly\"></button>\n  <button id=\"btnSheet\" class=\"cloudonly studyonly\">Лист книги</button>\n  <button id=\"btnUndo\" title=\"Отменить последнее действие (Ctrl+Z)\">Отменить</button>\n  <button id=\"btnSave\" class=\"wideonly studyonly\">Сохранить в файл</button>\n  <label class=\"filebtn localonly studyonly\">Открыть файл<input id=\"fileIn\" type=\"file\" accept=\".json,application/json\"></label>\n  <button id=\"btnPng\" class=\"wideonly studyonly\">Схема картинкой (PNG)</button>\n  <span class=\"fsz wideonly sermononly\" title=\"Размер шрифта на экране зала\">Шрифт <button id=\"fsDn\" aria-label=\"Шрифт на экране мельче\">−</button><b id=\"fsVal\">100%</b><button id=\"fsUp\" aria-label=\"Шрифт на экране крупнее\">+</button></span><span class=\"fsz wideonly sermononly\" title=\"Вид экрана зала\">Экран <select id=\"shLook\" aria-label=\"Вид экрана зала\"><option value=\"dark\">тёмный</option><option value=\"light\">светлый</option></select></span>\n  <button id=\"btnShow\" class=\"wideonly sermononly on\">▶ Показ</button>\n  <button id=\"btnKaf\" class=\"wideonly sermononly\" title=\"Ваш текст по блокам во время проповеди: крупно, со слайдом и таймером\">Кафедра</button>\n  <button id=\"btnDocx\" class=\"wideonly sermononly\">Текст в Word</button>\n  <button id=\"btnExport\" class=\"cloudonly wideonly sermononly\" title=\"Отдельный файл для показа в зале, работает без интернета\">Файл для зала</button>\n  <button id=\"btnHelp\" class=\"wideonly\">Справка</button>\n  <span id=\"cloudSt\" class=\"cloudonly\"></span>\n  <span id=\"status\" role=\"status\"></span>\n</header>\n<nav id=\"ptabs\"><button data-p=\"text\">Текст</button><button data-p=\"field\">Разбор</button><button data-p=\"notes\">Заметки</button></nav>\n\n<main id=\"main\">\n  <section id=\"left\" aria-label=\"Исходный текст\">\n    <div class=\"phead\">\n      <h2>Текст</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Что делает клик по слову\"><button id=\"tCut\">Резать</button><button id=\"tNote\">Заметки к словам</button></span>\n      <button id=\"btnEdit\" class=\"ghost\">Изменить текст</button>\n    </div>\n    <div class=\"phead\" id=\"srcTools\">\n      <button id=\"cutVerses\">Резать по стихам</button>\n      <button id=\"cutPunct\">По знакам препинания</button>\n      <button id=\"cutReset\" class=\"ghost\">Убрать все разрезы</button>\n    </div>\n    <div class=\"pbody\"><div id=\"srcWrap\"><div id=\"src\"></div><svg id=\"srcMarks\" aria-hidden=\"true\"></svg></div><div id=\"markList\"></div></div>\n    <div id=\"selBar\"></div>\n    <div id=\"srcEdit\">\n      <textarea id=\"srcText\" aria-label=\"Исходный текст\" placeholder=\"Вставьте сюда текст (Синодальный перевод). Номера стихов можно оставить: они станут маленькими цифрами.\"></textarea>\n      <div class=\"rowb\">\n        <button id=\"srcApply\" class=\"on\">Готово</button>\n        <button id=\"srcCancel\">Отмена</button>\n      </div>\n      <div style=\"color:var(--ink-2);font-size:12px\">Разрезы, заметки и текст проповеди сохранятся. Пропадёт только то, что привязано к удалённым словам. Если что-то пошло не так, есть кнопка «Отменить».</div>\n    </div>\n    <div class=\"hint\" id=\"srcHint\"></div>\n  </section>\n\n  <section id=\"mid\" aria-label=\"Рабочее поле\">\n    <div class=\"phead\">\n      <h2>Рабочее поле</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Режим\">\n        <button id=\"mStruct\">Структура</button>\n      </span>\n    </div>\n    <div class=\"pbody\" id=\"midBody\">\n      <div id=\"structure\"></div>\n    </div>\n    <div class=\"hint\" id=\"midHint\"></div>\n  </section>\n\n  <section id=\"right\" aria-label=\"Заметки\">\n    <div class=\"phead\"><h2>Заметки</h2></div>\n    <div class=\"pbody\" id=\"noteBody\">\n      <div id=\"noteHead\"></div>\n      <div id=\"scrWrap\">\n        <label for=\"scr\">На экран</label>\n        <textarea id=\"scr\" rows=\"2\" placeholder=\"Короткий тезис к этому слову\"></textarea>\n        <small>Это увидит зал. Заметка ниже остаётся только у вас.</small>\n      </div>\n      <textarea id=\"notes\" aria-label=\"Заметка\"></textarea>\n      <div id=\"noteList\"></div>\n    </div>\n  </section>\n</main>\n<div id=\"sm\">\n  <section id=\"smL\" aria-label=\"Материалы изучения\">\n    <div class=\"phead\"><h2>Из изучения</h2></div>\n    <div class=\"pbody\"><div id=\"smText\" class=\"tool-mark\"><div class=\"smh\">Текст и пометки</div></div><div id=\"smMat\"></div></div>\n  </section>\n  <section id=\"smM\" aria-label=\"Текст проповеди\">\n    <div class=\"phead\"><h2>Текст проповеди</h2><span id=\"smCount\" class=\"snote\"></span><button id=\"smBuild\">Собрать из разбора</button></div>\n    <div class=\"pbody\" id=\"smBody\">\n      <div class=\"sf\"><label for=\"sTheme\">Название</label><input id=\"sTheme\" placeholder=\"Название проповеди. Первый слайд\"><span></span><label class=\"rdl\"><input type=\"checkbox\" id=\"sRead\"><span id=\"sReadT\">После названия показать полный текст отрывка для чтения</span></label></div>\n      <div id=\"smBlocks\"></div>\n      <button id=\"smAdd\" class=\"ghost\">+ Блок</button>\n      <div class=\"sf\" style=\"margin-top:22px\">\n        <label for=\"sMain\">Главная мысль</label><textarea id=\"sMain\" rows=\"2\" placeholder=\"Одно предложение, которое зал должен унести. Предпоследний слайд\"></textarea>\n        <label for=\"sSum\">Итог</label><textarea id=\"sSum\" rows=\"2\" placeholder=\"К чему зовёт текст. Последний слайд\"></textarea>\n      </div>\n    </div>\n  </section>\n  <section id=\"smR\" aria-label=\"Слайды\">\n    <div class=\"phead\"><h2>Слайды</h2></div>\n    <div class=\"pbody\" id=\"smSlides\"></div>\n  </section>\n</div>\n<footer id=\"wfoot\"><span class=\"brand\">VDMA</span><span class=\"wm\">Слово Господне пребывает вовек</span><span class=\"wr\">Ис. 40:8</span></footer>\n</div>\n\n<datalist id=\"rels\">\n  <option value=\"основание\"><option value=\"причина\"><option value=\"следствие\"><option value=\"цель\"><option value=\"результат\">\n  <option value=\"условие\"><option value=\"уступка\"><option value=\"средство\"><option value=\"образ действия\"><option value=\"время\">\n  <option value=\"пояснение\"><option value=\"противопоставление\"><option value=\"ряд\"><option value=\"вывод\"><option value=\"сравнение\">\n</datalist>\n\n<div id=\"modal\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"mTitle\"><div class=\"box\">\n  <h3 id=\"mTitle\"></h3><p id=\"mText\"></p><div id=\"mBody\"></div>\n  <div class=\"rowb\"><button id=\"mCopy\">Скопировать</button><button id=\"mClose\">Закрыть</button></div>\n</div></div>\n\n<div id=\"show\" aria-label=\"Показ на экране\">\n  <div id=\"shBody\"><div id=\"shIn\"></div></div>\n  <div id=\"shThesis\"></div>\n  <div id=\"shCount\"></div>\n</div>\n";
+<script id="appjs">var __MARKUP__="<div id=\"lib\">\n  <header class=\"lhead\"><button id=\"lMenu\" type=\"button\" title=\"Меню\" aria-label=\"Меню библиотеки\">☰</button><button id=\"lHome\" type=\"button\" title=\"На главную\" aria-label=\"На главную\">⌂</button><div id=\"lCont\"></div><button id=\"lTalks\" type=\"button\" title=\"Конспекты чужих проповедей\">Конспекты</button><div id=\"lProg\"></div><span id=\"libSt\" role=\"status\"></span><button id=\"btnTheme\" class=\"thm\" title=\"Ночной режим\">☾</button></header><div id=\"lBack\"></div><nav id=\"lDrawer\" aria-label=\"Меню библиотеки\"><div class=\"ldt\"><span class=\"brand\">VDMA</span><button type=\"button\" class=\"pclose\" id=\"lClose\" aria-label=\"Закрыть меню\">×</button></div><div class=\"lmotto\"><b>Слово Господне пребывает вовек</b><i>Verbum Domini Manet in Aeternum</i><i>Ис. 40:8; 1 Пет. 1:25</i></div><div class=\"lver\">версия 22.11 · 46</div><button id=\"btnSync\" class=\"stdonly\" data-s=\"off\">Синхронизация</button><button id=\"btnBackup\" class=\"cloudonly\">Скачать всю библиотеку</button><label class=\"filebtn cloudonly\" title=\"Файл, скачанный кнопкой «Скачать всю библиотеку»\">Загрузить библиотеку из файла<input id=\"impAll\" type=\"file\" accept=\".json,application/json\"></label><button id=\"btnHelp2\">Справка</button></nav>\n  <div id=\"libBody\"><aside id=\"bookList\" aria-label=\"Книги\"></aside><div id=\"bookPage\"></div></div>\n</div>\n<div id=\"work\">\n<header>\n  <button id=\"btnLib\" class=\"cloudonly\" title=\"На главную\">Главная</button>\n  <input id=\"title\" aria-label=\"Название отрывка\" placeholder=\"Отрывок, например: Римлянам 5:1–5\">\n  <span class=\"seg wideonly\" id=\"modeSeg\" role=\"group\" aria-label=\"Режим работы\"><button id=\"gStudy\">Изучение</button><button id=\"gSermon\">Проповедь</button></span>\n  <button id=\"btnStatus\" class=\"cloudonly\"></button>\n  <button id=\"btnSheet\" class=\"cloudonly studyonly\">Лист книги</button>\n  <button id=\"btnUndo\" title=\"Отменить последнее действие (Ctrl+Z)\">Отменить</button>\n  <button id=\"btnSave\" class=\"wideonly studyonly\">Сохранить в файл</button>\n  <label class=\"filebtn localonly studyonly\">Открыть файл<input id=\"fileIn\" type=\"file\" accept=\".json,application/json\"></label>\n  <button id=\"btnPng\" class=\"wideonly studyonly\">Схема картинкой (PNG)</button>\n  <span class=\"fsz wideonly sermononly\" title=\"Размер шрифта на экране зала\">Шрифт <button id=\"fsDn\" aria-label=\"Шрифт на экране мельче\">−</button><b id=\"fsVal\">100%</b><button id=\"fsUp\" aria-label=\"Шрифт на экране крупнее\">+</button></span><span class=\"fsz wideonly sermononly\" title=\"Вид экрана зала\">Экран <select id=\"shLook\" aria-label=\"Вид экрана зала\"><option value=\"dark\">тёмный</option><option value=\"light\">светлый</option></select></span>\n  <button id=\"btnShow\" class=\"wideonly sermononly on\">▶ Показ</button>\n  <button id=\"btnKaf\" class=\"wideonly sermononly\" title=\"Ваш текст по блокам во время проповеди: крупно, со слайдом и таймером\">Кафедра</button>\n  <button id=\"btnDocx\" class=\"wideonly sermononly\">Текст в Word</button>\n  <button id=\"btnExport\" class=\"cloudonly wideonly sermononly\" title=\"Отдельный файл для показа в зале, работает без интернета\">Файл для зала</button>\n  <button id=\"btnHelp\" class=\"wideonly\">Справка</button>\n  <span id=\"cloudSt\" class=\"cloudonly\"></span>\n  <span id=\"status\" role=\"status\"></span>\n</header>\n<nav id=\"ptabs\"><button data-p=\"text\">Текст</button><button data-p=\"field\">Разбор</button><button data-p=\"notes\">Заметки</button></nav>\n\n<main id=\"main\">\n  <section id=\"left\" aria-label=\"Исходный текст\">\n    <div class=\"phead\">\n      <h2>Текст</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Что делает клик по слову\"><button id=\"tCut\">Резать</button><button id=\"tNote\">Заметки к словам</button></span>\n      <button id=\"btnEdit\" class=\"ghost\">Изменить текст</button>\n    </div>\n    <div class=\"phead\" id=\"srcTools\">\n      <button id=\"cutVerses\">Резать по стихам</button>\n      <button id=\"cutPunct\">По знакам препинания</button>\n      <button id=\"cutReset\" class=\"ghost\">Убрать все разрезы</button>\n    </div>\n    <div class=\"pbody\"><div id=\"srcWrap\"><div id=\"src\"></div><svg id=\"srcMarks\" aria-hidden=\"true\"></svg></div><div id=\"markList\"></div></div>\n    <div id=\"selBar\"></div>\n    <div id=\"srcEdit\">\n      <textarea id=\"srcText\" aria-label=\"Исходный текст\" placeholder=\"Вставьте сюда текст (Синодальный перевод). Номера стихов можно оставить: они станут маленькими цифрами.\"></textarea>\n      <div class=\"rowb\">\n        <button id=\"srcApply\" class=\"on\">Готово</button>\n        <button id=\"srcCancel\">Отмена</button>\n      </div>\n      <div style=\"color:var(--ink-2);font-size:12px\">Разрезы, заметки и текст проповеди сохранятся. Пропадёт только то, что привязано к удалённым словам. Если что-то пошло не так, есть кнопка «Отменить».</div>\n    </div>\n    <div class=\"hint\" id=\"srcHint\"></div>\n  </section>\n\n  <section id=\"mid\" aria-label=\"Рабочее поле\">\n    <div class=\"phead\">\n      <h2>Рабочее поле</h2>\n      <span class=\"seg\" role=\"group\" aria-label=\"Режим\">\n        <button id=\"mStruct\">Структура</button>\n      </span>\n    </div>\n    <div class=\"pbody\" id=\"midBody\">\n      <div id=\"structure\"></div>\n    </div>\n    <div class=\"hint\" id=\"midHint\"></div>\n  </section>\n\n  <section id=\"right\" aria-label=\"Заметки\">\n    <div class=\"phead\"><h2>Заметки</h2></div>\n    <div class=\"pbody\" id=\"noteBody\">\n      <div id=\"noteHead\"></div>\n      <div id=\"scrWrap\">\n        <label for=\"scr\">На экран</label>\n        <textarea id=\"scr\" rows=\"2\" placeholder=\"Короткий тезис к этому слову\"></textarea>\n        <small>Это увидит зал. Заметка ниже остаётся только у вас.</small>\n      </div>\n      <textarea id=\"notes\" aria-label=\"Заметка\"></textarea>\n      <div id=\"noteList\"></div>\n    </div>\n  </section>\n</main>\n<div id=\"sm\">\n  <section id=\"smL\" aria-label=\"Материалы изучения\">\n    <div class=\"phead\"><h2>Из изучения</h2></div>\n    <div class=\"pbody\"><div id=\"smText\" class=\"tool-mark\"><div class=\"smh\">Текст и пометки</div></div><div id=\"smMat\"></div></div>\n  </section>\n  <section id=\"smM\" aria-label=\"Текст проповеди\">\n    <div class=\"phead\"><h2>Текст проповеди</h2><span id=\"smCount\" class=\"snote\"></span><button id=\"smBuild\">Собрать из разбора</button></div>\n    <div class=\"pbody\" id=\"smBody\">\n      <div class=\"sf\"><label for=\"sTheme\">Название</label><input id=\"sTheme\" placeholder=\"Название проповеди. Первый слайд\"><span></span><label class=\"rdl\"><input type=\"checkbox\" id=\"sRead\"><span id=\"sReadT\">После названия показать полный текст отрывка для чтения</span></label></div>\n      <div id=\"smBlocks\"></div>\n      <button id=\"smAdd\" class=\"ghost\">+ Блок</button>\n      <div class=\"sf\" style=\"margin-top:22px\">\n        <label for=\"sMain\">Главная мысль</label><textarea id=\"sMain\" rows=\"2\" placeholder=\"Одно предложение, которое зал должен унести. Предпоследний слайд\"></textarea>\n        <label for=\"sSum\">Итог</label><textarea id=\"sSum\" rows=\"2\" placeholder=\"К чему зовёт текст. Последний слайд\"></textarea>\n      </div>\n    </div>\n  </section>\n  <section id=\"smR\" aria-label=\"Слайды\">\n    <div class=\"phead\"><h2>Слайды</h2></div>\n    <div class=\"pbody\" id=\"smSlides\"></div>\n  </section>\n</div>\n<footer id=\"wfoot\"><span class=\"brand\">VDMA</span><span class=\"wm\">Слово Господне пребывает вовек</span><span class=\"wr\">Ис. 40:8</span></footer>\n</div>\n\n<datalist id=\"rels\">\n  <option value=\"основание\"><option value=\"причина\"><option value=\"следствие\"><option value=\"цель\"><option value=\"результат\">\n  <option value=\"условие\"><option value=\"уступка\"><option value=\"средство\"><option value=\"образ действия\"><option value=\"время\">\n  <option value=\"пояснение\"><option value=\"противопоставление\"><option value=\"ряд\"><option value=\"вывод\"><option value=\"сравнение\">\n</datalist>\n\n<div id=\"modal\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"mTitle\"><div class=\"box\">\n  <h3 id=\"mTitle\"></h3><p id=\"mText\"></p><div id=\"mBody\"></div>\n  <div class=\"rowb\"><button id=\"mCopy\">Скопировать</button><button id=\"mClose\">Закрыть</button></div>\n</div></div>\n\n<div id=\"show\" aria-label=\"Показ на экране\">\n  <div id=\"shBody\"><div id=\"shIn\"></div></div>\n  <div id=\"shThesis\"></div>\n  <div id=\"shCount\"></div>\n</div>\n";
 (function(){
 "use strict";
 document.getElementById("app").innerHTML=__MARKUP__; if(window.rsThemeSync) rsThemeSync();
@@ -4450,6 +4463,110 @@ function spComm(){
       '<label class="spl">Что я меняю у себя и на каком основании из текста<textarea data-cf="note" rows="2">'+esc(c.note||"")+'</textarea></label></div>';
   }).join("")+'<div class="sprow"><button data-sp="cadd">+ Комментарий</button></div>';
 }
+/* ---------- where to read: commentaries and encyclopedias (links to bible.by and biblehub; book ids of the app = book ids of bible.by) ---------- */
+var CM_NT=function(b){ return +b>=40&&+b<=66; };
+var CM_GR=[
+ {g:"Евангельские и баптистские",l:[
+  ["spurgeon","Сперджен","баптист · только Псалмы",["19"]],
+  ["macarthur-bible","Учебная Библия МакАртура","евангельский"],
+  ["macarthur","МакАртур, серия комментариев","евангельский · переведены не все книги","nt"],
+  ["nbc","Новый Библейский Комментарий","евангельский","nt"],
+  ["btc","«Библия говорит сегодня»","евангельский"],
+  ["otc","«Ветхий Завет сегодня»","евангельский · Бытие, Исход, Исаия",["01","02","23"]],
+  ["mcdonald","МакДональд","евангельский («братья»)"],
+  ["ryle","Райл","евангельский англиканин · Евангелия",["40","41","42","43"]],
+  ["scofield-bible","Скоуфилд","диспенсационалистский"]]},
+ {g:"Реформатские и лютеранские",l:[
+  ["jan-calvin","Кальвин","реформатский"],
+  ["geneva-bible","Новая Женевская Библия","реформатский"],
+  ["luther","Лютер","лютеранский · Римлянам и Галатам",["52","55"]]]},
+ {g:"Язык и фон",l:[
+  ["rogers","Роджерс, лингвистический ключ","греческие слова","nt"],
+  ["cent","Давид Стерн","мессианский иудей · еврейский фон","nt"],
+  ["ot-nt","Ветхий Завет в Новом","цитаты и аллюзии из ВЗ","nt"]]},
+ {g:"Древние и православные",l:[
+  ["zlatoust","Иоанн Златоуст","IV век · часть НЗ, Бытие, Псалмы, Исаия, Даниил","zl"],
+  ["aic","Августин","IV–V век"],
+  ["feofilakt","Феофилакт Болгарский","XI век, православный","fe"],
+  ["lopuhin-bible","Толковая Библия Лопухина","православная, 1904–1913"]]},
+ {g:"Читать критически",l:[
+  ["barclay","Баркли","либеральный уклон: чудеса и авторство книг часто объясняет иначе","nt"]]},
+ {g:"Прочие",l:[
+  ["kuznetsova","Валентина Кузнецова","переводчик НЗ","nt"],
+  ["viazovski","Вязовский","Откровение",["66"]]]}
+];
+var CM_LEX=[["nikifor","Никифор","Библейская энциклопедия, 1891"],["brockhaus","Брокгауз","Библейская энциклопедия"],["nustrem","Нюстрем","энциклопедический словарь"],["btd","Большой Библейский Словарь",""],["gece","Гёце","библейский словарь"],["gece-sk","Гёце, краткий",""],["vihlyancev","Вихлянцев","библейский словарь"]];
+var CM_AL={"пс":"19","псалом":"19","псалмы":"19","ис":"23","исаии":"23","иов":"18","иова":"18","мф":"40","матфея":"40","мк":"41","марка":"41","лк":"42","луки":"42","ин":"43","деян":"44","иак":"45","иуд":"51","откр":"66","быт":"01","исх":"02","лев":"03","чис":"04","втор":"05","нав":"06","суд":"07","иер":"24","иеремии":"24","иез":"26","иезекииля":"26","дан":"27","даниила":"27","ос":"28","иоил":"29","ам":"30","мих":"33","авв":"35","соф":"36","агг":"37","зах":"38","мал":"39","притч":"20","еккл":"21","песн":"22","неем":"16","есф":"17","1 кор":"53","2 кор":"54","1 фес":"59","2 фес":"60","1 тим":"61","2 тим":"62","флп":"57","кол":"58","еф":"56","гал":"55","флм":"64","тит":"63","евр":"65","1 ин":"48","2 ин":"49","3 ин":"50","1 пет":"46","2 пет":"47","1 цар":"09","2 цар":"10","3 цар":"11","4 цар":"12","1 пар":"13","2 пар":"14","ионы":"32"};
+var CM_AB="АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЭЮЯ";
+var CM_EN=["genesis","exodus","leviticus","numbers","deuteronomy","joshua","judges","ruth","1_samuel","2_samuel","1_kings","2_kings","1_chronicles","2_chronicles","ezra","nehemiah","esther","job","psalms","proverbs","ecclesiastes","songs","isaiah","jeremiah","lamentations","ezekiel","daniel","hosea","joel","amos","obadiah","jonah","micah","nahum","habakkuk","zephaniah","haggai","zechariah","malachi","matthew","mark","luke","john","acts","james","1_peter","2_peter","1_john","2_john","3_john","jude","romans","1_corinthians","2_corinthians","galatians","ephesians","philippians","colossians","1_thessalonians","2_thessalonians","1_timothy","2_timothy","titus","philemon","hebrews","revelation"];
+var cmCh=null, cmKey="", cmBooksAsked=false;
+function cmHas(it,b){
+  var w=it[3]; if(!w) return true;
+  if(w==="nt") return CM_NT(b);
+  if(w==="zl") return CM_NT(b)||["01","19","23","27"].indexOf(b)>=0;
+  if(w==="fe") return CM_NT(b)&&b!=="66";
+  return w.indexOf(b)>=0;
+}
+/* the passage reference: from the library card, otherwise from the title ("Деяния 12:1–25", "Рим 5:1-5") */
+function cmRef(){
+  var m=(MODE==="cloud"&&C.cur&&C.cur.meta)||null;
+  if(m&&m.book&&m.c1) return {b:m.book,c1:+m.c1,v1:+m.v1||1,c2:+m.c2||+m.c1};
+  if(!BOOKS.length){
+    if(!cmBooksAsked){ cmBooksAsked=true; fetch("bible/index.json").then(function(r){ return r.ok?r.json():[]; }).then(function(x){ if(x&&x.length){ BOOKS=x; if(em()==="spiral") renderSpiral(); } },function(){}); }
+    return null;
+  }
+  var t=String(S.title||"").toLowerCase().replace(/ё/g,"е").replace(/\s+/g," ").trim(), best=null, bl=0;
+  BOOKS.forEach(function(k){ var s0=String(k.s||"").toLowerCase().replace(/ё/g,"е"); [s0,s0.replace(/^от /,""),String(k.f||"").toLowerCase().replace(/ё/g,"е")].forEach(function(n){
+    for(var L=n.length;L>=3;L--){ if(t.slice(0,L)===n.slice(0,L)&&/[\s.\d]/.test(t.charAt(L)||" ")){ if(L>bl){ best=k; bl=L; } break; } }
+  }); });
+  Object.keys(CM_AL).forEach(function(a){ if(t.slice(0,a.length)===a&&/[\s.\d]/.test(t.charAt(a.length)||" ")&&a.length>bl){ var k=BOOKS.filter(function(x){ return x.id===CM_AL[a]; })[0]; if(k){ best=k; bl=a.length; } } });
+  if(!best) return null;
+  var r=t.slice(bl).match(/(\d+)(?::(\d+))?(?:\s*[–—-]\s*(\d+)(?::(\d+))?)?/); if(!r) return null;
+  var c1=+r[1], v1=r[2]?+r[2]:1, c2=c1;
+  if(r[4]) c2=+r[3]; else if(r[3]&&!r[2]) c2=+r[3];
+  if(c1<1||c1>best.v.length) return null;
+  return {b:best.id,c1:c1,v1:v1,c2:Math.min(Math.max(c2,c1),best.v.length)};
+}
+function cmEn(b,c,v){
+  var i=+b-1; if(i<0||i>65) return "";
+  if(b==="19"){ /* Synodal (Greek) psalm numbers -> Hebrew/English */
+    if(c>=10&&c<=112) c=c+1; else if(c===113) c=114; else if(c===114||c===115) c=116; else if(c>=116&&c<=145) c=c+1; else if(c===146) c=147;
+  }
+  return "https://biblehub.com/commentaries/"+CM_EN[i]+"/"+c+"-"+v+".htm";
+}
+function spWhere(){
+  var r=cmRef(), h=['<div class="spsrc"><h4>Где читать комментарии</h4>'];
+  if(!r){ h.push('<p class="spnote">Чтобы здесь появились ссылки, впишите в название отрывка книгу и главу, например: «Римлянам 5:1–11».</p></div>'); return h.join(""); }
+  if(+r.b>66){ h.push('<p class="spnote">К неканоническим книгам на bible.by есть только Толковая Библия Лопухина.</p><ul><li><a href="https://bible.by/lopuhin-bible/'+r.b+'/'+r.c1+'/" target="_blank" rel="noopener">Толковая Библия Лопухина</a><small>православная</small></li></ul></div>'); return h.join(""); }
+  var key=r.b+":"+r.c1+"-"+r.c2; if(cmKey!==key){ cmKey=key; cmCh=r.c1; }
+  var c=cmCh, bk=(BOOKS.filter(function(x){ return x.id===r.b; })[0]||{}).s||"", v=c===r.c1?r.v1:1;
+  h.push('<p class="spnote">Открываются на bible.by, в новой вкладке, нужен интернет. Метка рядом с именем — традиция автора: учитывайте её, когда взвешиваете довод. Если к этой главе у автора нет толкования, сайт покажет пустую страницу.</p>');
+  if(r.c2>r.c1){ var bt=[]; for(var k=r.c1;k<=r.c2;k++) bt.push('<button data-sp="cch" data-c="'+k+'"'+(k===c?' class="on"':'')+'>'+k+'</button>'); h.push('<div class="sprow"><span class="spnote">Глава</span>'+bt.join("")+'</div>'); }
+  h.push('<div class="sprow"><a href="https://bible.by/syn/'+r.b+'/'+c+'/" target="_blank" rel="noopener">Все толкования к главе '+esc(bk+" "+c)+'</a> · <a href="https://bible.by/verse/'+r.b+'/'+c+'/'+v+'/" target="_blank" rel="noopener">Стих '+c+':'+v+' в других переводах, параллельные места</a></div>');
+  CM_GR.forEach(function(g){
+    var it=g.l.filter(function(x){ return cmHas(x,r.b); }); if(!it.length) return;
+    h.push('<h5>'+g.g+'</h5><ul>'+it.map(function(x){
+      return '<li><a href="https://bible.by/'+x[0]+'/'+r.b+'/'+c+'/" target="_blank" rel="noopener">'+esc(x[1])+'</a><small>'+esc(x[2])+'</small><button data-sp="cpick" data-n="'+esc(x[1])+'" class="ghost" title="Завести запись сверки с этим источником">+ в сверку</button></li>';
+    }).join("")+'</ul>');
+  });
+  var en=cmEn(r.b,c,v);
+  if(en) h.push('<h5>На английском</h5><ul><li><a href="'+en+'" target="_blank" rel="noopener">BibleHub: десятки старых комментариев к стиху '+c+':'+v+'</a><small>Gill, Barnes, Ellicott, Pulpit, Vincent и др. · нумерация стихов местами отличается от Синодальной</small></li></ul>');
+  h.push('</div>'); return h.join("");
+}
+function cmLetter(w){ var ch=String(w||"").trim().toUpperCase().replace(/Ё/g,"Е").replace(/Й/g,"И").charAt(0), i=CM_AB.indexOf(ch); return i>=0?i+1:0; }
+function spLex(){
+  var w=sel?bareRange(sel.a,sel.b):"", r=cmRef(), n=cmLetter(w);
+  var h=['<div class="spsrc"><h4>Энциклопедии и словари</h4><p class="spnote">Имена, места, обычаи, предметы. Это фон, а не толкование, поэтому открыто на любом этапе. Ссылка ведёт на страницу буквы в словаре bible.by: статью там найдёте по алфавиту.</p>',
+    '<div class="sprow"><input id="cmWord" value="'+esc(w)+'" placeholder="Слово: Ирод, Коринф, опресноки…" aria-label="Слово для поиска в энциклопедиях"></div><ul id="cmLexList">'+cmLexItems(n)+'</ul>'];
+  if(r&&+r.b<=66) h.push('<div class="sprow"><a href="https://bible.by/verse/'+r.b+'/'+r.c1+'/'+r.v1+'/" target="_blank" rel="noopener">Стих '+r.c1+':'+r.v1+': оригинал, номера Стронга, переводы</a> · <a href="https://bible.by/symphony/" target="_blank" rel="noopener">Симфония</a></div>');
+  h.push('</div>'); return h.join("");
+}
+function cmLexItems(n){
+  return CM_LEX.map(function(x){
+    var u="https://bible.by/lexicon/"+x[0]+"/"+(n?"letter/"+n+"/":"");
+    return '<li><a href="'+u+'" target="_blank" rel="noopener">'+esc(x[1])+(n?' · '+CM_AB.charAt(n-1):'')+'</a><small>'+esc(x[2])+'</small></li>';
+  }).join("");
+}
 function renderSpiral(){
   var el=$("#spiral"); if(!el) return;
   var sp=S.sp, last=spLast(), st=spStage(sp.cur)||SP_ST[0], h=[];
@@ -4466,9 +4583,10 @@ function renderSpiral(){
       '<button data-sp="unlock" class="ghost">Открыть сейчас</button> <span class="spnote">Отметка об этом останется в журнале витка</span></div></div>');
   }else{
     if(st.id==="ctx"&&MODE==="cloud") h.push('<div class="sprow"><button data-sp="sheet">Открыть лист книги</button></div>');
+    if(st.id==="ctx") h.push(spLex());
     if(st.id==="str") h.push('<div class="spl">Приёмы построения, которые вы видите в отрывке<div class="sprow spv">'+SP_DEV.map(function(v){ return '<button data-sp="dev" data-v="'+v+'"'+(sp.dev.indexOf(v)>=0?' class="on"':'')+'>'+v+'</button>'; }).join("")+'</div></div>');
-    if(st.id==="wrd") h.push(spWords());
-    if(st.id==="cmp") h.push(spComm());
+    if(st.id==="wrd") h.push(spWords()+spLex());
+    if(st.id==="cmp") h.push(spWhere()+spComm());
     h.push(st.f.map(function(f){ return spTa(st.id+"."+f[0],f[1],f[2],f[3]); }).join(""));
     if(st.id==="cmp"&&MODE==="cloud") h.push('<div class="sprow"><button data-sp="sheet">Открыть лист книги</button></div>');
     h.push(spIdeaBlock(st)); h.push(spCheckBlock(st)); h.push('</div>');
@@ -4550,6 +4668,7 @@ async function spCheck(){
     if(t.dataset.f){ sp.f[t.dataset.f]=t.value; }
     else if(t.id==="spIdea"){ sp.f["_i_"+sp.cur]=t.value; }
     else if(t.id==="spWhy"){ sp.f["_w_"+sp.cur]=t.value; }
+    else if(t.id==="cmWord"){ var ul=$("#cmLexList"); if(ul) ul.innerHTML=cmLexItems(cmLetter(t.value)); return; }
     else if(t.dataset.wf&&(c=t.closest("[data-w]"))){ var w=sp.words[+c.dataset.w]; if(w){ w[t.dataset.wf]=t.value; if(t.dataset.wf==="ru") c.querySelector("b").textContent=t.value||"Новое слово"; } }
     else if(t.dataset.cf&&(c=t.closest("[data-c]"))){ var m=sp.comm[+c.dataset.c]; if(m){ m[t.dataset.cf]=t.value; if(t.dataset.cf==="src") c.querySelector("b").textContent=t.value||"Комментарий"; } }
     else return;
@@ -4566,6 +4685,13 @@ async function spCheck(){
     else if(a==="dev"){ i=sp.dev.indexOf(b.dataset.v); if(i>=0) sp.dev.splice(i,1); else sp.dev.push(b.dataset.v); commit(); renderSpiral(); }
     else if(a==="wadd"){ sp.words.push({id:uid(),ru:sel?bareRange(sel.a,sel.b):"",orig:"",range:"",uses:"",here:"",risk:""}); commit(); renderSpiral(); }
     else if(a==="wdel"&&(c=b.closest("[data-w]"))){ sp.words.splice(+c.dataset.w,1); commit(); renderSpiral(); say("Карточка удалена. Можно «Отменить»."); }
+    else if(a==="cch"){ cmCh=+b.dataset.c; renderSpiral(); }
+    else if(a==="cpick"){
+      var r=cmRef(), nm=b.dataset.n+(r?", "+((BOOKS.filter(function(x){ return x.id===r.b; })[0]||{}).s||"")+" "+cmCh:"");
+      sp.comm.push({id:uid(),src:nm,says:"",verd:"",note:""}); commit(); renderSpiral();
+      var cs=document.querySelectorAll('#spiral [data-c]'), last=cs[cs.length-1]; if(last){ last.scrollIntoView({block:"center"}); var ta=last.querySelector('[data-cf="says"]'); if(ta) ta.focus({preventScroll:true}); }
+      say("Запись сверки заведена: «"+nm+"»");
+    }
     else if(a==="cadd"){ sp.comm.push({id:uid(),src:"",says:"",verd:"",note:""}); commit(); renderSpiral(); }
     else if(a==="cdel"&&(c=b.closest("[data-c]"))){ sp.comm.splice(+c.dataset.c,1); commit(); renderSpiral(); say("Запись удалена. Можно «Отменить»."); }
     else if(a==="verd"&&(c=b.closest("[data-c]"))){ var m=sp.comm[+c.dataset.c]; if(m){ m.verd=m.verd===b.dataset.v?"":b.dataset.v; commit(); renderSpiral(); } }
@@ -4595,7 +4721,7 @@ var HELP='<div class="help">'+
 '<h4>Как устроено</h4><p>Библиотека: книга → отрывки. Отрывок выбираете сами во вкладке «Читать и выбрать»: нажмите на первый стих, затем на последний, и в отрывок войдут все стихи между ними, сколько угодно. Нажатие на стих ниже или выше двигает границу, «Сбросить» начинает выбор заново. Всё сохраняется в облаке само и видно с ноутбука и телефона. </p>'+
 '<h4>Конспекты</h4><p>Кнопка «Конспекты» на главном экране: записи чужих проповедей. Укажите проповедника и место Писания, затем записывайте ход мысли пунктами: Enter начинает новый пункт, ▸ делает подпункт, «+ место» добавляет к пункту ссылку из списка. Нажатие на ссылку показывает текст стихов. Внизу итог. Конспекты хранятся и синхронизируются вместе с библиотекой; конспекты по книге видны и на её странице.</p>'+
 '<h4>Два режима</h4><p>Вверху отрывка переключатель. <b>Изучение</b>: текст, структура, «Спираль», заметки и пометки. <b>Проповедь</b> (на ноутбуке): слева то, что дало изучение; посередине текст проповеди блоками; справа слайды, которые собираются из блоков сами.</p>'+
-'<h4>Спираль</h4><p>В отрывке, в среднем поле, есть режим «Спираль»: разбор по методу Осборна этап за этапом. Там же кнопки «Как идти по спирали» и «Ящик инструментов».</p>'+
+'<h4>Спираль</h4><p>В отрывке, в среднем поле, есть режим «Спираль»: разбор по методу Осборна этап за этапом. Там же кнопки «Как идти по спирали» и «Ящик инструментов».</p><p><b>Комментарии и энциклопедии.</b> На этапе «Сверка» список толкований к главе отрывка на bible.by: евангельские, реформатские, древние и православные, с меткой традиции у каждого. Кнопка «+ в сверку» заводит запись с этим источником. На английском — ссылка на BibleHub. На этапах «Целое» и «Слова» — энциклопедии и словари: впишите или выделите в тексте слово, ссылки откроют нужную букву. Нужен интернет. Ссылки берутся из названия отрывка, поэтому в нём должны стоять книга и глава.</p>'+
 '<h4>Пометки на тексте</h4><p>Пометки ставятся в режиме «Проповедь»: слева вверху стоит текст отрывка. Нажмите на слово (для словосочетания: первое слово, затем с зажатым Shift последнее) и внизу выберите «Подчеркнуть», «Обвести» или «Стрелка от него». Для стрелки затем нажмите слово, к которому она ведёт. Подпись к пометке и её удаление — в списке под текстом; кнопка → ставит пометку слайдом. Подпись на экране пишется курсивом. Обводка, которая переходит на следующую строку, рисуется одним контуром вокруг всех её строк.</p>'+
 '<h4>Проповедь из блоков</h4><p>Текст проповеди пишется блоками: блок — это пункт или абзац. У блока может быть слайд. Он выходит на экран в тот момент, когда вы начинаете говорить этот блок. Отдельного порядка шагов больше нет: порядок слайдов задаёт сам текст. Справа видна лента слайдов: название, чтение отрывка, слайды блоков, главная мысль, итог.</p>'+
 '<p><b>Что где на экране проповеди.</b> Слева — материал из изучения: текст с пометками, структура, заметки к словам. Кнопка → вставляет материал блоком под выбранным блоком; сам материал здесь не меняется, править его нужно в режиме «Изучение». Посередине — блоки; тёмная полоса в блоке — то, что увидит зал. Справа — лента слайдов: клик по слайду ведёт к его блоку, ▶ начинает показ с него.</p>'+
