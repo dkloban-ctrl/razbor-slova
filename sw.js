@@ -1,5 +1,5 @@
 /* VDMA: работа без интернета. Библия берётся из сохранённой копии, страница — свежая, если есть связь. */
-var CACHE="razbor-slova-v1";
+var CACHE="razbor-slova-v2";
 self.addEventListener("install",function(){ self.skipWaiting(); });
 self.addEventListener("activate",function(e){ e.waitUntil(self.clients.claim()); });
 self.addEventListener("fetch",function(e){

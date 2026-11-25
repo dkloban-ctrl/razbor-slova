@@ -457,7 +457,7 @@ button.danger{background:var(--mark)!important;color:#fff!important;border-color
 #show.lk{background-color:var(--s-bg);background-image:var(--s-pap);background-blend-mode:var(--s-blend);background-size:384px 384px;box-shadow:inset 0 0 12vh var(--s-edge);color:var(--s-ink);font-family:var(--s-text)}
 #shMeas.lk{font-family:var(--s-text)}
 #show.lk .sh-row,#show.lk .sh-w.past,#show.lk .e-main.dim,#show.lk .im-miss,#show.lk .pv-empty{color:var(--s-dim)!important}
-#show.lk .sh-row.cur,#show.lk .mk-tx{color:var(--s-ink)}
+#show.lk .sh-row.cur,#show.lk .mk-tx{color:var(--s-ink)!important}
 #show.lk .sh-lab,#show.lk .sh-vn,#show.lk .th-w,#show.lk .t-ref,#show.lk .f-ref,#show.lk .e-lab,.lk .rd-ref{color:var(--s-acc);font-family:var(--s-ui)}
 #show.lk .sh-vn{font-weight:600}
 #show.lk .sh-w.on{color:var(--s-acc)}
@@ -789,6 +789,85 @@ html:fullscreen #hallTip{display:none}
 .spout:not(:empty){border-left:3px solid var(--ink);padding:4px 0 4px 14px;margin-top:8px}
 .splock{border:1px dashed var(--line-2);border-radius:var(--r-2);padding:12px 14px}
 .spjn{color:var(--ink-2);font-style:italic}
+/* sermon: a block is a paragraph; its slide is a chip that opens the settings */
+.bsech{font:600 11px var(--f-ui);letter-spacing:.12em;text-transform:uppercase;color:var(--mark);margin:22px 2px 8px;padding-bottom:5px;border-bottom:1px solid var(--line-2)}
+#smBlocks>.bsech:first-child{margin-top:4px}
+.blk{padding:6px 14px 10px}
+.bhd{margin-bottom:2px}
+.bchip{display:inline-flex;align-items:center;gap:6px;max-width:calc(100% - 150px);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font:12.5px var(--f-ui);padding:2px 10px!important;min-height:24px;border-radius:999px!important;border:1px solid var(--line-2)!important;background:var(--panel)!important;color:var(--ink)!important;opacity:1!important}
+.bchip .bcic{color:#D9A441}
+.bchip .bcar{color:var(--ink-3);font-size:10px}
+.blk.nosl .bchip{border-style:dashed!important;color:var(--ink-3)!important;background:transparent!important}
+.blk.slo .bchip{border-color:#D9A441!important}
+.bslw{display:none;margin:8px 0 6px}
+.blk.slo .bslw{display:block}
+.bslrow{display:flex;flex-wrap:wrap;gap:6px 14px;margin-bottom:6px}
+.bslrow .bsel{display:inline-flex;align-items:center;gap:6px;font:12px var(--f-ui);color:var(--ink-2)}
+.bslrow select{font:13px var(--f-ui);color:var(--ink);border:1px solid var(--line-2);background-color:var(--panel);padding:3px 8px;min-height:26px}
+.btx{font-size:18px;line-height:1.7;min-height:3em}
+.blk.nosl .bhd .bsel{opacity:1}
+/* sermon left column: tabs */
+#smL .phead{flex-wrap:wrap;gap:6px}
+#smL .phead h2{display:none}
+.mtabs{display:flex;flex-wrap:wrap;gap:2px;background:var(--sunk);border-radius:8px;padding:2px}
+.mtabs button{font-size:12.5px;padding:3px 10px;min-height:26px;background:transparent;border:0}
+.mtabs button.on{background:var(--card);color:var(--ink);box-shadow:var(--sh-1)}
+.mpn{display:none}
+#smL.mt-ans .mpn[data-p=ans],#smL.mt-str .mpn[data-p=str],#smL.mt-nts .mpn[data-p=nts]{display:block}
+#smL:not(.mt-text) #smText{display:none}
+#smL.mt-text #smMat{display:none}
+/* slides column: can be folded so that the text is wider */
+#smRTog{margin-left:auto;padding:0 10px;min-height:26px}
+#smR .phead{display:flex;align-items:center}
+.sm-noslides #sm{grid-template-columns:minmax(230px,.9fr) minmax(0,2.4fr) 46px}
+.sm-noslides #smR .phead h2,.sm-noslides #smSlides{display:none}
+.sm-noslides #smR .phead{justify-content:center;padding-left:0;padding-right:0}
+.sm-noslides #smRTog{margin:0}
+/* slide cards look like the hall screen: light or dark */
+#smSlides.lk .sld{background-color:var(--s-bg);background-image:var(--s-pap);background-blend-mode:var(--s-blend);background-size:384px 384px;color:var(--s-ink);box-shadow:inset 0 0 0 1px var(--s-line)}
+#smSlides.lk .sld .k,#smSlides.lk .sld .t b{color:var(--s-acc)}
+#smSlides.lk .sld .dim{color:var(--s-dim)}
+#smSlides.lk-light .sld button{background:rgb(0 0 0 / .08);color:var(--s-ink)}
+#smSlides.lk .sld.cur{box-shadow:0 0 0 2px var(--panel),0 0 0 4px var(--mark),0 8px 20px rgb(0 0 0 / .16)}
+@media (max-width:760px){ #smL>.phead{display:flex!important;padding:8px 10px} .mtabs{width:100%} .mtabs button{flex:1;min-height:34px;font-size:13.5px} .bchip{max-width:calc(100% - 40px)} .sm-noslides #sm{grid-template-columns:1fr} #smRTog{display:none} }
+/* questions */
+.qsum{font:15px/1.4 var(--f-ui);margin-bottom:8px}
+.qsum b{font:600 18px var(--f-ui)}
+.qdots{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:4px}
+.qdot{font-size:12px;padding:3px 9px;border-left-width:3px}
+.qdot.opt{opacity:.75}
+.qdot.q-empty{border-left-color:var(--line-2)}
+.qdot.q-ans{border-left-color:#c9a227}
+.qdot.q-ok{border-left-color:#4f8a4b}
+.qdot.q-chg{border-left-color:#b5532f}
+.qcard{border:1px solid var(--line);border-left:4px solid var(--line-2);border-radius:var(--r-2);background:var(--card);padding:12px 16px 10px;margin:0 0 14px;scroll-margin-top:10px}
+.qcard.q-ans{border-left-color:#c9a227}
+.qcard.q-ok{border-left-color:#4f8a4b}
+.qcard.q-chg{border-left-color:#b5532f}
+.qhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+.qhead h4{margin:0;font:560 19px/1.3 var(--f-text);flex:1 1 auto}
+.qn{font:600 13px var(--f-ui);color:var(--ink-2)}
+.qst{font:12px var(--f-ui);color:var(--ink-2)}
+.q-ok>.qhead .qst{color:#4f8a4b;font-weight:600}
+.q-chg>.qhead .qst{color:#b5532f;font-weight:600}
+.qre{display:none;font-size:12px;padding:2px 8px}
+.q-chg>.qhead .qre{display:inline-block}
+.qwhy{color:var(--ink-2);font:13px/1.45 var(--f-ui);margin:6px 0 2px}
+.qcard .spl textarea{background:var(--panel)}
+.qtests{border-top:1px dashed var(--line-2);margin-top:12px;padding-top:8px}
+.qtl{font:600 11px var(--f-ui);letter-spacing:.09em;text-transform:uppercase;color:var(--ink-2);margin-bottom:4px}
+.qtl small{text-transform:none;letter-spacing:0;font-weight:400}
+.qt{display:flex;gap:10px;align-items:flex-start;padding:5px 0;font:15px/1.4 var(--f-text);cursor:pointer}
+.qt input{width:18px;height:18px;margin-top:2px;flex:none;accent-color:#4f8a4b}
+.qt input:disabled+span{color:var(--ink-2);opacity:.7}
+.qopt{margin:6px 0 16px}
+.qopt>summary{cursor:pointer;font:600 13px var(--f-ui);padding:8px 0;color:var(--ink)}
+.qopt[open]>summary{margin-bottom:10px}
+.qcmp{border-top:1px solid var(--line-2);margin-top:8px;padding-top:12px}
+.qcmp h3{margin:0 0 6px;font:560 19px/1.3 var(--f-text)}
+.qm{font-weight:600}
+.qm.q-ok{color:#4f8a4b}.qm.q-chg{color:#b5532f}.qm.q-empty,.qm.q-ans{color:#a3861e}
+@media (max-width:760px){ .qt{padding:8px 0;font-size:16px} .qt input{width:22px;height:22px} .qcard{padding:12px 12px 10px} .qdot{padding:6px 10px} }
 .spsrc{border:1px solid var(--line);border-radius:var(--r-2);padding:10px 14px;margin:16px 0;background:var(--card)}
 .spsrc h4{margin:0 0 4px;font:600 11px var(--f-ui);letter-spacing:.09em;text-transform:uppercase;color:var(--ink-2)}
 .spsrc h5{margin:12px 0 2px;font:600 13px var(--f-ui);color:var(--ink)}
@@ -1150,6 +1229,55 @@ body.kf-on{overflow:hidden}
 #kaf .kfc{min-width:0;background:transparent;color:#a89c87;border:1px solid #3a3328;border-radius:8px;padding:8px 10px;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left}
 #kaf .kfc.done{background:#2c2720;border-color:#2c2720;color:#7d7362}
 #kaf .kfc.cur{background:#e8e0d0;border-color:#e8e0d0;color:#14120f;font-weight:600}
+/* what the hall sees, large, above the text */
+#kaf main{padding:18px 56px 16px;gap:12px}
+#kaf .kfscr{flex:none;display:flex;flex-direction:column;gap:6px}
+#kaf .kfsh{display:flex;align-items:baseline;gap:12px;min-width:0;font:600 12px/1.4 Inter,Arial,sans-serif;letter-spacing:.04em;text-transform:uppercase;color:#a89c87}
+#kaf .kfsh b{color:#e8e0d0;font-size:20px;letter-spacing:0}
+#kaf .kfsl2{text-transform:none;letter-spacing:0;font:400 14px/1.4 Inter,Arial,sans-serif;color:#d6a446;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+#kaf .kfbig{padding:4px 12px;font-size:13px;text-transform:none;letter-spacing:0;flex:none}
+#kaf .kfscr .kfth{border-radius:8px;box-shadow:0 0 0 1px #3a3328,0 6px 24px rgb(0 0 0 / .4)}
+#kaf .kftx.sm{font-size:calc(24px*var(--kfk))}
+#kaf .kfnl2{font:14px/1.45 Inter,Arial,sans-serif;color:#d6a446}
+#kaf .kfall{white-space:nowrap}
+#kaf>footer .kfcs{overflow-x:auto;scrollbar-width:thin;padding-bottom:2px}
+#kaf>footer .kfc{flex:0 0 auto;max-width:260px;min-width:120px}
+/* all slides */
+#kaf .kfls{position:absolute;inset:0;z-index:5;background:rgb(10 9 7 / .72);display:flex;justify-content:center;align-items:stretch;padding:4vh 4vw}
+#kaf .kflh{display:flex;align-items:center;gap:16px;padding:14px 18px;border-bottom:1px solid #2c2720;flex-wrap:wrap}
+#kaf .kflh b{font:600 20px "EB Garamond",Georgia,serif;color:#e8e0d0}
+#kaf .kflh span{flex:1;font-size:13px;color:#7d7362;min-width:200px}
+#kaf .kfls>.kflh,#kaf .kfls>.kflb{display:none}
+#kaf .kfls{flex-direction:column}
+#kaf .kfls{--w:min(980px,92vw)}
+#kaf .kfls>.kflh{display:flex}
+#kaf .kfls>.kflh,#kaf .kfls>.kflb{width:var(--w);margin:0 auto;background:#1b1915;box-sizing:border-box}
+#kaf .kfls>.kflh{border-radius:12px 12px 0 0}
+#kaf .kfls>.kflb{display:block;flex:1;min-height:0;overflow-y:auto;border-radius:0 0 12px 12px;padding:6px 10px 16px}
+#kaf .kflg{font:600 12px Inter,Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#d2705f;padding:16px 10px 6px;border-bottom:1px solid #2c2720;margin-bottom:4px}
+#kaf .kfli{display:flex;gap:14px;align-items:baseline;width:100%;text-align:left;background:none;border:0;border-radius:8px;padding:10px 10px;color:#e8e0d0;font:17px/1.4 Literata,Georgia,serif}
+#kaf .kfli:hover{background:#24201a}
+#kaf .kfli.on{background:#e8e0d0;color:#14120f}
+#kaf .kfli.done{color:#7d7362}
+#kaf .kfln{flex:none;min-width:3.2em;text-align:right;font:600 18px Inter,Arial,sans-serif;font-variant-numeric:tabular-nums;color:#d6a446}
+#kaf .kfli.on .kfln{color:#a8231b}
+#kaf .kfli{white-space:normal}
+#kaf .kflt{min-width:0;flex:1;overflow-wrap:anywhere}
+#kaf .kflt small{display:block;font:13px/1.4 Inter,Arial,sans-serif;color:#7d7362;margin-top:2px}
+#kaf .kfli.on .kflt small{color:#5a5040}
+#kaf .kfnum{position:absolute;right:28px;bottom:110px;z-index:6;background:#e8e0d0;color:#14120f;border-radius:12px;padding:12px 18px;font:600 30px Inter,Arial,sans-serif;box-shadow:0 8px 30px rgb(0 0 0 / .5)}
+#kaf .kfnum small{display:block;font:400 12px Inter,Arial,sans-serif}
+#kaf.ph .kfscr{padding:8px 14px 0}
+#kaf.ph .kfsl2{display:inline;white-space:normal;color:#d6a446;font-size:13px}
+#kaf.ph .kfrb{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+#kaf.ph .kfrb .kfx{border:1px solid #3a3328;padding:6px 10px;font-size:13px}
+#kaf.ph .kfls{padding:0}
+#kaf.ph .kfls{--w:100vw}
+#kaf.ph .kfls>.kflh{border-radius:0;padding-top:max(14px,env(safe-area-inset-top))}
+#kaf.ph .kfls>.kflb{border-radius:0}
+#kaf.ph .kfli{padding:13px 8px;font-size:16px}
+#kaf.ph .kflh span{display:none}
+#kaf.ph .kflh .kfx{margin-left:auto}
 /* phone */
 #kaf.ph>header{height:auto;flex-direction:column;align-items:stretch;gap:10px;padding:10px 14px 10px;padding-top:max(10px,env(safe-area-inset-top))}
 #kaf.ph .kfr{display:flex;align-items:center;gap:10px;min-width:0;width:100%;box-sizing:border-box}
@@ -1817,7 +1945,7 @@ function renderStructure(){
       '<span class="relw"><input class="rel" id="rel-'+p.id+'" autocomplete="off" placeholder="'+(p.indent?'связь…':'главная')+'" aria-label="Чем эта фраза служит главной" value="'+esc(p.label)+'"><small class="rq">'+esc(relQ(p.label))+'</small></span>'+
       '<div class="ptext">'+phraseHTML(p)+'</div></div>';
   }).join("");
-  el.insertAdjacentHTML("afterbegin",'<div class="sguide">Главная фраза стоит у левого края. Подчинённую сдвиньте кнопкой ▸ и подпишите, чем она служит главной. <button class="lnk" data-guide="1">Как размечать</button></div>');
+  el.insertAdjacentHTML("afterbegin",'<div class="sguide">Главная фраза стоит у левого края. Подчинённую сдвиньте кнопкой ▸ и подпишите, чем она служит главной. <button class="lnk" data-guide="1">Как размечать</button> · <button class="lnk" data-box="1">Ящик инструментов</button></div>');
 }
 var SG_HOW='<div class="help">'+
 '<h4>Правило</h4><p>О каждой фразе решите: это главное утверждение или она чему-то служит? Главное остаётся у левого края. Служебную сдвиньте вправо кнопкой ▸ и подпишите.</p>'+
@@ -1835,7 +1963,7 @@ var SG_HOW='<div class="help">'+
 '<p>Главное: Бог возлюбил мир. «Отдал Сына» показывает, во что вылилась любовь. «Не погиб, но имел жизнь» показывает, ради чего отдал, поэтому стоит ещё на шаг правее.</p>'+
 '<h4>Подпись у фразы на краю</h4><p>Обычно её нет. Она нужна, когда фраза связана с тем, что было до отрывка («Итак» — вывод из сказанного раньше), или с соседней главной (ряд, противопоставление).</p>'+
 '<h4>Проверка</h4><p>Прочитайте подряд только фразы у левого края. Получилась связная главная мысль — разметка держится. Получился обрывок — главное утверждение спрятано среди подчинённых.</p>'+
-'<p>Определения всех связей лежат в режиме «Спираль», кнопка «Ящик инструментов».</p>'+
+'<p>Определения всех связей и приёмов — кнопка «Ящик инструментов» над структурой.</p>'+
 '</div>';
 function renderTools(){
   var m=em();
@@ -1850,7 +1978,7 @@ function renderTools(){
   if(narrow()&&(renderTools.last===undefined?m==="sermon":(renderTools.last==="sermon")!==(m==="sermon"))) setPane(m==="sermon"?"field":"text");
   renderTools.last=m;
   $("#fsVal").textContent=(S.fs||100)+"%";
-  $("#midHint").textContent=m==="spiral"?"Этапы идут слева направо. В конце каждого запишите версию главной мысли и нажмите «Проверить этап».":
+  $("#midHint").textContent=m==="spiral"?"Ответьте своими словами и проверьте ответ тестами под ним. Комментарии откроются после первых трёх вопросов.":
     "";
 }
 
@@ -1858,6 +1986,10 @@ function renderTools(){
 var curB=null, lastStudy="structure";
 var SL_N={none:"нет",thesis:"тезис по центру экрана",read:"чтение отрывка (весь текст)",word:"тезис к слову отрывка",phrase:"отрывок: открыть фразу",mark:"разметка: пометка на тексте",frame:"параллельное место, цитата",image:"картинка"};
 var ST_AL={left:1,center:1,right:1,justify:1}, ST_VA={top:1,center:1,bottom:1};
+/* parts of the sermon: a block may open a part; the Кафедра groups its list of slides by them */
+var SEC_N={intro:"Вступление",text:"Текст",main:"Главная мысль",theo:"Что мы узнали о Боге",app:"Применение",end:"Заключение"};
+var SEC_PH={intro:"Вступление: где мы в книге, связь с прошлой проповедью, фон",text:"Что вы говорите в этом месте",main:"Главная мысль своими словами",theo:"Что этот текст говорит о Боге",app:"К чему зовёт текст: что понять, во что поверить, что сделать",end:"Заключение"};
+var slOpen={};
 function stN(o){ o=(o&&typeof o==="object")?o:{}; var lh=+o.lh;
   return {al:ST_AL[o.al]?o.al:"",lh:lh>=.8&&lh<=2.2?Math.round(lh*10)/10:0,va:ST_VA[o.va]?o.va:"",ff:o.ff==="sans"?"sans":"",up:!!o.up,col:o.col==="gold"?"gold":""}; }
 function stOn(o){ return !!(o&&(o.al||o.lh||o.va||o.ff||o.up||o.col)); }
@@ -1871,7 +2003,7 @@ function kN(v){ v=+v; return v>=.6&&v<=1.6?Math.round(v*10)/10:1; }
 function words(s){ return tok(s).length; }
 function normBlock(b){
   var s=(b.sl&&typeof b.sl==="object")?b.sl:{}, t=SL_N[s.t]?s.t:"none";
-  return {id:String(b.id),text:typeof b.text==="string"?b.text:"",
+  return {id:String(b.id),text:typeof b.text==="string"?b.text:"",sec:SEC_N[b.sec]?b.sec:"",
     sl:{t:t,ref:s.ref==null?"":String(s.ref),text:typeof s.text==="string"?s.text:"",cap:typeof s.cap==="string"?s.cap:"",lab:!!s.lab,grp:!!s.grp,
       to:typeof s.to==="string"?s.to:"",lo:typeof s.lo==="string"?s.lo:null,k:kN(s.k),img:typeof s.img==="string"?s.img:"",cov:!!s.cov,st:stN(s.st)}};
 }
@@ -2004,39 +2136,60 @@ function matRow(html,act,ref,used,ind){
   return '<div class="mat'+(used?' used':'')+'" style="--ind:'+(ind||0)+'"><div class="mt">'+html+'</div>'+
     '<button data-m="'+act+'" data-ref="'+esc(ref)+'" title="Вставить в проповедь блоком" aria-label="Вставить в проповедь блоком">'+(used?'✓ ':'')+'→</button></div>';
 }
+var matTab=(function(){ try{ return localStorage.getItem("vdma-mattab")||"text"; }catch(e){ return "text"; } })();
+function matTabSet(t){
+  matTab=t; try{ localStorage.setItem("vdma-mattab",t); }catch(e){}
+  var L=$("#smL"); ["text","ans","str","nts"].forEach(function(x){ L.classList.toggle("mt-"+x,x===t); });
+  Array.prototype.forEach.call(document.querySelectorAll("#smTabs button"),function(b){ b.classList.toggle("on",b.dataset.mt===t); });
+}
 function renderMat(){
-  var h=[], last=spLast(), sp=S.sp, nk=noteKeys(), any=false;
-  h.push('<h3>Главная мысль отрывка</h3>');
-  h.push(last?'<div class="mat"><div class="mt">'+esc(last.text)+'<small>последняя версия из «Спирали»</small></div><button data-m="main" title="Поставить главной мыслью проповеди" aria-label="Поставить главной мыслью проповеди">→</button></div>':
-    '<div class="snote">В «Спирали» ещё не записана.</div>');
-  h.push('<h3>Структура</h3>');
-  h.push(S.phrases.length?S.phrases.map(function(p){
+  var A=[], St=[], N=[], mn=qMain().trim(), sp=S.sp, nk=noteKeys(), any=false;
+  A.push('<h3>Главная мысль отрывка</h3>');
+  A.push(mn?'<div class="mat"><div class="mt">'+esc(mn)+'<small>из «Вопросов» · <span class="qm q-'+qState(qById("main"))+'">'+Q_STL[qState(qById("main"))]+'</span></small></div><button data-m="main" title="Поставить главной мыслью проповеди" aria-label="Поставить главной мыслью проповеди">→</button></div>':
+    '<div class="snote">В «Вопросах» ещё не записана.</div>');
+  A.push('<h3>Ответы на вопросы</h3>');
+  QS.forEach(function(q){
+    var st=qState(q);
+    q.f.forEach(function(f){
+      var k=f[0], v=sp.f[k];
+      if(typeof v==="string"&&v.trim()){ any=true; A.push(matRow('<small>'+esc(q.n)+(q.f.length>1?': '+esc(f[1]):'')+' · <span class="qm q-'+st+'">'+Q_STL[st]+'</span></small><div class="nt">'+esc(v)+'</div>',"sf",k,false)); }
+    });
+  });
+  Q_LEG.concat([["cmp.blind","Что показали комментарии"]]).forEach(function(x){
+    var v=sp.f[x[0]]; if(typeof v==="string"&&v.trim()){ any=true; A.push(matRow('<small>'+esc(x[1])+'</small><div class="nt">'+esc(v)+'</div>',"sf",x[0],false)); }
+  });
+  sp.words.forEach(function(w,i){
+    if((w.here||"").trim()){ any=true; A.push(matRow('<b>'+esc(w.ru||"слово")+'</b>'+(w.orig?' <small>'+esc(w.orig)+'</small>':'')+'<div class="nt">'+esc(w.here)+'</div>',"sw",i,false)); }
+  });
+  sp.comm.forEach(function(c,i){
+    var v=(c.note||"").trim()||(c.says||"").trim();
+    if(v){ any=true; A.push(matRow('<small>Сверка: '+esc(c.src||"комментарий")+'</small><div class="nt">'+esc(v)+'</div>',"sc",i,false)); }
+  });
+  if(!any) A.push('<div class="snote">Пока пусто. Ответы пишутся в режиме «Изучение», вкладка «Вопросы».</div>');
+  St.push('<h3>Структура</h3>');
+  St.push(S.phrases.length?S.phrases.map(function(p){
     return matRow((p.label&&p.label.trim()?'<i>'+esc(p.label)+'</i> ':'')+esc(bareRange(p.s,p.e-1)),"ph",p.id,usedRef("phrase",p.id),Math.min(p.indent,6));
   }).join(""):'<div class="snote">Текста пока нет.</div>');
-  h.push('<h3>Заметки к словам</h3>');
-  h.push(nk.length?nk.map(function(o){
+  N.push('<h3>Заметки к словам</h3>');
+  N.push(nk.length?nk.map(function(o){
     return matRow('<b>'+esc(bareRange(o.a,o.b))+'</b><small>'+esc(refOf(o.a,o.b,true))+'</small>'+
       (S.screen[o.k]&&S.screen[o.k].trim()?'<div class="scr">На экран: '+esc(S.screen[o.k])+'</div>':'')+
       (S.wnotes[o.k]?'<div class="nt">'+esc(S.wnotes[o.k])+'</div>':''),"w",o.k,usedRef("word",o.k));
   }).join(""):'<div class="snote">Заметок нет.</div>');
-  h.push('<h3>Выводы «Спирали»</h3>');
-  SP_ST.forEach(function(st){
-    st.f.forEach(function(f){
-      var k=st.id+"."+f[0], v=sp.f[k];
-      if(typeof v==="string"&&v.trim()){ any=true; h.push(matRow('<small>'+esc(st.n)+': '+esc(f[1])+'</small><div class="nt">'+esc(v)+'</div>',"sf",k,false)); }
-    });
-  });
-  sp.words.forEach(function(w,i){
-    if((w.here||"").trim()){ any=true; h.push(matRow('<b>'+esc(w.ru||"слово")+'</b>'+(w.orig?' <small>'+esc(w.orig)+'</small>':'')+'<div class="nt">'+esc(w.here)+'</div>',"sw",i,false)); }
-  });
-  sp.comm.forEach(function(c,i){
-    var v=(c.note||"").trim()||(c.says||"").trim();
-    if(v){ any=true; h.push(matRow('<small>Сверка: '+esc(c.src||"комментарий")+'</small><div class="nt">'+esc(v)+'</div>',"sc",i,false)); }
-  });
-  if(!any) h.push('<div class="snote">Пока пусто.</div>');
-  if(S.notes.trim()){ h.push('<h3>Общие заметки</h3>'); h.push(matRow('<div class="nt">'+esc(S.notes)+'</div>',"gn","",false)); }
-  $("#smMat").innerHTML=h.join("");
+  if(S.notes.trim()){ N.push('<h3>Общие заметки</h3>'); N.push(matRow('<div class="nt">'+esc(S.notes)+'</div>',"gn","",false)); }
+  $("#smMat").innerHTML='<div class="mpn" data-p="ans">'+A.join("")+'</div><div class="mpn" data-p="str">'+St.join("")+'</div><div class="mpn" data-p="nts">'+N.join("")+'</div>';
+  matTabSet(matTab);
 }
+(function matInit(){
+  var hd=$("#smL .phead"); if(!hd) return;
+  hd.insertAdjacentHTML("beforeend",'<div class="mtabs" id="smTabs" role="tablist"><button data-mt="text">Текст</button><button data-mt="ans">Ответы</button><button data-mt="str">Структура</button><button data-mt="nts">Заметки</button></div>');
+  $("#smTabs").addEventListener("click",function(e){ var b=e.target.closest("button[data-mt]"); if(b) matTabSet(b.dataset.mt); });
+  var rh=$("#smR .phead");
+  if(rh){ rh.insertAdjacentHTML("beforeend",'<button id="smRTog" class="ghost" title="Свернуть или развернуть слайды">⟩</button>');
+    var cl=false; try{ cl=localStorage.getItem("vdma-smr")==="1"; }catch(e){}
+    function ap(){ document.body.classList.toggle("sm-noslides",cl); $("#smRTog").textContent=cl?"⟨":"⟩"; $("#smRTog").title=cl?"Показать слайды":"Свернуть слайды: тексту шире"; }
+    ap(); $("#smRTog").addEventListener("click",function(){ cl=!cl; try{ localStorage.setItem("vdma-smr",cl?"1":"0"); }catch(e){} ap(); setTimeout(regrow,50); }); }
+})();
 
 /* middle column: blocks */
 function slFields(b){
@@ -2075,15 +2228,31 @@ function slFields(b){
       '<textarea class="bst" rows="2" aria-label="Текст на экран" placeholder="Текст места. Писание — дословно по Синодальному переводу.">'+esc(s.text)+'</textarea><span class="warn">'+frWarn(s.text)+'</span>';
   return '<div class="bsl">'+h+'</div>';
 }
+/* the slide of a block in a few words: shown on its chip and in the Кафедра list */
+function blockSlLabel(b){
+  var s=b.sl, p, o, m, ids;
+  if(s.t==="none") return "";
+  if(s.t==="thesis") return "Тезис"+(s.text.trim()?": «"+clip(unfmt(s.text),50)+"»":"");
+  if(s.t==="read") return "Чтение отрывка";
+  if(s.t==="word"){ o=parseKey(s.ref); return "К слову «"+(o?clip(bareRange(o.a,o.b),30):"?")+"»"; }
+  if(s.t==="phrase"){ p=byId(s.ref); if(!p) return "Фраза"; var rf=refOf(p.s,p.e-1,true); return (rf?rf+": ":"Фраза: ")+"«"+clip(bareRange(p.s,p.e-1),50)+"»"+(s.grp?" и подчинённые":""); }
+  if(s.t==="mark"){ ids=mkIds(s); m=ids.length?markById(ids[0]):null; return "Пометка"+(m?": «"+clip(bareRange(m.a,m.b),30)+"»":"")+(ids.length>1?" и ещё "+(ids.length-1):""); }
+  if(s.t==="frame") return (s.cap.trim()?"Место: "+clip(unfmt(s.cap),40):"Цитата"+(s.text.trim()?": «"+clip(unfmt(s.text),40)+"»":""));
+  if(s.t==="image") return "Картинка"+(s.text.trim()?": "+clip(unfmt(s.text),40):"");
+  return SL_N[s.t]||"";
+}
 function blockHTML(b,i){
-  var s=b.sl, opt=["none","thesis","read","phrase","mark","frame","image"];
+  var s=b.sl, opt=["none","thesis","read","phrase","mark","frame","image"], op=!!slOpen[b.id], lb=blockSlLabel(b);
   if(s.t==="word") opt.splice(2,0,"word");
-  return '<div class="blk'+(b.id===curB?' cur':'')+(s.t==="none"?' nosl':'')+'" data-id="'+b.id+'">'+
-    '<div class="bhd"><span class="bn">'+(i+1)+'</span><label class="bsel"><span class="sr">Слайд</span><select class="bt" aria-label="Слайд блока '+(i+1)+'">'+opt.map(function(t){ return '<option value="'+t+'"'+(t===s.t?' selected':'')+'>'+(t==="none"?"+ слайд":SL_N[t])+'</option>'; }).join("")+'</select></label>'+
+  return (b.sec?'<div class="bsech">'+esc(SEC_N[b.sec])+'</div>':'')+
+    '<div class="blk'+(b.id===curB?' cur':'')+(s.t==="none"?' nosl':'')+(op?' slo':'')+'" data-id="'+b.id+'">'+
+    '<div class="bhd"><span class="bn">'+(i+1)+'</span><button class="bchip" data-act="sl" aria-expanded="'+op+'" title="'+(s.t==="none"?"Добавить слайд к этому месту":"Настроить слайд")+'">'+(s.t==="none"?"+ слайд":'<span class="bcic">▣</span> '+esc(lb))+'<span class="bcar">'+(op?"▴":"▾")+'</span></button>'+
     '<span class="gap"></span><button data-act="up" title="Выше" aria-label="Блок выше">↑</button><button data-act="down" title="Ниже" aria-label="Блок ниже">↓</button>'+
     '<button data-act="add" title="Новый блок под этим" aria-label="Новый блок под этим">+</button><button data-act="del" title="Удалить блок" aria-label="Удалить блок">✕</button></div>'+
-    slFields(b)+
-    '<textarea class="btx" rows="2" aria-label="Текст проповеди, блок '+(i+1)+'" placeholder="Что вы говорите в этом месте">'+esc(b.text)+'</textarea></div>';
+    '<div class="bslw"><div class="bslrow"><label class="bsel">Слайд <select class="bt" aria-label="Слайд блока '+(i+1)+'">'+opt.map(function(t){ return '<option value="'+t+'"'+(t===s.t?' selected':'')+'>'+(t==="none"?"без слайда":SL_N[t])+'</option>'; }).join("")+'</select></label>'+
+    '<label class="bsel">Раздел <select class="bsc" aria-label="С этого блока начинается раздел"><option value="">—</option>'+Object.keys(SEC_N).map(function(k){ return '<option value="'+k+'"'+(k===b.sec?' selected':'')+'>'+SEC_N[k]+'</option>'; }).join("")+'</select></label></div>'+
+    slFields(b)+'</div>'+
+    '<textarea class="btx" rows="2" aria-label="Текст проповеди, блок '+(i+1)+'" placeholder="'+esc(SEC_PH[b.sec]||"Что вы говорите в этом месте")+'">'+esc(b.text)+'</textarea></div>';
 }
 function grow(ta){ if(!ta.offsetParent) return; ta.style.height="auto"; ta.style.height=(ta.scrollHeight+2)+"px"; }
 /* heights are measured again whenever the width may have changed: a turned phone, a tab, a closed show */
@@ -2093,7 +2262,9 @@ function growAll(){ Array.prototype.forEach.call(document.querySelectorAll("#smB
 function setCur(id){
   if(curB===id) return; curB=id;
   Array.prototype.forEach.call(document.querySelectorAll("#smBlocks .blk"),function(n){ n.classList.toggle("cur",n.dataset.id===id); });
-  Array.prototype.forEach.call(document.querySelectorAll("#smSlides .sld"),function(n){ n.classList.toggle("cur",!!id&&n.dataset.b===id); });
+  var f=null;
+  Array.prototype.forEach.call(document.querySelectorAll("#smSlides .sld"),function(n){ var on=!!id&&n.dataset.b===id; n.classList.toggle("cur",on); if(on&&!f) f=n; });
+  if(f&&!narrow()&&!document.body.classList.contains("sm-noslides")){ var R=$("#smSlides"), r=f.getBoundingClientRect(), q=R.getBoundingClientRect(); if(r.top<q.top||r.bottom>q.bottom) R.scrollTop+=r.top-q.top-q.height/3; }
 }
 function slidePlain(s){
   var p,o,m;
@@ -2155,16 +2326,21 @@ function insertBlock(b,atEnd){
   curB=b.id; commit(); renderSermon(); focusBlock(b.id);
 }
 function buildDraft(){
-  var out=[], sk=screenKeys(), last=spLast();
+  var out=[], sk=screenKeys(), mn=qMain().trim(), f=S.sp.f, first=true;
+  function tx(k){ return String(f[k]||"").trim(); }
+  function sec(b,k){ b.sec=k; return b; }
+  out.push(sec(newBlock([tx("ctx.place"),tx("q.bg")].filter(Boolean).join("\n\n")),"intro"));
   groups().forEach(function(g){
-    out.push(newBlock("",{t:"phrase",ref:g.main.id,grp:g.ids.length>1}));
+    var b=newBlock("",{t:"phrase",ref:g.main.id,grp:g.ids.length>1}); if(first){ sec(b,"text"); first=false; } out.push(b);
     sk.forEach(function(o){ if(o.a>=g.s&&o.a<g.e) out.push(newBlock(S.wnotes[o.k]||"",{t:"word",ref:o.k,text:S.screen[o.k]})); });
   });
-  if(!out.length){ say("Собирать не из чего: в отрывке нет текста"); return; }
+  if(first){ say("Собирать не из чего: в отрывке нет текста"); return; }
+  out.push(sec(newBlock(tx("q.theo")),"theo"));
+  out.push(sec(newBlock(tx("q.app")),"app"));
   S.blocks=out; curB=null;
-  if(!S.main.trim()&&last) S.main=last.text;
+  if(!S.main.trim()&&mn) S.main=mn;
   commit(); renderSermon();
-  say("Черновик собран, блоков: "+out.length+". Если не то, нажмите «Отменить».");
+  say("Черновик собран: вступление, текст по фразам, что мы узнали о Боге, применение. Если не то, нажмите «Отменить».");
 }
 $("#smBuild").addEventListener("click",function(){
   var b=this;
@@ -2179,11 +2355,11 @@ $("#smMat").addEventListener("click",function(e){
   var b=e.target.closest("button[data-m]"); if(!b) return;
   var m=b.dataset.m, r=b.dataset.ref, x;
   if(m==="main"){
-    x=spLast(); if(!x) return;
-    if(S.main.trim()&&S.main.trim()!==x.text.trim()&&!b.dataset.arm){
+    x=qMain().trim(); if(!x) return;
+    if(S.main.trim()&&S.main.trim()!==x&&!b.dataset.arm){
       b.dataset.arm="1"; b.textContent="заменить?"; setTimeout(function(){ if(b.isConnected){ delete b.dataset.arm; b.textContent="→"; } },3500); return;
     }
-    S.main=x.text; commit(); renderSermon(); say("Главная мысль проповеди взята из «Спирали»"); return;
+    S.main=x; commit(); renderSermon(); say("Главная мысль проповеди взята из «Вопросов»"); return;
   }
   if(m==="ph") insertBlock(newBlock("",{t:"phrase",ref:r}));
   else if(m==="w") insertBlock(newBlock(S.wnotes[r]||"",{t:"word",ref:r,text:S.screen[r]||""}));
@@ -2197,7 +2373,7 @@ $("#smBlocks").addEventListener("focusin",function(e){ var k=e.target.closest(".
 $("#smBlocks").addEventListener("input",function(e){
   var el=e.target, k=el.closest(".blk"), b=k&&blockById(k.dataset.id), w; if(!b) return;
   if(el.classList.contains("btx")){ b.text=el.value; grow(el); }
-  else if(el.classList.contains("bst")){ b.sl.text=el.value; grow(el); w=k.querySelector(".warn"); if(w) w.textContent=b.sl.t==="frame"?frWarn(el.value):thWarn(el.value); }
+  else if(el.classList.contains("bst")||el.classList.contains("bcap")){ if(el.classList.contains("bcap")) b.sl.cap=el.value; else b.sl.text=el.value; grow(el); chipSync(b); w=k.querySelector(".warn"); if(w&&el.classList.contains("bst")) w.textContent=b.sl.t==="frame"?frWarn(el.value):thWarn(el.value); }
   else if(el.classList.contains("bcap")) b.sl.cap=el.value;
   else return;
   save(); renderSlides();
@@ -2212,6 +2388,7 @@ $("#smBlocks").addEventListener("change",function(e){
     if(t==="mark"&&!mkIds(s).length) s.ref=(marksSorted().filter(function(m){ return !usedRef("mark",m.id); })[0]||S.marks[0]).id;
     s.t=t; commit(); renderSermon(); focusBlock(b.id,t==="none"?".btx":".bsl textarea, .bsl select"); return;
   }
+  if(el.classList.contains("bsc")){ b.sec=el.value; commit(); renderSermon(); return; }
   if(el.classList.contains("bmkc")){
     t=Array.prototype.filter.call(k.querySelectorAll(".bmkc"),function(c){ return c.checked; }).map(function(c){ return c.value; });
     if(!t.length){ el.checked=true; say("У слайда должна остаться хотя бы одна пометка"); return; }
@@ -2223,12 +2400,14 @@ $("#smBlocks").addEventListener("change",function(e){
   else if(el.classList.contains("bgrp")) s.grp=el.checked;
   else if(el.classList.contains("blab")) s.lab=el.checked;
   else return;
-  commit(); renderSlides();
+  commit(); renderSlides(); chipSync(b);
 });
+function chipSync(b){ var k=$('.blk[data-id="'+b.id+'"] .bchip'); if(k&&b.sl.t!=="none") k.innerHTML='<span class="bcic">▣</span> '+esc(blockSlLabel(b))+'<span class="bcar">'+(slOpen[b.id]?"▴":"▾")+'</span>'; }
 $("#smBlocks").addEventListener("click",function(e){
   var bt=e.target.closest("button[data-act]"); if(!bt) return;
   var id=bt.closest(".blk").dataset.id, a=bt.dataset.act, i=-1, j, t;
   S.blocks.forEach(function(x,k){ if(x.id===id) i=k; }); if(i<0) return;
+  if(a==="sl"){ slOpen[id]=!slOpen[id]; var kb=bt.closest(".blk"); kb.classList.toggle("slo",!!slOpen[id]); bt.setAttribute("aria-expanded",String(!!slOpen[id])); var ca=bt.querySelector(".bcar"); if(ca) ca.textContent=slOpen[id]?"▴":"▾"; setCur(id); if(slOpen[id]){ growAll(); var f=kb.querySelector(".bt"); if(f&&S.blocks[i].sl.t==="none") f.focus(); } return; }
   if(a==="add"){ curB=id; insertBlock(newBlock()); return; }
   if(a==="ovr"){ S.blocks[i].sl.to=""; S.blocks[i].sl.lo=null; commit(); renderSermon(); say("Слайд снова как в разборе"); return; }
   if(a==="del"){ S.blocks.splice(i,1); if(curB===id) curB=null; commit(); renderSermon(); say("Блок удалён. Вернуть: «Отменить»."); return; }
@@ -2254,8 +2433,46 @@ $("#btnShow").addEventListener("click",function(){ openShow(0); });
 /* ---------- Кафедра: the sermon live, for the preacher's own device ----------
    One step is one sermon block (also blocks without a slide). The device does not know what the hall shows:
    the operator turns the slides from his own file, the slide numbers are the common language. */
-var KF={items:[],open:false,i:0,t0:0,b0:0,tm:null,th:[],steps:[],first:{},last:{},wl:null,vw:0,vh:0,port:false,pass:null,k:1};
-try{ KF.k=Math.max(.7,Math.min(1.6,+localStorage.getItem("vdma-kf-k")||1)); }catch(e){}
+var KF={items:[],open:false,i:0,t0:0,b0:0,tm:null,th:[],steps:[],first:{},last:{},wl:null,vw:0,vh:0,port:false,pass:null,k:1,big:false,list:false,num:"",numT:0};
+try{ KF.k=Math.max(.7,Math.min(1.6,+localStorage.getItem("vdma-kf-k")||1)); KF.big=localStorage.getItem("vdma-kf-big")==="1"; }catch(e){}
+/* a slide in a few words, for the list of all slides and the chips: its kind and the beginning of what it shows */
+function kfStepLabel(st){
+  var p,o,m,c;
+  if(!st) return "";
+  if(st.t==="title") return "Название · «"+clip(S.theme.trim()||S.title||"",50)+"»";
+  if(st.t==="read"){ c=refOf(st.ra,Math.max(st.ra,st.rb-1),true); return "Чтение"+(c?" · "+c:"")+(st.pn>1?" ("+(st.pi+1)+" из "+st.pn+")":""); }
+  if(st.t==="main") return "Главная мысль · «"+clip(unfmt(S.main),60)+"»";
+  if(st.t==="sum") return "Итог · «"+clip(unfmt(S.sum),60)+"»";
+  if(st.t==="frame") return st.big?"Тезис · «"+clip(unfmt(st.text),60)+"»":(st.cap.trim()?"Место · "+clip(unfmt(st.cap),40):"Цитата · «"+clip(unfmt(st.text),50)+"»");
+  if(st.t==="image") return "Картинка"+(st.text.trim()?" · "+clip(unfmt(st.text),50):"");
+  if(st.t==="phrase"){ p=byId(st.ref); if(!p) return "Фраза"; c=refOf(p.s,p.e-1,true); var ov=phOv()[p.id]||{}; return "Фраза"+(c?" · "+c:"")+" «"+clip(ov.to&&ov.to.trim()?ov.to:bareRange(p.s,p.e-1),50)+"»"; }
+  if(st.t==="mark"){ m=st.refs&&st.refs.length?markById(st.refs[0]):null; return "Пометка"+(m?" · "+refOf(m.a,m.b,true)+" «"+clip(bareRange(m.a,m.b),40)+"»":"")+(st.refs&&st.refs.length>1?" и ещё "+(st.refs.length-1):""); }
+  o=parseKey(st.ref); return "К слову «"+(o?clip(bareRange(o.a,o.b),30):"?")+"»"+(st.text&&st.text.trim()?" · "+clip(unfmt(st.text),40):"");
+}
+function kfGoSlide(n){
+  n=+n; if(!(n>=0&&n<KF.steps.length)){ say("Слайда № "+n+" нет"); return false; }
+  var j=kfIdx(kfB(KF.steps[n])); if(j<0) return false;
+  KF.list=false; if(j===KF.i) kfRender(); else kfGo(j); return true;
+}
+function kfListHTML(){
+  var h=[], sec="", cur=kfSlides(KF.i), lastB=null;
+  h.push('<div class="kfls"><div class="kflh"><b>Все слайды</b><span>Нажмите на слайд — перейдёте к нему и к тексту этого места. На клавиатуре: номер и Enter.</span><button data-k="list" class="kfx">Закрыть</button></div><div class="kflb">');
+  KF.steps.forEach(function(st,n){
+    var id=kfB(st), j=kfIdx(id), b=KF.items[j], sc=(b&&b.sec)?SEC_N[b.sec]:(n===0?"Начало":"");
+    if(st.t==="main"||st.t==="sum") sc=sc||"Завершение";
+    if(sc&&sc!==sec){ sec=sc; h.push('<div class="kflg">'+esc(sec)+'</div>'); }
+    var on=n===cur.cur||(cur.own&&n>=cur.a&&n<=cur.z), done=j<KF.i;
+    var sub=(b&&b.text&&b.text.trim()&&id!==lastB)?'<small>'+esc(clip(unfmt(b.text).replace(/\s+/g," "),90))+'</small>':'';
+    lastB=id;
+    h.push('<button class="kfli'+(on?' on':'')+(done?' done':'')+'" data-sn="'+n+'"><span class="kfln">'+(done?'✓ ':on?'● ':'')+n+'</span><span class="kflt">'+esc(kfStepLabel(st))+sub+'</span></button>');
+  });
+  h.push('</div></div>');
+  return h.join("");
+}
+function kfChipLabel(x){
+  var a=KF.first[x.id], st=a!=null?KF.steps[a]:null;
+  return (a!=null?"№ "+a+" · ":"")+(st&&x.id.charAt(0)!=="_"?kfStepLabel(st):kfLabel(x));
+}
 function kfLabel(b){ if(b.lab) return b.lab; var l=kfLabel0(b); return l.charAt(0).toUpperCase()+l.slice(1); }
 function kfLabel0(b){
   var tx=String(b.text||""), m=tx.match(/^\s*\*\*([^*\n]{1,60})\*\*\s*(\n|$)/), s=b.sl;
@@ -2342,7 +2559,8 @@ function kfRender(){
   var el=$("#kaf"); if(!el) return;
   var ph=narrow(), n=KF.items.length, i=KF.i, b=KF.items[i], nb=KF.items[i+1], sl=kfSlides(i), h="";
   var chips=KF.items.map(function(x,j){
-    return '<button class="kfc'+(j<i?' done':j===i?' cur':'')+'" data-j="'+j+'" style="flex:'+kfW(x)+' 1 0" title="'+esc((j+1)+". "+kfLabel(x))+'">'+(ph?'':(j<i?'✓ ':'')+esc(kfLabel(x)))+'</button>';
+    var cl=kfChipLabel(x);
+    return '<button class="kfc'+(j<i?' done':j===i?' cur':'')+'" data-j="'+j+'"'+(ph?' style="flex:'+kfW(x)+' 1 0"':'')+' title="'+esc(cl)+'">'+(ph?'':(j<i?'✓ ':'')+esc(cl))+'</button>';
   }).join("");
   var lab=(i+1)+(ph?' / ':' из ')+n+' · '+esc(kfLabel(b));
   var sx=b.text.trim()?"":kfSlideText(b);
@@ -2350,26 +2568,34 @@ function kfRender(){
   var next=nb?'<span class="kfnl">Дальше · '+esc(kfLabel(nb))+'</span><span class="kfnt">'+esc(clip((nb.text.trim()?unfmt(nb.text):kfSlideText(nb).replace(/<sup>[^<]*<\/sup>/g,"").replace(/<[^>]+>/g," ").replace(/&laquo;|&raquo;/g,"").replace(/&[a-z]+;/g," ")).replace(/\s+/g," ").trim(),180))+'</span>':'<span class="kfnl">Это последний блок</span>';
   var sTitle=sl.own?'Слайд этого блока <b>№ '+kfNum(sl)+'</b>':'Своего слайда нет · на экране <b>№ '+sl.cur+'</b>';
   var nTitle=sl.nx>=0?'Следующий <b>№ '+sl.nx+'</b>':'Слайды кончились';
+  var scrN=sl.own?kfNum(sl):String(sl.cur), scrL=kfStepLabel(KF.steps[sl.cur]);
   if(!ph){
-    var aw=Math.max(220,Math.min(380,window.innerWidth*.27))-48;
+    var aw=Math.max(220,Math.min(380,window.innerWidth*.27))-48, mw=window.innerWidth-aw-48-112, mh=(window.innerHeight-60-86-120)*(KF.big?.72:.48), tw=Math.max(240,Math.min(mw,mh*KF.vw/KF.vh));
     h='<header><span class="kfk">КАФЕДРА</span><span class="kft">'+esc(S.theme.trim()||S.title||"Проповедь")+'</span><span class="gap"></span>'+
+      '<button class="kfx kfall" data-k="list" title="Список всех слайдов (Tab)">☰ Все слайды</button>'+
       '<span class="kftm" title="Двойной клик — начать отсчёт заново"><b id="kfT"></b><span>из '+Math.max(1,Math.round(kfTotal()/60000))+'</span></span>'+
       '<span id="kfB" class="kfpill"></span><span id="kfC" class="kfclk"></span><button class="kfx" data-k="x">Выйти</button></header>'+
-      '<div class="kfm"><main id="kfMain"><div class="kfl">Блок '+lab+'</div><div class="kftx">'+body+'</div><div class="gap"></div><div class="kfn">'+next+'</div></main>'+
-      '<aside><div class="kfsl"><div class="kfst">'+sTitle+'</div>'+kfThumb(sl.cur,aw)+'</div>'+
-      '<div class="kfsl dim"><div class="kfst">'+nTitle+'</div>'+kfThumb(sl.nx,aw*.76)+'</div>'+
-      '<div class="kfsn">Слайды листает оператор. Номер — чтобы свериться с ним взглядом или словом.</div><div class="gap"></div>'+
+      '<div class="kfm"><main id="kfMain">'+
+      '<div class="kfscr'+(KF.big?' big':'')+'"><div class="kfsh"><span>На экране <b>№ '+scrN+'</b>'+(sl.own?'':' · у блока своего слайда нет')+'</span><span class="kfsl2">'+esc(scrL)+'</span><button data-k="big" class="kfx kfbig" title="Слайд крупнее или текст крупнее (S)">'+(KF.big?'Текст крупнее':'Слайд крупнее')+'</button></div>'+kfThumb(sl.cur,tw)+'</div>'+
+      '<div class="kfl">Блок '+lab+'</div><div class="kftx'+(KF.big?' sm':'')+'">'+body+'</div><div class="gap"></div><div class="kfn">'+next+'</div></main>'+
+      '<aside><div class="kfsl"><div class="kfst">'+nTitle+'</div>'+kfThumb(sl.nx,aw)+(sl.nx>=0?'<div class="kfnl2">'+esc(kfStepLabel(KF.steps[sl.nx]))+'</div>':'')+'</div>'+
+      '<div class="kfsn">Слайды листает оператор. Перескочили — назовите ему номер слайда.</div><div class="gap"></div>'+
       '<div class="kffs">Шрифт <button data-k="dn" aria-label="Мельче">A−</button><button data-k="up" aria-label="Крупнее">A+</button><span id="kfWl"></span></div></aside></div>'+
-      '<footer><button class="kfp" data-k="prev">‹ Назад</button><div class="kfcs">'+chips+'</div><button class="kfnx" data-k="next">Дальше ›</button></footer>';
+      '<footer><button class="kfp" data-k="prev">‹ Назад</button><div class="kfcs" id="kfCs">'+chips+'</div><button class="kfnx" data-k="next">Дальше ›</button></footer>';
   }else{
     h='<header><div class="kfr"><button class="kfx" data-k="x" aria-label="Выйти">✕</button><span class="kfl">'+lab+'</span><span class="gap"></span><b id="kfT" class="kftm1" title="Двойное касание — начать отсчёт заново"></b><span id="kfB" class="kfpill"></span></div><div class="kfcs">'+chips+'</div></header>'+
-      '<div class="kfrow">'+kfThumb(sl.cur,120)+'<div class="kfst"><b>'+(sl.own?'Слайд № '+kfNum(sl):'Без слайда · на экране № '+sl.cur)+'</b><br>'+(sl.nx>=0?'дальше № '+sl.nx:'слайды кончились')+'</div></div>'+
+      (KF.big?'<div class="kfscr big">'+kfThumb(sl.cur,window.innerWidth-28)+'</div>':'')+
+      '<div class="kfrow">'+(KF.big?'':kfThumb(sl.cur,150))+'<div class="kfst"><b>'+(sl.own?'На экране № '+kfNum(sl):'Без слайда · на экране № '+sl.cur)+'</b><br><span class="kfsl2">'+esc(scrL)+'</span><br>'+(sl.nx>=0?'дальше № '+sl.nx:'слайды кончились')+'<div class="kfrb"><button data-k="big" class="kfx">'+(KF.big?'Слайд мельче':'Слайд крупнее')+'</button><button data-k="list" class="kfx">☰ Все слайды</button></div></div></div>'+
       '<main id="kfMain"><div class="kftx">'+body+'</div><div class="kfn">'+next+'</div></main>'+
       '<nav><button class="kfp" data-k="prev" aria-label="Назад">‹</button><button class="kfnx" data-k="next">Дальше ›</button></nav>';
   }
-  el.className=(ph?"ph ":"")+(KF.open?"open":"");
+  if(KF.list) h+=kfListHTML();
+  if(KF.num) h+='<div class="kfnum">№ '+esc(KF.num)+' <small>Enter — перейти</small></div>';
+  el.className=(ph?"ph ":"")+(KF.open?"open":"")+(KF.list?" lst":"");
   el.style.setProperty("--kfk",KF.k);
   el.innerHTML=h;
+  var cs=$("#kfCs .kfc.cur"); if(cs&&cs.scrollIntoView) cs.scrollIntoView({block:"nearest",inline:"center"});
+  if(KF.list){ var on=el.querySelector(".kfli.on"); if(on) on.scrollIntoView({block:"center"}); }
   kfTick();
 }
 function kfTick(){
@@ -2404,7 +2630,11 @@ function openKaf(){
     el=document.createElement("div"); el.id="kaf"; el.setAttribute("role","dialog"); el.setAttribute("aria-label","Кафедра"); document.body.appendChild(el);
     el.addEventListener("click",function(e){
       var c=e.target.closest(".kfc"); if(c){ kfGo(+c.dataset.j); return; }
+      var ln=e.target.closest(".kfli"); if(ln){ kfGoSlide(+ln.dataset.sn); return; }
+      if(KF.list&&e.target.classList.contains("kfls")){ KF.list=false; kfRender(); return; }
       var k=e.target.closest("[data-k]"); if(!k) return; k=k.dataset.k;
+      if(k==="list"){ KF.list=!KF.list; kfRender(); return; }
+      if(k==="big"){ KF.big=!KF.big; try{ localStorage.setItem("vdma-kf-big",KF.big?"1":"0"); }catch(er){} kfRender(); return; }
       if(k==="x") closeKaf(); else if(k==="next") kfGo(KF.i+1); else if(k==="prev") kfGo(KF.i-1);
       else if(k==="up"||k==="dn") kfFont(k==="up"?1:-1);
     });
@@ -2426,7 +2656,7 @@ function openKaf(){
 }
 function closeKaf(){
   if(!KF.open) return;
-  KF.open=false; clearInterval(KF.tm); document.body.classList.remove("kf-on");
+  KF.open=false; KF.list=false; KF.num=""; clearInterval(KF.tm); document.body.classList.remove("kf-on");
   var el=$("#kaf"); if(el){ el.classList.remove("open"); el.innerHTML=""; }
   try{ if(KF.wl) KF.wl.release(); }catch(e){} KF.wl=null;
   try{ if(document.fullscreenElement&&!show.open) document.exitFullscreen(); }catch(e){}
@@ -2436,6 +2666,12 @@ function kfFont(d){ KF.k=Math.max(.7,Math.min(1.6,Math.round((KF.k+d*.1)*10)/10)
 function kfKey(e){
   var k=e.key;
   if(e.ctrlKey||e.metaKey||e.altKey) return;
+  if(/^[0-9]$/.test(k)){ e.preventDefault(); KF.num=(KF.num+k).slice(-3); clearTimeout(KF.numT); KF.numT=setTimeout(function(){ KF.num=""; if(KF.open) kfRender(); },4000); kfRender(); return; }
+  if(k==="Enter"&&KF.num){ e.preventDefault(); var nn=KF.num; KF.num=""; clearTimeout(KF.numT); if(!kfGoSlide(nn)) kfRender(); return; }
+  if(KF.num&&(k==="Escape"||k==="Backspace")){ e.preventDefault(); KF.num=k==="Backspace"?KF.num.slice(0,-1):""; kfRender(); return; }
+  if(k==="Tab"||k==="l"||k==="L"||k==="д"||k==="Д"){ e.preventDefault(); KF.list=!KF.list; kfRender(); return; }
+  if(k==="s"||k==="S"||k==="ы"||k==="Ы"){ e.preventDefault(); KF.big=!KF.big; try{ localStorage.setItem("vdma-kf-big",KF.big?"1":"0"); }catch(er){} kfRender(); return; }
+  if(KF.list&&k==="Escape"){ e.preventDefault(); KF.list=false; kfRender(); return; }
   if(k==="Escape"){ e.preventDefault(); closeKaf(); }
   else if(k==="ArrowRight"||k==="PageDown"||k===" "||k==="Enter"){ e.preventDefault(); kfGo(KF.i+1); }
   else if(k==="ArrowLeft"||k==="PageUp"||k==="Backspace"){ e.preventDefault(); kfGo(KF.i-1); }
@@ -2754,6 +2990,7 @@ function hl(id,on){
 /* ---------- events: structure ---------- */
 $("#structure").addEventListener("click",function(e){
   var tw=e.target.closest(".tw"); if(tw){ clickWord(+tw.dataset.i,e.shiftKey); return; }
+  if(e.target.closest("[data-box]")){ var bw=document.createElement("div"); bw.innerHTML=SP_BOX; openModal("Ящик инструментов","Связи между фразами, приёмы построения, ошибки при изучении слов.",bw,""); return; }
   if(e.target.closest("[data-guide]")){ var gw=document.createElement("div"); gw.innerHTML=SG_HOW; openModal("Как размечать структуру","",gw,""); return; }
   var b=e.target.closest("button[data-act]"); if(!b) return;
   var p=byId(b.closest(".row").dataset.id); if(!p) return;
@@ -4362,38 +4599,62 @@ $("#btnExport").addEventListener("click",async function(){
 });
 
 
-/* ---------- spiral (Osborne): stages, versions of the main idea, check ---------- */
-var SP_ST=[
- {id:"ctx",n:"Целое",t:"От целого к части",
-  why:"Смысл отрывка задаёт книга, а не наоборот. Пока не видно, какую работу отрывок делает в общем ходе мысли автора, любое толкование фраз висит в воздухе.",
-  how:"Откройте «Лист книги» и перечитайте план. Прочитайте главу до и главу после. Ответьте на вопросы ниже своими словами и запишите первую, черновую главную мысль. Она почти наверняка изменится: так и должно быть.",
-  err:"Начинать с любимого стиха и подбирать к нему контекст. Вторая ошибка: бояться записать черновую мысль, пока «не всё изучено». Спираль начинается с догадки, которую потом проверяют.",
-  f:[["place","Место отрывка в плане книги","Какой это раздел плана и какую задачу отрывок решает в общем ходе мысли",3],
-     ["before","Что стоит прямо перед отрывком","О чём автор говорил и к чему подвёл",2],
-     ["after","Что идёт сразу после","Куда мысль движется дальше",2],
-     ["bounds","Почему отрывок начинается и кончается здесь","Признаки границы: союз («итак», «посему»), смена темы, лица, адресата, жанра",2],
-     ["q","Вопросы к тексту","Всё, что непонятно или удивляет. К этому списку вы вернётесь на следующих этапах",4]]},
- {id:"str",n:"Структура",t:"Ход мысли внутри отрывка",
-  why:"Автор не кладёт фразы рядом, он их подчиняет: одна утверждает, другая объясняет, третья называет цель. Главная мысль отрывка стоит в главных фразах, а не в самых ярких словах.",
-  how:"Во вкладке «Структура» разрежьте текст на фразы (в каждой одно сказуемое или оборот). Главные утверждения оставьте у левого края, подчинённые сдвиньте вправо и подпишите связь. Потом вернитесь сюда и ответьте на вопросы. Определения связей и приёмов лежат в «Ящике инструментов».",
-  err:"Подписывать связь по союзу, не думая: «ибо» не всегда причина, «и» не всегда ряд. Вторая ошибка: строить проповедь на подчинённой фразе, как будто она главная.",
-  f:[["main","Главные утверждения","Фразы без отступа: что автор утверждает, а не чем обосновывает",3],
-     ["flow","Ход мысли своими словами","Два-три предложения: от чего автор идёт, через что, к чему",3],
-     ["rep","Повторы и ключевые слова","Что повторяется в отрывке и рядом с ним; какие слова держат на себе мысль",2],
-     ["devw","Где именно стоят отмеченные приёмы","Стихи и слова",2]]},
- {id:"wrd",n:"Слова",t:"Значение слова в этом месте",
-  why:"У слова не одно значение, а диапазон. В каждом месте работает одно значение из диапазона, и выбирает его контекст, а не словарь и не корень слова.",
-  how:"Выберите три-пять слов: повторяющиеся, богословски нагруженные, непонятные, или те, на которых держится главное утверждение. На каждое заведите карточку. Греческое слово и номер Стронга выпишите из подстрочника. Посмотрите, как автор употребляет слово в этой же книге, и только потом решайте, что оно значит здесь.",
-  err:"Вложить в одно место все значения слова сразу. Вывести смысл из корня («экклесия — вызванные»). Изучать русское слово Синодального перевода вместо слова оригинала. Полный список ошибок лежит в «Ящике инструментов».",
-  f:[["pick","Почему выбраны именно эти слова","Что в ходе мысли зависит от каждого из них",2]]},
- {id:"cmp",n:"Сверка",t:"Свои выводы против комментариев",
-  why:"Комментарий нужен не чтобы узнать ответ, а чтобы проверить свой. Кто открыл комментарий первым, тот уже не увидит текст своими глазами и не узнает, где ошибается сам.",
-  how:"Возьмите два-три комментария разных традиций. По каждому запишите: что он говорит о главной мысли и спорных местах, и чем это кончилось для вашего вывода. Если комментаторы расходятся, запишите оба чтения и на чём стоит каждое. Затем запишите новую версию главной мысли.",
-  err:"Принять мнение комментатора, потому что он авторитетнее. Вторая ошибка: искать комментарий, который с вами согласен. Вес имеет довод из текста, а не имя.",
-  f:[["blind","Что комментарии показали такого, чего я не увидел","И почему не увидел: какой шаг пропустил",3],
-     ["sheet","Нужно ли поправить лист книги","Вывод по части может менять понимание целого: план, темы, цель книги",2]]}
+/* ---------- questions to the passage (replace the Osborne «Spiral» stages; the data stays in S.sp, field keys are kept) ---------- */
+var QS=[
+ {id:"ctx",req:1,n:"Место в книге и границы отрывка",s:"Место",
+  why:"Смысл отрывка задаёт книга. Пока не видно, какую работу отрывок делает в ходе мысли автора, толкование фраз висит в воздухе. В проповеди это вступление и связь с прошлой проповедью серии.",
+  f:[["ctx.place","Место в плане книги","Какой это раздел и какую задачу отрывок в нём решает",2],
+     ["ctx.before","Что стоит прямо перед отрывком","О чём автор говорил и к чему подвёл",2],
+     ["ctx.after","Что идёт сразу после","Куда мысль движется дальше",1],
+     ["ctx.bounds","Почему отрывок начинается и кончается здесь","Союз («итак», «посему»), смена темы, лица, адресата",2]],
+  t:["Могу одним предложением сказать, какую задачу отрывок решает в своём разделе книги",
+     "Указал признак границы в самом тексте: союз, смену темы, лица или адресата",
+     "Знаю, что потеряется, если читать отрывок без предыдущего абзаца"]},
+ {id:"flow",req:1,n:"Ход мысли",s:"Ход мысли",
+  why:"Пересказ по «Структуре»: главная мысль стоит в главных фразах, а не в самых ярких словах. В проповеди это основная часть.",
+  f:[["str.flow","Ход мысли своими словами","Два-три предложения по «Структуре»: от чего автор идёт, через что, к чему",3]],
+  t:["Пересказ идёт в том же порядке, что и «Структура»",
+     "Использовал каждую подписанную связь: основание, цель, вывод…",
+     "Прочитал подряд только фразы у левого края, и получилась связная мысль"]},
+ {id:"main",req:1,n:"Главная мысль",s:"Главная мысль",
+  why:"Одно предложение, которое зал должен унести. Это стержень проповеди и слайд-тезис.",
+  f:[],
+  t:["Каждый стих отрывка её подтверждает или раскрывает, «лишних» стихов нет",
+     "Она стоит на главных утверждениях (фразы без отступа), а не на подчинённой фразе",
+     "Так мог бы сказать сам автор своим первым читателям"]},
+ {id:"theo",req:1,n:"Что текст говорит о Боге",s:"О Боге",
+  why:"О Боге, Христе, человеке, спасении. В проповеди это вывод: что мы узнали.",
+  f:[["q.theo","Истины о Боге из этого отрывка","Одна-три истины, у каждой стих",3]],
+  t:["Каждая истина показана стихом этого отрывка, вывод не шире текста",
+     "Сверил с ясным местом того же автора и указал это место"]},
+ {id:"app",req:1,n:"Применение",s:"Применение",
+  why:"Что слушатель должен понять, во что поверить, что сделать. В проповеди это призыв и итоговый слайд.",
+  f:[["q.app","Применение","Конкретно: кому, что и почему из этого текста",3]],
+  t:["Вытекает из главной мысли, а не из любимой темы",
+     "Не подошло бы к любому другому отрывку",
+     "Назвал, чем первые читатели отличаются от нас и что остаётся тем же"]},
+ {id:"bg",n:"Фон",s:"Фон",
+  why:"Кому, когда, при каких обстоятельствах. Нужен, когда без него текст понимается неверно.",
+  f:[["q.bg","Исторический и культурный фон","Что из этого видно в самом отрывке",3]],
+  t:["Каждое утверждение о фоне подкреплено стихом или источником",
+     "Отделил факты от догадок"]},
+ {id:"genre",n:"Жанр",s:"Жанр",
+  why:"Письмо, повествование, поэзия, пророчество, притча — у каждого свои правила чтения.",
+  f:[["q.genre","Жанр и как его читать","",2]],
+  t:["Назвал жанр и одно правило его чтения, которое здесь применил"]},
+ {id:"words",n:"Повторы и ключевые слова",s:"Слова",
+  why:"Что повторяется, на каких словах держится мысль. Три-пять слов хватит.",
+  f:[["str.rep","Повторы и ключевые слова","Что повторяется в отрывке и рядом с ним",2]],
+  t:["Каждое слово показал в стихах",
+     "Проверил, как автор употребляет его в этой же книге"]},
+ {id:"open",n:"Вопросы к тексту",s:"Вопросы",
+  why:"Всё, что непонятно или удивляет.",
+  f:[["ctx.q","Мои вопросы к тексту","",3]],
+  t:["На каждый вопрос есть ответ или пометка «остался открытым»"]}
 ];
-var SP_LATER=["Грамматика и синтаксис","Фон","Жанр","Богословие","Сегодня","Проповедь"];
+var Q_OLD={ctx:"Целое",str:"Структура",wrd:"Слова",cmp:"Сверка"};
+var Q_LEG=[["str.main","Главные утверждения"],["str.devw","Где стоят отмеченные приёмы"],["wrd.pick","Почему выбраны эти слова"],["cmp.sheet","Нужно ли поправить лист книги"]];
+var Q_STL={empty:"пусто",ans:"есть ответ",ok:"✓ проверен",chg:"изменён после проверки"};
 var SP_DEV=["повтор","обрамление","хиазм","нарастание к вершине","противопоставление","перечень","вопрос и ответ","связка-переход"];
 var SP_VERD=["подтвердил мой вывод","уточнил","исправил меня","не согласен с ним"];
 var SP_BOX='<div class="help">'+
@@ -4434,38 +4695,38 @@ function spNorm(d){
   b.dev=Array.isArray(o.dev)?o.dev.filter(function(x){return typeof x==="string"}):[];
   d.sp=b; return d;
 }
-function spStage(id){ for(var i=0;i<SP_ST.length;i++) if(SP_ST[i].id===id) return SP_ST[i]; return null; }
 function spLast(){ for(var i=S.sp.ideas.length-1;i>=0;i--) if(!S.sp.ideas[i].note) return S.sp.ideas[i]; return null; }
-function spHasIdea(st){ return S.sp.ideas.some(function(x){ return x.st===st&&!x.note; }); }
-function spLocked(){ return S.sp.strict&&!(S.sp.done.ctx&&S.sp.done.str&&S.sp.done.wrd); }
 function spWhen(t){ return ddmm(t).slice(0,5)+" "+hhmm(t); }
 function spTa(k,label,ph,rows){
   return '<label class="spl">'+esc(label)+(ph?'<small>'+esc(ph)+'</small>':'')+'<textarea data-f="'+k+'" rows="'+rows+'">'+esc(S.sp.f[k]||"")+'</textarea></label>';
 }
-function spIdeaBlock(st){
-  var last=spLast(), has=spHasIdea(st.id);
-  return '<div class="spidea"><h4>Главная мысль после этого этапа</h4>'+
-    '<label class="spl">Одно предложение: что автор утверждает этим отрывком<textarea id="spIdea" rows="2">'+esc(S.sp.f["_i_"+st.id]!=null?S.sp.f["_i_"+st.id]:(last?last.text:""))+'</textarea></label>'+
-    '<label class="spl">'+(last?"Что изменилось по сравнению с прошлой версией и почему":"На чём основана эта первая догадка")+'<small>Если не изменилось ничего, напишите, что именно её подтвердило</small><textarea id="spWhy" rows="2">'+esc(S.sp.f["_w_"+st.id]||"")+'</textarea></label>'+
-    '<div class="sprow"><button data-sp="idea" class="on">Записать версию</button>'+
-    '<button data-sp="done"'+(S.sp.done[st.id]?' class="on"':'')+'>'+(S.sp.done[st.id]?"✓ Этап пройден":"Этап пройден")+'</button>'+
-    (has?'':'<span class="spnote">Этап закрывается после записи версии главной мысли</span>')+'</div></div>';
+/* the main idea: what is being written now, otherwise the last recorded version */
+function qMain(){ var v=S.sp.f["q.main"]; if(typeof v==="string") return v; var l=spLast(); return l?l.text:""; }
+function qById(id){ for(var i=0;i<QS.length;i++) if(QS[i].id===id) return QS[i]; return null; }
+function qSig(q){
+  if(q.id==="main") return qMain().trim();
+  var s=q.f.map(function(f){ return String(S.sp.f[f[0]]||"").trim(); }).join("\u0001");
+  if(q.id==="words") s+="\u0001"+S.sp.words.map(function(w){ return String(w.ru||"").trim()+String(w.here||"").trim(); }).join("");
+  return s;
 }
-function spCheckBlock(st){
-  var c=S.sp.chk[st.id];
-  return '<div class="spchk"><div class="sprow"><button data-sp="check">Проверить этап</button><span class="spnote" id="spChkSt">'+(c?"Последняя проверка: "+spWhen(c.at):"Проверка укажет слабые места и задаст вопросы. Готовых ответов не даёт.")+'</span></div>'+
-    '<div id="spChkOut" class="spout">'+(c?esc(c.text):"")+'</div></div>';
+function qAns(q){ return qSig(q).replace(/\u0001/g,"").trim().length>0; }
+function qTicks(q){ var n=0; q.t.forEach(function(x,i){ if(S.sp.f["t."+q.id+"."+i]==="1") n++; }); return n; }
+function qState(q){
+  if(!qAns(q)) return "empty";
+  if(qTicks(q)<q.t.length) return "ans";
+  var v=S.sp.f["v."+q.id]; return (typeof v==="string"&&v!==qSig(q))?"chg":"ok";
 }
+function qLocked(){ return S.sp.strict&&!(qAns(QS[0])&&qAns(QS[1])&&qAns(QS[2])); }
 function spWords(){
   var F=[["ru","Слово в Синодальном тексте","",1],["orig","Слово оригинала и номер Стронга","Из подстрочника. Если не смотрели, оставьте пустым",1],
     ["range","Диапазон значений","Что это слово может значить вообще, по словарю",2],
     ["uses","Как автор употребляет его в этой книге","Места и значение в каждом",2],
     ["here","Значение здесь и что в контексте на него указывает","",2],
-    ["risk","Самопроверка","Какая ошибка из списка здесь ближе всего и почему вы её не делаете",2]];
+    ["risk","Самопроверка","Какая ошибка из «Ящика инструментов» здесь ближе всего и почему вы её не делаете",2]];
   return S.sp.words.map(function(w,i){
     return '<div class="spcard" data-w="'+i+'"><div class="sprow"><b>'+esc(w.ru||"Новое слово")+'</b><button data-sp="wdel" class="ghost" aria-label="Удалить карточку">✕</button></div>'+
       F.map(function(f){ return '<label class="spl">'+f[1]+(f[2]?'<small>'+f[2]+'</small>':'')+'<textarea data-wf="'+f[0]+'" rows="'+f[3]+'">'+esc(w[f[0]]||"")+'</textarea></label>'; }).join("")+'</div>';
-  }).join("")+'<div class="sprow"><button data-sp="wadd">+ Карточка слова</button>'+(sel?'<span class="spnote">Возьмёт выделенное: «'+esc(clip(bareRange(sel.a,sel.b),30))+'»</span>':'<span class="spnote">Если выделить слово в тексте (режим «Заметки к словам»), карточка возьмёт его</span>')+'</div>';
+  }).join("")+'<div class="sprow"><button data-sp="wadd">+ Карточка слова</button>'+(sel?'<span class="spnote">Возьмёт выделенное: «'+esc(clip(bareRange(sel.a,sel.b),30))+'»</span>':'<span class="spnote">Если выделить слово в тексте, карточка возьмёт его</span>')+'</div>';
 }
 function spComm(){
   return S.sp.comm.map(function(c,i){
@@ -4633,7 +4894,7 @@ function encBbUrl(k,i){ var e=ENC[k].idx[i]; return k==="br"&&e[3]?"https://bibl
 var ENC_BRC="rs-enc-br";
 function encSync(){ if(typeof SY==="undefined") return null; if(!SY.cfg&&typeof syLoad==="function") syLoad(); return SY.cfg&&SY.cfg.repo&&SY.cfg.token?SY.cfg:null; }
 function encBrFile(n,net){
-  var key=new URL("enc-br/"+n+".json",location.href).href;
+  var key=new URL("enc-br/"+n+".json",document.baseURI).href;
   var fromCache=(window.caches?caches.open(ENC_BRC).then(function(c){ return c.match(key); }).then(function(r){ return r?r.json():null; }):Promise.resolve(null)).catch(function(){ return null; });
   return fromCache.then(function(d){
     if(d||!net) return d;
@@ -4711,121 +4972,129 @@ function encSaveAll(btn,k){
     else{ btn.disabled=false; btn.textContent="Сохранено не всё ("+n+" из 28). Повторить"; }
   },function(){ btn.disabled=false; btn.textContent="Нет интернета. Повторить"; });
 }
+var qOptOpen=false;
+function qCard(q,i){
+  var st=qState(q), a=qAns(q), sp=S.sp, h=[];
+  h.push('<div class="qcard q-'+st+'" id="q_'+q.id+'"><div class="qhead"><span class="qn">'+(i+1)+'</span><h4>'+esc(q.n)+'</h4><span class="qst">'+Q_STL[st]+'</span>'+
+    '<button data-sp="qre" data-q="'+q.id+'" class="ghost qre">подтвердить снова</button></div>');
+  if(hintOn("mid")) h.push('<p class="qwhy">'+esc(q.why)+'</p>');
+  if(q.id==="main"){
+    var n=sp.ideas.filter(function(x){ return !x.note; }).length;
+    h.push('<label class="spl">Одно предложение: что автор утверждает этим отрывком<textarea id="qMain" rows="2">'+esc(qMain())+'</textarea></label>'+
+      '<div class="sprow"><button data-sp="jr" class="ghost">Как менялась главная мысль ('+n+')</button><span class="spnote">Каждая новая формулировка сохраняется сама</span></div>');
+  }
+  h.push(q.f.map(function(f){ return spTa(f[0],f[1],f[2],f[3]); }).join(""));
+  if(q.id==="words"){
+    h.push('<div class="spl">Приёмы построения, которые вы видите в отрывке<div class="sprow spv">'+SP_DEV.map(function(v){ return '<button data-sp="dev" data-v="'+v+'"'+(sp.dev.indexOf(v)>=0?' class="on"':'')+'>'+v+'</button>'; }).join("")+'</div></div>');
+    h.push(spWords());
+  }
+  if(q.id==="bg") h.push(spLex());
+  h.push('<div class="qtests"><div class="qtl">Проверьте себя'+(a?'':' <small>— сначала ответ</small>')+'</div>'+q.t.map(function(x,k){
+    return '<label class="qt"><input type="checkbox" data-qt="'+q.id+'.'+k+'"'+(sp.f["t."+q.id+"."+k]==="1"?' checked':'')+(a?'':' disabled')+'><span>'+esc(x)+'</span></label>';
+  }).join("")+'</div></div>');
+  return h.join("");
+}
+function qDots(){
+  return QS.map(function(q,i){ var st=qState(q);
+    return '<button data-sp="goq" data-q="'+q.id+'" class="qdot q-'+st+(q.req?'':' opt')+'" title="'+esc(q.n+": "+Q_STL[st])+'">'+(i+1)+'. '+esc(q.s)+'</button>'; }).join("");
+}
+function qCount(){ var r=QS.filter(function(q){ return q.req; }); return r.filter(function(q){ return qState(q)==="ok"; }).length+" из "+r.length; }
 function renderSpiral(){
   var el=$("#spiral"); if(!el) return;
-  var sp=S.sp, last=spLast(), st=spStage(sp.cur)||SP_ST[0], h=[];
-  h.push('<div class="sptop"><div class="spcur"><small>Главная мысль отрывка сейчас'+(last?' · версия '+sp.ideas.filter(function(x){return !x.note}).length+', после этапа «'+esc((spStage(last.st)||{n:"?"}).n)+'»':'')+'</small>'+
-    (last?esc(last.text):'<i>Ещё не записана. Первая версия появится на этапе «Целое».</i>')+'</div>'+
-    '<div class="sprow"><button data-sp="box">Ящик инструментов</button><button data-sp="jr">Журнал витка ('+sp.ideas.length+')</button><button data-sp="how">Как идти по спирали</button></div></div>');
-  h.push('<div class="sptrack">'+SP_ST.map(function(x,i){
-    return '<button data-sp="go" data-s="'+x.id+'" class="'+(x.id===st.id?"on":"")+(sp.done[x.id]?" dn":"")+'">'+(i+1)+'. '+x.n+(sp.done[x.id]?" ✓":"")+(x.id==="cmp"&&spLocked()?" 🔒":"")+'</button>';
-  }).join("")+SP_LATER.map(function(n,i){ return '<button disabled title="Вторая очередь">'+(SP_ST.length+i+1)+'. '+n+'</button>'; }).join("")+'</div>');
-  h.push('<div class="spst" data-st="'+st.id+'"><h3>'+esc(st.t)+'</h3>'+
-    '<details class="spwhy"'+(hintOn("mid")?' open':'')+'><summary>Зачем, как, типичная ошибка</summary><p><b>Зачем.</b> '+st.why+'</p><p><b>Как.</b> '+st.how+'</p><p><b>Типичная ошибка.</b> '+st.err+'</p></details>');
-  if(st.id==="cmp"&&spLocked()){
-    h.push('<div class="splock"><p><b>Закрыто.</b> Сначала свои выводы: пройдите этапы «Целое», «Структура» и «Слова». Тогда комментарий будет проверять вашу мысль, а не заменять её.</p>'+
-      '<button data-sp="unlock" class="ghost">Открыть сейчас</button> <span class="spnote">Отметка об этом останется в журнале витка</span></div></div>');
+  var sp=S.sp, h=[], req=QS.filter(function(q){ return q.req; }), opt=QS.filter(function(q){ return !q.req; });
+  h.push('<div class="sptop"><div class="qsum"><b id="qCount">'+qCount()+'</b> обязательных вопросов проверено</div>'+
+    '<div class="qdots" id="qDots">'+qDots()+'</div>'+
+    '<div class="sprow"><button data-sp="box" class="ghost">Ящик инструментов</button><button data-sp="how" class="ghost">Как работать с вопросами</button></div></div>');
+  req.forEach(function(q,i){ h.push(qCard(q,i)); });
+  h.push('<details class="qopt" id="qOpt"'+((qOptOpen||opt.some(qAns))?' open':'')+'><summary>Ещё вопросы — по необходимости ('+opt.length+')</summary>'+
+    opt.map(function(q,i){ return qCard(q,req.length+i); }).join("")+'</details>');
+  h.push('<div class="qcmp" id="q_cmp"><h3>Сверка с комментариями</h3>');
+  if(qLocked()){
+    h.push('<div class="splock"><p><b>Пока закрыто.</b> Сначала свои выводы: ответьте на первые три вопроса (место в книге, ход мысли, главная мысль). Тогда комментарий будет проверять вашу мысль, а не заменять её.</p>'+
+      '<button data-sp="unlock" class="ghost">Открыть сейчас</button> <span class="spnote">Отметка об этом останется в истории главной мысли</span></div>');
   }else{
-    if(st.id==="ctx"&&MODE==="cloud") h.push('<div class="sprow"><button data-sp="sheet">Открыть лист книги</button></div>');
-    if(st.id==="str") h.push('<div class="spl">Приёмы построения, которые вы видите в отрывке<div class="sprow spv">'+SP_DEV.map(function(v){ return '<button data-sp="dev" data-v="'+v+'"'+(sp.dev.indexOf(v)>=0?' class="on"':'')+'>'+v+'</button>'; }).join("")+'</div></div>');
-    if(st.id==="wrd") h.push(spWords()+spLex());
-    if(st.id==="cmp") h.push(spWhere()+spComm());
-    h.push(st.f.map(function(f){ return spTa(st.id+"."+f[0],f[1],f[2],f[3]); }).join(""));
-    if(st.id==="ctx") h.push(spLex());
-    if(st.id==="cmp"&&MODE==="cloud") h.push('<div class="sprow"><button data-sp="sheet">Открыть лист книги</button></div>');
-    h.push(spIdeaBlock(st)); h.push(spCheckBlock(st)); h.push('</div>');
+    h.push('<p class="qwhy">Совпало с комментарием — хорошо. Расходится — это не значит, что вы ошиблись: запишите, на каком доводе из текста стоит каждое мнение. Вес имеет довод, а не имя.</p>');
+    h.push(spWhere()+spComm());
+    h.push(spTa("cmp.blind","Что комментарии показали такого, чего я не увидел","И какой шаг я пропустил",3));
   }
+  h.push('</div>');
+  var leg=Q_LEG.filter(function(x){ return String(sp.f[x[0]]||"").trim(); });
+  if(leg.length) h.push('<details class="qopt"><summary>Прежние записи из «Спирали» ('+leg.length+')</summary>'+leg.map(function(x){ return spTa(x[0],x[1],"",2); }).join("")+'</details>');
   var keep=$("#midBody").scrollTop; el.innerHTML=h.join(""); $("#midBody").scrollTop=keep;
   if($("#cmEncList")) encList(($("#cmWord")||{}).value||"");
+}
+/* after typing: states, checkboxes and the summary change in place, the text field keeps the focus */
+function qRefresh(){
+  QS.forEach(function(q){
+    var c=document.getElementById("q_"+q.id); if(!c) return;
+    var st=qState(q), a=qAns(q);
+    c.className="qcard q-"+st; c.querySelector(".qst").textContent=Q_STL[st];
+    Array.prototype.forEach.call(c.querySelectorAll("input[data-qt]"),function(x){ x.disabled=!a; });
+    var sm=c.querySelector(".qtl small"); if(sm) sm.style.display=a?"none":"";
+  });
+  var d=$("#qDots"); if(d) d.innerHTML=qDots();
+  var n=$("#qCount"); if(n) n.textContent=qCount();
 }
 function spJournal(){
   var w=document.createElement("div"); w.className="help";
   w.innerHTML=S.sp.ideas.length?S.sp.ideas.map(function(x,i){
     var n=S.sp.ideas.slice(0,i+1).filter(function(y){return !y.note}).length;
     return x.note?'<p class="spjn">'+spWhen(x.at)+' · '+esc(x.text)+'</p>':
-      '<h4>Версия '+n+' · после этапа «'+esc((spStage(x.st)||{n:"?"}).n)+'» · '+spWhen(x.at)+'</h4><p>'+esc(x.text)+'</p>'+(x.why?'<p class="spjn">'+esc(x.why)+'</p>':'');
-  }).join(""):'<p>Журнал пуст. Версии главной мысли записываются в конце каждого этапа.</p>';
-  openModal("Журнал витка","Как менялась главная мысль отрывка и почему. Это и есть спираль: догадка, проверка, пересмотр.",w,S.sp.ideas.map(function(x){ return spWhen(x.at)+" — "+x.text+(x.why?"\n   "+x.why:""); }).join("\n\n"));
+      '<h4>Версия '+n+' · '+(Q_OLD[x.st]?'после этапа «'+Q_OLD[x.st]+'» · ':'')+spWhen(x.at)+'</h4><p>'+esc(x.text)+'</p>'+(x.why?'<p class="spjn">'+esc(x.why)+'</p>':'');
+  }).join(""):'<p>Пока пусто. Каждая новая формулировка главной мысли сохраняется здесь сама, когда вы выходите из поля.</p>';
+  openModal("Как менялась главная мысль","Догадка, проверка, пересмотр: так текст исправляет ваше первое понимание.",w,S.sp.ideas.map(function(x){ return spWhen(x.at)+" — "+x.text+(x.why?"\n   "+x.why:""); }).join("\n\n"));
 }
 var SP_HOW='<div class="help">'+
-'<p>Спираль у Осборна — это не круг, по которому ходят без конца, а сужающиеся витки: каждый проход приближает к тому, что хотел сказать автор.</p>'+
-'<h4>Три движения</h4>'+
-'<p><b>Целое ↔ часть.</b> Книга объясняет отрывок, отрывок уточняет понимание книги. Поэтому начинаете с листа книги и к нему же возвращаетесь в конце.</p>'+
-'<p><b>Догадка → проверка → пересмотр.</b> Вы приходите к тексту с готовым пониманием. Метод не требует от него избавиться, он требует записать его и дать тексту его исправить. Для этого после каждого этапа вы заново пишете главную мысль и объясняете, что изменилось.</p>'+
-'<p><b>Своё → чужое.</b> Сначала собственное исследование, потом комментарии. Этап «Сверка» закрыт, пока не пройдены первые три.</p>'+
+'<p>Вопросы ведут от текста к проповеди. Обязательных пять: место в книге, ход мысли, главная мысль, что текст говорит о Боге, применение. Остальные — по необходимости.</p>'+
 '<h4>Как работать</h4>'+
-'<p>1. Идите по этапам слева направо. На каждом прочитайте «Зачем, как, типичная ошибка».</p>'+
-'<p>2. Заполняйте поля своими словами. Пустое поле честнее, чем заполненное для галочки.</p>'+
-'<p>3. В конце этапа запишите версию главной мысли. Без неё этап не закрывается.</p>'+
-'<p>4. Нажмите «Проверить этап». Проверка задаёт вопросы и показывает слабые места; исправляете вы сами. Сведения о греческом и еврейском в такой проверке сверяйте по словарю.</p>'+
-'<p>5. Вернуться на пройденный этап можно всегда: это и есть следующий виток.</p>'+
-'<p>Глубокую проверку с источниками делайте в чате курса: напишите там название отрывка, и разбор будет прочитан прямо из библиотеки.</p>'+
-'<p>Этапы 5–10 появятся во второй очереди.</p></div>';
-
-function spStructText(){
-  return S.phrases.map(function(p){ return new Array(p.indent+1).join("    ")+(p.label?"["+p.label+"] ":"")+T.slice(p.s,p.e).join(" "); }).join("\n");
-}
-function spCheckInput(st){
-  var sp=S.sp, L=[], bk=(MODE==="cloud"&&C.cur)?(C.BK[C.cur.meta.book]||{}):{};
-  L.push("Ты преподаватель герменевтики по книге Гранта Осборна «Герменевтическая спираль». Ученик — пресвитер церкви ЕХБ, греческого и еврейского не знает, работает по Синодальному переводу, учится методу. Он прошёл один этап разбора и просит проверить его.");
-  L.push("Правила проверки:\n- Не давай готовых ответов и не пиши свою главную мысль отрывка. Указывай слабое место и задавай вопрос, который заставит вернуться к тексту.\n- Не хвали без причины. Если что-то сделано верно, скажи это одной строкой и только о конкретном.\n- Назови от двух до четырёх самых важных слабых мест, не больше. По каждому: что именно не так, на какое слово или связь в тексте посмотреть.\n- Проверяй, вытекает ли вывод из текста, или привнесён. Проверяй, не подменена ли главная фраза подчинённой.\n- Любое утверждение о греческом или еврейском слове помечай «сверить по словарю». Не выдумывай ссылок, номеров Стронга и цитат.\n- Пустые поля называй прямо: что не сделано и почему это мешает следующему шагу.\n- Сравни последнюю версию главной мысли с предыдущими: изменение обосновано текстом или нет.\n- Пиши по-русски, простым языком, без заголовков и разметки, до 250 слов. В конце одна строка: «Этап можно закрывать» или «К этапу стоит вернуться: …».");
-  L.push("ЭТАП: "+st.n+" — "+st.t);
-  L.push("ОТРЫВОК: "+(S.title||"")+"\n"+S.source);
-  var sh=SHEET.map(function(f){ return bk[f[0]]?f[1]+": "+bk[f[0]]:""; }).filter(Boolean).join("\n");
-  L.push("ЛИСТ КНИГИ (заполнен учеником):\n"+(sh||"пусто"));
-  L.push("СТРУКТУРА (отступ = подчинение, в скобках подпись связи):\n"+spStructText());
-  SP_ST.forEach(function(x){
-    var rows=x.f.map(function(f){ var v=sp.f[x.id+"."+f[0]]; return f[1]+": "+(v&&v.trim()?v.trim():"(пусто)"); });
-    if(x.id==="str") rows.push("Отмеченные приёмы: "+(sp.dev.join(", ")||"(нет)"));
-    if(x.id==="wrd") sp.words.forEach(function(w,i){ rows.push("Карточка слова "+(i+1)+": слово «"+(w.ru||"")+"»; оригинал: "+(w.orig||"(пусто)")+"; диапазон: "+(w.range||"(пусто)")+"; у автора: "+(w.uses||"(пусто)")+"; здесь: "+(w.here||"(пусто)")+"; самопроверка: "+(w.risk||"(пусто)")); });
-    if(x.id==="cmp") sp.comm.forEach(function(c,i){ rows.push("Комментарий "+(i+1)+": "+(c.src||"")+"; говорит: "+(c.says||"(пусто)")+"; итог: "+(c.verd||"(не отмечен)")+"; что меняю: "+(c.note||"(пусто)")); });
-    if(x.id===st.id||sp.done[x.id]) L.push((x.id===st.id?"ПРОВЕРЯЕМЫЙ ЭТАП":"РАНЕЕ ПРОЙДЕННЫЙ ЭТАП")+" «"+x.n+"»:\n"+rows.join("\n"));
-  });
-  L.push("ВЕРСИИ ГЛАВНОЙ МЫСЛИ (по порядку):\n"+(sp.ideas.map(function(x){ return x.note?"(отметка: "+x.text+")":"После этапа «"+(spStage(x.st)||{n:"?"}).n+"»: "+x.text+" | объяснение: "+(x.why||"(нет)"); }).join("\n")||"(ни одной)"));
-  if(S.notes&&S.notes.trim()) L.push("ОБЩИЕ ЗАМЕТКИ УЧЕНИКА:\n"+S.notes.trim().slice(0,3000));
-  return L.join("\n\n");
-}
-var SMP, spBusy=false;
-async function spSample(){ if(SMP===undefined){ try{ SMP=(window.claude&&window.claude.use)?await window.claude.use("sample"):null; }catch(e){ SMP=null; } } return SMP; }
-async function spCheck(){
-  if(spBusy) return;
-  var st=spStage(S.sp.cur), out=$("#spChkOut"), stt=$("#spChkSt"); if(!st||!out) return;
-  spBusy=true; stt.textContent="Подключаюсь…";
-  var smp=await spSample();
-  if(!smp){ spBusy=false; stt.textContent="Проверка здесь недоступна (нет связи или страница открыта как файл). Проверьте этап в чате курса."; return; }
-  stt.textContent="Читаю ваш разбор…"; out.textContent="";
-  try{
-    var r=await smp(spCheckInput(st),{modelTier:"complex",cache:false,onText:function(x){ if(S.sp.cur===st.id&&out.isConnected) out.textContent=x.text; }});
-    var at=Date.now(); S.sp.chk[st.id]={at:at,text:r.text||""}; save();
-    if(out.isConnected&&S.sp.cur===st.id){ out.textContent=r.text||""; stt.textContent="Последняя проверка: "+spWhen(at)+(r.truncated?" (ответ обрезан)":""); }
-  }catch(e){
-    var c=e&&e.code;
-    if(stt.isConnected) stt.textContent=c==="rate_limited"?"Слишком много проверок подряд. Попробуйте через несколько минут.":c==="not_granted"?"Проверка не разрешена: при запросе доступа нужно ответить «Разрешить».":"Проверка не удалась: "+((e&&e.message)||"нет связи")+". Попробуйте ещё раз.";
-  }
-  spBusy=false;
+'<p>1. Сначала «Структура»: разрежьте отрывок на фразы и подпишите связи. Потом вопросы.</p>'+
+'<p>2. Отвечайте своими словами. Пустое поле честнее, чем заполненное для галочки.</p>'+
+'<p>3. Под каждым ответом тесты. Отмечайте только то, что можете показать по тексту. Отмечены все — ответ «проверен».</p>'+
+'<p>4. Поменяли ответ после проверки — появится «изменён после проверки». Пройдите тесты снова и нажмите «подтвердить снова».</p>'+
+'<p>5. Комментарии открываются после первых трёх вопросов: сначала свои выводы, потом чужие.</p>'+
+'<p>6. Главная мысль сохраняет все свои версии. Вернуться к вопросу и переписать ответ можно всегда: так текст поправляет ваше первое понимание.</p>'+
+'<h4>Зачем тесты</h4><p>Готового ключа к толкованию нет. Но ответ можно проверить: верен не тот ответ, что звучит правильно, а тот, который можно показать стихом. Тест, который вы не можете честно отметить, указывает слабое место проповеди до того, как вы выйдете с ней на кафедру.</p>'+
+'<p>Ответы видны в режиме «Проповедь», в левом столбике; оттуда их можно вставить в текст проповеди.</p></div>';
+function qMainDone(){
+  var t=$("#qMain"); if(!t) return;
+  var v=t.value.trim(), l=spLast();
+  if(v&&(!l||l.text.trim()!==v)){ S.sp.ideas.push({id:uid(),at:Date.now(),st:"q",text:v}); commit(); var j=document.querySelector('#q_main [data-sp="jr"]'); if(j) j.textContent="Как менялась главная мысль ("+S.sp.ideas.filter(function(x){ return !x.note; }).length+")"; }
 }
 (function spInit(){
   var d=document.createElement("div"); d.id="spiral"; $("#midBody").appendChild(d);
-  var b=document.createElement("button"); b.id="mSpiral"; b.textContent="Спираль"; $("#mStruct").after(b);
+  var b=document.createElement("button"); b.id="mSpiral"; b.textContent="Вопросы"; $("#mStruct").after(b);
   b.addEventListener("click",function(){ setMode("spiral"); });
+  d.addEventListener("toggle",function(e){ if(e.target.id==="qOpt") qOptOpen=e.target.open; },true);
   d.addEventListener("input",function(e){
     var t=e.target, sp=S.sp, c;
+    if(t.dataset.qt) return;
     if(t.dataset.f){ sp.f[t.dataset.f]=t.value; }
-    else if(t.id==="spIdea"){ sp.f["_i_"+sp.cur]=t.value; }
-    else if(t.id==="spWhy"){ sp.f["_w_"+sp.cur]=t.value; }
+    else if(t.id==="qMain"){ sp.f["q.main"]=t.value; }
     else if(t.id==="cmWord"){ var ul=$("#cmLexList"); if(ul) ul.innerHTML=cmLexItems(cmLetter(t.value)); encList(t.value); return; }
     else if(t.dataset.wf&&(c=t.closest("[data-w]"))){ var w=sp.words[+c.dataset.w]; if(w){ w[t.dataset.wf]=t.value; if(t.dataset.wf==="ru") c.querySelector("b").textContent=t.value||"Новое слово"; } }
     else if(t.dataset.cf&&(c=t.closest("[data-c]"))){ var m=sp.comm[+c.dataset.c]; if(m){ m[t.dataset.cf]=t.value; if(t.dataset.cf==="src") c.querySelector("b").textContent=t.value||"Комментарий"; } }
     else return;
-    save();
+    save(); qRefresh();
+  });
+  d.addEventListener("change",function(e){
+    var t=e.target, sp=S.sp;
+    if(t.dataset.qt){
+      var p=t.dataset.qt.split("."), q=qById(p[0]); if(!q) return;
+      if(t.checked) sp.f["t."+t.dataset.qt]="1"; else delete sp.f["t."+t.dataset.qt];
+      if(qTicks(q)===q.t.length) sp.f["v."+q.id]=qSig(q); else delete sp.f["v."+q.id];
+      commit(); qRefresh(); return;
+    }
+    if(t.id==="qMain") qMainDone();
+    if(t.tagName==="TEXTAREA"&&$("#q_cmp .splock")&&!qLocked()) renderSpiral();
   });
   d.addEventListener("click",function(e){
     var b=e.target.closest("button[data-sp]"); if(!b) return;
     var a=b.dataset.sp, sp=S.sp, c, i;
-    if(a==="go"){ sp.cur=b.dataset.s; save(); renderSpiral(); $("#midBody").scrollTop=0; }
-    else if(a==="box"){ var w=document.createElement("div"); w.innerHTML=SP_BOX; openModal("Ящик инструментов","Справочник к этапам «Структура» и «Слова». Пополнится во второй очереди.",w,""); }
-    else if(a==="how"){ var w2=document.createElement("div"); w2.innerHTML=SP_HOW; openModal("Как идти по спирали","",w2,""); }
-    else if(a==="jr"){ spJournal(); }
+    if(a==="goq"){ var cd=document.getElementById("q_"+b.dataset.q); if(cd){ var op=cd.closest("details"); if(op&&!op.open){ op.open=true; qOptOpen=true; } cd.scrollIntoView({block:"start",behavior:"smooth"}); } }
+    else if(a==="qre"){ var q=qById(b.dataset.q); if(q){ sp.f["v."+q.id]=qSig(q); commit(); qRefresh(); say("Ответ подтверждён"); } }
+    else if(a==="box"){ var w=document.createElement("div"); w.innerHTML=SP_BOX; openModal("Ящик инструментов","Связи между фразами, приёмы построения, ошибки при изучении слов.",w,""); }
+    else if(a==="how"){ var w2=document.createElement("div"); w2.innerHTML=SP_HOW; openModal("Как работать с вопросами","",w2,""); }
+    else if(a==="jr"){ qMainDone(); spJournal(); }
     else if(a==="sheet"){ $("#btnSheet").click(); }
     else if(a==="dev"){ i=sp.dev.indexOf(b.dataset.v); if(i>=0) sp.dev.splice(i,1); else sp.dev.push(b.dataset.v); commit(); renderSpiral(); }
     else if(a==="wadd"){ sp.words.push({id:uid(),ru:sel?bareRange(sel.a,sel.b):"",orig:"",range:"",uses:"",here:"",risk:""}); commit(); renderSpiral(); }
@@ -4842,40 +5111,26 @@ async function spCheck(){
     else if(a==="cadd"){ sp.comm.push({id:uid(),src:"",says:"",verd:"",note:""}); commit(); renderSpiral(); }
     else if(a==="cdel"&&(c=b.closest("[data-c]"))){ sp.comm.splice(+c.dataset.c,1); commit(); renderSpiral(); say("Запись удалена. Можно «Отменить»."); }
     else if(a==="verd"&&(c=b.closest("[data-c]"))){ var m=sp.comm[+c.dataset.c]; if(m){ m.verd=m.verd===b.dataset.v?"":b.dataset.v; commit(); renderSpiral(); } }
-    else if(a==="idea"){
-      var tx=$("#spIdea").value.trim(), wy=$("#spWhy").value.trim();
-      if(!tx){ say("Сначала напишите главную мысль одним предложением"); $("#spIdea").focus(); return; }
-      if(!wy){ say("Напишите, что изменилось и почему: без этого версия не записывается"); $("#spWhy").focus(); return; }
-      sp.ideas.push({id:uid(),at:Date.now(),st:sp.cur,text:tx,why:wy}); delete sp.f["_i_"+sp.cur]; delete sp.f["_w_"+sp.cur];
-      commit(); renderSpiral(); say(sp.cur==="ctx"?"Версия записана":"Версия записана. Не меняет ли она план книги? Загляните в лист книги.");
-    }
-    else if(a==="done"){
-      if(!sp.done[sp.cur]&&!spHasIdea(sp.cur)){ say("Сначала запишите версию главной мысли после этого этапа"); return; }
-      if(sp.done[sp.cur]) delete sp.done[sp.cur]; else sp.done[sp.cur]=1;
-      commit(); renderSpiral();
-    }
     else if(a==="unlock"){
       if(!b.dataset.arm){ b.dataset.arm="1"; b.textContent="Точно открыть до своих выводов?"; setTimeout(function(){ if(b.isConnected){ delete b.dataset.arm; b.textContent="Открыть сейчас"; } },3500); return; }
-      sp.strict=false; sp.ideas.push({id:uid(),at:Date.now(),note:1,text:"Комментарии открыты до завершения собственных выводов"}); commit(); renderSpiral();
+      sp.strict=false; sp.ideas.push({id:uid(),at:Date.now(),note:1,text:"Комментарии открыты до собственных выводов"}); commit(); renderSpiral();
     }
-    else if(a==="check"){ spCheck(); }
   });
 })();
-
 /* ---------- help ---------- */
 var HELP='<div class="help">'+
 '<h4>О приложении</h4><p><b>VDMA</b> — Verbum Domini Manet in Aeternum, «Слово Господне пребывает вовек» (Ис. 40:8; 1 Пет. 1:25).<br>Девиз Реформации: Писание — высший авторитет для веры и жизни.<br>Оформление следует за первопечатными Библиями: бумага, чёрные чернила и красная строка.<br>Знак приложения — крест с буквами V·D·M·A по четвертям: так девиз изображали в эпоху Реформации.<br>А в 1517 году, в тот же год, когда началась Реформация, Франциск Скорина из Полоцка напечатал в Праге Псалтирь «людем посполитым к доброму научению» — Писание на понятном народу языке.</p>'+
 '<h4>Как устроено</h4><p>Библиотека: книга → отрывки. Отрывок выбираете сами во вкладке «Читать и выбрать»: нажмите на первый стих, затем на последний, и в отрывок войдут все стихи между ними, сколько угодно. Нажатие на стих ниже или выше двигает границу, «Сбросить» начинает выбор заново. Всё сохраняется в облаке само и видно с ноутбука и телефона. </p>'+
 '<h4>Конспекты</h4><p>Кнопка «Конспекты» на главном экране: записи чужих проповедей. Укажите проповедника и место Писания, затем записывайте ход мысли пунктами: Enter начинает новый пункт, ▸ делает подпункт, «+ место» добавляет к пункту ссылку из списка. Нажатие на ссылку показывает текст стихов. Внизу итог. Конспекты хранятся и синхронизируются вместе с библиотекой; конспекты по книге видны и на её странице.</p>'+
-'<h4>Два режима</h4><p>Вверху отрывка переключатель. <b>Изучение</b>: текст, структура, «Спираль», заметки и пометки. <b>Проповедь</b> (на ноутбуке): слева то, что дало изучение; посередине текст проповеди блоками; справа слайды, которые собираются из блоков сами.</p>'+
-'<h4>Спираль</h4><p>В отрывке, в среднем поле, есть режим «Спираль»: разбор по методу Осборна этап за этапом. Там же кнопки «Как идти по спирали» и «Ящик инструментов».</p><p><b>Комментарии и энциклопедии.</b> На этапе «Сверка» список толкований к главе отрывка на bible.by: евангельские, реформатские, древние и православные, с меткой традиции у каждого. Кнопка «+ в сверку» заводит запись с этим источником. На английском — ссылка на BibleHub. <b>Энциклопедии Брокгауза и Никифора</b> встроены в приложение: выделите в тексте имя, место, обычай или понятие и нажмите «Энциклопедия» — откроется статья, даже если слово стоит в другом падеже. Вверху переключатель между двумя авторами. Ссылки «см.» внутри статьи кликаются. <b>Брокгауз</b> — евангельские авторы, современные сведения; его полный текст хранится в закрытом хранилище владельца и открывается только на устройствах с включённой «Синхронизацией», у остальных — ссылкой на эту же статью на bible.by. <b>Никифор</b> (1891) — православный автор, сведения XIX века: даты и предания проверяйте. Чтобы энциклопедии работали без интернета, один раз нажмите кнопки «Сохранить…» на этапе «Целое» или «Слова». Другие словари bible.by открываются ссылкой на нужную букву, для них нужен интернет. Ссылки берутся из названия отрывка, поэтому в нём должны стоять книга и глава.</p>'+
+'<h4>Два режима</h4><p>Вверху отрывка переключатель. <b>Изучение</b>: текст, структура, вопросы, заметки и пометки. <b>Проповедь</b> (на ноутбуке): слева то, что дало изучение; посередине текст проповеди блоками; справа слайды, которые собираются из блоков сами.</p>'+
+'<h4>Вопросы</h4><p>В отрывке, в среднем поле, рядом со «Структурой» есть «Вопросы»: пять обязательных (место в книге, ход мысли, главная мысль, что текст говорит о Боге, применение) и несколько по необходимости. Под каждым ответом тесты: отмечаете то, что можете показать по тексту. Отмечены все — ответ проверен. Кнопка «Как работать с вопросами» там же.</p><p><b>Комментарии и энциклопедии.</b> В «Вопросах», в разделе «Сверка с комментариями» (открывается после первых трёх вопросов), список толкований к главе отрывка на bible.by: евангельские, реформатские, древние и православные, с меткой традиции у каждого. Кнопка «+ в сверку» заводит запись с этим источником. На английском — ссылка на BibleHub. <b>Энциклопедии Брокгауза и Никифора</b> встроены в приложение: выделите в тексте имя, место, обычай или понятие и нажмите «Энциклопедия» — откроется статья, даже если слово стоит в другом падеже. Вверху переключатель между двумя авторами. Ссылки «см.» внутри статьи кликаются. <b>Брокгауз</b> — евангельские авторы, современные сведения; его полный текст хранится в закрытом хранилище владельца и открывается только на устройствах с включённой «Синхронизацией», у остальных — ссылкой на эту же статью на bible.by. <b>Никифор</b> (1891) — православный автор, сведения XIX века: даты и предания проверяйте. Чтобы энциклопедии работали без интернета, один раз нажмите кнопки «Сохранить…» в вопросе «Фон» (раздел «Ещё вопросы»). Другие словари bible.by открываются ссылкой на нужную букву, для них нужен интернет. Ссылки берутся из названия отрывка, поэтому в нём должны стоять книга и глава.</p>'+
 '<h4>Пометки на тексте</h4><p>Пометки ставятся в режиме «Проповедь»: слева вверху стоит текст отрывка. Нажмите на слово (для словосочетания: первое слово, затем с зажатым Shift последнее) и внизу выберите «Подчеркнуть», «Обвести» или «Стрелка от него». Для стрелки затем нажмите слово, к которому она ведёт. Подпись к пометке и её удаление — в списке под текстом; кнопка → ставит пометку слайдом. Подпись на экране пишется курсивом. Обводка, которая переходит на следующую строку, рисуется одним контуром вокруг всех её строк.</p>'+
 '<h4>Проповедь из блоков</h4><p>Текст проповеди пишется блоками: блок — это пункт или абзац. У блока может быть слайд. Он выходит на экран в тот момент, когда вы начинаете говорить этот блок. Отдельного порядка шагов больше нет: порядок слайдов задаёт сам текст. Справа видна лента слайдов: название, чтение отрывка, слайды блоков, главная мысль, итог.</p>'+
 '<p><b>Что где на экране проповеди.</b> Слева — материал из изучения: текст с пометками, структура, заметки к словам. Кнопка → вставляет материал блоком под выбранным блоком; сам материал здесь не меняется, править его нужно в режиме «Изучение». Посередине — блоки; тёмная полоса в блоке — то, что увидит зал. Справа — лента слайдов: клик по слайду ведёт к его блоку, ▶ начинает показ с него.</p>'+
 '<p><b>Чтение отрывка.</b> Сразу после названия идёт полный текст отрывка для чтения вслух. Размер шрифта подбирается сам; если весь текст крупно не помещается, он делится на несколько слайдов по границам стихов. Число слайдов считается под размер окна, поэтому на телевизоре оно может отличаться от ленты. Каждый стих начинается с новой строки. Отключается галочкой под названием.</p>'+
 '<p><b>Размер шрифта на экране.</b> Текст на каждом слайде сам занимает столько места, сколько есть: мало текста — крупно. Кнопки «−» и «+» рядом с «Показ» (в самом показе клавиши «−» и «+») сдвигают размер для всего отрывка. Если экран уже заполнен, «+» текст не увеличит; на слайдах чтения он тогда разложит отрывок на большее число слайдов.</p>'+
 '<p><b>Тезис или картинка до чтения.</b> Чтобы перед чтением стоял тезис, вопрос или картинка, сделайте первым блоком тезис (или картинку), а вторым — блок со слайдом «чтение отрывка». Чтение тогда выйдет там, где стоит этот блок, а не сразу после названия.</p>'+
-'<p><b>Слайд крупно.</b> Клик по слайду в ленте открывает его крупно, так, как его увидит зал. Справа поля этого слайда: текст, подпись, размер шрифта, картинка. Листать: кнопки ◀ ▶ или PageUp / PageDown, выход — Esc. Правки хранятся только в проповеди: у слайда «отрывок» можно переписать текст фразы и подпись связи для экрана, а структура, заметки и «Спираль» остаются как были (кнопка «как в разборе» возвращает исходное). Текст Писания на слайдах чтения и пометки здесь не правятся. Размер у отдельного слайда есть только у названия, тезиса, места, картинки, главной мысли и итога: у слайдов отрывка размер общий, иначе текст прыгал бы между шагами.</p>'+
+'<p><b>Слайд крупно.</b> Клик по слайду в ленте открывает его крупно, так, как его увидит зал. Справа поля этого слайда: текст, подпись, размер шрифта, картинка. Листать: кнопки ◀ ▶ или PageUp / PageDown, выход — Esc. Правки хранятся только в проповеди: у слайда «отрывок» можно переписать текст фразы и подпись связи для экрана, а структура, заметки и вопросы остаются как были (кнопка «как в разборе» возвращает исходное). Текст Писания на слайдах чтения и пометки здесь не правятся. Размер у отдельного слайда есть только у названия, тезиса, места, картинки, главной мысли и итога: у слайдов отрывка размер общий, иначе текст прыгал бы между шагами.</p>'+
 '<p><b>Оформление слайда.</b> В крупном виде под полями есть «Оформление»: выравнивание (влево, по центру, вправо, по ширине), межстрочный интервал, место по вертикали (сверху, по центру, снизу), шрифт с засечками или без, золотой цвет текста и ЗАГЛАВНЫЕ буквы. Оно есть у названия, тезиса, места, картинки (подпись), главной мысли и итога; у слайдов чтения — одно на все. «Сбросить оформление» возвращает как было. Над текстом — кнопки выделения части текста: <b>Ж</b> жирный, <i>К</i> курсив, <u>Ч</u> подчёркнуто, «Золото» — слово золотым цветом; «Снять» убирает выделение. Выделите слова в поле и нажмите кнопку (или Ctrl+B, Ctrl+I, Ctrl+U, Ctrl+G). В тексте это видно как **жирный**, *курсив*, __подчёркнуто__, ==золото==; так же можно писать и в полях блока посередине. В Word эти значки не попадают.</p>'+
 '<p><b>Вид экрана.</b> В меню ☰ режима «Проповедь» и в крупном виде слайда — «Экран»: тёмный или светлый, как само приложение: тот же фон-бумага, шрифты Literata и Inter, красные номера стихов, подписи и пометки. Выбор хранится в проповеди и уходит в файл для зала вместе со шрифтами.</p>'+
 '<p><b>Проповедь на телефоне.</b> Меню ☰ → вверху «Изучение / Проповедь». Внизу три вкладки: «Материалы» (текст с пометками и разбор), «Проповедь» (текст по блокам) и «Слайды». Нажатие на слайд открывает его правку на весь экран; «▶ Смотреть» показывает сам слайд, поверните телефон боком. Показ и «Текст в Word» — в меню ☰.</p>'+
