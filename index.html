@@ -936,6 +936,13 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 #pDrawer .pfs b{min-width:3.2em;text-align:center}
 #pDrawer .pfs button{min-width:36px;min-height:32px;padding:0;font:600 17px/1 var(--f-ui)}
 #pMenu{flex:none;min-width:38px;min-height:32px;padding:0;font:500 20px/1 var(--f-ui);background:transparent;border:0}
+#ptabs .pbi{display:none}
+@media (max-width:760px){
+  #work > header #btnUndo,#work > header #pMenu{display:none!important}
+  #ptabs .pbi{display:inline-flex;align-items:center;justify-content:center;flex:none;min-width:48px;min-height:44px;padding:0;background:transparent;border:0;border-radius:var(--r-3);color:var(--ink-2)}
+  #ptabs .pbi:disabled{opacity:.35}
+  #ptabs .pbi:not(:disabled):active{background:var(--hov-2)}
+}
 #pTool{display:none}
 /* laptop: one line; these buttons are in the menu now */
 #work > header #btnStatus,#work > header #btnSheet,#work > header #btnSave,#work > header #btnPng,#work > header .fsz,#work > header #btnExport,#work > header #btnHelp,#work > header #cloudSt{display:none !important}
@@ -1989,7 +1996,7 @@ function renderTools(){
   $("#gStudy").classList.toggle("on",m!=="sermon");
   $("#gSermon").classList.toggle("on",m==="sermon");
   var tl=m==="sermon"?["Материалы","Проповедь","Слайды"]:["Текст","Разбор","Заметки"];
-  Array.prototype.forEach.call(document.querySelectorAll("#ptabs button"),function(b,i){ b.textContent=tl[i]; });
+  Array.prototype.forEach.call(document.querySelectorAll("#ptabs button[data-p]"),function(b,i){ b.textContent=tl[i]; });
   if(narrow()&&(renderTools.last===undefined?m==="sermon":(renderTools.last==="sermon")!==(m==="sermon"))) setPane(m==="sermon"?"field":"text");
   renderTools.last=m;
   $("#fsVal").textContent=(S.fs||100)+"%";
@@ -3733,10 +3740,10 @@ function em(){ return (S.mode==="sermon"||S.mode==="spiral")?S.mode:"structure";
 function setPane(p){
   pane=p; setTimeout(fitNotes,0);
   [["text","#left","#smL"],["field","#mid","#smM"],["notes","#right","#smR"]].forEach(function(x){ $(x[1]).classList.toggle("act",x[0]===p); $(x[2]).classList.toggle("act",x[0]===p); });
-  Array.prototype.forEach.call(document.querySelectorAll("#ptabs button"),function(b){ b.classList.toggle("on",b.dataset.p===p); });
+  Array.prototype.forEach.call(document.querySelectorAll("#ptabs button[data-p]"),function(b){ b.classList.toggle("on",b.dataset.p===p); });
   setTimeout(regrow,0);
 }
-$("#ptabs").addEventListener("click",function(e){ var b=e.target.closest("button"); if(b) setPane(b.dataset.p); });
+$("#ptabs").addEventListener("click",function(e){ var b=e.target.closest("button[data-p]"); if(b) setPane(b.dataset.p); });
 function renderSelBar(){
   var el=$("#selBar");
   if(tool==="mark"&&!editing&&(sel||armArrow)){
@@ -5385,7 +5392,16 @@ function oldLocal(){
     var tool=document.createElement("button"); tool.id="pTool"; tool.type="button";
     var menu=document.createElement("button"); menu.id="pMenu"; menu.type="button"; menu.textContent="☰"; menu.title="Меню"; menu.setAttribute("aria-label","Меню отрывка");
     hd.insertBefore(tool,undo); undo.parentNode.insertBefore(menu,undo.nextSibling);
-    var thm=document.createElement("button"); thm.id="pTheme"; thm.type="button"; thm.className="thm"; menu.parentNode.insertBefore(thm,menu); if(window.rsThemeSync) rsThemeSync();
+    /* phone: undo and the menu sit in the bottom bar, in reach of the thumb */
+    var SV=function(d){ return '<svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+d+'</svg>'; };
+    var pt=$("#ptabs");
+    var bu=document.createElement("button"); bu.id="pUndoB"; bu.type="button"; bu.className="pbi"; bu.title="Отменить последнее действие"; bu.setAttribute("aria-label","Отменить"); bu.innerHTML=SV('<path d="M7.5 5 4 8.5 7.5 12"/><path d="M4.5 8.5h7a4.5 4.5 0 0 1 0 9H9"/>');
+    var bm=document.createElement("button"); bm.id="pMenuB"; bm.type="button"; bm.className="pbi"; bm.title="Меню"; bm.setAttribute("aria-label","Меню отрывка"); bm.innerHTML=SV('<path d="M3.5 5.5h13M3.5 10h13M3.5 14.5h13"/>');
+    pt.insertBefore(bu,pt.firstChild); pt.appendChild(bm);
+    bu.addEventListener("click",function(){ if(!undo.disabled) undo.click(); });
+    bm.addEventListener("click",function(){ menu.click(); });
+    function syncUndo(){ bu.disabled=undo.disabled; } syncUndo();
+    new MutationObserver(syncUndo).observe(undo,{attributes:true,attributeFilter:["disabled"]});
     var back=document.createElement("div"); back.id="pBack";
     var dr=document.createElement("nav"); dr.id="pDrawer"; dr.setAttribute("aria-label","Меню отрывка");
     document.body.appendChild(back); document.body.appendChild(dr);
@@ -5470,6 +5486,8 @@ function oldLocal(){
       }
       if($("#btnLib")) dr.appendChild(item("На главную","",proxy("btnLib")));
       var hp=$("#btnHelp")||$("#btnHelp2"); if(hp) dr.appendChild(item("Справка","",function(){ hp.click(); }));
+      var dk=document.documentElement.getAttribute("data-theme")==="dark";
+      dr.appendChild(item(dk?"Дневная тема":"Ночная тема",dk?"Светлая бумага":"Тёмная бумага — вечером и при слабом свете",function(){ if(window.rsTheme) window.rsTheme(); }));
     }
     menu.addEventListener("click",function(){ build(); dr.classList.add("open"); back.classList.add("open"); var f=dr.querySelector(".pclose"); if(f) f.focus(); });
     back.addEventListener("click",close);
