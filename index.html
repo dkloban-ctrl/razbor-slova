@@ -910,7 +910,7 @@ html:fullscreen #hallTip{display:none}
 #noteList>*{flex-shrink:0}
 @media (max-width:760px){
   .tool-note .vn{padding:.45em .45em;margin:-.45em -.3em -.45em -.45em}
-  #notes{flex:none;min-height:45vh}
+  #notes{flex:1 0 auto;min-height:45vh;overflow:hidden}
   #noteList{max-height:none;overflow:visible}
 }
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
@@ -1554,6 +1554,7 @@ function clickWord(i,shift){
   noteKeys().forEach(function(o){ if(i>=o.a&&i<=o.b&&(!best||o.b-o.a<best.b-best.a)) best=o; });
   if(best){ selFresh=false; setSel(best.a,best.b); } else { selFresh=true; setSel(i,i); }
 }
+function fitNotes(){ var ta=$("#notes"); if(!ta) return; if(!narrow()){ ta.style.height=""; return; } if(!ta.offsetParent) return; ta.style.height="auto"; ta.style.height=ta.scrollHeight+"px"; }
 function renderNotes(){
   var h=$("#noteHead"), ta=$("#notes"), sw=$("#scrWrap");
   if(sel&&sel.b<T.length){
@@ -1566,7 +1567,7 @@ function renderNotes(){
     h.innerHTML='<div class="nword">Общие заметки</div><div class="nref">ко всему отрывку</div>';
     ta.value=S.notes; ta.placeholder="Наблюдения, вопросы к тексту, главная мысль…";
   }
-  renderNoteList();
+  renderNoteList(); fitNotes();
 }
 function clip(t,n){ t=String(t).replace(/\s+/g," ").trim(); return t.length>n?t.slice(0,n)+"…":t; }
 function renderNoteList(){
@@ -3061,6 +3062,7 @@ function markCover(){
   renderNoteList();
 }
 $("#notes").addEventListener("input",function(){
+  fitNotes();
   if(!sel) S.notes=this.value;
   else{
     var k=key(sel.a,sel.b);
@@ -3725,10 +3727,11 @@ function rebuildShow(){
 
 /* ---------- panes (phone) ---------- */
 function narrow(){ return window.matchMedia("(max-width:760px)").matches; }
+window.addEventListener("resize",function(){ fitNotes(); });
 function em(){ return (S.mode==="sermon"||S.mode==="spiral")?S.mode:"structure"; }
 /* on the phone the three columns are three tabs; in the sermon they are its materials, its text and its slides */
 function setPane(p){
-  pane=p;
+  pane=p; setTimeout(fitNotes,0);
   [["text","#left","#smL"],["field","#mid","#smM"],["notes","#right","#smR"]].forEach(function(x){ $(x[1]).classList.toggle("act",x[0]===p); $(x[2]).classList.toggle("act",x[0]===p); });
   Array.prototype.forEach.call(document.querySelectorAll("#ptabs button"),function(b){ b.classList.toggle("on",b.dataset.p===p); });
   setTimeout(regrow,0);
